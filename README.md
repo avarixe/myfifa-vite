@@ -9,7 +9,7 @@
 yarn
 
 # serve with hot reload at localhost:3000
-yarn dev [--port PORT]
+yarn dev [--open] [--port PORT]
 
 # build for production with minification
 yarn build
