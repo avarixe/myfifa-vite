@@ -1,9 +1,11 @@
 <template>
-  <table>
+  <table :style="{ width: '100%' }">
     <thead>
       <tr>
         <th>ID</th>
         <th>Name</th>
+        <th>Start Date</th>
+        <th>Current Date</th>
       </tr>
     </thead>
     <tbody>
@@ -13,6 +15,8 @@
       >
         <td>{{ team.id }}</td>
         <td>{{ team.name }}</td>
+        <td>{{ format(parseISO(team.startedOn), 'MMM dd, yyyy') }}</td>
+        <td>{{ format(parseISO(team.currentlyOn), 'MMM dd, yyyy') }}</td>
       </tr>
     </tbody>
   </table>
@@ -21,6 +25,7 @@
 <script setup>
   import { computed } from 'vue'
   import { useQuery } from '@urql/vue'
+  import { format, parseISO } from 'date-fns'
 
   const { data } = useQuery({
     query: `
@@ -28,6 +33,8 @@
         teams {
           id
           name
+          startedOn
+          currentlyOn
         }
       }
     `
