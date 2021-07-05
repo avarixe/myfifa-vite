@@ -3,6 +3,8 @@
 
   <section v-if="token">
     Logged In!
+
+    <team-grid />
   </section>
   <section v-else>
     <div>
