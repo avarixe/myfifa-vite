@@ -1,5 +1,8 @@
 {
+  "name": "myfifa-vite",
   "version": "0.0.0",
+  "author": "Joon Lee <l33j00n325@gmail.com>",
+  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -8,15 +11,17 @@
   "dependencies": {
     "@urql/vue": "^0.4.1",
     "axios": "^0.21.1",
+    "date-fns": "^2.22.1",
     "graphql": "^15.5.1",
     "pinia": "^2.0.0-beta.3",
     "vue": "^3.0.5",
     "vue-router": "^4.0.10"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^1.2.3",
+    "@vitejs/plugin-vue": "^1.2.4",
     "@vue/compiler-sfc": "^3.0.5",
-    "vite": "^2.3.8",
-    "vite-plugin-pages": "^0.14.8"
+    "vite": "^2.4.0",
+    "vite-plugin-pages": "^0.14.8",
+    "vite-plugin-vue-layouts": "^0.3.1"
   }
 }
