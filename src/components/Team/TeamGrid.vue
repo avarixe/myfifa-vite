@@ -19,5 +19,19 @@
 </template>
 
 <script setup>
-  const teams = []
+  import { computed } from 'vue'
+  import { useQuery } from 'vql'
+
+  const { data } = useQuery()
+
+  const teams = computed(() => data.value?.teams || [])
 </script>
+
+<gql>
+  {
+    teams {
+      id
+      name
+    }
+  }
+</gql>
