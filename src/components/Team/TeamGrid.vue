@@ -20,18 +20,18 @@
 
 <script setup>
   import { computed } from 'vue'
-  import { useQuery } from 'vql'
+  import { useQuery } from '@urql/vue'
 
-  const { data } = useQuery()
+  const { data } = useQuery({
+    query: `
+      {
+        teams {
+          id
+          name
+        }
+      }
+    `
+  })
 
   const teams = computed(() => data.value?.teams || [])
 </script>
-
-<gql>
-  {
-    teams {
-      id
-      name
-    }
-  }
-</gql>
