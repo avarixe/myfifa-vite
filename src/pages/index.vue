@@ -1,7 +1,5 @@
 <template>
-  Logged In!
-
-  <button @click="logout">Log Out</button>
+  <router-link to="/teams">Teams</router-link>
 </template>
 
 <script setup>

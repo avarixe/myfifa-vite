@@ -22,6 +22,8 @@
   const username = ref('')
   const password = ref('')
 
+  const authStore = useAuthStore()
+
   const { executeMutation: grantAccessToken } = useMutation(gql`
     mutation grantAccessToken($username: String!, $password: String!) {
       grantAccessToken(username: $username, password: $password) {
@@ -34,15 +36,14 @@
     ${userFragment}
   `)
 
-  const login = async function () {
-    console.log('in login')
+  async function login () {
     const { data: { grantAccessToken: { token, errors} } } =
       await grantAccessToken({
         username: username.value,
         password: password.value
       })
     if (token) {
-      useAuthStore().token = token
+      authStore.token = token
       localStorage.setItem('token', token)
     } else {
       alert(errors.fullMessages[0])
