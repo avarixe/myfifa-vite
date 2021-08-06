@@ -1,4 +1,5 @@
 <template>
+  <router-link to="/">Home</router-link>
   <team-grid />
 </template>
 
