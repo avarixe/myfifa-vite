@@ -6,7 +6,7 @@
 
 <script setup>
   import { toRefs } from 'vue'
-  import { useMainStore } from '~/store/main'
+  import { useAuthStore } from '~/store/auth'
 
-  const { logout } = toRefs(useMainStore())
+  const { logout } = toRefs(useAuthStore())
 </script>

@@ -17,10 +17,10 @@
 <script setup>
   import { toRefs } from 'vue'
   import { useRouter } from 'vue-router'
-  import { useMainStore } from '~/store/main'
+  import { useAuthStore } from '~/store/auth'
   import LoginForm from '~/components/App/LoginForm.vue'
 
-  const { token, logout } = toRefs(useMainStore())
+  const { token, logout } = toRefs(useAuthStore())
 
   const router = useRouter()
   token && router.push('/teams')
