@@ -4,9 +4,9 @@
 
 <script setup>
   import { createClient, provideClient } from '@urql/vue'
-  import { useMainStore } from '~/store/main'
+  import { useAuthStore } from '~/store/auth'
 
-  const { token } = useMainStore()
+  const { token } = useAuthStore()
 
   const client = createClient({
     url: `${import.meta.env.VITE_API_URL}/graphql`,
