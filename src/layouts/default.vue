@@ -13,7 +13,7 @@
 
 <script setup>
   import { computed, watch } from 'vue'
-  import { useRouter } from 'vue-router'
+  import { useRoute, useRouter } from 'vue-router'
   import { useMutation } from '@urql/vue'
   import gql from 'graphql-tag'
   import { useAuthStore } from '~/store/auth'
@@ -22,10 +22,13 @@
   const token = computed(() => authStore.token)
 
   const router = useRouter()
+  const route = useRoute()
   function redirectIfUnauthenticated () {
     if (token.value) {
-      router.push('/')
-    } else {
+      if (route.name == 'login') {
+        router.push('/')
+      }
+    } else if (route.name !== 'login') {
       router.push('/login')
     }
   }

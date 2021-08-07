@@ -12,9 +12,14 @@
       <tr
         v-for="team in teams"
         :key="team.id"
+        :style="{ textAlign: 'center' }"
       >
         <td>{{ team.id }}</td>
-        <td>{{ team.name }}</td>
+        <td>
+          <router-link :to="`/teams/${team.id}`">
+            {{ team.name }}
+          </router-link>
+        </td>
         <td>{{ format(parseISO(team.startedOn), 'MMM dd, yyyy') }}</td>
         <td>{{ format(parseISO(team.currentlyOn), 'MMM dd, yyyy') }}</td>
       </tr>
@@ -23,22 +28,9 @@
 </template>
 
 <script setup>
-  import { computed } from 'vue'
-  import { useQuery } from '@urql/vue'
   import { format, parseISO } from 'date-fns'
 
-  const { data } = useQuery({
-    query: `
-      {
-        teams {
-          id
-          name
-          startedOn
-          currentlyOn
-        }
-      }
-    `
+  defineProps({
+    teams: { type: Array, required: true }
   })
-
-  const teams = computed(() => data.value?.teams || [])
 </script>
