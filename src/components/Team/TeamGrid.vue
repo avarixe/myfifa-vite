@@ -1,30 +1,24 @@
 <template>
-  <table :style="{ width: '100%' }">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Start Date</th>
-        <th>Current Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        v-for="team in teams"
-        :key="team.id"
-        :style="{ textAlign: 'center' }"
-      >
-        <td>{{ team.id }}</td>
-        <td>
-          <router-link :to="`/teams/${team.id}`">
-            {{ team.name }}
-          </router-link>
+  <w-table
+    :headers="headers"
+    :items="teams"
+    class="mx4"
+  >
+    <template #item="{ item: team, classes }">
+      <tr :class="classes">
+        <td class="px2 py1">{{ team.id }}</td>
+        <td class="px2 py1">
+          <router-link :to="`/teams/${team.id}`">{{ team.name }}</router-link>
         </td>
-        <td>{{ format(parseISO(team.startedOn), 'MMM dd, yyyy') }}</td>
-        <td>{{ format(parseISO(team.currentlyOn), 'MMM dd, yyyy') }}</td>
+        <td class="px2 py1">
+          {{ format(parseISO(team.startedOn), 'MMM dd, yyyy') }}
+        </td>
+        <td class="px2 py1">
+          {{ format(parseISO(team.currentlyOn), 'MMM dd, yyyy') }}
+        </td>
       </tr>
-    </tbody>
-  </table>
+    </template>
+  </w-table>
 </template>
 
 <script setup>
@@ -33,4 +27,11 @@
   defineProps({
     teams: { type: Array, required: true }
   })
+
+  const headers = [
+    { label: 'ID', key: 'id' },
+    { label: 'Name', key: 'name' },
+    { label: 'Start Date', key: 'startedOn' },
+    { label: 'Current Date', key: 'currentlyOn' }
+  ]
 </script>
