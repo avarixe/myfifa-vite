@@ -1,17 +1,22 @@
 <template>
-  <form @submit.prevent="login">
-    <div>
-      <label>Username</label>
-      <input v-model="username" />
-    </div>
-    <div>
-      <label>Password</label>
-      <input v-model="password" type="password" />
-    </div>
-    <div>
-      <button type="submit">Login</button>
-    </div>
-  </form>
+  <div class="w-flex fill-height align-center justify-center">
+    <form @submit.prevent="login">
+      <w-card :style="{ width: '400px' }">
+        <w-input v-model="username">Username</w-input>
+        <w-input
+          v-model="password"
+          type="password"
+          class="mt2"
+        >
+          Password
+        </w-input>
+        <template #actions>
+          <div class="spacer" />
+          <w-button type="submit">Login</w-button>
+        </template>
+      </w-card>
+    </form>
+  </div>
 </template>
 
 <script setup>
