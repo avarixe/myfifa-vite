@@ -1,15 +1,17 @@
 <template>
-  <div>
-    <label>Username</label>
-    <input v-model="username" />
-  </div>
-  <div>
-    <label>Password</label>
-    <input v-model="password" type="password" />
-  </div>
-  <div>
-    <button @click="login">Login</button>
-  </div>
+  <form @submit.prevent="login">
+    <div>
+      <label>Username</label>
+      <input v-model="username" />
+    </div>
+    <div>
+      <label>Password</label>
+      <input v-model="password" type="password" />
+    </div>
+    <div>
+      <button type="submit">Login</button>
+    </div>
+  </form>
 </template>
 
 <script setup>
