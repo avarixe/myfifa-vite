@@ -1,7 +1,3 @@
-<template>
-  <team-grid :teams="teams" />
-</template>
-
 <script setup>
   import { computed } from 'vue'
   import { useQuery } from '@urql/vue'
@@ -20,3 +16,7 @@
 
   const teams = computed(() => data.value?.teams || [])
 </script>
+
+<template>
+  <team-grid :teams="teams" />
+</template>
