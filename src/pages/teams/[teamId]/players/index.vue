@@ -1,10 +1,3 @@
-<template>
-  <template v-if="team">
-    <router-link :to="`/teams/${team.id}`">Team</router-link>
-    <player-grid :players="team.players" />
-  </template>
-</template>
-
 <script setup>
   import { computed } from 'vue'
   import { useQuery } from '@urql/vue'
@@ -38,3 +31,10 @@
 
   const team = computed(() => data.value?.team)
 </script>
+
+<template>
+  <template v-if="team">
+    <router-link :to="`/teams/${team.id}`">Team</router-link>
+    <player-grid :players="team.players" />
+  </template>
+</template>

@@ -1,3 +1,18 @@
+<script setup>
+  import { format, parseISO } from 'date-fns'
+
+  defineProps({
+    teams: { type: Array, required: true }
+  })
+
+  const headers = [
+    { label: 'ID', key: 'id' },
+    { label: 'Name', key: 'name' },
+    { label: 'Start Date', key: 'startedOn' },
+    { label: 'Current Date', key: 'currentlyOn' }
+  ]
+</script>
+
 <template>
   <w-table
     :headers="headers"
@@ -20,18 +35,3 @@
     </template>
   </w-table>
 </template>
-
-<script setup>
-  import { format, parseISO } from 'date-fns'
-
-  defineProps({
-    teams: { type: Array, required: true }
-  })
-
-  const headers = [
-    { label: 'ID', key: 'id' },
-    { label: 'Name', key: 'name' },
-    { label: 'Start Date', key: 'startedOn' },
-    { label: 'Current Date', key: 'currentlyOn' }
-  ]
-</script>

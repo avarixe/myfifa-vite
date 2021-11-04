@@ -1,3 +1,9 @@
+<script setup>
+  defineProps({
+    players: { type: Array, required: true }
+  })
+</script>
+
 <template>
   <table :style="{ width: '100%' }">
     <thead>
@@ -24,9 +30,3 @@
     </tbody>
   </table>
 </template>
-
-<script setup>
-  defineProps({
-    players: { type: Array, required: true }
-  })
-</script>

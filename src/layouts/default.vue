@@ -1,10 +1,3 @@
-<template>
-  <w-app>
-    <app-bar v-if="token" />
-    <router-view />
-  </w-app>
-</template>
-
 <script setup>
   import { computed, watch } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
@@ -16,7 +9,7 @@
 
   const router = useRouter()
   const route = useRoute()
-  function redirectIfUnauthenticated () {
+  watch(token, () => {
     if (token.value) {
       if (route.name == 'login') {
         router.push('/')
@@ -24,10 +17,15 @@
     } else if (route.name !== 'login') {
       router.push('/login')
     }
-  }
-  redirectIfUnauthenticated()
-  watch(token, redirectIfUnauthenticated)
+  }, { immediate: true })
 </script>
+
+<template>
+  <w-app>
+    <app-bar v-if="token" />
+    <router-view />
+  </w-app>
+</template>
 
 <style>
   * {

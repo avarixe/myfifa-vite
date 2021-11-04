@@ -1,7 +1,3 @@
-<template>
-  <router-view />
-</template>
-
 <script setup>
   import { computed } from 'vue'
   import { createClient, provideClient } from '@urql/vue'
@@ -19,3 +15,7 @@
 
   provideClient(client)
 </script>
+
+<template>
+  <router-view />
+</template>
