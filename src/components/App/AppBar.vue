@@ -27,19 +27,8 @@
 </script>
 
 <template>
-  <w-toolbar fixed shadow height="3em">
+  <div>
     <div>MyFIFA Manager</div>
-    <div class="spacer" />
-    <w-button
-      lg
-      bg-color="transparent"
-      @click="logout"
-    >
-      <w-icon>mdi mdi-exit-to-app</w-icon>
-    </w-button>
-  </w-toolbar>
-  <div
-    class="mb4"
-    :style="{ height: '3em' }"
-  />
+    <button @click="logout">Log Out</button>
+  </div>
 </template>

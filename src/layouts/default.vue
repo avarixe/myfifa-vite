@@ -21,16 +21,15 @@
 </script>
 
 <template>
-  <w-app>
+  <div id="app">
     <app-bar v-if="token" />
     <router-view />
-  </w-app>
+  </div>
 </template>
 
 <style>
   * {
     font-size: 14px;
     font-family: Helvetica, Arial, sans-serif;
-
   }
 </style>
