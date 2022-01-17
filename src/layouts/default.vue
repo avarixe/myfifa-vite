@@ -11,7 +11,7 @@
   const route = useRoute()
   watch(token, () => {
     if (token.value) {
-      if (route.name == 'login') {
+      if (route.name === 'login') {
         router.push('/')
       }
     } else if (route.name !== 'login') {

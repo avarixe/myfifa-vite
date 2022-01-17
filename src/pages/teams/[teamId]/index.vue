@@ -41,6 +41,7 @@
     </div>
     <div>
       <router-link :to="`/teams/${team.id}/players`">Players</router-link>
+      <router-link :to="`/teams/${team.id}/matches`">Matches</router-link>
     </div>
   </template>
 </template>
