@@ -2,7 +2,8 @@
   import { computed } from 'vue'
   import { useQuery } from '@urql/vue'
   import gql from 'graphql-tag'
-  import { teamFragment, playerFragment, contractFragment } from '~/fragments'
+  import { format, parseISO } from 'date-fns'
+  import { teamFragment, matchFragment } from '~/fragments'
 
   const props = defineProps({
     teamId: { type: String, required: true }
@@ -10,18 +11,14 @@
 
   const { data } = useQuery({
     query: gql`
-      query fetchPlayersPage($teamId: ID!) {
+      query fetchMatchesPage($teamId: ID!) {
         team(id: $teamId) {
           ...TeamData
-          players {
-            ...PlayerData
-            currentContract { ...ContractData }
-          }
+          matches { ...MatchData }
         }
       }
       ${teamFragment}
-      ${playerFragment}
-      ${contractFragment}
+      ${matchFragment}
     `,
     variables: {
       teamId: props.teamId
@@ -38,22 +35,28 @@
     <table :style="{ width: '100%' }">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Position</th>
-          <th>OVR</th>
-          <th>Value</th>
+          <th>Match</th>
+          <th>Competition</th>
+          <th>Date Played</th>
+          <th>Link</th>
         </tr>
       </thead>
       <tbody>
         <tr
-          v-for="player in team.players"
-          :key="player.id"
+          v-for="match in team.matches"
+          :key="match.id"
           :style="{ textAlign: 'center' }"
         >
-          <td>{{ player.name }}</td>
-          <td>{{ player.pos }}</td>
-          <td>{{ player.ovr }}</td>
-          <td>{{ player.value }}</td>
+          <td>
+            <div>{{ match.home }} v {{ match.away }}</div>
+            <div>{{ match.score }}</div>
+          </td>
+          <td>
+            <div>{{ match.competition }}</div>
+            <i v-if="match.stage">{{ match.stage }}</i>
+          </td>
+          <td>{{ format(parseISO(match.playedOn), 'MMM dd, yyyy') }}</td>
+          <td></td>
         </tr>
       </tbody>
     </table>
