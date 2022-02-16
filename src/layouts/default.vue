@@ -2,7 +2,6 @@
   import { computed, watch } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
   import { useAuthStore } from '~/store/auth'
-  import AppBar from '~/components/App/AppBar.vue'
 
   const authStore = useAuthStore()
   const token = computed(() => authStore.token)
