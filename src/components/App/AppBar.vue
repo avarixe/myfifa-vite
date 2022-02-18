@@ -1,7 +1,4 @@
 <script setup>
-  import { computed } from 'vue'
-  import { useMutation } from '@urql/vue'
-  import gql from 'graphql-tag'
   import { useAuthStore } from '~/store/auth'
 
   const authStore = useAuthStore()

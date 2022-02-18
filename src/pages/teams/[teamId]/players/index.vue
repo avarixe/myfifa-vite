@@ -1,7 +1,4 @@
 <script setup>
-  import { computed } from 'vue'
-  import { useQuery } from '@urql/vue'
-  import gql from 'graphql-tag'
   import { teamFragment, playerFragment, contractFragment } from '~/fragments'
 
   const props = defineProps({

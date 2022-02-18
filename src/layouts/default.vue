@@ -1,6 +1,4 @@
 <script setup>
-  import { computed, watch } from 'vue'
-  import { useRoute, useRouter } from 'vue-router'
   import { useAuthStore } from '~/store/auth'
 
   const authStore = useAuthStore()

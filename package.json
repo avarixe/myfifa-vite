@@ -15,15 +15,16 @@
     "graphql": "^15.7.2",
     "graphql-tag": "^2.12.5",
     "pinia": "^2.0.2",
-    "vue": "^3.2.21",
+    "vue": "^3.2.31",
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^1.2.4",
-    "@vue/compiler-sfc": "^3.2.0-0",
+    "@vitejs/plugin-vue": "^2.2.0",
+    "@vue/compiler-sfc": "^3.2.31",
+    "unplugin-auto-import": "^0.6.0",
     "unplugin-vue-components": "^0.17.18",
-    "vite": "^2.4.0",
-    "vite-plugin-pages": "^0.14.8",
-    "vite-plugin-vue-layouts": "^0.3.1"
+    "vite": "^2.8.3",
+    "vite-plugin-pages": "^0.20.2",
+    "vite-plugin-vue-layouts": "^0.6.0"
   }
 }
