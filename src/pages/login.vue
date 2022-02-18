@@ -1,7 +1,4 @@
 <script setup>
-  import { ref } from 'vue'
-  import { useMutation } from '@urql/vue'
-  import gql from 'graphql-tag'
   import { useAuthStore } from '~/store/auth'
   import { userFragment } from '~/fragments'
 
