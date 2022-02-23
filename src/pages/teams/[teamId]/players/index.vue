@@ -1,11 +1,14 @@
 <script setup>
+  import { useTeamQuery } from '~/composables'
   import { teamFragment, playerFragment, contractFragment } from '~/fragments'
 
   const props = defineProps({
     teamId: { type: String, required: true }
   })
 
-  const { data } = useQuery({
+  const { team } = useTeamQuery({
+    props,
+    include: 'players',
     query: gql`
       query fetchPlayersPage($teamId: ID!) {
         team(id: $teamId) {
@@ -19,13 +22,8 @@
       ${teamFragment}
       ${playerFragment}
       ${contractFragment}
-    `,
-    variables: {
-      teamId: props.teamId
-    }
+    `
   })
-
-  const team = computed(() => data.value?.team)
 </script>
 
 <template>

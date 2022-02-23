@@ -1,12 +1,14 @@
 <script setup>
   import { format, parseISO } from 'date-fns'
+  import { useTeamQuery } from '~/composables'
   import { teamFragment } from '~/fragments'
 
   const props = defineProps({
     teamId: { type: String, required: true }
   })
 
-  const { data } = useQuery({
+  const { team } = useTeamQuery({
+    props,
     query: gql`
       query fetchTeamPage($teamId: ID!) {
         team(id: $teamId) {
@@ -14,13 +16,8 @@
         }
       }
       ${teamFragment}
-    `,
-    variables: {
-      teamId: props.teamId
-    }
+    `
   })
-
-  const team = computed(() => data.value?.team)
 </script>
 
 <template>

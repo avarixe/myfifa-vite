@@ -1,5 +1,6 @@
 <script setup>
   import { format, parseISO } from 'date-fns'
+  import { Team } from '~/models'
   import { teamFragment } from '~/fragments'
 
   const { data } = useQuery({
@@ -11,7 +12,14 @@
     `
   })
 
-  const teams = computed(() => data.value?.teams || [])
+  const teamRepo = useRepo(Team)
+  watchEffect(() => {
+    if (data.value?.teams) {
+      teamRepo.save(data.value?.teams)
+    }
+  })
+
+  const teams = computed(() => teamRepo.all())
 </script>
 
 <template>
@@ -36,8 +44,10 @@
             {{ team.name }}
           </router-link>
         </td>
-        <td>{{ format(parseISO(team.startedOn), 'MMM dd, yyyy') }}</td>
-        <td>{{ format(parseISO(team.currentlyOn), 'MMM dd, yyyy') }}</td>
+        <!-- <td>{{ format(parseISO(team.startedOn), 'MMM dd, yyyy') }}</td> -->
+        <td>{{ team.startedOn }}</td>
+        <!-- <td>{{ format(parseISO(team.currentlyOn), 'MMM dd, yyyy') }}</td> -->
+        <td>{{ team.currentlyOn }}</td>
       </tr>
     </tbody>
   </table>

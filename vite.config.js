@@ -21,6 +21,7 @@ export default defineConfig({
       imports: [
         'vue',
         'vue-router',
+        'pinia',
         {
           '@urql/vue': [
             'useQuery',
@@ -28,6 +29,9 @@ export default defineConfig({
           ],
           'graphql-tag': [
             ['default', 'gql']
+          ],
+          'pinia-orm': [
+            'useRepo'
           ]
         }
       ]
