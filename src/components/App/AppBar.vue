@@ -1,4 +1,5 @@
 <script setup>
+  import { useTeam } from '~/composables'
   import { useAuthStore } from '~/store/auth'
 
   const authStore = useAuthStore()
@@ -21,11 +22,14 @@
       localStorage.removeItem('token')
     }
   }
+
+  const { team } = useTeam()
 </script>
 
 <template>
   <div>
     <div>MyFIFA Manager</div>
+    <div v-if="team">{{ team.name }}</div>
     <button @click="logout">Log Out</button>
   </div>
 </template>

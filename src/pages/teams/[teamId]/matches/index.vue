@@ -8,7 +8,6 @@
   })
 
   const { team } = useTeamQuery({
-    props,
     include: 'matches',
     query: gql`
       query fetchMatchesPage($teamId: ID!) {
