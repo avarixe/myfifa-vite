@@ -1,25 +1,16 @@
-import { Team } from '~/models'
+import useTeam from './useTeam'
 
-export default ({ props, query, variables, include }) => {
-  const teamId = computed(() => parseInt(props.teamId))
+export default ({ query, variables, include }) => {
+  const { teamId, teamRepo, team } = useTeam(include)
 
   const { data } = useQuery({
     query,
     variables: variables || { teamId: teamId.value }
   })
 
-  const teamRepo = useRepo(Team)
   watchEffect(() => {
     if (data.value?.team) {
       teamRepo.save(data.value?.team)
-    }
-  })
-
-  const team = computed(() => {
-    if (include) {
-      return teamRepo.with(include).find(teamId.value)
-    } else {
-      return teamRepo.find(teamId.value)
     }
   })
 
