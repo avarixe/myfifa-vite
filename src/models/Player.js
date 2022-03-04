@@ -49,16 +49,6 @@ export default class Player extends Model {
     }
   }
 
-  get link () {
-    return {
-      name: 'teams-teamId-players-playerId',
-      params: {
-        teamId: this.teamId,
-        playerId: this.id
-      }
-    }
-  }
-
   get isActive () {
     return this.status && this.status.length > 0
   }
@@ -99,20 +89,6 @@ export default class Player extends Model {
 
   get flag () {
     return nationalities[this.nationality]
-  }
-
-  contract () {
-    const contract = Contract
-      .query()
-      .where('playerId', this.id)
-      .where('startedOn', date => date <= this.team.currentlyOn)
-      .where('endedOn', date => this.team.currentlyOn < date)
-      .last()
-    return contract || {}
-  }
-
-  expiresOn () {
-    return this.contract().endedOn
   }
 
   recordAt (date) {

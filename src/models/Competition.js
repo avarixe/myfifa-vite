@@ -26,26 +26,6 @@ class Competition extends Model {
     }
   }
 
-  get link () {
-    return {
-      name: 'teams-teamId-competitions-competitionId',
-      params: {
-        teamId: this.teamId,
-        competitionId: this.id
-      }
-    }
-  }
-
-  get linkToSeason () {
-    return {
-      name: 'teams-teamId-seasons-season',
-      params: {
-        teamId: this.teamId,
-        season: this.season
-      }
-    }
-  }
-
   get statusIcon () {
     if (this.champion === this.team.name) {
       return 'mdi-trophy'

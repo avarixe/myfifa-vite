@@ -1,7 +1,7 @@
 import useTeam from './useTeam'
 
 export default async ({ query, variables }) => {
-  const { teamId, teamRepo, team } = useTeam()
+  const { teamId, teamRepo, team, currentSeason, seasonLabel } = useTeam()
 
   const { data } = await useQuery({
     query,
@@ -13,6 +13,8 @@ export default async ({ query, variables }) => {
     teamId,
     teamRepo,
     team,
+    currentSeason,
+    seasonLabel,
     data
   }
 }

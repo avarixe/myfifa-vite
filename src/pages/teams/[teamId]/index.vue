@@ -23,7 +23,7 @@
   navigationStore.setBreadcrumbs([
     { icon: 'mdi-home', to: '/' },
     { label: 'Teams', to: '/teams' },
-    { label: team.value.name, to: `/teams/${team.value.id}` }
+    { label: team.value.name, to: `/teams/${props.teamId}` }
   ])
 </script>
 
