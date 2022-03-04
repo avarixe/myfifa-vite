@@ -24,7 +24,9 @@
     </q-header>
     <q-page-container>
       <q-page padding>
-        <router-view />
+        <suspense>
+          <router-view />
+        </suspense>
       </q-page>
     </q-page-container>
     <q-footer>

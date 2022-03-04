@@ -23,11 +23,12 @@
     }
   }
 
-  const { breadcrumbs } = useNavigationStore()
+  const navigationStore = useNavigationStore()
+  const breadcrumbs = computed(() => navigationStore.breadcrumbs)
 </script>
 
 <template>
-  <q-toolbar>
+  <q-toolbar class="glossy">
     <q-toolbar-title>MyFIFA Manager</q-toolbar-title>
     <q-btn flat @click="logout">Log Out</q-btn>
   </q-toolbar>

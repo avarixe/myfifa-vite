@@ -1,12 +1,14 @@
 <script setup>
+  import { useNavigationStore } from '~/store/navigation'
   import { useTeamQuery } from '~/composables'
   import { teamFragment, playerFragment, contractFragment } from '~/fragments'
+  import { Player } from '~/models'
 
   const props = defineProps({
     teamId: { type: String, required: true }
   })
 
-  const { team } = useTeamQuery({
+  const { team } = await useTeamQuery({
     include: 'players',
     query: gql`
       query fetchPlayersPage($teamId: ID!) {
@@ -23,33 +25,34 @@
       ${contractFragment}
     `
   })
+
+  const navigationStore = useNavigationStore()
+  navigationStore.setBreadcrumbs([
+    { icon: 'mdi-home', to: '/' },
+    { label: 'Teams', to: '/teams' },
+    { label: team.value.name, to: `/teams/${team.value.id}` },
+    { label: 'Players', to: `/teams/${team.value.id}/players` }
+  ])
+
+  const playerRepo = useRepo(Player)
+  const players = computed(() =>
+    playerRepo.where('teamId', team.value.id).get()
+  )
+
+  const columns = [
+    { name: 'name', field: 'name', label: 'Name', sortable: true, align: 'left' },
+    { name: 'pos', field: 'pos', label: 'Position', sortable: true, align: 'center' },
+    { name: 'ovr', field: 'ovr', label: 'OVR', sortable: true, align: 'center' },
+    { name: 'value', field: 'value', label: 'Value', sortable: true }
+  ]
 </script>
 
 <template>
-  <template v-if="team">
-    <router-link :to="`/teams/${team.id}`">Team</router-link>
-
-    <table :style="{ width: '100%' }">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Position</th>
-          <th>OVR</th>
-          <th>Value</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="player in team.players"
-          :key="player.id"
-          :style="{ textAlign: 'center' }"
-        >
-          <td>{{ player.name }}</td>
-          <td>{{ player.pos }}</td>
-          <td>{{ player.ovr }}</td>
-          <td>{{ player.value }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </template>
+  <q-table
+    title="Players"
+    :rows="players"
+    :columns="columns"
+    row-key="id"
+    :pagination="{ rowsPerPage: 0 }"
+  />
 </template>

@@ -1,4 +1,5 @@
 <script setup>
+  import { useNavigationStore } from '~/store/navigation'
   import { useTeamQuery } from '~/composables'
   import { teamFragment, playerFragment, squadFragment } from '~/fragments'
   import { Squad } from '~/models'
@@ -7,7 +8,7 @@
     teamId: { type: String, required: true }
   })
 
-  const { team } = useTeamQuery({
+  const { team } = await useTeamQuery({
     query: gql`
       query fetchPlayersPage($teamId: ID!) {
         team(id: $teamId) {
@@ -29,29 +30,44 @@
       .where('teamId', team.value?.id)
       .get()
   )
+
+  const navigationStore = useNavigationStore()
+  navigationStore.setBreadcrumbs([
+    { icon: 'mdi-home', to: '/' },
+    { label: 'Teams', to: '/teams' },
+    { label: team.value?.name, to: `/teams/${team.value?.id}` },
+    { label: 'Squads', to: `/teams/${team.value?.id}/squads` }
+  ])
 </script>
 
 <template>
-  <template v-if="team">
-    <router-link :to="`/teams/${team.id}`">Team</router-link>
-
+  <div class="row items-start q-col-gutter-md">
     <div
       v-for="squad in squads"
       :key="squad.id"
+      class="col-12 col-md-6 col-lg-4"
     >
-      {{ squad.name }}
-
-      <table>
-        <tbody>
-          <tr
-            v-for="squadPlayer in squad.squadPlayers"
-            :key="squadPlayer.id"
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">{{ squad.name }}</div>
+        </q-card-section>
+        <q-card-section>
+          <q-markup-table
+            separator="none"
+            flat
           >
-            <td>{{ squadPlayer.pos }}</td>
-            <td>{{ squadPlayer.player.name }}</td>
-          </tr>
-        </tbody>
-      </table>
+            <tbody>
+              <tr
+                v-for="squadPlayer in squad.squadPlayers"
+                :key="squadPlayer.id"
+              >
+                <td>{{ squadPlayer.pos }}</td>
+                <td>{{ squadPlayer.player.name }}</td>
+              </tr>
+            </tbody>
+          </q-markup-table>
+        </q-card-section>
+      </q-card>
     </div>
-  </template>
+  </div>
 </template>
