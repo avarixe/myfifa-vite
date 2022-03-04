@@ -1,5 +1,6 @@
 <script setup>
   import { format, parseISO } from 'date-fns'
+  import { useNavigationStore } from '~/store/navigation'
   import { Team } from '~/models'
   import { teamFragment } from '~/fragments'
 
@@ -20,6 +21,13 @@
   })
 
   const teams = computed(() => teamRepo.all())
+
+  const { breadcrumbs } = useNavigationStore()
+  onMounted(() => {
+    breadcrumbs.value = [
+
+    ]
+  })
 </script>
 
 <template>
