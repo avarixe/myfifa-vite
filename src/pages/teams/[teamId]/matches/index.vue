@@ -26,8 +26,8 @@
   navigationStore.setBreadcrumbs([
     { icon: 'mdi-home', to: '/' },
     { label: 'Teams', to: '/teams' },
-    { label: team.value.name, to: `/teams/${team.value.id}` },
-    { label: 'Matches', to: `/teams/${team.value.id}/matches` }
+    { label: team.value.name, to: `/teams/${props.teamId}` },
+    { label: 'Matches', to: `/teams/${props.teamId}/matches` }
   ])
 
   const matchRepo = useRepo(Match)

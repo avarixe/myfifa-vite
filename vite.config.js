@@ -35,6 +35,9 @@ export default defineConfig({
           ],
           'pinia-orm': [
             'useRepo'
+          ],
+          'lodash.keyby': [
+            ['default', 'keyBy']
           ]
         }
       ]

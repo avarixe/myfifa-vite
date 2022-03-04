@@ -42,16 +42,6 @@ export default class Match extends Model {
     }
   }
 
-  get link () {
-    return {
-      name: 'teams-teamId-matches-matchId',
-      params: {
-        teamId: this.teamId,
-        matchId: this.id
-      }
-    }
-  }
-
   get opponent () {
     return this.home === this.team.name
       ? this.away

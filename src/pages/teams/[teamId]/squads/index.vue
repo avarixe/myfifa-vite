@@ -27,7 +27,7 @@
   const squads = computed(() =>
     squadRepo
       .with('squadPlayers', query => query.with('player'))
-      .where('teamId', team.value?.id)
+      .where('teamId', team.value.id)
       .get()
   )
 
@@ -35,8 +35,8 @@
   navigationStore.setBreadcrumbs([
     { icon: 'mdi-home', to: '/' },
     { label: 'Teams', to: '/teams' },
-    { label: team.value?.name, to: `/teams/${team.value?.id}` },
-    { label: 'Squads', to: `/teams/${team.value?.id}/squads` }
+    { label: team.value.name, to: `/teams/${props.teamId}` },
+    { label: 'Squads', to: `/teams/${props.teamId}/squads` }
   ])
 </script>
 

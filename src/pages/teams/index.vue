@@ -32,6 +32,7 @@
 
   const columns = [
     { name: 'name', field: 'name', label: 'Name', sortable: true, align: 'center' },
+    { name: 'badge', field: 'badgeUrl', label: 'Badge', align: 'center' },
     { name: 'startedOn', field: 'startedOn', label: 'Start Date', sortable: true, align: 'center' },
     { name: 'currentlyOn', field: 'currentlyOn', label: 'Current Date', sortable: true, align: 'center' }
   ]
@@ -51,6 +52,16 @@
           :label="props.value"
           color="primary"
           flat
+        />
+      </q-td>
+    </template>
+    <template #body-cell-badge="props">
+      <q-td :props="props">
+        <q-img
+          :src="props.value"
+          width="32px"
+          height="32px"
+          fit="contain"
         />
       </q-td>
     </template>
