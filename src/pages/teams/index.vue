@@ -4,7 +4,7 @@
   import { Team } from '~/models'
   import { teamFragment } from '~/fragments'
 
-  const { data } = useQuery({
+  const { data } = await useQuery({
     query: gql`
       query fetchTeams {
         teams { ...TeamData }
@@ -20,43 +20,49 @@
     }
   })
 
-  const teams = computed(() => teamRepo.all())
-
-  const { breadcrumbs } = useNavigationStore()
+  const navigationStore = useNavigationStore()
   onMounted(() => {
-    breadcrumbs.value = [
-
-    ]
+    navigationStore.setBreadcrumbs([
+      { icon: 'mdi-home', to: '/' },
+      { label: 'Teams', to: '/teams' }
+    ])
   })
+
+  const teams = computed(() => teamRepo.orderBy('id', 'desc').get())
+
+  const columns = [
+    { name: 'name', field: 'name', label: 'Name', sortable: true, align: 'center' },
+    { name: 'startedOn', field: 'startedOn', label: 'Start Date', sortable: true, align: 'center' },
+    { name: 'currentlyOn', field: 'currentlyOn', label: 'Current Date', sortable: true, align: 'center' }
+  ]
 </script>
 
 <template>
-  <table :style="{ width: '100%' }">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Start Date</th>
-        <th>Current Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        v-for="team in teams"
-        :key="team.id"
-        :style="{ textAlign: 'center' }"
-      >
-        <td>{{ team.id }}</td>
-        <td>
-          <router-link :to="`/teams/${team.id}`">
-            {{ team.name }}
-          </router-link>
-        </td>
-        <!-- <td>{{ format(parseISO(team.startedOn), 'MMM dd, yyyy') }}</td> -->
-        <td>{{ team.startedOn }}</td>
-        <!-- <td>{{ format(parseISO(team.currentlyOn), 'MMM dd, yyyy') }}</td> -->
-        <td>{{ team.currentlyOn }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <q-table
+    title="Teams"
+    :rows="teams"
+    :columns="columns"
+    row-key="id"
+  >
+    <template #body-cell-name="props">
+      <q-td :props="props">
+        <q-btn
+          :to="`/teams/${props.row.id}`"
+          :label="props.value"
+          color="primary"
+          flat
+        />
+      </q-td>
+    </template>
+    <template #body-cell-startedOn="props">
+      <q-td :props="props">
+        {{ format(parseISO(props.value), 'MMM dd, yyyy') }}
+      </q-td>
+    </template>
+    <template #body-cell-currentlyOn="props">
+      <q-td :props="props">
+        {{ format(parseISO(props.value), 'MMM dd, yyyy') }}
+      </q-td>
+    </template>
+  </q-table>
 </template>
