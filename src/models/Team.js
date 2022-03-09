@@ -32,33 +32,9 @@ export default class Team extends Model {
     }
   }
 
-  get link () {
-    return {
-      name: 'teams-teamId',
-      params: { teamId: this.id }
-    }
-  }
-
-  get season () {
-    const date = parseISO(this.startedOn)
-    const currentDate = parseISO(this.currentlyOn)
-    return differenceInYears(currentDate, date)
-  }
-
-  linkTo (page) {
-    return {
-      name: `teams-teamId-${page}`,
-      params: { teamId: this.id }
-    }
-  }
-
-  linkToSeason (season) {
-    return {
-      name: 'teams-teamId-seasons-season',
-      params: {
-        teamId: this.id,
-        season
-      }
-    }
+  get badgeUrl () {
+    return this.badgePath
+      ? `${import.meta.env.VITE_API_URL.replace(/\/api/, '')}${this.badgePath}`
+      : null
   }
 }

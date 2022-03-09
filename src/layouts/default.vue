@@ -18,15 +18,18 @@
 </script>
 
 <template>
-  <div id="app">
-    <app-bar v-if="token" />
-    <router-view />
-  </div>
+  <q-layout view="hHh lpR fFf">
+    <q-header>
+      <app-bar v-if="token" />
+    </q-header>
+    <q-page-container>
+      <q-page padding>
+        <suspense>
+          <router-view />
+        </suspense>
+      </q-page>
+    </q-page-container>
+    <q-footer>
+    </q-footer>
+  </q-layout>
 </template>
-
-<style>
-  * {
-    font-size: 14px;
-    font-family: Helvetica, Arial, sans-serif;
-  }
-</style>

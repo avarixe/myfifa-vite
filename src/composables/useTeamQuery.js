@@ -1,23 +1,20 @@
 import useTeam from './useTeam'
 
-export default ({ query, variables, include }) => {
-  const { teamId, teamRepo, team } = useTeam(include)
+export default async ({ query, variables }) => {
+  const { teamId, teamRepo, team, currentSeason, seasonLabel } = useTeam()
 
-  const { data } = useQuery({
+  const { data } = await useQuery({
     query,
     variables: variables || { teamId: teamId.value }
   })
-
-  watchEffect(() => {
-    if (data.value?.team) {
-      teamRepo.save(data.value?.team)
-    }
-  })
+  teamRepo.save(data.value?.team)
 
   return {
     teamId,
     teamRepo,
     team,
+    currentSeason,
+    seasonLabel,
     data
   }
 }
