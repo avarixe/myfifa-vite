@@ -14,11 +14,7 @@
   })
 
   const teamRepo = useRepo(Team)
-  watchEffect(() => {
-    if (data.value?.teams) {
-      teamRepo.save(data.value?.teams)
-    }
-  })
+  teamRepo.save(data.value.teams)
 
   const navigationStore = useNavigationStore()
   onMounted(() => {

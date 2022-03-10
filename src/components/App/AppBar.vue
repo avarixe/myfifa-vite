@@ -1,6 +1,7 @@
 <script setup>
   import { useAuthStore } from '~/store/auth'
   import { useNavigationStore } from '~/store/navigation'
+  import logo from '~/assets/logo.png'
 
   const authStore = useAuthStore()
   const token = computed(() => authStore.token)
@@ -29,6 +30,9 @@
 
 <template>
   <q-toolbar class="glossy">
+    <q-avatar>
+      <img :src="logo">
+    </q-avatar>
     <q-toolbar-title>MyFIFA Manager</q-toolbar-title>
     <q-btn flat @click="logout">Log Out</q-btn>
   </q-toolbar>

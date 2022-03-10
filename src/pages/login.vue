@@ -19,7 +19,7 @@
     ${userFragment}
   `)
 
-  async function login () {
+  async function onSubmit () {
     const { data: { grantAccessToken: { token, errors} } } =
       await grantAccessToken({
         username: username.value,
@@ -35,7 +35,7 @@
 </script>
 
 <template>
-  <form @submit.prevent="login">
+  <form @submit.prevent="onSubmit">
     <div>
       <label>Username</label>
       <input v-model="username" />
