@@ -34,7 +34,19 @@
       <img :src="logo">
     </q-avatar>
     <q-toolbar-title>MyFIFA Manager</q-toolbar-title>
-    <q-btn flat @click="logout">Log Out</q-btn>
+    <q-btn
+      to="/account"
+      flat
+      round
+      icon="mdi-account"
+    />
+    <app-info />
+    <q-btn
+      flat
+      round
+      icon="mdi-exit-to-app"
+      @click="logout"
+    />
   </q-toolbar>
   <q-toolbar
     v-if="breadcrumbs.length > 0"

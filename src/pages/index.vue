@@ -9,5 +9,4 @@
 
 <template>
   <router-link to="/teams">Teams</router-link>
-  <router-link to="/account">Account</router-link>
 </template>
