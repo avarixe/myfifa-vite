@@ -1,5 +1,5 @@
 <script setup>
-  import { isRequired } from '~/functions'
+  import { isRequired } from '~/rules'
   import { userFragment } from '~/fragments'
 
   const props = defineProps({

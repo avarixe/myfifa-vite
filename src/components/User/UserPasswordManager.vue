@@ -1,5 +1,5 @@
 <script setup>
-  import { isRequired } from '~/functions'
+  import { isRequired } from '~/rules'
 
   const props = defineProps({
     user: { type: Object, required: true }

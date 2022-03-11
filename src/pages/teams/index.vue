@@ -1,5 +1,5 @@
 <script setup>
-  import { format, parseISO } from 'date-fns'
+  import { formatDate } from '~/filters'
   import { useNavigationStore } from '~/store/navigation'
   import { Team } from '~/models'
   import { teamFragment } from '~/fragments'
@@ -62,14 +62,10 @@
       </q-td>
     </template>
     <template #body-cell-startedOn="props">
-      <q-td :props="props">
-        {{ format(parseISO(props.value), 'MMM dd, yyyy') }}
-      </q-td>
+      <q-td :props="props">{{ formatDate(props.value) }}</q-td>
     </template>
     <template #body-cell-currentlyOn="props">
-      <q-td :props="props">
-        {{ format(parseISO(props.value), 'MMM dd, yyyy') }}
-      </q-td>
+      <q-td :props="props">{{ formatDate(props.value) }}</q-td>
     </template>
   </q-table>
 </template>

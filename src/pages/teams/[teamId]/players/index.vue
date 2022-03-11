@@ -1,4 +1,5 @@
 <script setup>
+  import { formatDate } from '~/filters'
   import { useNavigationStore } from '~/store/navigation'
   import { useTeamQuery } from '~/composables'
   import { teamFragment, playerFragment, contractFragment } from '~/fragments'
@@ -102,6 +103,11 @@
     <template #body-cell-secPos="props">
       <q-td :props="props">
         {{ props.value.join(', ') }}
+      </q-td>
+    </template>
+    <template #body-cell-endDate="props">
+      <q-td :props="props">
+        {{ formatDate(props.value) }}
       </q-td>
     </template>
   </q-table>

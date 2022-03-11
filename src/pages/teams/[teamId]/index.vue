@@ -1,5 +1,5 @@
 <script setup>
-  import { format, parseISO } from 'date-fns'
+  import { formatDate } from '~/filters'
   import { useNavigationStore } from '~/store/navigation'
   import { useTeamQuery } from '~/composables'
   import { teamFragment } from '~/fragments'
@@ -29,15 +29,9 @@
 
 <template>
   <div><b>Name:</b> {{ team.name }}</div>
-  <div>
-    <b>Current Date:</b>
-    {{ format(parseISO(team.currentlyOn), 'MMM dd, yyyy') }}
-  </div>
+  <div><b>Current Date:</b> {{ formatDate(team.currentlyOn) }}</div>
   <div><b>Currency:</b> {{ team.currency }}</div>
-  <div>
-    <b>Start Date:</b>
-    {{ format(parseISO(team.startedOn), 'MMM dd, yyyy') }}
-  </div>
+  <div><b>Start Date:</b> {{ formatDate(team.startedOn) }}</div>
   <div>
     <router-link :to="`/teams/${team.id}/players`">Players</router-link>
     <router-link :to="`/teams/${team.id}/matches`">Matches</router-link>

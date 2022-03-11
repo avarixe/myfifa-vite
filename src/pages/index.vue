@@ -1,4 +1,5 @@
 <script setup>
+  import { formatDate } from '~/filters'
   import { useNavigationStore } from '~/store/navigation'
   import { teamFragment } from '~/fragments'
 
@@ -76,11 +77,11 @@
                     <div class="col-12 col-md-6">
                       <div>
                         <span class="text-grey">Started Date: </span>
-                        <b>{{ currentTeam.startedOn }}</b>
+                        <b>{{ formatDate(currentTeam.startedOn) }}</b>
                       </div>
                       <div>
                         <span class="text-grey">Current Date: </span>
-                        <b>{{ currentTeam.currentlyOn }}</b>
+                        <b>{{ formatDate(currentTeam.currentlyOn) }}</b>
                       </div>
                       <div>
                         <span class="text-grey">Currency: </span>
@@ -93,7 +94,7 @@
                         <div class="col text-center">
                           <b>{{ lastMatch.home }} v {{ lastMatch.away }}</b>
                           <div>{{ lastMatch.competition }}</div>
-                          <div><i>{{ lastMatch.playedOn }}</i></div>
+                          <div><i>{{ formatDate(lastMatch.playedOn) }}</i></div>
                           <q-btn
                             :to="`/teams/${currentTeam.id}/matches/${lastMatch.id}`"
                             label="Go to Match"

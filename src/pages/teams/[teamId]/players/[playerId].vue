@@ -1,5 +1,5 @@
 <script setup>
-  import { format, parseISO } from 'date-fns'
+  import { formatDate } from '~/filters'
   import { useNavigationStore } from '~/store/navigation'
   import { useTeamQuery } from '~/composables'
   import { Player } from '~/models'
