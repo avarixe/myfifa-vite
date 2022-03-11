@@ -1,6 +1,8 @@
 <script setup>
   import { useAuthStore } from '~/store/auth'
   import { userFragment } from '~/fragments'
+  import { isRequired } from '~/functions'
+  import logo from '~/assets/logo.png'
 
   const username = ref('')
   const password = ref('')
@@ -35,17 +37,44 @@
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit">
-    <div>
-      <label>Username</label>
-      <input v-model="username" />
+  <div class="column absolute-center q-col-gutter-md">
+    <div class="col">
+      <q-img
+        :src="logo"
+        fit="contain"
+        height="128px"
+      />
     </div>
-    <div>
-      <label>Password</label>
-      <input v-model="password" type="password" />
+    <div class="col text-center">
+      <div class="text-h4">MyFIFA Manager</div>
+      <div class="text-caption">v2.0.0</div>
     </div>
-    <div>
-      <button type="submit">Login</button>
+    <div class="col">
+      <q-form @submit="onSubmit">
+        <q-card>
+          <q-card-section>
+            <q-input
+              v-model="username"
+              label="Username"
+              :rules="[isRequired('Username')]"
+            />
+            <q-input
+              v-model="password"
+              label="Password"
+              :rules="[isRequired('Password')]"
+              type="password"
+            />
+          </q-card-section>
+          <q-card-actions>
+            <q-btn
+              type="submit"
+              label="Log In"
+              color="primary"
+              flat
+            />
+          </q-card-actions>
+        </q-card>
+      </q-form>
     </div>
-  </form>
+  </div>
 </template>
