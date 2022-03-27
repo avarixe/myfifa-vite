@@ -1,6 +1,5 @@
 <script setup>
   import { useAuthStore } from '~/store/auth'
-  import { useNavigationStore } from '~/store/navigation'
   import logo from '~/assets/logo.png'
 
   const authStore = useAuthStore()
@@ -23,9 +22,6 @@
       localStorage.removeItem('token')
     }
   }
-
-  const navigationStore = useNavigationStore()
-  const breadcrumbs = computed(() => navigationStore.breadcrumbs)
 </script>
 
 <template>
@@ -47,17 +43,5 @@
       icon="mdi-exit-to-app"
       @click="logout"
     />
-  </q-toolbar>
-  <q-toolbar
-    v-if="breadcrumbs.length > 0"
-    inset
-  >
-    <q-breadcrumbs>
-      <q-breadcrumbs-el
-        v-for="(breadcrumb, i) in breadcrumbs"
-        :key="i"
-        v-bind="breadcrumb"
-      />
-    </q-breadcrumbs>
   </q-toolbar>
 </template>

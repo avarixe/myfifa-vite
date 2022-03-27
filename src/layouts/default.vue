@@ -1,6 +1,6 @@
 <script setup>
   import { useAuthStore } from '~/store/auth'
-
+  import { useNavigationStore } from '~/store/navigation'
   const authStore = useAuthStore()
   const token = computed(() => authStore.token)
 
@@ -15,6 +15,9 @@
       router.push('/login')
     }
   }, { immediate: true })
+
+  const navigationStore = useNavigationStore()
+  const breadcrumbs = computed(() => navigationStore.breadcrumbs)
 </script>
 
 <template>
@@ -23,6 +26,18 @@
       <app-bar v-if="token" />
     </q-header>
     <q-page-container>
+      <q-toolbar
+        v-if="breadcrumbs.length > 0"
+        inset
+      >
+        <q-breadcrumbs>
+          <q-breadcrumbs-el
+            v-for="(breadcrumb, i) in breadcrumbs"
+            :key="i"
+            v-bind="breadcrumb"
+          />
+        </q-breadcrumbs>
+      </q-toolbar>
       <q-page padding>
         <suspense>
           <router-view />

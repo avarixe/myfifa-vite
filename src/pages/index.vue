@@ -45,7 +45,7 @@
 </script>
 
 <template>
-  <div class="absolute-center full-width">
+  <div class="row items-center justify-center full-width">
     <div class="row q-pa-lg q-col-gutter-md">
       <div
         v-if="currentTeam"
@@ -143,7 +143,7 @@
         v-for="(team, i) in latestTeams"
         v-show="i !== teamIndex"
         :key="i"
-        class="col-12 col-sm-3"
+        class="col-6 col-sm-3"
       >
         <q-card
           v-ripple.early
