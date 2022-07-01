@@ -37,44 +37,21 @@
 </script>
 
 <template>
-  <div class="column absolute-center q-col-gutter-md">
-    <div class="col">
-      <q-img
-        :src="logo"
-        fit="contain"
-        height="128px"
-      />
-    </div>
-    <div class="col text-center">
-      <div class="text-h4">MyFIFA Manager</div>
-      <div class="text-caption">v2.0.0</div>
-    </div>
-    <div class="col">
-      <q-form @submit="onSubmit">
-        <q-card>
-          <q-card-section>
-            <q-input
-              v-model="username"
-              label="Username"
-              :rules="[isRequired('Username')]"
-            />
-            <q-input
-              v-model="password"
-              label="Password"
-              :rules="[isRequired('Password')]"
-              type="password"
-            />
-          </q-card-section>
-          <q-card-actions>
-            <q-btn
-              type="submit"
-              label="Log In"
-              color="primary"
-              flat
-            />
-          </q-card-actions>
-        </q-card>
-      </q-form>
-    </div>
+  <div>
+    <div>MyFIFA Manager</div>
+    <small>v2.0.0</small>
   </div>
+  <hr>
+  <div>
+    <label for="username">Username</label>
+    <input v-model="username" />
+  </div>
+  <div>
+    <label for="password">Password</label>
+    <input
+      v-model="password"
+      type="password"
+    />
+  </div>
+  <button @click="onSubmit">Log In</button>
 </template>

@@ -26,12 +26,6 @@
 </script>
 
 <template>
-  <div class="row items-start q-col-gutter-md">
-    <div class="col-12 col-md-6">
-      <user-profile :user="user" />
-    </div>
-    <div class="col-12 col-md-6">
-      <user-password-manager :user="user" />
-    </div>
-  </div>
+  <user-profile :user="user" />
+  <user-password-manager :user="user" />
 </template>

@@ -35,37 +35,25 @@
 </script>
 
 <template>
-  <q-table
-    title="Teams"
-    :rows="teams"
-    :columns="columns"
-    row-key="id"
-  >
-    <template #body-cell-name="props">
-      <q-td :props="props">
-        <q-btn
-          :to="`/teams/${props.row.id}`"
-          :label="props.value"
-          color="primary"
-          flat
-        />
-      </q-td>
-    </template>
-    <template #body-cell-badge="props">
-      <q-td :props="props">
-        <q-img
-          :src="props.value"
-          width="32px"
-          height="32px"
-          fit="contain"
-        />
-      </q-td>
-    </template>
-    <template #body-cell-startedOn="props">
-      <q-td :props="props">{{ formatDate(props.value) }}</q-td>
-    </template>
-    <template #body-cell-currentlyOn="props">
-      <q-td :props="props">{{ formatDate(props.value) }}</q-td>
-    </template>
-  </q-table>
+  <table>
+    <thead>
+      <th>Name</th>
+      <th>Badge</th>
+      <th>Start Date</th>
+      <th>Current Date</th>
+    </thead>
+    <tbody>
+      <tr
+        v-for="team in teams"
+        :key="team.id"
+      >
+        <td>
+          <router-link :to="`/teams?id=${team.id}`">{{ team.name }}</router-link>
+        </td>
+        <td><img :src="team.badgeUrl" width="50" /></td>
+        <td>{{ formatDate(team.startedOn) }}</td>
+        <td>{{ formatDate(team.currentlyOn) }}</td>
+      </tr>
+    </tbody>
+  </table>
 </template>

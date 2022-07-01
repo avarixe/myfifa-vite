@@ -30,41 +30,30 @@
 </script>
 
 <template>
-  <q-form @submit="onSubmit">
-    <q-card>
-      <q-card-section class="bg-warning text-white glossy">
-        <div class="text-h6">Change Password</div>
-      </q-card-section>
-      <q-card-section>
-          <q-input
-            v-model="currentPassword"
-            label="Current Password"
-            type="password"
-            :rules="[isRequired('Current Password')]"
-          />
-          <q-input
-            v-model="password"
-            label="New Password"
-            type="password"
-            :rules="[isRequired('New Password')]"
-            autocomplete="new-password"
-          />
-          <q-input
-            v-model="passwordConfirmation"
-            label="Confirm New Password"
-            type="password"
-            :rules="[isRequired('Password Confirmation')]"
-            autocomplete="new-password"
-          />
-      </q-card-section>
-      <q-card-actions>
-        <q-btn
-          type="submit"
-          label="Update"
-          color="warning"
-          flat
-        />
-      </q-card-actions>
-    </q-card>
-  </q-form>
+  <h4>Change Password</h4>
+
+  <div>
+    <label for="currentPassword">Current Password</label>
+    <input
+      v-model="currentPassword"
+      type="password"
+    />
+  </div>
+  <div>
+    <label for="newPassword">New Password</label>
+    <input
+      v-model="password"
+      type="password"
+      autocomplete="new-password"
+    />
+  </div>
+  <div>
+    <label for="confirmPassword">Confirm New Password</label>
+    <input
+      v-model="passwordConfirmation"
+      type="password"
+      autocomplete="new-password"
+    />
+  </div>
+  <button @click="onSubmit">Update</button>
 </template>

@@ -4,7 +4,6 @@ import Pages from 'vite-plugin-pages'
 import Layouts from 'vite-plugin-vue-layouts'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 import path from 'path'
 
 // https://vitejs.dev/config/
@@ -15,9 +14,7 @@ export default defineConfig({
     },
   },
   plugins: [
-    Vue({
-      template: { transformAssetUrls }
-    }),
+    Vue(),
     Pages(),
     Layouts(),
     AutoImport({
@@ -42,7 +39,6 @@ export default defineConfig({
         }
       ]
     }),
-    Components({}),
-    quasar()
+    Components({})
   ]
 })

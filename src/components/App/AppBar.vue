@@ -1,6 +1,6 @@
 <script setup>
   import { useAuthStore } from '~/store/auth'
-  import logo from '~/assets/logo.png'
+  // import logo from '~/assets/logo.png'
 
   const authStore = useAuthStore()
   const token = computed(() => authStore.token)
@@ -25,23 +25,16 @@
 </script>
 
 <template>
-  <q-toolbar class="glossy">
-    <q-avatar>
-      <img :src="logo">
-    </q-avatar>
-    <q-toolbar-title>MyFIFA Manager</q-toolbar-title>
-    <q-btn
-      to="/account"
-      flat
-      round
-      icon="mdi-account"
-    />
-    <app-info />
-    <q-btn
-      flat
-      round
-      icon="mdi-exit-to-app"
-      @click="logout"
-    />
-  </q-toolbar>
+  <div>
+    <div>MyFIFA Manager</div>
+    <small>v2.0.0</small>
+  </div>
+  <div>
+    <router-link to="/">Home</router-link>
+    &nbsp;
+    <router-link to="/account">Account</router-link>
+    &nbsp;
+    <a href="#" @click="logout">Log Out</a>
+  </div>
+  <hr>
 </template>

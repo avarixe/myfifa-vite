@@ -33,37 +33,22 @@
 </script>
 
 <template>
-  <q-form @submit="onSubmit">
-    <q-card>
-      <q-card-section class="bg-info text-white glossy">
-        <div class="text-h6">Profile</div>
-      </q-card-section>
-      <q-card-section>
-          <q-input
-            v-model="fullName"
-            label="Name"
-            :rules="[isRequired('Name')]"
-          />
-          <q-input
-            v-model="username"
-            label="Username"
-            :rules="[isRequired('Username')]"
-          />
-          <q-input
-            v-model="email"
-            label="Email Address"
-            type="email"
-            :rules="[isRequired('Email Address')]"
-          />
-      </q-card-section>
-      <q-card-actions>
-        <q-btn
-          type="submit"
-          label="Update"
-          color="primary"
-          flat
-        />
-      </q-card-actions>
-    </q-card>
-  </q-form>
+  <h4>Profile</h4>
+
+  <div>
+    <label>Name</label>
+    <input v-model="fullName" />
+  </div>
+  <div>
+    <label>Username</label>
+    <input v-model="username" />
+  </div>
+  <div>
+    <label>Email Address</label>
+    <input
+      v-model="email"
+      type="email"
+    />
+  </div>
+  <button @click="onSubmit">Update</button>
 </template>
