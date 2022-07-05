@@ -1,6 +1,5 @@
 <script setup>
   import { useAuthStore } from '~/store/auth'
-  import { useNavigationStore } from '~/store/navigation'
   const authStore = useAuthStore()
   const token = computed(() => authStore.token)
 
@@ -15,9 +14,6 @@
       router.push('/login')
     }
   }, { immediate: true })
-
-  const navigationStore = useNavigationStore()
-  const breadcrumbs = computed(() => navigationStore.breadcrumbs)
 </script>
 
 <template>

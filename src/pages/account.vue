@@ -1,5 +1,4 @@
 <script setup>
-  import { useNavigationStore } from '~/store/navigation'
   import { User } from '~/models'
   import { userFragment } from '~/fragments'
 
@@ -15,14 +14,6 @@
   const userRepo = useRepo(User)
   userRepo.save(data.value.user)
   const user = computed(() => userRepo.find(parseInt(data.value.user.id)))
-
-  const navigationStore = useNavigationStore()
-  onMounted(() => {
-    navigationStore.setBreadcrumbs([
-      { icon: 'mdi-home', to: '/' },
-      { label: 'Account', to: '/account' }
-    ])
-  })
 </script>
 
 <template>
