@@ -33,6 +33,10 @@ export default defineConfig({
           ],
           'lodash.keyby': [
             ['default', 'keyBy']
+          ],
+          'date-fns': [
+            'format',
+            'parseISO'
           ]
         }
       ]

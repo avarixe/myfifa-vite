@@ -19,6 +19,8 @@
 </script>
 
 <template>
+  <router-link to="/teams/new">New</router-link>
+
   <table>
     <thead>
       <th>Name</th>
@@ -32,7 +34,7 @@
         :key="team.id"
       >
         <td>
-          <router-link :to="`/teams?id=${team.id}`">{{ team.name }}</router-link>
+          <router-link :to="`/teams/${team.id}`">{{ team.name }}</router-link>
         </td>
         <td><img :src="team.badgeUrl" width="50" /></td>
         <td>{{ formatDate(team.startedOn) }}</td>
