@@ -25,10 +25,8 @@ export default defineConfig({
         {
           '@urql/vue': [
             'useQuery',
-            'useMutation'
-          ],
-          'graphql-tag': [
-            ['default', 'gql']
+            'useMutation',
+            'gql'
           ],
           'pinia-orm': [
             'useRepo'
