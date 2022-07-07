@@ -1,18 +1,19 @@
 <script setup>
-  import { isRequired } from '~/rules'
   import { userFragment } from '~/fragments'
 
   const props = defineProps({
-    user: { type: Object, required: true }
+    record: { type: Object, required: true }
   })
 
-  const fullName = ref(props.user.fullName)
-  const username = ref(props.user.username)
-  const email = ref(props.user.email)
+  const attributes = reactive({
+    fullName: props.record.fullName,
+    username: props.record.username,
+    email: props.record.email
+  })
 
   const { executeMutation: updateUser } = useMutation(gql`
-    mutation updateUser($attributes: UserAttributes!) {
-      updateUser(attributes: $attributes) {
+    mutation updateUser($id: ID!, $attributes: UserAttributes!) {
+      updateUser(id: $id, attributes: $attributes) {
         user { ...UserData }
         errors { fullMessages }
       }
@@ -21,13 +22,8 @@
   `)
 
   async function onSubmit () {
-    const { data: { updateUser: { errors } } } = await updateUser({
-      attributes: {
-        fullName: fullName.value,
-        username: username.value,
-        email: email.value
-      }
-    })
+    const { data: { updateUser: { errors } } } =
+      await updateUser({ id: props.record.id, attributes })
     errors && alert(errors.fullMessages[0])
   }
 </script>
@@ -37,16 +33,16 @@
 
   <div>
     <label>Name</label>
-    <input v-model="fullName" />
+    <input v-model="attributes.fullName" />
   </div>
   <div>
     <label>Username</label>
-    <input v-model="username" />
+    <input v-model="attributes.username" />
   </div>
   <div>
     <label>Email Address</label>
     <input
-      v-model="email"
+      v-model="attributes.email"
       type="email"
     />
   </div>

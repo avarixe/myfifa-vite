@@ -2,7 +2,7 @@
   import { useTeamQuery } from '~/composables'
   import { teamFragment } from '~/fragments'
 
-  const { team } = await useTeamQuery({
+  const { teamId } = await useTeamQuery({
     query: gql`
       query fetchTeam($teamId: ID!) {
         team(id: $teamId) { ...TeamData }
@@ -13,9 +13,9 @@
 </script>
 
 <template>
-  <router-link :to="`/teams/${team.id}`">Back</router-link>
+  <router-link :to="`/teams/${teamId}`">Back</router-link>
 
-  <h1>Edit Team</h1>
+  <h1>New Player</h1>
 
-  <team-form :record="team" />
+  <player-form :team-id="teamId" />
 </template>

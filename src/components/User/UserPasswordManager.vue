@@ -1,13 +1,11 @@
 <script setup>
   import { isRequired } from '~/rules'
 
-  const props = defineProps({
-    user: { type: Object, required: true }
+  const attributes = reactive({
+    currentPassword: '',
+    password: '',
+    passwordConfirmation: ''
   })
-
-  const currentPassword = ref('')
-  const password = ref('')
-  const passwordConfirmation = ref('')
 
   const { executeMutation: changePassword } = useMutation(gql`
     mutation changePassword($attributes: UserPasswordChangeAttributes!) {
@@ -18,13 +16,8 @@
   `)
 
   async function onSubmit () {
-    const { data: { updateUser: { errors } } } = await changePassword({
-      attributes: {
-        currentPassword: currentPassword.value,
-        password: password.value,
-        passwordConfirmation: passwordConfirmation.value
-      }
-    })
+    const { data: { updateUser: { errors } } } =
+      await changePassword({ attributes })
     errors && alert(errors.fullMessages[0])
   }
 </script>
@@ -35,14 +28,14 @@
   <div>
     <label for="currentPassword">Current Password</label>
     <input
-      v-model="currentPassword"
+      v-model="attributes.currentPassword"
       type="password"
     />
   </div>
   <div>
     <label for="newPassword">New Password</label>
     <input
-      v-model="password"
+      v-model="attributes.password"
       type="password"
       autocomplete="new-password"
     />
@@ -50,7 +43,7 @@
   <div>
     <label for="confirmPassword">Confirm New Password</label>
     <input
-      v-model="passwordConfirmation"
+      v-model="attributes.passwordConfirmation"
       type="password"
       autocomplete="new-password"
     />

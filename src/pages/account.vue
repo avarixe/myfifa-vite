@@ -17,6 +17,6 @@
 </script>
 
 <template>
-  <user-profile :user="user" />
-  <user-password-manager :user="user" />
+  <user-profile :record="user" />
+  <user-password-manager />
 </template>

@@ -57,7 +57,11 @@
 </script>
 
 <template>
-  <router-link :to="`/teams/${team.id}/players`">Back</router-link>
+  <div>
+    <router-link :to="`/teams/${team.id}/players`">Back</router-link>
+    &nbsp;
+    <router-link :to="`/teams/${team.id}/players/${player.id}/edit`">Edit</router-link>
+  </div>
 
   <h1>{{ player.name }}</h1>
 

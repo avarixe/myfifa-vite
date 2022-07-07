@@ -55,7 +55,11 @@
 </script>
 
 <template>
-  <router-link :to="`/teams/${team.id}`">Back</router-link>
+  <div>
+    <router-link :to="`/teams/${team.id}`">Back</router-link>
+    &nbsp;
+    <router-link :to="`/teams/${team.id}/players/new`">New</router-link>
+  </div>
 
   <h1>Players</h1>
 
