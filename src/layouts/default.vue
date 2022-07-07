@@ -1,5 +1,7 @@
 <script setup>
+  import { useTeam } from '~/composables'
   import { useAuthStore } from '~/store/auth'
+
   const authStore = useAuthStore()
   const token = computed(() => authStore.token)
 
@@ -14,6 +16,8 @@
       router.push('/login')
     }
   }, { immediate: true })
+
+  const { team } = useTeam()
 </script>
 
 <template>
@@ -21,4 +25,8 @@
   <suspense>
     <router-view />
   </suspense>
+  <team-channel
+    v-if="team"
+    :team="team"
+  />
 </template>
