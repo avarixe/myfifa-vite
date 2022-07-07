@@ -23,5 +23,8 @@
   <div><b>Current Date:</b> {{ formatDate(team.currentlyOn) }}</div>
   <div><b>Currency:</b> {{ team.currency }}</div>
 
-  <router-link :to="`/teams/${team.id}/edit`">Edit</router-link>
+  <ul>
+    <li><router-link :to="`/teams/${team.id}/edit`">Edit</router-link></li>
+    <li><router-link :to="`/teams/${team.id}/players`">Players</router-link></li>
+  </ul>
 </template>
