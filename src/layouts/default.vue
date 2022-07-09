@@ -22,6 +22,7 @@
 
 <template>
   <app-bar v-if="token" />
+  <team-header v-if="team" :team="team" />
   <suspense>
     <router-view />
   </suspense>

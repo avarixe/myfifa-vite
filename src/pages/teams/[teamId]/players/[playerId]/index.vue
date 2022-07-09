@@ -54,6 +54,8 @@
   const player = computed(() =>
     playerRepo.withAll().find(parseInt(props.playerId))
   )
+
+  const router = useRouter()
 </script>
 
 <template>
@@ -61,6 +63,13 @@
     <router-link :to="`/teams/${team.id}/players`">Back</router-link>
     &nbsp;
     <router-link :to="`/teams/${team.id}/players/${player.id}/edit`">Edit</router-link>
+    &nbsp;
+    <remove-button
+      :record="player"
+      store="Player"
+      :label="player.name"
+      @removed="router.push(`/teams/${team.id}/players`)"
+    />
   </div>
 
   <h1>{{ player.name }}</h1>
@@ -72,4 +81,8 @@
   <div><b>Kit No:</b> {{ player.kitNo }}</div>
   <div><b>OVR:</b> {{ player.ovr }}</div>
   <div><b>Value:</b> {{ team.currency }}{{ player.value }}</div>
+
+  <h3>Contracts</h3>
+
+  <contract-grid :player="player" />
 </template>

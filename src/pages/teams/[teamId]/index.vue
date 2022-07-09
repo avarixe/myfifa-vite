@@ -22,7 +22,7 @@
     <router-link :to="`/teams/${team.id}/players`">Players</router-link>
   </div>
 
-  <h1>{{ team.name }}</h1>
+  <h1>Team Dashboard</h1>
 
   <div><b>Start Date:</b> {{ formatDate(team.startedOn) }}</div>
   <div><b>Current Date:</b> {{ formatDate(team.currentlyOn) }}</div>
