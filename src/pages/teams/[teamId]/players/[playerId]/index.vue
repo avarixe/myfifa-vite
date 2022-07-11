@@ -82,16 +82,15 @@
   <div><b>OVR:</b> {{ player.ovr }}</div>
   <div><b>Value:</b> {{ team.currency }}{{ player.value }}</div>
 
-  <h3>Contracts</h3>
+  <h3><u>Contracts</u></h3>
   <contract-grid :player="player" />
 
-  <h3>Transfers</h3>
+  <h3><u>Transfers</u></h3>
   <transfer-grid :player="player" />
 
-  <h3>Loans</h3>
-  <p>Coming Soon!</p>
-  <!-- <loan-grid :player="player" /> -->
+  <h3><u>Loans</u></h3>
+  <loan-grid :player="player" />
 
-  <h3>Injuries</h3>
+  <h3><u>Injuries</u></h3>
   <injury-grid :player="player" />
 </template>

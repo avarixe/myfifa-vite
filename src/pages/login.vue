@@ -39,7 +39,7 @@
 <template>
   <div>
     <div>MyFIFA Manager</div>
-    <small>v2.0.0</small>
+    <small>v3.0.0</small>
   </div>
   <hr>
   <div>
