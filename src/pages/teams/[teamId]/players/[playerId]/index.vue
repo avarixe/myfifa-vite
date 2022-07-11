@@ -86,8 +86,7 @@
   <contract-grid :player="player" />
 
   <h3>Transfers</h3>
-  <p>Coming Soon!</p>
-  <!-- <transfer-grid :player="player" /> -->
+  <transfer-grid :player="player" />
 
   <h3>Loans</h3>
   <p>Coming Soon!</p>
