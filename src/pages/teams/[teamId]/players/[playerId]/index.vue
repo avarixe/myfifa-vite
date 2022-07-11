@@ -83,6 +83,16 @@
   <div><b>Value:</b> {{ team.currency }}{{ player.value }}</div>
 
   <h3>Contracts</h3>
-
   <contract-grid :player="player" />
+
+  <h3>Transfers</h3>
+  <p>Coming Soon!</p>
+  <!-- <transfer-grid :player="player" /> -->
+
+  <h3>Loans</h3>
+  <p>Coming Soon!</p>
+  <!-- <loan-grid :player="player" /> -->
+
+  <h3>Injuries</h3>
+  <injury-grid :player="player" />
 </template>
