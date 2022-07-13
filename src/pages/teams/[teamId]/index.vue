@@ -20,6 +20,8 @@
     <router-link :to="`/teams/${team.id}/edit`">Edit</router-link>
     &nbsp;
     <router-link :to="`/teams/${team.id}/players`">Players</router-link>
+    &nbsp;
+    <router-link :to="`/teams/${team.id}/matches`">Matches</router-link>
   </div>
 
   <h1>Team Dashboard</h1>

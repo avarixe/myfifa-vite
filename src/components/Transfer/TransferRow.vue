@@ -66,51 +66,45 @@
   <tr>
     <td>
       <input
-        v-if="inEditMode"
         v-model="attributes.signedOn"
         type="date"
+        :disabled="!inEditMode"
       />
-      <template v-else>{{ record.signedOn }}</template>
     </td>
     <td>
       <input
-        v-if="inEditMode"
         v-model="attributes.movedOn"
         type="date"
+        :disabled="!inEditMode"
       />
-      <template v-else>{{ record.movedOn }}</template>
     </td>
     <td>
       <input
-        v-if="inEditMode"
         v-model="attributes.origin"
+        :disabled="!inEditMode"
       />
-      <template v-else>{{ record.origin }}</template>
     </td>
     <td>
       <input
-        v-if="inEditMode"
         v-model="attributes.destination"
+        :disabled="!inEditMode"
       />
-      <template v-else>{{ record.destination }}</template>
     </td>
     <td>
       <input
-        v-if="inEditMode"
         v-model="attributes.fee"
         type="number"
+        :disabled="!inEditMode"
       />
-      <template v-else>{{ record.fee }}</template>
     </td>
     <td>
       <input
-        v-if="inEditMode"
         v-model="attributes.addonClause"
         type="number"
         min="0"
         max="25"
+        :disabled="!inEditMode"
       />
-      <template v-else>{{ record.addonClause }}</template>
     </td>
     <td>
       <template v-if="inEditMode">

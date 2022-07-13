@@ -77,86 +77,73 @@
   <tr>
     <td>
       <input
-        v-if="inEditMode"
         v-model="attributes.signedOn"
         type="date"
+        :disabled="!inEditMode"
       />
-      <template v-else>{{ record.signedOn }}</template>
     </td>
     <td>
       <input
-        v-if="inEditMode"
         v-model="attributes.startedOn"
         type="date"
+        :disabled="!inEditMode"
       />
-      <template v-else>{{ record.startedOn }}</template>
     </td>
     <td>
       <input
-        v-if="inEditMode"
         v-model="attributes.endedOn"
         type="date"
+        :disabled="!inEditMode"
       />
-      <template v-else>{{ record.endedOn }}</template>
     </td>
-    <!-- <td>
-        v-if="inEditMode"
-      <input v-model="attributes.numSeasons" />
-    </td> -->
     <td>
       <input
-        v-if="inEditMode"
         v-model="attributes.wage"
         type="number"
+        :disabled="!inEditMode"
       />
-      <template v-else>{{ record.wage }}</template>
     </td>
     <td>
       <input
-        v-if="inEditMode"
         v-model="attributes.signingBonus"
         type="number"
+        :disabled="!inEditMode"
       />
-      <template v-else>{{ record.signingBonus }}</template>
     </td>
     <td>
       <input
-        v-if="inEditMode"
         v-model="attributes.releaseClause"
         type="number"
+        :disabled="!inEditMode"
       />
-      <template v-else>{{ record.releaseClause }}</template>
     </td>
     <td>
       <input
-        v-if="inEditMode"
         v-model="attributes.performanceBonus"
         type="number"
+        :disabled="!inEditMode"
       />
-      <template v-else>{{ record.performanceBonus }}</template>
     </td>
     <td>
       <template v-if="attributes.performanceBonus">
         <input
-          v-if="inEditMode"
           v-model="attributes.bonusReq"
           type="number"
+          :disabled="!inEditMode"
         />
-        <template v-else>{{ record.bonusReq }}</template>
       </template>
     </td>
     <td>
       <template v-if="attributes.performanceBonus">
         <select
-          v-if="inEditMode"
           v-model="attributes.bonusReqType"
+          :disabled="!inEditMode"
         >
           <option
             v-for="(bonusReqType, i) in bonusRequirementTypes"
             :key="i"
           >{{ bonusReqType }}</option>
         </select>
-        <template v-else>{{ record.bonusReqType }}</template>
       </template>
     </td>
     <td>
