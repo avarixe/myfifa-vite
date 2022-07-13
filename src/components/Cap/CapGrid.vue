@@ -5,13 +5,13 @@
 
   const newCaps = ref([])
   let i = 0
-  function startNewInjury () {
+  function startNewCap () {
     newCaps.value.push(++i)
   }
 </script>
 
 <template>
-  <a href="#" @click="startNewInjury">New</a>
+  <button @click="startNewCap">New</button>
 
   <table>
     <thead>

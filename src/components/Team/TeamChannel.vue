@@ -123,8 +123,8 @@
 <template>
   <hr>
   {{ connectionMessage }}
-  <a
+  <button
     v-if="connectionState === 'Disconnected'"
     @click="connectToWebSocket"
-  >Reconnect</a>
+  >Reconnect</button>
 </template>

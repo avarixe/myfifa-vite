@@ -864,7 +864,7 @@ normalize-path@^3.0.0, normalize-path@~3.0.0:
   resolved "https://registry.yarnpkg.com/normalize-path/-/normalize-path-3.0.0.tgz#0dcd69ff23a1c9b11fd0978316644a0388216a65"
   integrity sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==
 
-normalizr@^3.6.1:
+normalizr@^3.6.2:
   version "3.6.2"
   resolved "https://registry.yarnpkg.com/normalizr/-/normalizr-3.6.2.tgz#ac1571207dc3008adb46e3f62311c17f11dcf083"
   integrity sha512-30qCybsBaCBciotorvuOZTCGEg2AXrJfADMT2Kk/lvpIAcipHdK0zc33nNtwKzyfQAqIJXAcqET6YgflYUgsoQ==
@@ -922,19 +922,18 @@ picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.2.2, picomatch@^2.3.1:
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.3.1.tgz#3ba3833733646d9d3e4995946c1365a67fb07a42"
   integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
 
-pinia-orm@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/pinia-orm/-/pinia-orm-0.10.0.tgz#8ee62b37151769bda22fc760230cbc0861e7bab8"
-  integrity sha512-cVYPElEO4Hogi3Bawm7MW1ZAXKeUDyNybn/QiJpMdsErId2pYH3ZjmpKUKeljkxZWWcP7HkHCzNWoaSFU2mJww==
+pinia-orm@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/pinia-orm/-/pinia-orm-0.13.0.tgz#4b454b4f118bb6c17df6e75023cb7e30c4cf73da"
+  integrity sha512-xbHL/RgEZf7Wunw4eXAHFL82wt7iiF+LfJmULDb3t5nfe8YrNKUQWkKhilhfmqZSFmBUsBngPR9Zaz8XclOeKw==
   dependencies:
-    normalizr "^3.6.1"
-    pinia "^2.0.14"
+    normalizr "^3.6.2"
     uuid "^8.3.2"
 
-pinia@^2.0.14:
-  version "2.0.14"
-  resolved "https://registry.yarnpkg.com/pinia/-/pinia-2.0.14.tgz#0837898c20291ebac982bbfca95c8d3c6099925f"
-  integrity sha512-0nPuZR4TetT/WcLN+feMSjWJku3SQU7dBbXC6uw+R6FLQJCsg+/0pzXyD82T1FmAYe0lsx+jnEDQ1BLgkRKlxA==
+pinia@^2.0.16:
+  version "2.0.16"
+  resolved "https://registry.yarnpkg.com/pinia/-/pinia-2.0.16.tgz#0105db595f5f792e17c04692e36807d8ea62f5cc"
+  integrity sha512-9/LMVO+/epny1NBfC77vnps4g3JRezxhhoF1xLUk8mZkUIxVnwfEAIRiAX8mYBTD/KCwZqnDMqXc8w3eU0FQGg==
   dependencies:
     "@vue/devtools-api" "^6.1.4"
     vue-demi "*"

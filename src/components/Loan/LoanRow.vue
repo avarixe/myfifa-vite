@@ -127,11 +127,12 @@
     <td>
       <template v-if="inEditMode">
         <button @click="onSubmit">{{ props.record ? 'Update' : 'Create' }}</button>
-        <button v-if="!!props.record" href="#" @click="inEditMode = false">Cancel</button>
-        <button v-else href="#" @click="$emit('click:remove')">Remove</button>
+        &nbsp;
+        <button v-if="!!props.record" @click="inEditMode = false">Cancel</button>
+        <button v-else @click="$emit('click:remove')">Remove</button>
       </template>
       <template v-else>
-        <a href="#" @click="inEditMode = true">Edit</a>
+        <button @click="inEditMode = true">Edit</button>
         &nbsp;
         <remove-button
           v-if="!!props.record"

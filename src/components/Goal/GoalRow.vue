@@ -1,59 +1,61 @@
 <script setup>
   import { useTeam } from '~/composables'
-  import { transferFragment } from '~/fragments'
+  import { goalFragment } from '~/fragments'
 
   const { team } = useTeam()
 
   const props = defineProps({
-    playerId: { type: Number, default: null },
+    match: { type: Object, required: true },
     record: { type: Object, default: null }
   })
 
   const inEditMode = ref(!props.record)
 
   const attributes = reactive({
-    signedOn: props.record?.signedOn,
-    movedOn: props.record?.movedOn,
-    origin: props.record?.origin,
-    destination: props.record?.destination,
-    fee: props.record?.fee,
-    addonClause: props.record?.addonClause
+    minute: props.record?.minute,
+    home: props.record?.home || false,
+    playerId: props.record?.playerId,
+    playerName: props.record?.playerName,
+    assistedBy: props.record?.assistedBy,
+    assistId: props.record?.assistId,
+    ownGoal: props.record?.ownGoal || false,
+    penalty: props.record?.penalty || false
   })
 
-  const { executeMutation: createTransfer } = useMutation(gql`
-    mutation createTransfer($playerId: ID!, $attributes: TransferAttributes!) {
-      addTransfer(playerId: $playerId, attributes: $attributes) {
-        transfer { ...TransferData }
+  const { executeMutation: createGoal } = useMutation(gql`
+    mutation createGoal($matchId: ID!, $attributes: GoalAttributes!) {
+      addGoal(matchId: $matchId, attributes: $attributes) {
+        goal { ...GoalData }
         errors { fullMessages }
       }
     }
-    ${transferFragment}
+    ${goalFragment}
   `)
 
-  const { executeMutation: updateTransfer } = useMutation(gql`
-    mutation ($id: ID!, $attributes: TransferAttributes!) {
-      updateTransfer(id: $id, attributes: $attributes) {
-        transfer { ...TransferData }
+  const { executeMutation: updateGoal } = useMutation(gql`
+    mutation ($id: ID!, $attributes: GoalAttributes!) {
+      updateGoal(id: $id, attributes: $attributes) {
+        goal { ...GoalData }
         errors { fullMessages }
       }
     }
-    ${transferFragment}
+    ${goalFragment}
   `)
 
   const emit = defineEmits()
   async function onSubmit () {
     if (props.record) {
-      const { data: { updateTransfer: { errors, transfer} } } =
-        await updateTransfer({ id: props.record.id, attributes })
-      if (transfer) {
+      const { data: { updateGoal: { errors, goal} } } =
+        await updateGoal({ id: props.record.id, attributes })
+      if (goal) {
         inEditMode.value = false
       } else {
         alert(errors.fullMessages[0])
       }
     } else {
-      const { data: { addTransfer: { errors, transfer } } } =
-        await createTransfer({ playerId: props.playerId, attributes })
-      if (transfer) {
+      const { data: { addGoal: { errors, goal } } } =
+        await createGoal({ matchId: props.match.id, attributes })
+      if (goal) {
         emit('created')
       } else {
         alert(errors.fullMessages[0])
@@ -66,43 +68,43 @@
   <tr>
     <td>
       <input
-        v-model="attributes.signedOn"
-        type="date"
-        :disabled="!inEditMode"
-      />
-    </td>
-    <td>
-      <input
-        v-model="attributes.movedOn"
-        type="date"
-        :disabled="!inEditMode"
-      />
-    </td>
-    <td>
-      <input
-        v-model="attributes.origin"
-        :disabled="!inEditMode"
-      />
-    </td>
-    <td>
-      <input
-        v-model="attributes.destination"
-        :disabled="!inEditMode"
-      />
-    </td>
-    <td>
-      <input
-        v-model="attributes.fee"
+        v-model="attributes.minute"
         type="number"
+        min="1"
+        :max="match.extraTime ? 120 : 90"
         :disabled="!inEditMode"
       />
     </td>
     <td>
       <input
-        v-model="attributes.addonClause"
-        type="number"
-        min="0"
-        max="25"
+        v-model="attributes.home"
+        type="checkbox"
+        :disabled="!inEditMode"
+      />
+    </td>
+    <td>
+      <input
+        v-model="attributes.playerName"
+        :disabled="!inEditMode"
+      />
+    </td>
+    <td>
+      <input
+        v-model="attributes.assistedBy"
+        :disabled="!inEditMode"
+      />
+    </td>
+    <td>
+      <input
+        v-model="attributes.penalty"
+        type="checkbox"
+        :disabled="!inEditMode"
+      />
+    </td>
+    <td>
+      <input
+        v-model="attributes.ownGoal"
+        type="checkbox"
         :disabled="!inEditMode"
       />
     </td>
@@ -119,8 +121,8 @@
         <remove-button
           v-if="!!props.record"
           :record="props.record"
-          store="Transfer"
-          label="Transfer"
+          store="Goal"
+          label="Goal"
         />
       </template>
     </td>

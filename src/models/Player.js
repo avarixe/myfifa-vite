@@ -42,7 +42,7 @@ export default class Player extends Model {
       contracts: this.hasMany(Contract, 'playerId'),
       transfers: this.hasMany(Transfer, 'playerId'),
       caps: this.hasMany(Cap, 'playerId'),
-      // matches: this.belongsToMany(Match, Cap, 'playerId', 'matchId'),
+      matches: this.belongsToMany(Match, Cap, 'playerId', 'matchId'),
       goals: this.hasMany(Goal, 'playerId'),
       assists: this.hasMany(Goal, 'assistId'),
       bookings: this.hasMany(Booking, 'playerId')

@@ -36,7 +36,7 @@
 </script>
 
 <template>
-  <a href="#" @click="onClick">
+  <button @click="onClick">
     <slot>Remove</slot>
-  </a>
+  </button>
 </template>

@@ -11,7 +11,7 @@
 </script>
 
 <template>
-  <a href="#" @click="startNewContract">New</a>
+  <button @click="startNewContract">New</button>
 
   <table>
     <thead>

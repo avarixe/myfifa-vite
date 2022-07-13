@@ -11,7 +11,7 @@
 </script>
 
 <template>
-  <a href="#" @click="startNewLoan">New</a>
+  <button @click="startNewLoan">New</button>
 
   <table>
     <thead>

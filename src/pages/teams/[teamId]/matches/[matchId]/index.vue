@@ -87,14 +87,11 @@
   <cap-grid :match="match" />
 
   <h3><u>Goals</u></h3>
-  <p>Coming Soon!</p>
-  <!-- <transfer-grid :player="player" /> -->
+  <goal-grid :match="match" />
 
   <h3><u>Bookings</u></h3>
-  <p>Coming Soon!</p>
-  <!-- <loan-grid :player="player" /> -->
+  <booking-grid :match="match" />
 
   <h3><u>Substitutions</u></h3>
-  <p>Coming Soon!</p>
-  <!-- <injury-grid :player="player" /> -->
+  <substitution-grid :match="match" />
 </template>

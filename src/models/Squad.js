@@ -16,7 +16,7 @@ export default class Squad extends Model {
 
       // Associations
       squadPlayers: this.hasMany(SquadPlayer, 'squadId'),
-      // players: this.belongsToMany(Player, SquadPlayer, 'squadId', 'playerId')
+      players: this.belongsToMany(Player, SquadPlayer, 'squadId', 'playerId')
     }
   }
 }

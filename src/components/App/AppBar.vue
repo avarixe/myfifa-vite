@@ -34,7 +34,7 @@
     &nbsp;
     <router-link to="/account">Account</router-link>
     &nbsp;
-    <a href="#" @click="logout">Log Out</a>
+    <button @click="logout">Log Out</button>
   </div>
   <hr>
 </template>

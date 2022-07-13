@@ -5,7 +5,7 @@ import Goal from './Goal'
 import Substitution from './Substitution'
 import Booking from './Booking'
 import Cap from './Cap'
-// import Player from './Player'
+import Player from './Player'
 
 export default class Match extends Model {
   static entity = 'Match'
@@ -37,8 +37,8 @@ export default class Match extends Model {
       goals: this.hasMany(Goal, 'matchId'),
       substitutions: this.hasMany(Substitution, 'matchId'),
       bookings: this.hasMany(Booking, 'matchId'),
-      caps: this.hasMany(Cap, 'matchId')
-      // players: this.belongsToMany(Player, Cap, 'matchId', 'playerId')
+      caps: this.hasMany(Cap, 'matchId'),
+      players: this.belongsToMany(Player, Cap, 'matchId', 'playerId')
     }
   }
 

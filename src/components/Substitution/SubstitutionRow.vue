@@ -1,57 +1,59 @@
 <script setup>
   import { useTeam } from '~/composables'
-  import { capFragment } from '~/fragments'
+  import { bookingFragment } from '~/fragments'
   import { Player } from '~/models'
 
   const { team } = useTeam()
 
   const props = defineProps({
-    matchId: { type: Number, default: null },
+    match: { type: Object, required: true },
     record: { type: Object, default: null }
   })
 
   const inEditMode = ref(!props.record)
 
   const attributes = reactive({
-    pos: props.record?.pos,
+    minute: props.record?.minute,
+    home: props.record?.home || false,
     playerId: props.record?.playerId,
-    rating: props.record?.rating
+    replacementId: props.record?.replacementId,
+    injury: props.record?.injury || false
   })
 
-  const { executeMutation: createCap } = useMutation(gql`
-    mutation createCap($matchId: ID!, $attributes: CapAttributes!) {
-      addCap(matchId: $matchId, attributes: $attributes) {
-        cap { ...CapData }
+  const { executeMutation: createBooking } = useMutation(gql`
+    mutation createBooking($matchId: ID!, $attributes: BookingAttributes!) {
+      addBooking(matchId: $matchId, attributes: $attributes) {
+        booking { ...BookingData }
         errors { fullMessages }
       }
     }
-    ${capFragment}
+    ${bookingFragment}
   `)
 
-  const { executeMutation: updateCap } = useMutation(gql`
-    mutation ($id: ID!, $attributes: CapAttributes!) {
-      updateCap(id: $id, attributes: $attributes) {
-        cap { ...CapData }
+  const { executeMutation: updateBooking } = useMutation(gql`
+    mutation ($id: ID!, $attributes: BookingAttributes!) {
+      updateBooking(id: $id, attributes: $attributes) {
+        booking { ...BookingData }
         errors { fullMessages }
       }
     }
-    ${capFragment}
+    ${bookingFragment}
   `)
 
   const emit = defineEmits()
   async function onSubmit () {
     if (props.record) {
-      const { data: { updateCap: { errors, cap} } } =
-        await updateCap({ id: props.record.id, attributes })
-      if (cap) {
+      const { data: { updateBooking: { errors, booking} } } =
+        await updateBooking({ id: props.record.id, attributes })
+      if (booking) {
         inEditMode.value = false
       } else {
         alert(errors.fullMessages[0])
       }
     } else {
-      const { data: { addCap: { errors, cap } } } =
-        await createCap({ matchId: props.matchId, attributes })
-      if (cap) {
+      const { data: { addBooking: { errors, booking } } } =
+        await createBooking({ matchId: props.match.id, attributes })
+      if (booking) {
         emit('created')
       } else {
         alert(errors.fullMessages[0])
@@ -67,14 +69,31 @@
   <tr>
     <td>
       <input
-        v-model="attributes.pos"
+        v-model="attributes.minute"
+        type="number"
+        min="1"
+        :max="match.extraTime ? 120 : 90"
         :disabled="!inEditMode"
       />
     </td>
     <td>
       <select
         v-model="attributes.playerId"
-        :disabled="!inEditMode || record?.start > 0"
+        :disabled="!inEditMode"
+      >
+        <option
+          v-for="player in players"
+          :key="player.id"
+          :value="player.id"
+        >
+          {{ player.pos }} - {{ player.name }}
+        </option>
+      </select>
+    </td>
+    <td>
+      <select
+        v-model="attributes.replacementId"
+        :disabled="!inEditMode"
       >
         <option
           v-for="player in players"
@@ -87,10 +106,8 @@
     </td>
     <td>
       <input
-        v-model="attributes.rating"
-        type="number"
-        min="1"
-        max="5"
+        v-model="attributes.injury"
+        type="checkbox"
         :disabled="!inEditMode"
       />
     </td>
@@ -105,10 +122,10 @@
         <button @click="inEditMode = true">Edit</button>
         &nbsp;
         <remove-button
-          v-if="!!props.record && props.record.start === 0"
+          v-if="!!props.record"
           :record="props.record"
-          store="Cap"
-          label="Cap"
+          store="Booking"
+          label="Booking"
         />
       </template>
     </td>

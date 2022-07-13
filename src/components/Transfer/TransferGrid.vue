@@ -11,7 +11,7 @@
 </script>
 
 <template>
-  <a href="#" @click="startNewTransfer">New</a>
+  <button @click="startNewTransfer">New</button>
 
   <table>
     <thead>

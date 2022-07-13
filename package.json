@@ -16,8 +16,8 @@
     "lodash.groupby": "^4.6.0",
     "lodash.keyby": "^4.6.0",
     "lodash.mapkeys": "^4.6.0",
-    "pinia": "^2.0.14",
-    "pinia-orm": "^0.10.0",
+    "pinia": "^2.0.16",
+    "pinia-orm": "^0.13.0",
     "vue": "^3.2.37",
     "vue-router": "^4.1.1"
   },
