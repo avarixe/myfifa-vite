@@ -2,6 +2,7 @@
   import { useTeam } from '~/composables'
   import { capFragment } from '~/fragments'
   import { Player } from '~/models'
+  import { matchPositions } from '~/constants'
 
   const { team } = useTeam()
 
@@ -66,10 +67,15 @@
 <template>
   <tr>
     <td>
-      <input
+      <select
         v-model="attributes.pos"
         :disabled="!inEditMode"
-      />
+      >
+        <option
+          v-for="pos in Object.keys(matchPositions)"
+          :key="pos"
+        >{{ pos }}</option>
+      </select>
     </td>
     <td>
       <select
