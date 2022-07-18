@@ -13,7 +13,7 @@
 </script>
 
 <template>
-  <router-link :to="`/teams/${teamId}`">Back</router-link>
+  <router-link :to="`/teams/${teamId}/matches`">Back</router-link>
 
   <h1>New Match</h1>
 
