@@ -55,27 +55,26 @@
 </script>
 
 <template>
-  <div>
-    <label>Name:</label>
-    <input v-model="attributes.name" />
-  </div>
-  <div>
-    <label>Start Date:</label>
-    <input
-      v-model="attributes.startedOn"
-      type="date"
-    />
-  </div>
-  <div>
-    <label>Current Date:</label>
-    <input
-      v-model="attributes.currentlyOn"
-      type="date"
-    />
-  </div>
-  <div>
-    <label>Currency:</label>
-    <input v-model="attributes.currency" />
-  </div>
-  <button @click="onSubmit">{{ props.record ? 'Update' : 'Create' }}</button>
+  <v-text-field
+    v-model="attributes.name"
+    label="Name"
+  />
+  <v-text-field
+    v-model="attributes.startedOn"
+    label="Start Date"
+    type="date"
+  />
+  <v-text-field
+    v-model="attributes.currentlyOn"
+    label="Current Date"
+    type="date"
+  />
+  <v-text-field
+    v-model="attributes.currency"
+    label="Currency"
+  />
+  <v-btn
+    @click="onSubmit"
+    v-text="props.record ? 'Update' : 'Create'"
+  />
 </template>

@@ -13,8 +13,6 @@
 </script>
 
 <template>
-  <router-link :to="`/teams/${teamId}/players`">Back</router-link>
-
   <h1>New Player</h1>
 
   <player-form :team-id="teamId" />

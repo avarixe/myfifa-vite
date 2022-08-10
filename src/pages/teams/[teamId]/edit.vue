@@ -13,8 +13,6 @@
 </script>
 
 <template>
-  <router-link :to="`/teams/${team.id}`">Back</router-link>
-
   <h1>Edit Team</h1>
 
   <team-form :record="team" />

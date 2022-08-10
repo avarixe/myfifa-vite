@@ -23,30 +23,34 @@
 </script>
 
 <template>
-  <h4>Change Password</h4>
-
-  <div>
-    <label for="currentPassword">Current Password</label>
-    <input
-      v-model="attributes.currentPassword"
-      type="password"
-    />
-  </div>
-  <div>
-    <label for="newPassword">New Password</label>
-    <input
-      v-model="attributes.password"
-      type="password"
-      autocomplete="new-password"
-    />
-  </div>
-  <div>
-    <label for="confirmPassword">Confirm New Password</label>
-    <input
-      v-model="attributes.passwordConfirmation"
-      type="password"
-      autocomplete="new-password"
-    />
-  </div>
-  <button @click="onSubmit">Update</button>
+  <v-card>
+    <v-card-title>Change Password</v-card-title>
+    <v-card-text>
+      <v-text-field
+        v-model="attributes.currentPassword"
+        label="Current Password"
+        type="password"
+      />
+      <v-text-field
+        v-model="attributes.password"
+        label="New Password"
+        type="password"
+        autocomplete="new-password"
+      />
+      <v-text-field
+        v-model="attributes.passwordConfirmation"
+        label="Confirm New Password"
+        type="password"
+        autocomplete="new-password"
+      />
+    </v-card-text>
+    <v-card-actions>
+      <v-btn
+        color="primary"
+        @click="onSubmit"
+      >
+        Update
+      </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>

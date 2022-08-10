@@ -1,8 +1,11 @@
 <script setup>
   import { useAuthStore } from '~/store/auth'
+  import { useNavStore } from '~/store/nav'
   import { userFragment } from '~/fragments'
   import { isRequired } from '~/rules'
   import logo from '~/assets/logo.png'
+
+  useNavStore().$reset()
 
   const username = ref('')
   const password = ref('')
@@ -37,21 +40,30 @@
 </script>
 
 <template>
-  <div>
-    <div>MyFIFA Manager</div>
-    <small>v3.0.0</small>
-  </div>
-  <hr>
-  <div>
-    <label for="username">Username</label>
-    <input v-model="username" />
-  </div>
-  <div>
-    <label for="password">Password</label>
-    <input
-      v-model="password"
-      type="password"
-    />
-  </div>
-  <button @click="onSubmit">Log In</button>
+  <v-card>
+    <v-card-title>
+      <div>MyFIFA Manager</div>
+      <small>v3.0.0</small>
+    </v-card-title>
+    <v-card-text>
+      <v-text-field
+        v-model="username"
+        label="Username"
+      />
+      <v-text-field
+        v-model="password"
+        label="Password"
+        type="password"
+      />
+    </v-card-text>
+    <v-card-actions>
+      <v-btn
+        color="primary"
+        text
+        @click="onSubmit"
+      >
+        Log In
+      </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>

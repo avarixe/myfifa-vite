@@ -63,44 +63,54 @@
 
 <template>
   <tr>
-    <td>
-      <input
+    <td :style="{ minWidth: '8em' }">
+      <v-text-field
         v-model="attributes.minute"
         type="number"
         min="1"
         :max="match.extraTime ? 120 : 90"
+        density="comfortable"
+        single-line
+        hide-details
         :disabled="!inEditMode"
       />
     </td>
     <td>
-      <input
+      <v-checkbox
         v-model="attributes.home"
-        type="checkbox"
+        density="comfortable"
+        single-line
+        hide-details
         :disabled="!inEditMode"
       />
     </td>
-    <td>
-      <input
+    <td :style="{ minWidth: '15em' }">
+      <v-text-field
         v-model="attributes.playerName"
+        density="comfortable"
+        single-line
+        hide-details
         :disabled="!inEditMode"
       />
     </td>
     <td>
-      <input
+      <v-checkbox
         v-model="attributes.redCard"
-        type="checkbox"
+        density="comfortable"
+        single-line
+        hide-details
         :disabled="!inEditMode"
       />
     </td>
     <td>
       <template v-if="inEditMode">
-        <button @click="onSubmit">{{ props.record ? 'Update' : 'Create' }}</button>
+        <v-btn @click="onSubmit">{{ props.record ? 'Update' : 'Create' }}</v-btn>
         &nbsp;
-        <button v-if="!!props.record" @click="inEditMode = false">Cancel</button>
-        <button v-else @click="$emit('click:remove')">Remove</button>
+        <v-btn v-if="!!props.record" @click="inEditMode = false">Cancel</v-btn>
+        <v-btn v-else @click="$emit('click:remove')">Remove</v-btn>
       </template>
       <template v-else>
-        <button @click="inEditMode = true">Edit</button>
+        <v-btn @click="inEditMode = true">Edit</v-btn>
         &nbsp;
         <remove-button
           v-if="!!props.record"

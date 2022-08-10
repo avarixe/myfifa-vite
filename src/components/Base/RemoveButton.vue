@@ -36,7 +36,7 @@
 </script>
 
 <template>
-  <button @click="onClick">
+  <v-btn @click="onClick">
     <slot>Remove</slot>
-  </button>
+  </v-btn>
 </template>

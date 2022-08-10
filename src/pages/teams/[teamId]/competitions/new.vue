@@ -13,8 +13,6 @@
 </script>
 
 <template>
-  <router-link :to="`/teams/${teamId}/competitions`">Back</router-link>
-
   <h1>New Competition</h1>
 
   <competition-form :team-id="teamId" />

@@ -59,10 +59,10 @@
 </script>
 
 <template>
+  <h1>{{ player.name }}</h1>
+
   <div>
-    <router-link :to="`/teams/${team.id}/players`">Back</router-link>
-    &nbsp;
-    <router-link :to="`/teams/${team.id}/players/${player.id}/edit`">Edit</router-link>
+    <v-btn :to="`/teams/${team.id}/players/${player.id}/edit`">Edit</v-btn>
     &nbsp;
     <remove-button
       :record="player"
@@ -72,25 +72,33 @@
     />
   </div>
 
-  <h1>{{ player.name }}</h1>
+  <div class="mt-2">
+    <div><b>Status:</b> {{ player.status }}</div>
+    <div><b>Age:</b> {{ player.age }}</div>
+    <div><b>Position:</b> {{ player.pos }}</div>
+    <div><b>Secondary Position(s):</b> {{ player.secPos.join(', ') }}</div>
+    <div><b>Kit No:</b> {{ player.kitNo }}</div>
+    <div><b>OVR:</b> {{ player.ovr }}</div>
+    <div><b>Value:</b> {{ team.currency }}{{ player.value }}</div>
+  </div>
 
-  <div><b>Status:</b> {{ player.status }}</div>
-  <div><b>Age:</b> {{ player.age }}</div>
-  <div><b>Position:</b> {{ player.pos }}</div>
-  <div><b>Secondary Position(s):</b> {{ player.secPos.join(', ') }}</div>
-  <div><b>Kit No:</b> {{ player.kitNo }}</div>
-  <div><b>OVR:</b> {{ player.ovr }}</div>
-  <div><b>Value:</b> {{ team.currency }}{{ player.value }}</div>
+  <contract-grid
+    :player="player"
+    class="mt-4"
+  />
 
-  <h3><u>Contracts</u></h3>
-  <contract-grid :player="player" />
+  <transfer-grid
+    :player="player"
+    class="mt-4"
+  />
 
-  <h3><u>Transfers</u></h3>
-  <transfer-grid :player="player" />
+  <loan-grid
+    :player="player"
+    class="mt-4"
+  />
 
-  <h3><u>Loans</u></h3>
-  <loan-grid :player="player" />
-
-  <h3><u>Injuries</u></h3>
-  <injury-grid :player="player" />
+  <injury-grid
+    :player="player"
+    class="mt-4"
+  />
 </template>

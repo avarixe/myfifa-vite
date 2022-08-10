@@ -14,23 +14,23 @@
 </script>
 
 <template>
+  <h1>{{ team.name }}</h1>
+
   <div>
-    <router-link to="/teams">Back</router-link>
+    <v-btn :to="`/teams/${team.id}/edit`">Edit</v-btn>
     &nbsp;
-    <router-link :to="`/teams/${team.id}/edit`">Edit</router-link>
+    <v-btn :to="`/teams/${team.id}/players`">Players</v-btn>
     &nbsp;
-    <router-link :to="`/teams/${team.id}/players`">Players</router-link>
+    <v-btn :to="`/teams/${team.id}/matches`">Matches</v-btn>
     &nbsp;
-    <router-link :to="`/teams/${team.id}/matches`">Matches</router-link>
+    <v-btn :to="`/teams/${team.id}/squads`">Squads</v-btn>
     &nbsp;
-    <router-link :to="`/teams/${team.id}/squads`">Squads</router-link>
-    &nbsp;
-    <router-link :to="`/teams/${team.id}/competitions`">Competitions</router-link>
+    <v-btn :to="`/teams/${team.id}/competitions`">Competitions</v-btn>
   </div>
 
-  <h1>Team Dashboard</h1>
-
-  <div><b>Start Date:</b> {{ formatDate(team.startedOn) }}</div>
-  <div><b>Current Date:</b> {{ formatDate(team.currentlyOn) }}</div>
-  <div><b>Currency:</b> {{ team.currency }}</div>
+  <div class="mt-2">
+    <div><b>Start Date:</b> {{ formatDate(team.startedOn) }}</div>
+    <div><b>Current Date:</b> {{ formatDate(team.currentlyOn) }}</div>
+    <div><b>Currency:</b> {{ team.currency }}</div>
+  </div>
 </template>

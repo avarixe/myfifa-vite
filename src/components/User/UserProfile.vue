@@ -29,22 +29,30 @@
 </script>
 
 <template>
-  <h4>Profile</h4>
-
-  <div>
-    <label>Name</label>
-    <input v-model="attributes.fullName" />
-  </div>
-  <div>
-    <label>Username</label>
-    <input v-model="attributes.username" />
-  </div>
-  <div>
-    <label>Email Address</label>
-    <input
-      v-model="attributes.email"
-      type="email"
-    />
-  </div>
-  <button @click="onSubmit">Update</button>
+  <v-card>
+    <v-card-title>Profile</v-card-title>
+    <v-card-text>
+      <v-text-field
+        v-model="attributes.fullName"
+        label="Name"
+      />
+      <v-text-field
+        v-model="attributes.username"
+        label="Username"
+      />
+      <v-text-field
+        v-model="attributes.email"
+        label="Email Address"
+        type="email"
+      />
+    </v-card-text>
+    <v-card-actions>
+      <v-btn
+        color="primary"
+        @click="onSubmit"
+      >
+        Update
+      </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>

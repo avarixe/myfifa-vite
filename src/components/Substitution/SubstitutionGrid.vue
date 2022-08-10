@@ -11,30 +11,39 @@
 </script>
 
 <template>
-  <button @click="startNewSubstitution">New</button>
-
-  <table>
-    <thead>
-      <th>Minute</th>
-      <th>Player</th>
-      <th>Replaced By</th>
-      <th>Injury</th>
-      <th></th>
-    </thead>
-    <tbody>
-      <substitution-row
-        v-for="(newSubstitutionCount, i) in newSubstitutions"
-        :key="`new-${newSubstitutionCount}`"
-        :match="match"
-        @click:remove="newSubstitutions.splice(i, 1)"
-        @created="newSubstitutions.splice(i, 1)"
+  <v-card>
+    <v-card-title>
+      Substitutions
+      <v-btn
+        icon="mdi-plus"
+        @click="startNewSubstitution"
       />
-      <substitution-row
-        v-for="substitution in match.substitutions"
-        :key="substitution.id"
-        :match="match"
-        :record="substitution"
-      />
-    </tbody>
-  </table>
+    </v-card-title>
+    <v-table>
+      <thead>
+        <tr>
+          <th>Minute</th>
+          <th>Player</th>
+          <th>Replaced By</th>
+          <th>Injury</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <substitution-row
+          v-for="(newSubstitutionCount, i) in newSubstitutions"
+          :key="`new-${newSubstitutionCount}`"
+          :match="match"
+          @click:remove="newSubstitutions.splice(i, 1)"
+          @created="newSubstitutions.splice(i, 1)"
+        />
+        <substitution-row
+          v-for="substitution in match.substitutions"
+          :key="substitution.id"
+          :match="match"
+          :record="substitution"
+        />
+      </tbody>
+    </v-table>
+  </v-card>
 </template>

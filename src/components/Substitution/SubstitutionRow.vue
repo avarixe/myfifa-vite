@@ -67,59 +67,60 @@
 
 <template>
   <tr>
-    <td>
-      <input
+    <td :style="{ minWidth: '8em' }">
+      <v-text-field
         v-model="attributes.minute"
         type="number"
         min="1"
         :max="match.extraTime ? 120 : 90"
+        density="comfortable"
+        single-line
+        hide-details
+        :disabled="!inEditMode"
+      />
+    </td>
+    <td :style="{ minWidth: '15em' }">
+      <v-select
+        v-model="attributes.playerId"
+        :items="players"
+        item-value="id"
+        item-title="name"
+        density="comfortable"
+        single-line
+        hide-details
+        :disabled="!inEditMode"
+      />
+    </td>
+    <td :style="{ minWidth: '15em' }">
+      <v-select
+        v-model="attributes.replacementId"
+        :items="players"
+        item-value="id"
+        item-title="name"
+        density="comfortable"
+        single-line
+        hide-details
         :disabled="!inEditMode"
       />
     </td>
     <td>
-      <select
-        v-model="attributes.playerId"
-        :disabled="!inEditMode"
-      >
-        <option
-          v-for="player in players"
-          :key="player.id"
-          :value="player.id"
-        >
-          {{ player.pos }} - {{ player.name }}
-        </option>
-      </select>
-    </td>
-    <td>
-      <select
-        v-model="attributes.replacementId"
-        :disabled="!inEditMode"
-      >
-        <option
-          v-for="player in players"
-          :key="player.id"
-          :value="player.id"
-        >
-          {{ player.pos }} - {{ player.name }}
-        </option>
-      </select>
-    </td>
-    <td>
-      <input
+      <v-checkbox
         v-model="attributes.injury"
-        type="checkbox"
+        density="comfortable"
+        single-line
+        hide-details
         :disabled="!inEditMode"
       />
     </td>
     <td>
       <template v-if="inEditMode">
-        <button @click="onSubmit">{{ props.record ? 'Update' : 'Create' }}</button>
+        <v-btn @click="onSubmit">{{ props.record ? 'Update' : 'Create' }}</v-btn>
         &nbsp;
-        <button v-if="!!props.record" @click="inEditMode = false">Cancel</button>
-        <button v-else @click="$emit('click:remove')">Remove</button>
+        <v-btn v-if="!!props.record" @click="inEditMode = false">Cancel</v-btn>
+        <v-btn v-else @click="$emit('click:remove')">Remove</v-btn>
       </template>
       <template v-else>
-        <button @click="inEditMode = true">Edit</button>
+        <v-btn @click="inEditMode = true">Edit</v-btn>
         &nbsp;
         <remove-button
           v-if="!!props.record"

@@ -63,10 +63,10 @@
 </script>
 
 <template>
+  <h1>{{ match.home }} v {{ match.away }}</h1>
+
   <div>
-    <router-link :to="`/teams/${team.id}/matches`">Back</router-link>
-    &nbsp;
-    <router-link :to="`/teams/${team.id}/matches/${match.id}/edit`">Edit</router-link>
+    <v-btn :to="`/teams/${team.id}/matches/${match.id}/edit`">Edit</v-btn>
     &nbsp;
     <remove-button
       :record="match"
@@ -76,22 +76,30 @@
     />
   </div>
 
-  <h1>{{ match.home }} v {{ match.away }}</h1>
+  <div class="mt-2">
+    <div><b>Competition:</b> {{ match.competition }}</div>
+    <div><b>Stage:</b> {{ match.stage }}</div>
+    <div><b>Score:</b> {{ match.score }}</div>
+    <div><b>Date Played:</b> {{ formatDate(match.playedOn) }}</div>
+  </div>
 
-  <div><b>Competition:</b> {{ match.competition }}</div>
-  <div><b>Stage:</b> {{ match.stage }}</div>
-  <div><b>Score:</b> {{ match.score }}</div>
-  <div><b>Date Played:</b> {{ formatDate(match.playedOn) }}</div>
+  <cap-grid
+    :match="match"
+    class="mt-4"
+  />
 
-  <h3><u>Caps</u></h3>
-  <cap-grid :match="match" />
+  <goal-grid
+    :match="match"
+    class="mt-4"
+  />
 
-  <h3><u>Goals</u></h3>
-  <goal-grid :match="match" />
+  <booking-grid
+    :match="match"
+    class="mt-4"
+  />
 
-  <h3><u>Bookings</u></h3>
-  <booking-grid :match="match" />
-
-  <h3><u>Substitutions</u></h3>
-  <substitution-grid :match="match" />
+  <substitution-grid
+    :match="match"
+    class="mt-4"
+  />
 </template>

@@ -65,70 +65,60 @@
 </script>
 
 <template>
-  <div>
-    <label>Name:</label>
-    <input v-model="attributes.name" />
-  </div>
-  <div>
-    <label>Position:</label>
-    <select v-model="attributes.pos">
-      <option v-for="pos in positions" :key="pos">{{ pos }}</option>
-    </select>
-  </div>
-  <div>
-    <label>Nationality</label>
-    <select v-model="attributes.nationality">
-      <option v-for="nation in Object.keys(nationalities)" :key="nation">
-        {{ nation }}
-      </option>
-    </select>
-  </div>
-  <div>
-    <label>Secondary Position(s)</label>
-    <select v-model="attributes.secPos" multiple>
-      <option v-for="pos in positions" :key="pos">{{ pos }}</option>
-    </select>
-  </div>
-  <div>
-    <label>OVR Rating</label>
-    <input
-      v-model="attributes.ovr"
-      type="number"
-      min="1"
-      max="99"
-    />
-  </div>
-  <div>
-    <label>Value</label>
-    <input
-      v-model="attributes.value"
-      type="number"
-    />
-  </div>
-  <div>
-    <label>Kit Number</label>
-    <input
-      v-model="attributes.kitNo"
-      type="number"
-      min="1"
-      max="99"
-    />
-  </div>
-  <div>
-    <label>Age</label>
-    <input
-      v-model="attributes.age"
-      type="number"
-      min="16"
-      max="50"
-    />
-  </div>
-  <div>
-    <label>Youth Player</label>
-    <input
-      v-model="attributes.youth"
-      type="checkbox"
-    />
-  </div>
-  <button @click="onSubmit">{{ props.record ? 'Update' : 'Create' }}</button>
+  <v-text-field
+    v-model="attributes.name"
+    label="Name"
+  />
+  <v-autocomplete
+    v-model="attributes.pos"
+    label="Position"
+    :items="positions"
+  />
+  <v-autocomplete
+    v-model="attributes.nationality"
+    label="Nationality"
+    :items="Object.keys(nationalities)"
+  />
+  <v-autocomplete
+    v-model="attributes.secPos"
+    label="Secondary Position(s)"
+    :items="positions"
+    multiple
+    chips
+    closable-chips
+  />
+  <v-text-field
+    v-model="attributes.ovr"
+    label="OVR Rating"
+    type="number"
+    min="1"
+    max="99"
+  />
+  <v-text-field
+    v-model="attributes.value"
+    label="Value"
+    type="number"
+  />
+  <v-text-field
+    v-model="attributes.kitNo"
+    label="Kit Number"
+    type="number"
+    min="1"
+    max="99"
+  />
+  <v-text-field
+    v-model="attributes.age"
+    label="Age"
+    type="number"
+    min="16"
+    max="50"
+  />
+  <v-checkbox
+    v-model="attributes.youth"
+    label="Youth Player"
+  />
+  <v-btn
+    @click="onSubmit"
+    v-text="props.record ? 'Update' : 'Create'"
+  />
 </template>

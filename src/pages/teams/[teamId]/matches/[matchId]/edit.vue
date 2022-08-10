@@ -30,8 +30,6 @@
 </script>
 
 <template>
-  <router-link :to="`/teams/${props.teamId}/matches/${match.id}`">Back</router-link>
-
   <h1>Edit Match</h1>
 
   <match-form :record="match" />

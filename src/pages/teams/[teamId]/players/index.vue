@@ -55,26 +55,27 @@
 </script>
 
 <template>
-  <div>
-    <router-link :to="`/teams/${team.id}`">Back</router-link>
-    &nbsp;
-    <router-link :to="`/teams/${team.id}/players/new`">New</router-link>
-  </div>
-
   <h1>Players</h1>
 
-  <table>
+  <v-btn :to="`/teams/${team.id}/players/new`">
+    <v-icon left>mdi-plus</v-icon>
+    Player
+  </v-btn>
+
+  <v-table>
     <thead>
-      <th>Name</th>
-      <th>Status</th>
-      <th>Age</th>
-      <th>Pos</th>
-      <th>2nd Pos</th>
-      <th>Kit No</th>
-      <th>OVR</th>
-      <th>Value</th>
-      <th>Wage</th>
-      <th>Contract Ends</th>
+      <tr>
+        <th class="text-left">Name</th>
+        <th class="text-left">Status</th>
+        <th class="text-left">Age</th>
+        <th class="text-left">Pos</th>
+        <th class="text-left">2nd Pos</th>
+        <th class="text-left">Kit No</th>
+        <th class="text-left">OVR</th>
+        <th class="text-left">Value</th>
+        <th class="text-left">Wage</th>
+        <th class="text-left">Contract Ends</th>
+      </tr>
     </thead>
     <tbody>
       <tr
@@ -82,7 +83,13 @@
         :key="player.id"
       >
         <td>
-          <router-link :to="`/teams/${team.id}/players/${player.id}`">{{ player.name }}</router-link>
+          <v-btn
+            variant="text"
+            color="primary"
+            class="text-capitalize"
+            :to="`/teams/${team.id}/players/${player.id}`"
+            v-text="player.name"
+          />
         </td>
         <td>{{ player.status }}</td>
         <td>{{ player.age }}</td>
@@ -90,14 +97,14 @@
         <td>{{ player.secPos.join(', ') }}</td>
         <td>{{ player.kitNo }}</td>
         <td>{{ player.ovr }}</td>
-        <td>{{ team.currency }}{{ player.value }}</td>
+        <td>{{ team.currency }}{{ player.value.toLocaleString() }}</td>
         <td>
           <template v-if="player.wage">
-            {{ team.currency }}{{ player.wage }}
+            {{ team.currency }}{{ player.wage.toLocaleString() }}
           </template>
         </td>
         <td>{{ formatDate(player.endDate) }}</td>
       </tr>
     </tbody>
-  </table>
+  </v-table>
 </template>

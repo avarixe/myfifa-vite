@@ -67,48 +67,43 @@
 <template>
   <tr>
     <td>
-      <select
+      <v-select
         v-model="attributes.pos"
+        :items="Object.keys(matchPositions)"
+        density="comfortable"
+        single-line
+        hide-details
         :disabled="!inEditMode"
-      >
-        <option
-          v-for="pos in Object.keys(matchPositions)"
-          :key="pos"
-        >{{ pos }}</option>
-      </select>
+      />
     </td>
-    <td>
-      <select
+    <td :style="{ minWidth: '15em' }">
+      <v-select
         v-model="attributes.playerId"
+        :items="players"
+        item-value="id"
+        item-title="name"
+        density="comfortable"
+        single-line
+        hide-details
         :disabled="!inEditMode || record?.start > 0"
-      >
-        <option
-          v-for="player in players"
-          :key="player.id"
-          :value="player.id"
-        >
-          {{ player.pos }} - {{ player.name }}
-        </option>
-      </select>
+      />
     </td>
     <td>
-      <input
+      <v-rating
         v-model="attributes.rating"
-        type="number"
-        min="1"
-        max="5"
+        density="comfortable"
         :disabled="!inEditMode"
       />
     </td>
     <td>
       <template v-if="inEditMode">
-        <button @click="onSubmit">{{ props.record ? 'Update' : 'Create' }}</button>
+        <v-btn @click="onSubmit">{{ props.record ? 'Update' : 'Create' }}</v-btn>
         &nbsp;
-        <button v-if="!!props.record" @click="inEditMode = false">Cancel</button>
-        <button v-else @click="$emit('click:remove')">Remove</button>
+        <v-btn v-if="!!props.record" @click="inEditMode = false">Cancel</v-btn>
+        <v-btn v-else @click="$emit('click:remove')">Remove</v-btn>
       </template>
       <template v-else>
-        <button @click="inEditMode = true">Edit</button>
+        <v-btn @click="inEditMode = true">Edit</v-btn>
         &nbsp;
         <remove-button
           v-if="!!props.record && props.record.start === 0"

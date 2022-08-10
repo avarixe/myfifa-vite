@@ -61,35 +61,33 @@
 </script>
 
 <template>
-  <div>
-    <label>Date Played:</label>
-    <input
-      v-model="attributes.playedOn"
-      type="date"
-    />
-  </div>
-  <div>
-    <label>Competition:</label>
-    <input v-model="attributes.competition" />
-  </div>
-  <div>
-    <label>Stage:</label>
-    <input v-model="attributes.stage" />
-  </div>
-  <div>
-    <label>Home Team</label>
-    <input v-model="attributes.home" />
-  </div>
-  <div>
-    <label>Away Team</label>
-    <input v-model="attributes.away" />
-  </div>
-  <div>
-    <label>Extra Time Required</label>
-    <input
-      v-model="attributes.extraTime"
-      type="checkbox"
-    />
-  </div>
-  <button @click="onSubmit">{{ props.record ? 'Update' : 'Create' }}</button>
+  <v-text-field
+    v-model="attributes.playedOn"
+    label="Date Played"
+    type="date"
+  />
+  <v-text-field
+    v-model="attributes.competition"
+    label="Competition"
+  />
+  <v-text-field
+    v-model="attributes.stage"
+    label="Stage"
+  />
+  <v-text-field
+    v-model="attributes.home"
+    label="Home Team"
+  />
+  <v-text-field
+    v-model="attributes.away"
+    label="Away Team"
+  />
+  <v-checkbox
+    v-model="attributes.extraTime"
+    label="Extra Time Required"
+  />
+  <v-btn
+    @click="onSubmit"
+    v-text="props.record ? 'Update' : 'Create'"
+  />
 </template>

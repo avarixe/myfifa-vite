@@ -25,16 +25,15 @@
 </script>
 
 <template>
-  <div>
-    <div>MyFIFA Manager</div>
-    <small>v3.0.0</small>
-  </div>
-  <div>
-    <router-link to="/">Home</router-link>
-    &nbsp;
-    <router-link to="/account">Account</router-link>
-    &nbsp;
-    <button @click="logout">Log Out</button>
-  </div>
-  <hr>
+  <v-app-bar app>
+    <v-app-bar-nav-icon />
+    <v-app-bar-title>
+      MyFIFA Manager
+      <v-chip color="primary" size="x-small">v3.0.0</v-chip>
+    </v-app-bar-title>
+    <v-spacer />
+    <v-btn icon="mdi-home" to="/" />
+    <v-btn icon="mdi-account" to="/account" />
+    <v-btn icon="mdi-exit-to-app" @click="logout" />
+  </v-app-bar>
 </template>

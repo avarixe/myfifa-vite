@@ -11,31 +11,46 @@
 </script>
 
 <template>
-  <button @click="startNewTransfer">New</button>
-
-  <table>
-    <thead>
-      <th>Signed Date</th>
-      <th>Effective Date</th>
-      <th>Origin</th>
-      <th>Destination</th>
-      <th>Fee</th>
-      <th>Add-On Clause (%)</th>
-      <th></th>
-    </thead>
-    <tbody>
-      <transfer-row
-        v-for="(newTransferCount, i) in newTransfers"
-        :key="`new-${newTransferCount}`"
-        :player-id="player.id"
-        @click:remove="newTransfers.splice(i, 1)"
-        @created="newTransfers.splice(i, 1)"
+  <v-card>
+    <v-card-title>
+      Transfers
+      <v-btn
+        icon="mdi-plus"
+        @click="startNewTransfer"
       />
-      <transfer-row
-        v-for="transfer in player.transfers"
-        :key="transfer.id"
-        :record="transfer"
-      />
-    </tbody>
-  </table>
+    </v-card-title>
+    <v-table>
+      <thead>
+        <tr>
+          <th>Signed Date</th>
+          <th>Effective Date</th>
+          <th>Origin</th>
+          <th>Destination</th>
+          <th>Fee</th>
+          <th>Add-On Clause (%)</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <transfer-row
+          v-for="(newTransferCount, i) in newTransfers"
+          :key="`new-${newTransferCount}`"
+          :player-id="player.id"
+          @click:remove="newTransfers.splice(i, 1)"
+          @created="newTransfers.splice(i, 1)"
+        />
+        <transfer-row
+          v-for="transfer in player.transfers"
+          :key="transfer.id"
+          :record="transfer"
+        />
+      </tbody>
+    </v-table>
+  </v-card>
 </template>
+
+<style scoped>
+  th {
+    min-width: 15em;
+  }
+</style>

@@ -73,57 +73,60 @@
 
 <template>
   <tr>
-    <td>
-      <input
+    <td :style="{ minWidth: '15em' }">
+      <v-text-field
         v-model="attributes.name"
+        label="Name"
+        density="comfortable"
+        single-line
+        hide-details
         :disabled="!inEditMode"
       />
     </td>
     <td>
-      <table>
+      <v-table>
         <tbody>
           <tr
             v-for="squadPlayer in attributes.squadPlayersAttributes"
             :key="squadPlayer.id"
           >
             <td>
-              <select
+              <v-select
                 v-model="squadPlayer.pos"
+                label="Position"
+                :items="Object.keys(matchPositions)"
+                density="comfortable"
+                single-line
+                hide-details
                 :disabled="!inEditMode"
-              >
-                <option
-                  v-for="pos in Object.keys(matchPositions)"
-                  :key="pos"
-                >{{ pos }}</option>
-              </select>
+              />
             </td>
             <td>
-              <select
+              <v-select
                 v-model="squadPlayer.playerId"
+                label="Player"
+                :items="players"
+                item-value="id"
+                item-title="name"
+                density="comfortable"
+                single-line
+                hide-details
                 :disabled="!inEditMode"
-              >
-                <option
-                  v-for="player in players"
-                  :key="player.id"
-                  :value="player.id"
-                >
-                  {{ player.pos }} - {{ player.name }}
-                </option>
-              </select>
+              />
             </td>
           </tr>
         </tbody>
-      </table>
+      </v-table>
     </td>
     <td>
       <template v-if="inEditMode">
-        <button @click="onSubmit">{{ props.record ? 'Update' : 'Create' }}</button>
+        <v-btn @click="onSubmit">{{ props.record ? 'Update' : 'Create' }}</v-btn>
         &nbsp;
-        <button v-if="!!props.record" @click="inEditMode = false">Cancel</button>
-        <button v-else @click="$emit('click:remove')">Remove</button>
+        <v-btn v-if="!!props.record" @click="inEditMode = false">Cancel</v-btn>
+        <v-btn v-else @click="$emit('click:remove')">Remove</v-btn>
       </template>
       <template v-else>
-        <button @click="inEditMode = true">Edit</button>
+        <v-btn @click="inEditMode = true">Edit</v-btn>
         &nbsp;
         <remove-button
           v-if="!!props.record"

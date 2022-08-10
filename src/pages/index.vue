@@ -1,3 +1,9 @@
+<script setup>
+  import { useNavStore } from '~/store/nav'
+
+  useNavStore().$reset()
+</script>
+
 <template>
-  <router-link to="/teams">View All Teams</router-link>
+  <v-btn to="/teams">View All Teams</v-btn>
 </template>

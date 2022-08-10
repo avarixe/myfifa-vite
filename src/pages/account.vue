@@ -17,6 +17,12 @@
 </script>
 
 <template>
-  <user-profile :record="user" />
-  <user-password-manager />
+  <v-row>
+    <v-col>
+      <user-profile :record="user" />
+    </v-col>
+    <v-col>
+      <user-password-manager />
+    </v-col>
+  </v-row>
 </template>

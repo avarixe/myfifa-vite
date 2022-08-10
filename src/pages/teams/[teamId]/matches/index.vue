@@ -24,20 +24,21 @@
 </script>
 
 <template>
-  <div>
-    <router-link :to="`/teams/${team.id}`">Back</router-link>
-    &nbsp;
-    <router-link :to="`/teams/${team.id}/matches/new`">New</router-link>
-  </div>
-
   <h1>Matches</h1>
 
-  <table>
+  <v-btn :to="`/teams/${team.id}/matches/new`">
+    <v-icon left>mdi-plus</v-icon>
+    Match
+  </v-btn>
+
+  <v-table>
     <thead>
-      <th>Match</th>
-      <th>Competition</th>
-      <th>Date Played</th>
-      <th>Link</th>
+      <tr>
+        <th>Match</th>
+        <th>Competition</th>
+        <th>Date Played</th>
+        <th>Link</th>
+      </tr>
     </thead>
     <tbody>
       <tr
@@ -54,11 +55,14 @@
         </td>
         <td>{{ formatDate(match.playedOn) }}</td>
         <td>
-          <router-link :to="`/teams/${team.id}/matches/${match.id}`">
-            Link
-          </router-link>
+          <v-btn
+            variant="text"
+            color="primary"
+            icon="mdi-play"
+            :to="`/teams/${team.id}/matches/${match.id}`"
+          />
         </td>
       </tr>
     </tbody>
-  </table>
+  </v-table>
 </template>

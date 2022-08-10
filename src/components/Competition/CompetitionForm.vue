@@ -68,53 +68,46 @@
 </script>
 
 <template>
-  <div>
-    <label>Season:</label>
-    <input
-      v-model="attributes.season"
-      type="number"
-      disabled
-    />
-  </div>
-  <div>
-    <label>Name:</label>
-    <input v-model="attributes.name" />
-  </div>
-  <div>
-    <label>Champion</label>
-    <input v-model="attributes.champion" />
-  </div>
-  <div v-if="!record">
-    <label>Preset Format</label>
-    <select v-model="attributes.presetFormat">
-      <option
-        v-for="format in presetFormats"
-        :key="format"
-      >{{ format }}</option>
-    </select>
-  </div>
-  <div v-if="attributes.presetFormat">
-    <label>Number of Teams</label>
-    <input
-      v-model="attributes.numTeams"
-      type="number"
-    />
-  </div>
+  <v-text-field
+    v-model="attributes.season"
+    label="Season"
+    type="number"
+    disabled
+  />
+  <v-text-field
+    v-model="attributes.name"
+    label="Name"
+  />
+  <v-text-field
+    v-model="attributes.champion"
+    label="Champion"
+  />
+  <v-select
+    v-if="!record"
+    v-model="attributes.presetFormat"
+    label="Preset Format"
+    :items="presetFormats"
+  />
+  <v-text-field
+    v-if="attributes.presetFormat"
+    v-model="attributes.numTeams"
+    label="Number of Teams"
+    type="number"
+  />
   <template v-if="attributes.presetFormat === 'Group + Knockout'">
-    <div>
-      <label>Teams per Group</label>
-      <input
-        v-model="attributes.numTeamsPerGroup"
-        type="number"
-      />
-    </div>
-    <div>
-      <label>Teams Advance per Group</label>
-      <input
-        v-model="attributes.numAdvancesFromGroup"
-        type="number"
-      />
-    </div>
+    <v-text-field
+      v-model="attributes.numTeamsPerGroup"
+      label="Teams per Group"
+      type="number"
+    />
+    <v-text-field
+      v-model="attributes.numAdvancesFromGroup"
+      label="Teams Advance per Group"
+      type="number"
+    />
   </template>
-  <button @click="onSubmit">{{ props.record ? 'Update' : 'Create' }}</button>
+  <v-btn
+    @click="onSubmit"
+    v-text="props.record ? 'Update' : 'Create'"
+  />
 </template>

@@ -19,14 +19,21 @@
 </script>
 
 <template>
-  <router-link to="/teams/new">New</router-link>
+  <h1>Teams</h1>
 
-  <table>
+  <v-btn to="/teams/new">
+    <v-icon left>mdi-plus</v-icon>
+    Team
+  </v-btn>
+
+  <v-table>
     <thead>
-      <th>Name</th>
-      <th>Badge</th>
-      <th>Start Date</th>
-      <th>Current Date</th>
+      <tr>
+        <th class="text-left">Name</th>
+        <th class="text-left">Badge</th>
+        <th class="text-left">Start Date</th>
+        <th class="text-left">Current Date</th>
+      </tr>
     </thead>
     <tbody>
       <tr
@@ -34,12 +41,17 @@
         :key="team.id"
       >
         <td>
-          <router-link :to="`/teams/${team.id}`">{{ team.name }}</router-link>
+          <v-btn
+            variant="text"
+            color="primary"
+            :to="`/teams/${team.id}`"
+            v-text="team.name"
+          />
         </td>
         <td><img :src="team.badgeUrl" width="50" /></td>
         <td>{{ formatDate(team.startedOn) }}</td>
         <td>{{ formatDate(team.currentlyOn) }}</td>
       </tr>
     </tbody>
-  </table>
+  </v-table>
 </template>

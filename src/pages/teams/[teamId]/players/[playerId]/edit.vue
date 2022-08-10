@@ -30,8 +30,6 @@
 </script>
 
 <template>
-  <router-link :to="`/teams/${props.teamId}/players/${player.id}`">Back</router-link>
-
   <h1>Edit Player</h1>
 
   <player-form :record="player" />

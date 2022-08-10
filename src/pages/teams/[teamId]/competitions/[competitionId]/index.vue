@@ -40,10 +40,10 @@
 </script>
 
 <template>
+  <h1>{{ competition.name }}</h1>
+
   <div>
-    <router-link :to="`/teams/${team.id}/competitions`">Back</router-link>
-    &nbsp;
-    <router-link :to="`/teams/${team.id}/competitions/${competition.id}/edit`">Edit</router-link>
+    <v-btn :to="`/teams/${team.id}/competitions/${competition.id}/edit`">Edit</v-btn>
     &nbsp;
     <remove-button
       :record="competition"
@@ -53,10 +53,10 @@
     />
   </div>
 
-  <h1>{{ competition.name }}</h1>
-
-  <div><b>Season:</b> {{ competition.season }}</div>
-  <div v-if="competition.champion"><b>Champion:</b> {{ competition.champion }}</div>
+  <div class="mt-2">
+    <div><b>Season:</b> {{ competition.season }}</div>
+    <div v-if="competition.champion"><b>Champion:</b> {{ competition.champion }}</div>
+  </div>
 
   <h3><u>Stages</u></h3>
   <p>Coming Soon!</p>

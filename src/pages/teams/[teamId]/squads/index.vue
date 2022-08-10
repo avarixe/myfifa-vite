@@ -31,18 +31,19 @@
 </script>
 
 <template>
-  <div>
-    <router-link :to="`/teams/${team.id}`">Back</router-link>
-    &nbsp;
-    <button @click="startNewSquad">New</button>
-  </div>
-
   <h1>Squads</h1>
 
-  <table>
+  <v-btn @click="startNewSquad">
+    <v-icon left>mdi-plus</v-icon>
+    Squad
+  </v-btn>
+
+  <v-table>
     <thead>
-      <th>Name</th>
-      <th>Players</th>
+      <tr>
+        <th>Name</th>
+        <th>Players</th>
+      </tr>
     </thead>
     <tbody>
       <squad-row
@@ -58,5 +59,5 @@
         :record="squad"
       />
     </tbody>
-  </table>
+  </v-table>
 </template>

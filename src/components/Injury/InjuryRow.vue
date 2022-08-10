@@ -62,34 +62,34 @@
 <template>
   <tr>
     <td>
-      <input
+      <v-text-field
         v-model="attributes.startedOn"
         type="date"
         :disabled="!inEditMode"
       />
     </td>
     <td>
-      <input
+      <v-text-field
         v-model="attributes.endedOn"
         type="date"
         :disabled="!inEditMode"
       />
     </td>
     <td>
-      <input
+      <v-text-field
         v-model="attributes.description"
         :disabled="!inEditMode"
       />
     </td>
     <td>
       <template v-if="inEditMode">
-        <button @click="onSubmit">{{ props.record ? 'Update' : 'Create' }}</button>
+        <v-btn @click="onSubmit">{{ props.record ? 'Update' : 'Create' }}</v-btn>
         &nbsp;
-        <button v-if="!!props.record" @click="inEditMode = false">Cancel</button>
-        <button v-else @click="$emit('click:remove')">Remove</button>
+        <v-btn v-if="!!props.record" @click="inEditMode = false">Cancel</v-btn>
+        <v-btn v-else @click="$emit('click:remove')">Remove</v-btn>
       </template>
       <template v-else>
-        <button @click="inEditMode = true">Edit</button>
+        <v-btn @click="inEditMode = true">Edit</v-btn>
         &nbsp;
         <remove-button
           v-if="!!props.record"
