@@ -16,6 +16,14 @@
   teamRepo.save(data.value.teams)
 
   const teams = computed(() => teamRepo.orderBy('id', 'desc').get())
+
+  const headers = [
+    { value: 'name', text: 'Name' },
+    { value: 'badgeUrl', text: 'Badge' },
+    { value: 'startedOn', text: 'Start Date' },
+    { value: 'currentlyOn', text: 'Current Date' }
+  ]
+
 </script>
 
 <template>
@@ -26,32 +34,22 @@
     Team
   </v-btn>
 
-  <v-table>
-    <thead>
-      <tr>
-        <th class="text-left">Name</th>
-        <th class="text-left">Badge</th>
-        <th class="text-left">Start Date</th>
-        <th class="text-left">Current Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        v-for="team in teams"
-        :key="team.id"
-      >
-        <td>
-          <v-btn
-            variant="text"
-            color="primary"
-            :to="`/teams/${team.id}`"
-            v-text="team.name"
-          />
-        </td>
-        <td><img :src="team.badgeUrl" width="50" /></td>
-        <td>{{ formatDate(team.startedOn) }}</td>
-        <td>{{ formatDate(team.currentlyOn) }}</td>
-      </tr>
-    </tbody>
-  </v-table>
+  <data-table
+    :headers="headers"
+    :items="teams"
+  >
+    <template #item="{ item: team }">
+      <td>
+        <v-btn
+          variant="text"
+          color="primary"
+          :to="`/teams/${team.id}`"
+          v-text="team.name"
+        />
+      </td>
+      <td><img :src="team.badgeUrl" width="50" /></td>
+      <td>{{ formatDate(team.startedOn) }}</td>
+      <td>{{ formatDate(team.currentlyOn) }}</td>
+    </template>
+  </data-table>
 </template>

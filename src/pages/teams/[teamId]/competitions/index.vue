@@ -3,7 +3,7 @@
   import { teamFragment, competitionFragment } from '~/fragments'
   import { Competition } from '~/models'
 
-  const { team, data } = await useTeamQuery({
+  const { team, seasonLabel } = await useTeamQuery({
     query: gql`
       query fetchCompetitionsPage($teamId: ID!) {
         team(id: $teamId) {
@@ -20,6 +20,12 @@
   const competitions = computed(() =>
     competitionRepo.where('teamId', team.value.id).get()
   )
+
+  const headers = [
+    { value: 'season', text: 'Season' },
+    { value: 'name', text: 'Name' },
+    { value: 'champion', text: 'Champion' }
+  ]
 </script>
 
 <template>
@@ -30,31 +36,21 @@
     Competition
   </v-btn>
 
-  <v-table>
-    <thead>
-      <tr>
-        <th>Season</th>
-        <th>Name</th>
-        <th>Champion</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        v-for="competition in competitions"
-        :key="competition.id"
-      >
-        <td>{{ competition.season }}</td>
-        <td>
-          <v-btn
-            variant="text"
-            color="primary"
-            class="text-capitalize"
-            :to="`/teams/${team.id}/competitions/${competition.id}`"
-            v-text="competition.name"
-          />
-        </td>
-        <td>{{ competition.champion }}</td>
-      </tr>
-    </tbody>
-  </v-table>
+  <data-table
+    :headers="headers"
+    :items="competitions"
+  >
+    <template #item-season="{ item: competition }">
+      {{ seasonLabel(competition.season) }}
+    </template>
+    <template #item-name="{ item: competition }">
+      <v-btn
+        variant="text"
+        color="primary"
+        class="text-capitalize"
+        :to="`/teams/${team.id}/competitions/${competition.id}`"
+        v-text="competition.name"
+      />
+    </template>
+  </data-table>
 </template>

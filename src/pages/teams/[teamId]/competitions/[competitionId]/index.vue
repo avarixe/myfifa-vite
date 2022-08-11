@@ -12,7 +12,7 @@
     competitionId: { type: String, required: true }
   })
 
-  const { data, team } = await useTeamQuery({
+  const { data, team, seasonLabel } = await useTeamQuery({
     query: gql`
       query fetchCompetitionPage($teamId: ID!, $competitionId: ID!) {
         team(id: $teamId) { ...TeamData }
@@ -54,7 +54,7 @@
   </div>
 
   <div class="mt-2">
-    <div><b>Season:</b> {{ competition.season }}</div>
+    <div><b>Season:</b> {{ seasonLabel(competition.season) }}</div>
     <div v-if="competition.champion"><b>Champion:</b> {{ competition.champion }}</div>
   </div>
 

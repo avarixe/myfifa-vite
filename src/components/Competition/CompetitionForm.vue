@@ -2,7 +2,7 @@
   import { useTeam } from '~/composables'
   import { competitionFragment } from '~/fragments'
 
-  const { team, currentSeason } = useTeam()
+  const { team, currentSeason, seasonLabel } = useTeam()
 
   const props = defineProps({
     teamId: { type: Number, default: null },
@@ -10,7 +10,7 @@
   })
 
   const attributes = reactive({
-    season: props.record?.season || currentSeason.value,
+    season: props.record ? props.record.season : currentSeason.value,
     name: props.record?.name,
     champion: props.record?.champion,
     presetFormat: null,
@@ -69,9 +69,8 @@
 
 <template>
   <v-text-field
-    v-model="attributes.season"
+    :model-value="seasonLabel(attributes.season)"
     label="Season"
-    type="number"
     disabled
   />
   <v-text-field

@@ -52,6 +52,19 @@
       }
     })
   })
+
+  const headers = [
+    { value: 'name', text: 'Name' },
+    { value: 'status', text: 'Status' },
+    { value: 'age', text: 'Age' },
+    { value: 'pos', text: 'Pos' },
+    { value: 'secPos', text: '2nd Pos' },
+    { value: 'kitNo', text: 'Kit No' },
+    { value: 'ovr', text: 'OVR' },
+    { value: 'value', text: 'Value' },
+    { value: 'wage', text: 'Wage' },
+    { value: 'endDate', text: 'Contract Ends' }
+  ]
 </script>
 
 <template>
@@ -62,49 +75,32 @@
     Player
   </v-btn>
 
-  <v-table>
-    <thead>
-      <tr>
-        <th class="text-left">Name</th>
-        <th class="text-left">Status</th>
-        <th class="text-left">Age</th>
-        <th class="text-left">Pos</th>
-        <th class="text-left">2nd Pos</th>
-        <th class="text-left">Kit No</th>
-        <th class="text-left">OVR</th>
-        <th class="text-left">Value</th>
-        <th class="text-left">Wage</th>
-        <th class="text-left">Contract Ends</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        v-for="player in rows"
-        :key="player.id"
-      >
-        <td>
-          <v-btn
-            variant="text"
-            color="primary"
-            class="text-capitalize"
-            :to="`/teams/${team.id}/players/${player.id}`"
-            v-text="player.name"
-          />
-        </td>
-        <td>{{ player.status }}</td>
-        <td>{{ player.age }}</td>
-        <td>{{ player.pos }}</td>
-        <td>{{ player.secPos.join(', ') }}</td>
-        <td>{{ player.kitNo }}</td>
-        <td>{{ player.ovr }}</td>
-        <td>{{ team.currency }}{{ player.value.toLocaleString() }}</td>
-        <td>
-          <template v-if="player.wage">
-            {{ team.currency }}{{ player.wage.toLocaleString() }}
-          </template>
-        </td>
-        <td>{{ formatDate(player.endDate) }}</td>
-      </tr>
-    </tbody>
-  </v-table>
+  <data-table
+    :headers="headers"
+    :items="players"
+  >
+    <template #item-name="{ item: player }">
+      <v-btn
+        variant="text"
+        color="primary"
+        class="text-capitalize"
+        :to="`/teams/${team.id}/players/${player.id}`"
+        v-text="player.name"
+      />
+    </template>
+    <template #item-secPos="{ item: player }">
+      {{ player.secPos.join(', ') }}
+    </template>
+    <template #item-value="{ item: player }">
+      {{ team.currency }}{{ player.value.toLocaleString() }}
+    </template>
+    <template #item-wage="{ item: player }">
+      <span v-if="player.wage">
+        {{ team.currency }}{{ player.wage.toLocaleString() }}
+      </span>
+    </template>
+    <template #item-endDate="{ item: player }">
+      {{ formatDate(player.endDate) }}
+    </template>
+  </data-table>
 </template>

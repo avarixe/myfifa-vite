@@ -24,7 +24,7 @@
     }
   }
 
-  const { mobile } = useDisplay()
+  const { mobile, smAndUp } = useDisplay()
   // const isMobile = computed(() => mobile.value)
   const drawer = ref(!mobile.value)
 
@@ -42,7 +42,7 @@
       class="ml-2"
       :style="{ maxWidth: '48px' }"
     />
-    <v-app-bar-title>MyFIFA Manager</v-app-bar-title>
+    <v-app-bar-title v-if="smAndUp">MyFIFA Manager</v-app-bar-title>
     <v-spacer />
     <v-btn icon="mdi-account" to="/account" />
     <v-btn icon>
