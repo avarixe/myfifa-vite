@@ -26,4 +26,11 @@ export default class TableRow extends Model {
       stage: this.belongsTo(Stage, 'stageId')
     }
   }
+
+  static casts () {
+    return {
+      id: 'number',
+      stageId: 'number'
+    }
+  }
 }

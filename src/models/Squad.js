@@ -19,4 +19,11 @@ export default class Squad extends Model {
       players: this.belongsToMany(Player, SquadPlayer, 'squadId', 'playerId')
     }
   }
+
+  static casts () {
+    return {
+      id: 'number',
+      teamId: 'number'
+    }
+  }
 }

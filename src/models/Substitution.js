@@ -27,7 +27,12 @@ export default class Substitution extends Model {
     }
   }
 
-  get type () {
-    return 'substitution'
+  static casts () {
+    return {
+      id: 'number',
+      matchId: 'number',
+      playerId: 'number',
+      replacementId: 'number'
+    }
   }
 }

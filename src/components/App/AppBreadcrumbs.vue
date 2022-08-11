@@ -12,7 +12,6 @@
     const routeSteps = route.name === 'index'
       ? ['']
       : route.path.split('/')
-    console.log(routeSteps)
     return routeSteps.map((step, i) => {
       const to = `${routeSteps.slice(0, i + 1).join('/')}`
       const prevStep = routeSteps[i - 1]

@@ -22,11 +22,10 @@ export default class Loan extends Model {
     }
   }
 
-  get date () {
-    return this.startedOn
-  }
-
-  get type () {
-    return 'loan'
+  static casts () {
+    return {
+      id: 'number',
+      playerId: 'number'
+    }
   }
 }

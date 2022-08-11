@@ -27,7 +27,11 @@ export default class Booking extends Model {
     }
   }
 
-  get type () {
-    return 'booking'
+  static casts () {
+    return {
+      id: 'number',
+      matchId: 'number',
+      playerId: 'number'
+    }
   }
 }

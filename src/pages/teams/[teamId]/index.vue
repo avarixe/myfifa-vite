@@ -11,6 +11,8 @@
       ${teamFragment}
     `
   })
+
+  const router = useRouter()
 </script>
 
 <template>
@@ -19,13 +21,12 @@
   <div>
     <v-btn :to="`/teams/${team.id}/edit`">Edit</v-btn>
     &nbsp;
-    <v-btn :to="`/teams/${team.id}/players`">Players</v-btn>
-    &nbsp;
-    <v-btn :to="`/teams/${team.id}/matches`">Matches</v-btn>
-    &nbsp;
-    <v-btn :to="`/teams/${team.id}/squads`">Squads</v-btn>
-    &nbsp;
-    <v-btn :to="`/teams/${team.id}/competitions`">Competitions</v-btn>
+    <remove-button
+      :record="team"
+      store="Team"
+      label="Team"
+      @removed="router.push('/teams')"
+    />
   </div>
 
   <div class="mt-2">

@@ -49,6 +49,13 @@ export default class Player extends Model {
     }
   }
 
+  static casts () {
+    return {
+      id: 'number',
+      teamId: 'number'
+    }
+  }
+
   get isActive () {
     return this.status && this.status.length > 0
   }

@@ -28,11 +28,10 @@ export default class Contract extends Model {
     }
   }
 
-  get date () {
-    return this.startedOn
-  }
-
-  get type () {
-    return 'contract'
+  static casts () {
+    return {
+      id: 'number',
+      playerId: 'number'
+    }
   }
 }

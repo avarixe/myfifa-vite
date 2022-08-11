@@ -31,6 +31,12 @@ export default class Team extends Model {
     }
   }
 
+  static casts () {
+    return {
+      id: 'number'
+    }
+  }
+
   get badgeUrl () {
     return this.badgePath
       ? `${import.meta.env.VITE_API_URL.replace(/\/api/, '')}${this.badgePath}`

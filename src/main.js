@@ -1,4 +1,4 @@
-import PiniaORM from 'pinia-orm'
+import { createORM } from 'pinia-orm'
 import { createRouter, createWebHistory } from 'vue-router'
 import { setupLayouts } from 'virtual:generated-layouts'
 import generatedRoutes from 'virtual:generated-pages'
@@ -15,8 +15,7 @@ const router = createRouter({
   routes
 })
 
-const pinia = createPinia()
-  .use(PiniaORM.install())
+const pinia = createPinia().use(createORM())
 
 const vuetify = createVuetify()
 

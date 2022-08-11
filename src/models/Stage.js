@@ -22,4 +22,11 @@ export default class Stage extends Model {
       tableRows: this.hasMany(TableRow, 'stageId')
     }
   }
+
+  static casts () {
+    return {
+      id: 'number',
+      competitionId: 'number'
+    }
+  }
 }

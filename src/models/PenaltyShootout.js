@@ -15,7 +15,10 @@ export default class PenaltyShootout extends Model {
     }
   }
 
-  get type () {
-    return 'penalty-shootout'
+  static casts () {
+    return {
+      id: 'number',
+      matchId: 'number'
+    }
   }
 }

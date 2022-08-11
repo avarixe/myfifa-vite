@@ -18,4 +18,11 @@ export default class Fixture extends Model {
       legs: this.hasMany(FixtureLeg, 'fixtureId', 'id')
     }
   }
+
+  static casts () {
+    return {
+      id: 'number',
+      stageId: 'number'
+    }
+  }
 }

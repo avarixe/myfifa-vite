@@ -23,4 +23,12 @@ export default class Cap extends Model {
       player: this.belongsTo(Player, 'playerId')
     }
   }
+
+  static casts () {
+    return {
+      id: 'number',
+      matchId: 'number',
+      playerId: 'number'
+    }
+  }
 }

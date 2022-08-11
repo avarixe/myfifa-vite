@@ -25,11 +25,10 @@ export default class Transfer extends Model {
     }
   }
 
-  get date () {
-    return this.movedOn
-  }
-
-  get type () {
-    return 'transfer'
+  static casts () {
+    return {
+      id: 'number',
+      playerId: 'number'
+    }
   }
 }

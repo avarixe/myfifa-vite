@@ -17,11 +17,10 @@ export default class Injury extends Model {
     }
   }
 
-  get date () {
-    return this.startedOn
-  }
-
-  get type () {
-    return 'injury'
+  static casts () {
+    return {
+      id: 'number',
+      playerId: 'number'
+    }
   }
 }

@@ -27,7 +27,12 @@ export default class Goal extends Model {
     }
   }
 
-  get type () {
-    return 'goal'
+  static casts () {
+    return {
+      id: 'number',
+      matchId: 'number',
+      playerId: 'number',
+      assistId: 'number'
+    }
   }
 }

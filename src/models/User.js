@@ -16,4 +16,10 @@ export default class User extends Model {
       darkMode: this.boolean(false)
     }
   }
+
+  static casts () {
+    return {
+      id: 'number'
+    }
+  }
 }

@@ -26,6 +26,13 @@ class Competition extends Model {
     }
   }
 
+  static casts () {
+    return {
+      id: 'number',
+      teamId: 'number'
+    }
+  }
+
   get statusIcon () {
     if (this.champion === this.team.name) {
       return 'mdi-trophy'

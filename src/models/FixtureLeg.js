@@ -15,6 +15,13 @@ export default class FixtureLeg extends Model {
     }
   }
 
+  static casts () {
+    return {
+      id: 'number',
+      fixtureId: 'number'
+    }
+  }
+
   get score () {
     return `${this.homeScore || ''} - ${this.awayScore || ''}`
   }

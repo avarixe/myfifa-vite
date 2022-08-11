@@ -118,13 +118,31 @@
   onUnmounted(() => {
     socket.value.close()
   })
+
+  const snackbar = ref(false)
+  watch(connectionState, () => {
+    snackbar.value = true
+  })
 </script>
 
 <template>
-  <hr>
-  {{ connectionMessage }}
-  <button
-    v-if="connectionState === 'Disconnected'"
-    @click="connectToWebSocket"
-  >Reconnect</button>
+  <v-snackbar
+    v-model="snackbar"
+    location="top"
+    :timeout="connectionState === 'Connected' ? 5000 : -1"
+    :color="connectionColor"
+  >
+    {{ connectionMessage }}
+
+    <template #actions>
+      <v-btn
+        v-if="connectionState === 'Disconnected'"
+        color="error"
+        variant="text"
+        @click="connectToWebSocket"
+      >
+        Reconnect
+      </v-btn>
+    </template>
+  </v-snackbar>
 </template>

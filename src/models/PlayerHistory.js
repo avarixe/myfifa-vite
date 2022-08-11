@@ -16,4 +16,11 @@ export default class PlayerHistory extends Model {
       kitNo: this.number(0).nullable()
     }
   }
+
+  static casts () {
+    return {
+      id: 'number',
+      playerId: 'number'
+    }
+  }
 }

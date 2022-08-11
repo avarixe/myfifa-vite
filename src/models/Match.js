@@ -42,6 +42,13 @@ export default class Match extends Model {
     }
   }
 
+  static casts () {
+    return {
+      id: 'number',
+      teamId: 'number'
+    }
+  }
+
   get opponent () {
     return this.home === this.team.name
       ? this.away
