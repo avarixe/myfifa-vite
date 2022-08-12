@@ -3,28 +3,71 @@
     headers: { type: Array, default: () => [] },
     items: { type: Array, default: () => [] },
     itemsPerPage: { type: Number, default: 10 },
-    itemsPerPageOptions: { type: Array, default: () => [10, 20, 50, -1] }
+    itemsPerPageOptions: { type: Array, default: () => [10, 20, 50, -1] },
+    sortBy: { type: String, default: null },
+    sortDesc: { type: Boolean, default: false },
+    mustSort: { type: Boolean, default: false }
   })
 
+  // Sorting
+  const sortBy = ref(props.sortBy)
+  const sortDesc = ref(props.sortDesc)
+  const sortIndex = computed(() =>
+    props.headers.findIndex(h => h.value === sortBy.value)
+  )
+  function changeSortColumn (value) {
+    if (sortBy.value === value) {
+      if (sortDesc.value && !props.mustSort) {
+        sortBy.value = null
+      } else {
+        sortDesc.value = !sortDesc.value
+      }
+    } else {
+      sortBy.value = value
+      sortDesc.value = false
+    }
+  }
+  function defaultSort () {
+    return (a, b) => {
+      const attr = sortBy.value
+      if (sortDesc.value) {
+        return (b[attr] > a[attr]) - (a[attr] > b[attr])
+      } else {
+        return (a[attr] > b[attr]) - (b[attr] > a[attr])
+      }
+    }
+  }
+  const sortedItems = computed(() => {
+    const sortHeader = props.headers[sortIndex.value]
+    if (sortHeader) {
+      const sort = sortHeader.sort || defaultSort(sortHeader.value)
+      console.log(sort)
+      return props.items.sort(sort)
+    } else {
+      return props.items
+    }
+  })
+
+  // Pagination
   const page = ref(0)
   const itemsPerPage = ref(props.itemsPerPage)
   const showAll = computed(() => itemsPerPage.value <= 0)
-  const lastPage = computed(() =>
-    showAll.value ? 0 : Math.ceil(props.items.length / itemsPerPage.value) - 1
+  const pageCount = computed(() =>
+    showAll.value ? 1 : Math.ceil(props.items.length / itemsPerPage.value)
   )
-  const firstItemIndex = computed(() =>
+  const pageStart = computed(() =>
     showAll.value ? 1 : (page.value * itemsPerPage.value) + 1
   )
-  const lastItemIndex = computed(() => {
+  const pageStop = computed(() => {
     if (showAll.value) {
       return props.items.length
     } else {
-      const index = firstItemIndex.value + itemsPerPage.value - 1
+      const index = pageStart.value + itemsPerPage.value - 1
       return index > props.items.length ? props.items.length : index
     }
   })
   const pageItems = computed(() =>
-    props.items.slice(firstItemIndex.value - 1, lastItemIndex.value)
+    sortedItems.value.slice(pageStart.value - 1, pageStop.value)
   )
 </script>
 
@@ -38,9 +81,27 @@
             :key="header.value"
             :class="header.class"
             :style="header.style"
+            @click="changeSortColumn(header.value)"
           >
             <slot :name="`header-${header.value}`" :header="header">
-              {{ header.text }}
+              <v-hover v-slot="{ isHovering, props }">
+                <span
+                  :style="{ cursor: 'pointer' }"
+                  v-bind="props"
+                >
+                  {{ header.text }}
+                  <v-icon v-if="sortBy === header.value">
+                    mdi-chevron-{{ sortDesc ? 'down' : 'up' }}
+                  </v-icon>
+                  <v-icon
+                    v-else
+                    class="text-disabled"
+                    :style="{ visibility: isHovering ? 'inherit' : 'hidden' }"
+                  >
+                    mdi-chevron-up
+                  </v-icon>
+                </span>
+              </v-hover>
             </slot>
           </th>
         </slot>
@@ -85,7 +146,7 @@
               </v-menu>
             </v-btn>
             <span class="text-caption">
-              {{ firstItemIndex }} - {{ lastItemIndex }} of {{ props.items.length}}
+              {{ pageStart }} - {{ pageStop }} of {{ props.items.length}}
             </span>
 
             <v-spacer />
@@ -105,14 +166,14 @@
             <v-btn
               icon="mdi-chevron-right"
               variant="text"
-              :disabled="page === lastPage"
+              :disabled="page === pageCount - 1"
               @click="page++"
             />
             <v-btn
               icon="mdi-page-last"
               variant="text"
-              :disabled="page === lastPage"
-              @click="page = lastPage"
+              :disabled="page === pageCount - 1"
+              @click="page = pageCount - 1"
             />
           </div>
         </td>

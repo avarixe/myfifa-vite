@@ -39,6 +39,8 @@
   <data-table
     :headers="headers"
     :items="competitions"
+    sort-by="season"
+    sort-desc
   >
     <template #item-season="{ item: competition }">
       {{ seasonLabel(competition.season) }}

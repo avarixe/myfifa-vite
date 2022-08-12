@@ -78,6 +78,7 @@
   <data-table
     :headers="headers"
     :items="players"
+    sort-by="pos"
   >
     <template #item-name="{ item: player }">
       <v-btn

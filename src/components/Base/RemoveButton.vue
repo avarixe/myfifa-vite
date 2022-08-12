@@ -19,7 +19,7 @@
     ${fragments[`${storeCamelCase}Fragment`]}
   `)
 
-  const emit = defineEmits()
+  const emit = defineEmits(['removed'])
   async function onClick () {
     if (confirm(`Remove ${props.label}?`)) {
       await removeRecord({ })

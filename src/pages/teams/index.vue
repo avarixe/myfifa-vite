@@ -19,7 +19,7 @@
 
   const headers = [
     { value: 'name', text: 'Name' },
-    { value: 'badgeUrl', text: 'Badge' },
+    { value: 'badgeUrl', text: 'Badge', sortable: false },
     { value: 'startedOn', text: 'Start Date' },
     { value: 'currentlyOn', text: 'Current Date' }
   ]
@@ -37,6 +37,7 @@
   <data-table
     :headers="headers"
     :items="teams"
+    sort-desc
   >
     <template #item="{ item: team }">
       <td>

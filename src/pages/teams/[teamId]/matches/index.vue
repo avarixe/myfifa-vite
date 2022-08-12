@@ -23,10 +23,10 @@
   )
 
   const headers = [
-    { value: 'name', text: 'Match' },
+    { value: 'name', text: 'Match', sortable: false },
     { value: 'competition', text: 'Competition' },
     { value: 'playedOn', text: 'Date Played' },
-    { value: 'link', text: 'Link' }
+    { value: 'link', text: 'Link', sortable: false }
   ]
 </script>
 
@@ -41,6 +41,8 @@
   <data-table
     :headers="headers"
     :items="matches"
+    sort-by="playedOn"
+    sort-desc
   >
     <template #item="{ item: match }">
       <td :style="{ textAlign: 'center' }">

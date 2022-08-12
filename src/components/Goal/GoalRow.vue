@@ -42,7 +42,7 @@
     ${goalFragment}
   `)
 
-  const emit = defineEmits()
+  const emit = defineEmits(['created', 'click:remove'])
   async function onSubmit () {
     if (props.record) {
       const { data: { updateGoal: { errors, goal} } } =
@@ -128,7 +128,7 @@
         <v-btn @click="onSubmit">{{ props.record ? 'Update' : 'Create' }}</v-btn>
         &nbsp;
         <v-btn v-if="!!props.record" @click="inEditMode = false">Cancel</v-btn>
-        <v-btn v-else @click="$emit('click:remove')">Remove</v-btn>
+        <v-btn v-else @click="emit('click:remove')">Remove</v-btn>
       </template>
       <template v-else>
         <v-btn @click="inEditMode = true">Edit</v-btn>
