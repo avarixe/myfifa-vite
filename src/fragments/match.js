@@ -26,6 +26,7 @@ export const baseCapFragment = gql`
     pos
     start
     stop
+    rating
     subbedOut
   }
 `

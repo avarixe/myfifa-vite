@@ -19,12 +19,6 @@
             <td>Built with:</td>
             <td>
               <span>
-                <v-icon>mdi-nuxt</v-icon>
-                <v-tooltip activator="parent" location="bottom">
-                  Nuxt.js
-                </v-tooltip>
-              </span>
-              <span>
                 <v-icon>mdi-vuejs</v-icon>
                 <v-tooltip activator="parent" location="bottom">
                   Vue.js

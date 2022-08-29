@@ -70,7 +70,7 @@
       <v-select
         v-model="attributes.pos"
         :items="Object.keys(matchPositions)"
-        density="comfortable"
+        density="compact"
         single-line
         hide-details
         :disabled="!inEditMode"
@@ -82,7 +82,7 @@
         :items="players"
         item-value="id"
         item-title="name"
-        density="comfortable"
+        density="compact"
         single-line
         hide-details
         :disabled="!inEditMode || record?.start > 0"
@@ -91,25 +91,44 @@
     <td>
       <v-rating
         v-model="attributes.rating"
-        density="comfortable"
+        density="compact"
         :disabled="!inEditMode"
       />
     </td>
     <td>
       <template v-if="inEditMode">
-        <v-btn @click="onSubmit">{{ props.record ? 'Update' : 'Create' }}</v-btn>
+        <v-btn
+          icon="mdi-content-save"
+          variant="text"
+          @click="onSubmit"
+        />
         &nbsp;
-        <v-btn v-if="!!props.record" @click="inEditMode = false">Cancel</v-btn>
-        <v-btn v-else @click="emit('click:remove')">Remove</v-btn>
+        <v-btn
+          v-if="!!props.record"
+          icon="mdi-close"
+          variant="text"
+          @click="inEditMode = false"
+        />
+        <v-btn
+          v-else
+          icon="mdi-delete"
+          variant="text"
+          @click="emit('click:remove')"
+        />
       </template>
       <template v-else>
-        <v-btn @click="inEditMode = true">Edit</v-btn>
+        <v-btn
+          icon="mdi-pencil"
+          variant="text"
+          @click="inEditMode = true"
+        />
         &nbsp;
         <remove-button
           v-if="!!props.record && props.record.start === 0"
           :record="props.record"
-          store="Cap"
-          label="Cap"
+          store="Contract"
+          label="Contract"
+          icon="mdi-delete"
         />
       </template>
     </td>

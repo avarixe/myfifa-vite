@@ -32,8 +32,10 @@
     ${teamFragment}
   `)
 
+  const loading = ref(false)
   const router = useRouter()
   async function onSubmit () {
+    loading.value = true
     if (props.record) {
       const { data: { updateTeam: { errors, team} } } =
         await updateTeam({ id: props.record.id, attributes })
@@ -51,30 +53,34 @@
         alert(errors.fullMessages[0])
       }
     }
+    loading.value = false
   }
 </script>
 
 <template>
-  <v-text-field
-    v-model="attributes.name"
-    label="Name"
-  />
-  <v-text-field
-    v-model="attributes.startedOn"
-    label="Start Date"
-    type="date"
-  />
-  <v-text-field
-    v-model="attributes.currentlyOn"
-    label="Current Date"
-    type="date"
-  />
-  <v-text-field
-    v-model="attributes.currency"
-    label="Currency"
-  />
-  <v-btn
-    @click="onSubmit"
-    v-text="props.record ? 'Update' : 'Create'"
-  />
+  <v-form @submit.prevent="onSubmit">
+    <team-combobox
+      v-model="attributes.name"
+      label="Name"
+    />
+    <v-text-field
+      v-model="attributes.startedOn"
+      label="Start Date"
+      type="date"
+    />
+    <v-text-field
+      v-model="attributes.currentlyOn"
+      label="Current Date"
+      type="date"
+    />
+    <v-text-field
+      v-model="attributes.currency"
+      label="Currency"
+    />
+    <v-btn
+      type="submit"
+      :loading="loading"
+      v-text="props.record ? 'Update' : 'Create'"
+    />
+  </v-form>
 </template>

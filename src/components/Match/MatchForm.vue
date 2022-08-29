@@ -38,8 +38,10 @@
     ${matchFragment}
   `)
 
+  const loading = ref(false)
   const router = useRouter()
   async function onSubmit () {
+    loading.value = true
     if (props.record) {
       const { data: { updateMatch: { errors, match} } } =
         await updateMatch({ id: props.record.id, attributes })
@@ -57,37 +59,41 @@
         alert(errors.fullMessages[0])
       }
     }
+    loading.value = false
   }
 </script>
 
 <template>
-  <v-text-field
-    v-model="attributes.playedOn"
-    label="Date Played"
-    type="date"
-  />
-  <v-text-field
-    v-model="attributes.competition"
-    label="Competition"
-  />
-  <v-text-field
-    v-model="attributes.stage"
-    label="Stage"
-  />
-  <v-text-field
-    v-model="attributes.home"
-    label="Home Team"
-  />
-  <v-text-field
-    v-model="attributes.away"
-    label="Away Team"
-  />
-  <v-checkbox
-    v-model="attributes.extraTime"
-    label="Extra Time Required"
-  />
-  <v-btn
-    @click="onSubmit"
-    v-text="props.record ? 'Update' : 'Create'"
-  />
+  <v-form @submit.prevent="onSubmit">
+    <v-text-field
+      v-model="attributes.playedOn"
+      label="Date Played"
+      type="date"
+    />
+    <v-text-field
+      v-model="attributes.competition"
+      label="Competition"
+    />
+    <v-text-field
+      v-model="attributes.stage"
+      label="Stage"
+    />
+    <team-combobox
+      v-model="attributes.home"
+      label="Home Team"
+    />
+    <team-combobox
+      v-model="attributes.away"
+      label="Away Team"
+    />
+    <v-checkbox
+      v-model="attributes.extraTime"
+      label="Extra Time Required"
+    />
+    <v-btn
+      type="submit"
+      :loading="loading"
+      v-text="props.record ? 'Update' : 'Create'"
+    />
+  </v-form>
 </template>

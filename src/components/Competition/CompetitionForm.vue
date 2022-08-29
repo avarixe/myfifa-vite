@@ -39,8 +39,10 @@
     ${competitionFragment}
   `)
 
+  const loading = ref(false)
   const router = useRouter()
   async function onSubmit () {
+    loading.value = true
     if (props.record) {
       const { data: { updateCompetition: { errors, competition} } } =
         await updateCompetition({ id: props.record.id, attributes })
@@ -58,6 +60,7 @@
         alert(errors.fullMessages[0])
       }
     }
+    loading.value = false
   }
 
   const presetFormats = [
@@ -68,45 +71,48 @@
 </script>
 
 <template>
-  <v-text-field
-    :model-value="seasonLabel(attributes.season)"
-    label="Season"
-    disabled
-  />
-  <v-text-field
-    v-model="attributes.name"
-    label="Name"
-  />
-  <v-text-field
-    v-model="attributes.champion"
-    label="Champion"
-  />
-  <v-select
-    v-if="!record"
-    v-model="attributes.presetFormat"
-    label="Preset Format"
-    :items="presetFormats"
-  />
-  <v-text-field
-    v-if="attributes.presetFormat"
-    v-model="attributes.numTeams"
-    label="Number of Teams"
-    type="number"
-  />
-  <template v-if="attributes.presetFormat === 'Group + Knockout'">
+  <v-form @submit.prevent="onSubmit">
     <v-text-field
-      v-model="attributes.numTeamsPerGroup"
-      label="Teams per Group"
-      type="number"
+      :model-value="seasonLabel(attributes.season)"
+      label="Season"
+      disabled
     />
     <v-text-field
-      v-model="attributes.numAdvancesFromGroup"
-      label="Teams Advance per Group"
+      v-model="attributes.name"
+      label="Name"
+    />
+    <v-text-field
+      v-model="attributes.champion"
+      label="Champion"
+    />
+    <v-select
+      v-if="!record"
+      v-model="attributes.presetFormat"
+      label="Preset Format"
+      :items="presetFormats"
+    />
+    <v-text-field
+      v-if="attributes.presetFormat"
+      v-model="attributes.numTeams"
+      label="Number of Teams"
       type="number"
     />
-  </template>
-  <v-btn
-    @click="onSubmit"
-    v-text="props.record ? 'Update' : 'Create'"
-  />
+    <template v-if="attributes.presetFormat === 'Group + Knockout'">
+      <v-text-field
+        v-model="attributes.numTeamsPerGroup"
+        label="Teams per Group"
+        type="number"
+      />
+      <v-text-field
+        v-model="attributes.numAdvancesFromGroup"
+        label="Teams Advance per Group"
+        type="number"
+      />
+    </template>
+    <v-btn
+      type="submit"
+      :loading="loading"
+      v-text="props.record ? 'Update' : 'Create'"
+    />
+  </v-form>
 </template>

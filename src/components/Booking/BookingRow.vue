@@ -69,7 +69,7 @@
         type="number"
         min="1"
         :max="match.extraTime ? 120 : 90"
-        density="comfortable"
+        density="compact"
         single-line
         hide-details
         :disabled="!inEditMode"
@@ -78,7 +78,7 @@
     <td>
       <v-checkbox
         v-model="attributes.home"
-        density="comfortable"
+        density="compact"
         single-line
         hide-details
         :disabled="!inEditMode"
@@ -87,7 +87,7 @@
     <td :style="{ minWidth: '15em' }">
       <v-text-field
         v-model="attributes.playerName"
-        density="comfortable"
+        density="compact"
         single-line
         hide-details
         :disabled="!inEditMode"
@@ -96,7 +96,7 @@
     <td>
       <v-checkbox
         v-model="attributes.redCard"
-        density="comfortable"
+        density="compact"
         single-line
         hide-details
         :disabled="!inEditMode"
@@ -104,19 +104,38 @@
     </td>
     <td>
       <template v-if="inEditMode">
-        <v-btn @click="onSubmit">{{ props.record ? 'Update' : 'Create' }}</v-btn>
+        <v-btn
+          icon="mdi-content-save"
+          variant="text"
+          @click="onSubmit"
+        />
         &nbsp;
-        <v-btn v-if="!!props.record" @click="inEditMode = false">Cancel</v-btn>
-        <v-btn v-else @click="emit('click:remove')">Remove</v-btn>
+        <v-btn
+          v-if="!!props.record"
+          icon="mdi-close"
+          variant="text"
+          @click="inEditMode = false"
+        />
+        <v-btn
+          v-else
+          icon="mdi-delete"
+          variant="text"
+          @click="emit('click:remove')"
+        />
       </template>
       <template v-else>
-        <v-btn @click="inEditMode = true">Edit</v-btn>
+        <v-btn
+          icon="mdi-pencil"
+          variant="text"
+          @click="inEditMode = true"
+        />
         &nbsp;
         <remove-button
           v-if="!!props.record"
           :record="props.record"
           store="Booking"
           label="Booking"
+          icon="mdi-delete"
         />
       </template>
     </td>

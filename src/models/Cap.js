@@ -16,6 +16,7 @@ export default class Cap extends Model {
       pos: this.string(''),
       start: this.number(0),
       stop: this.number(90),
+      rating: this.number(0).nullable(),
       subbedOut: this.boolean(false),
 
       // Associations

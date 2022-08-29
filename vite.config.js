@@ -43,6 +43,9 @@ export default defineConfig({
             'format',
             'parseISO'
           ],
+          'uuid': [
+            ['v4', 'uuidv4']
+          ],
           'vuetify': [
             'useDisplay'
           ]

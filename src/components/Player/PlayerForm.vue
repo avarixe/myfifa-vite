@@ -42,8 +42,10 @@
     ${playerFragment}
   `)
 
+  const loading = ref(false)
   const router = useRouter()
   async function onSubmit () {
+    loading.value = true
     if (props.record) {
       const { data: { updatePlayer: { errors, player} } } =
         await updatePlayer({ id: props.record.id, attributes })
@@ -61,64 +63,68 @@
         alert(errors.fullMessages[0])
       }
     }
+    loading.value = false
   }
 </script>
 
 <template>
-  <v-text-field
-    v-model="attributes.name"
-    label="Name"
-  />
-  <v-autocomplete
-    v-model="attributes.pos"
-    label="Position"
-    :items="positions"
-  />
-  <v-autocomplete
-    v-model="attributes.nationality"
-    label="Nationality"
-    :items="Object.keys(nationalities)"
-  />
-  <v-autocomplete
-    v-model="attributes.secPos"
-    label="Secondary Position(s)"
-    :items="positions"
-    multiple
-    chips
-    closable-chips
-  />
-  <v-text-field
-    v-model="attributes.ovr"
-    label="OVR Rating"
-    type="number"
-    min="1"
-    max="99"
-  />
-  <v-text-field
-    v-model="attributes.value"
-    label="Value"
-    type="number"
-  />
-  <v-text-field
-    v-model="attributes.kitNo"
-    label="Kit Number"
-    type="number"
-    min="1"
-    max="99"
-  />
-  <v-text-field
-    v-model="attributes.age"
-    label="Age"
-    type="number"
-    min="16"
-    max="50"
-  />
-  <v-checkbox
-    v-model="attributes.youth"
-    label="Youth Player"
-  />
-  <v-btn
-    @click="onSubmit"
-    v-text="props.record ? 'Update' : 'Create'"
-  />
+  <v-form @submit.prevent="onSubmit">
+    <v-text-field
+      v-model="attributes.name"
+      label="Name"
+    />
+    <v-autocomplete
+      v-model="attributes.pos"
+      label="Position"
+      :items="positions"
+    />
+    <v-autocomplete
+      v-model="attributes.nationality"
+      label="Nationality"
+      :items="Object.keys(nationalities)"
+    />
+    <v-autocomplete
+      v-model="attributes.secPos"
+      label="Secondary Position(s)"
+      :items="positions"
+      multiple
+      chips
+      closable-chips
+    />
+    <v-text-field
+      v-model="attributes.ovr"
+      label="OVR Rating"
+      type="number"
+      min="1"
+      max="99"
+    />
+    <v-text-field
+      v-model="attributes.value"
+      label="Value"
+      type="number"
+    />
+    <v-text-field
+      v-model="attributes.kitNo"
+      label="Kit Number"
+      type="number"
+      min="1"
+      max="99"
+    />
+    <v-text-field
+      v-model="attributes.age"
+      label="Age"
+      type="number"
+      min="16"
+      max="50"
+    />
+    <v-checkbox
+      v-model="attributes.youth"
+      label="Youth Player"
+    />
+    <v-btn
+      type="submit"
+      :loading="loading"
+      v-text="props.record ? 'Update' : 'Create'"
+    />
+  </v-form>
 </template>

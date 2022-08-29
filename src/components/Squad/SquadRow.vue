@@ -77,7 +77,7 @@
       <v-text-field
         v-model="attributes.name"
         label="Name"
-        density="comfortable"
+        density="compact"
         single-line
         hide-details
         :disabled="!inEditMode"
@@ -95,7 +95,7 @@
                 v-model="squadPlayer.pos"
                 label="Position"
                 :items="Object.keys(matchPositions)"
-                density="comfortable"
+                density="compact"
                 single-line
                 hide-details
                 :disabled="!inEditMode"
@@ -108,7 +108,7 @@
                 :items="players"
                 item-value="id"
                 item-title="name"
-                density="comfortable"
+                density="compact"
                 single-line
                 hide-details
                 :disabled="!inEditMode"
@@ -120,19 +120,38 @@
     </td>
     <td>
       <template v-if="inEditMode">
-        <v-btn @click="onSubmit">{{ props.record ? 'Update' : 'Create' }}</v-btn>
+        <v-btn
+          icon="mdi-content-save"
+          variant="text"
+          @click="onSubmit"
+        />
         &nbsp;
-        <v-btn v-if="!!props.record" @click="inEditMode = false">Cancel</v-btn>
-        <v-btn v-else @click="emit('click:remove')">Remove</v-btn>
+        <v-btn
+          v-if="!!props.record"
+          icon="mdi-close"
+          variant="text"
+          @click="inEditMode = false"
+        />
+        <v-btn
+          v-else
+          icon="mdi-delete"
+          variant="text"
+          @click="emit('click:remove')"
+        />
       </template>
       <template v-else>
-        <v-btn @click="inEditMode = true">Edit</v-btn>
+        <v-btn
+          icon="mdi-pencil"
+          variant="text"
+          @click="inEditMode = true"
+        />
         &nbsp;
         <remove-button
           v-if="!!props.record"
           :record="props.record"
-          store="Goal"
-          label="Goal"
+          store="Squad"
+          label="Squad"
+          icon="mdi-delete"
         />
       </template>
     </td>

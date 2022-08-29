@@ -4,7 +4,8 @@
   const props = defineProps({
     record: { type: Object, required: true },
     store: { type: String, required: true },
-    label: { type: String, default: null }
+    label: { type: String, default: null },
+    icon: { type: String, default: null }
   })
 
   const storeCamelCase = `${props.store[0].toLowerCase()}${props.store.slice(1)}`
@@ -36,7 +37,16 @@
 </script>
 
 <template>
-  <v-btn @click="onClick">
+  <v-btn
+    v-if="icon"
+    :icon="icon"
+    variant="text"
+    @click="onClick"
+  />
+  <v-btn
+    v-else
+    @click="onClick"
+  >
     <slot>Remove</slot>
   </v-btn>
 </template>
