@@ -47,7 +47,8 @@ export default defineConfig({
             ['v4', 'uuidv4']
           ],
           'vuetify': [
-            'useDisplay'
+            'useDisplay',
+            'useTheme'
           ]
         }
       ]

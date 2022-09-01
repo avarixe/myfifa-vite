@@ -22,7 +22,9 @@
 
 <template>
   <v-app>
-    <app-bar v-if="token" />
+    <suspense>
+      <app-bar v-if="token" />
+    </suspense>
     <v-main>
       <v-container>
         <app-breadcrumbs v-if="token" />

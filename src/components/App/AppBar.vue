@@ -1,31 +1,23 @@
 <script setup>
+  import { User } from '~/models'
   import { useTeam } from '~/composables'
-  import { useAuthStore } from '~/store/auth'
+  import { userFragment } from '~/fragments'
   import logo from '~/assets/logo.png'
 
-  const authStore = useAuthStore()
-  const token = computed(() => authStore.token)
-
-  const { executeMutation: revokeAccessToken } = useMutation(gql`
-    mutation revokeAccessToken($token: String!) {
-      revokeAccessToken(token: $token) {
-        errors { fullMessages }
+  const { data } = await useQuery({
+    query: gql`
+      query fetchUser {
+        user { ...UserData }
       }
-    }
-  `)
-  async function logout () {
-    const { data: { revokeAccessToken: { errors} } } =
-      await revokeAccessToken({ token: token.value })
-    if (errors) {
-      alert(errors.fullMessages[0])
-    } else {
-      authStore.token = null
-      localStorage.removeItem('token')
-    }
-  }
+      ${userFragment}
+    `
+  })
+
+  const userRepo = useRepo(User)
+  userRepo.save(data.value.user)
+  const user = computed(() => userRepo.find(parseInt(data.value.user.id)))
 
   const { mobile, smAndUp } = useDisplay()
-  // const isMobile = computed(() => mobile.value)
   const drawer = ref(!mobile.value)
 
   const { team } = useTeam()
@@ -45,11 +37,12 @@
     <v-app-bar-title v-if="smAndUp">MyFIFA Manager</v-app-bar-title>
     <v-spacer />
     <v-btn icon="mdi-account" to="/account" />
+    <dark-mode-toggle :user="user" />
     <v-btn icon>
       <v-icon>mdi-information-outline</v-icon>
       <app-info />
     </v-btn>
-    <v-btn icon="mdi-exit-to-app" @click="logout" />
+    <logout-button />
   </v-app-bar>
 
   <team-drawer
