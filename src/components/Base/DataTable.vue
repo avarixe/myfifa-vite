@@ -41,7 +41,6 @@
     const sortHeader = props.headers[sortIndex.value]
     if (sortHeader) {
       const sort = sortHeader.sort || defaultSort(sortHeader.value)
-      console.log(sort)
       return props.items.sort(sort)
     } else {
       return props.items

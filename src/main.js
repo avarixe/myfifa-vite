@@ -4,6 +4,7 @@ import { setupLayouts } from 'virtual:generated-layouts'
 import generatedRoutes from 'virtual:generated-pages'
 
 import { createVuetify } from 'vuetify'
+import * as directives from 'vuetify/directives'
 import 'vuetify/styles'
 
 import App from './App.vue'
@@ -17,7 +18,7 @@ const router = createRouter({
 
 const pinia = createPinia().use(createORM())
 
-const vuetify = createVuetify()
+const vuetify = createVuetify({ directives })
 
 const app = createApp(App)
   .use(router)

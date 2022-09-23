@@ -2,6 +2,7 @@
   import { User } from '~/models'
   import { useTeam } from '~/composables'
   import { userFragment } from '~/fragments'
+  import { useAuthStore } from '~/store/auth'
   import logo from '~/assets/logo.png'
 
   const { data } = await useQuery({
@@ -14,7 +15,11 @@
   })
 
   const userRepo = useRepo(User)
-  userRepo.save(data.value.user)
+  if (data.value.user) {
+    userRepo.save(data.value.user)
+  } else {
+    useAuthStore().token = null
+  }
   const user = computed(() => userRepo.find(parseInt(data.value.user.id)))
 
   const { mobile, smAndUp } = useDisplay()

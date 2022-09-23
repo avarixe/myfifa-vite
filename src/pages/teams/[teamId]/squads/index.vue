@@ -33,31 +33,30 @@
 <template>
   <h1>Squads</h1>
 
-  <v-btn @click="startNewSquad">
-    <v-icon left>mdi-plus</v-icon>
-    Squad
-  </v-btn>
-
-  <v-table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Players</th>
-      </tr>
-    </thead>
-    <tbody>
-      <squad-row
-        v-for="(newSquadCount, i) in newSquads"
-        :key="`new-${newSquadCount}`"
+  <v-row>
+    <v-col cols="12">
+      <v-btn @click="startNewSquad">
+        <v-icon left>mdi-plus</v-icon>
+        Squad
+      </v-btn>
+    </v-col>
+    <v-col
+      v-for="(newSquadCount, i) in newSquads"
+      :key="`new-${newSquadCount}`"
+      cols="12"
+    >
+      <squad-card
         :team-id="team.id"
         @click:remove="newSquads.splice(i, 1)"
         @created="newSquads.splice(i, 1)"
       />
-      <squad-row
-        v-for="squad in squads"
-        :key="squad.id"
-        :record="squad"
-      />
-    </tbody>
-  </v-table>
+    </v-col>
+    <v-col
+      v-for="squad in squads"
+      :key="squad.id"
+      cols="12"
+    >
+      <squad-card :record="squad" />
+    </v-col>
+  </v-row>
 </template>
