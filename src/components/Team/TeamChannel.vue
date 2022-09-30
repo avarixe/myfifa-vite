@@ -1,7 +1,6 @@
 <script setup>
   import mapKeys from 'lodash.mapkeys'
   import camelCase from 'lodash.camelcase'
-  import { useAuthStore } from '~/store/auth'
   import * as models from '~/models'
 
   const props = defineProps({
@@ -72,8 +71,7 @@
     })
   }
 
-  const authStore = useAuthStore()
-  const token = computed(() => authStore.token)
+  const token = useToken()
   const socket = ref(null)
 
   function connectToWebSocket () {

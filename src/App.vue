@@ -1,11 +1,7 @@
 <script setup>
-  import { computed } from 'vue'
   import { createClient, provideClient } from '@urql/vue'
-  import { useAuthStore } from '~/store/auth'
 
-  const authStore = useAuthStore()
-  const token = computed(() => authStore.token)
-
+  const token = useToken()
   const client = createClient({
     url: `${import.meta.env.VITE_API_URL}/graphql`,
     fetchOptions: () => ({

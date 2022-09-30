@@ -1,8 +1,5 @@
 <script setup>
-  import { useAuthStore } from '~/store/auth'
-
-  const authStore = useAuthStore()
-  const token = computed(() => authStore.token)
+  const token = useToken()
 
   const { executeMutation: revokeAccessToken } = useMutation(gql`
     mutation revokeAccessToken($token: String!) {
@@ -17,8 +14,7 @@
     if (errors) {
       alert(errors.fullMessages[0])
     } else {
-      authStore.token = null
-      localStorage.removeItem('token')
+      token.value = null
     }
   }
 </script>

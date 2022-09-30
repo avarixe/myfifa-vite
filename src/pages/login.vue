@@ -1,11 +1,8 @@
 <script setup>
-  import { useAuthStore } from '~/store/auth'
   import logo from '~/assets/logo.png'
 
   const username = ref('')
   const password = ref('')
-
-  const authStore = useAuthStore()
 
   const { executeMutation: grantAccessToken } = useMutation(gql`
     mutation grantAccessToken($username: String!, $password: String!) {
@@ -28,8 +25,7 @@
         password: password.value
       })
     if (token) {
-      authStore.token = token
-      localStorage.setItem('token', token)
+      useToken().value = token
     } else {
       alert(errors.fullMessages[0])
     }

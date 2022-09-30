@@ -1,6 +1,5 @@
 <script setup>
   import { User } from '~/models'
-  import { useAuthStore } from '~/store/auth'
   import logo from '~/assets/logo.png'
 
   const { data } = await useQuery({
@@ -16,7 +15,7 @@
   if (data.value.user) {
     userRepo.save(data.value.user)
   } else {
-    useAuthStore().token = null
+    useToken().value = null
   }
   const user = computed(() => userRepo.find(parseInt(data.value.user.id)))
 
