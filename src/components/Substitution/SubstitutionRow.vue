@@ -1,6 +1,4 @@
 <script setup>
-  import { useTeam } from '~/composables'
-  import { bookingFragment } from '~/fragments'
   import { Player } from '~/models'
 
   const { team } = useTeam()

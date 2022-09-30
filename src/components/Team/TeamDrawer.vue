@@ -1,7 +1,4 @@
 <script setup>
-  import { useTeam } from '~/composables'
-  import { teamFragment } from '~/fragments'
-
   const { team, currentSeason, seasonLabel } = useTeam()
 
   const { executeMutation: updateTeam } = useMutation(gql`

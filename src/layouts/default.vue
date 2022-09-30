@@ -1,5 +1,4 @@
 <script setup>
-  import { useTeam } from '~/composables'
   import { useAuthStore } from '~/store/auth'
 
   const authStore = useAuthStore()

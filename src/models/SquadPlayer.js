@@ -1,5 +1,4 @@
 import { Model } from 'pinia-orm'
-import { matchPositions } from '~/constants'
 import Player from './Player'
 
 export default class SquadPlayer extends Model {

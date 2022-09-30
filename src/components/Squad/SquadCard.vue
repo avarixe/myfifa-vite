@@ -1,7 +1,4 @@
 <script setup>
-  import { useTeam } from '~/composables'
-  import { matchPositions } from '~/constants'
-  import { squadFragment } from '~/fragments'
   import { Player } from '~/models'
 
   const { team } = useTeam()
@@ -91,11 +88,13 @@
   const players = computed(() =>
     playerRepo.where('status', status => !!status).orderBy('pos').get()
   )
-
   const unselectedPlayers = computed(() =>
     players.value.filter(player =>
       attributes.squadPlayersAttributes.every(attr => attr.playerId !== player.id)
     )
+  )
+  const inactivePlayerIds = computed(() =>
+    players.value.filter(player => player.status !== 'Active').map(player => player.id)
   )
 
   const selectedPlayerId = ref(null)
@@ -163,6 +162,7 @@
                 :key="player.id"
                 :subtitle="player.pos"
                 :title="player.name"
+                :disabled="inactivePlayerIds.includes(player.id)"
                 :class="{ 'bg-yellow-lighten-4': selectedPlayerId && selectedPlayerId === player.id }"
                 @click="selectPlayer(player.id)"
               />
@@ -178,7 +178,10 @@
                 <div
                   v-ripple
                   class="my-2 w-100 rounded pos-cell filled-pos"
-                  :class="{ 'bg-yellow-lighten-4': selectedPlayerId && selectedPlayerId === cell.playerId }"
+                  :class="{
+                    'bg-yellow-lighten-4': selectedPlayerId && selectedPlayerId === cell.playerId,
+                    'red--text': inactivePlayerIds.includes(cell.playerId)
+                  }"
                   @click="selectPosition(pos)"
                 >
                   <div class="font-weight-bold">{{ pos }}</div>

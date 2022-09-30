@@ -1,7 +1,5 @@
 <script setup>
   import { useAuthStore } from '~/store/auth'
-  import { userFragment } from '~/fragments'
-  import { isRequired } from '~/rules'
   import logo from '~/assets/logo.png'
 
   const username = ref('')

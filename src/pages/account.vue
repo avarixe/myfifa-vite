@@ -1,6 +1,5 @@
 <script setup>
   import { User } from '~/models'
-  import { userFragment } from '~/fragments'
 
   const { data } = await useQuery({
     query: gql`

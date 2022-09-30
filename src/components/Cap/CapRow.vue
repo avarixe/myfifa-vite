@@ -1,8 +1,5 @@
 <script setup>
-  import { useTeam } from '~/composables'
-  import { capFragment } from '~/fragments'
   import { Player } from '~/models'
-  import { matchPositions } from '~/constants'
 
   const { team } = useTeam()
 

@@ -1,5 +1,4 @@
 import { Model } from 'pinia-orm'
-import { nationalities, positions } from '~/constants'
 import PlayerHistory from './PlayerHistory'
 import Injury from './Injury'
 import Loan from './Loan'

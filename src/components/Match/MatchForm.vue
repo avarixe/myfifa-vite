@@ -1,7 +1,4 @@
 <script setup>
-  import { useTeam } from '~/composables'
-  import { matchFragment } from '~/fragments'
-
   const { team } = useTeam()
 
   const props = defineProps({

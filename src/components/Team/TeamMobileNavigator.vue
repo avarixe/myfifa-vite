@@ -1,6 +1,4 @@
 <script setup>
-  import { useTeam } from '~/composables'
-
   const { team } = useTeam()
 </script>
 

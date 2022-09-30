@@ -1,6 +1,4 @@
 <script setup>
-  import { teamFragment } from '~/fragments'
-
   const props = defineProps({
     record: { type: Object, default: null }
   })

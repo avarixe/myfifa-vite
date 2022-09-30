@@ -1,7 +1,4 @@
 <script setup>
-  import { useTeam } from '~/composables'
-  import { competitionFragment } from '~/fragments'
-
   const { team, currentSeason, seasonLabel } = useTeam()
 
   const props = defineProps({

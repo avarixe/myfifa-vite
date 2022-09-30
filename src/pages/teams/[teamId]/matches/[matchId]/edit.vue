@@ -1,7 +1,5 @@
 <script setup>
   import { Match } from '~/models'
-  import { useTeamQuery } from '~/composables'
-  import { matchFragment, teamFragment } from '~/fragments'
 
   const props = defineProps({
     teamId: { type: String, required: true },

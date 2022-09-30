@@ -1,18 +1,5 @@
 <script setup>
-  import { useTeamQuery } from '~/composables'
-  import { formatDate } from '~/filters'
   import { Match } from '~/models'
-  import {
-    matchFragment,
-    capFragment,
-    goalFragment,
-    substitutionFragment,
-    bookingFragment,
-    penaltyShootoutFragment,
-    teamFragment,
-    playerFragment,
-    baseSquadFragment
-  } from '~/fragments'
 
   const props = defineProps({
     teamId: { type: String, required: true },

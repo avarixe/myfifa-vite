@@ -1,7 +1,4 @@
 <script setup>
-  import { useTeam } from '~/composables'
-  import { transferFragment } from '~/fragments'
-
   const { team } = useTeam()
 
   const props = defineProps({

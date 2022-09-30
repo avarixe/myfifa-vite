@@ -1,7 +1,4 @@
 <script setup>
-  import { formatDate } from '~/filters'
-  import { useTeamQuery } from '~/composables'
-  import { teamFragment, playerFragment, contractFragment } from '~/fragments'
   import { Player, Contract } from '~/models'
 
   const { team, data } = await useTeamQuery({

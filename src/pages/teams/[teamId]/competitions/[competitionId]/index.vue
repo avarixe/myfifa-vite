@@ -1,11 +1,5 @@
 <script setup>
-  import { useTeamQuery } from '~/composables'
   import { Competition } from '~/models'
-  import {
-    competitionFragment,
-    stageFragment,
-    teamFragment
-  } from '~/fragments'
 
   const props = defineProps({
     teamId: { type: String, required: true },

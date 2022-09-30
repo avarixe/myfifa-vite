@@ -1,6 +1,4 @@
 <script setup>
-  import { useTeamQuery } from '~/composables'
-  import { teamFragment, playerFragment, squadFragment } from '~/fragments'
   import { Squad } from '~/models'
 
   const { team, data } = await useTeamQuery({

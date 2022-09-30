@@ -1,7 +1,5 @@
 <script setup>
-  import { formatDate } from '~/filters'
   import { Team } from '~/models'
-  import { teamFragment } from '~/fragments'
 
   const { data } = await useQuery({
     query: gql`

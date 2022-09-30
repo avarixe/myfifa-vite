@@ -1,7 +1,4 @@
 <script setup>
-  import { useTeam } from '~/composables'
-  import { loanFragment } from '~/fragments'
-
   const { team } = useTeam()
 
   const props = defineProps({

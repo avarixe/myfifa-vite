@@ -1,6 +1,4 @@
 <script setup>
-  import { useTeamQuery } from '~/composables'
-  import { teamFragment, competitionFragment } from '~/fragments'
   import { Competition } from '~/models'
 
   const { team, seasonLabel } = await useTeamQuery({

@@ -23,6 +23,13 @@ export default defineConfig({
     Pages(),
     Layouts(),
     AutoImport({
+      dirs: [
+        './src/composables',
+        './src/constants',
+        './src/filters',
+        './src/fragments',
+        './src/rules'
+      ],
       imports: [
         'vue',
         'vue-router',
@@ -51,7 +58,8 @@ export default defineConfig({
             'useTheme'
           ]
         }
-      ]
+      ],
+      vueTemplate: true
     }),
     Components({
       resolvers: [

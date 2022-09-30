@@ -1,6 +1,4 @@
 <script setup>
-  import { userFragment } from '~/fragments'
-
   const props = defineProps({
     record: { type: Object, required: true }
   })

@@ -1,8 +1,4 @@
 <script setup>
-  import { useTeam } from '~/composables'
-  import { positions, nationalities } from '~/constants'
-  import { playerFragment } from '~/fragments'
-
   const { team } = useTeam()
 
   const props = defineProps({

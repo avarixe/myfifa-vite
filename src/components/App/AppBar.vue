@@ -1,7 +1,5 @@
 <script setup>
   import { User } from '~/models'
-  import { useTeam } from '~/composables'
-  import { userFragment } from '~/fragments'
   import { useAuthStore } from '~/store/auth'
   import logo from '~/assets/logo.png'
 

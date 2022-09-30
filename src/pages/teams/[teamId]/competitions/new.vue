@@ -1,7 +1,4 @@
 <script setup>
-  import { useTeamQuery } from '~/composables'
-  import { teamFragment } from '~/fragments'
-
   const { teamId } = await useTeamQuery({
     query: gql`
       query fetchTeam($teamId: ID!) {
