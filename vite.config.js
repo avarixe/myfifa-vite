@@ -46,6 +46,9 @@ export default defineConfig({
           'lodash.keyby': [
             ['default', 'keyBy']
           ],
+          'lodash.orderby': [
+            ['default', 'orderBy']
+          ],
           'date-fns': [
             'format',
             'parseISO'

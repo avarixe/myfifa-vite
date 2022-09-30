@@ -50,11 +50,14 @@
     })
   })
 
+  function sortPos (posA, posB) {
+    return positions.indexOf(posA) - positions.indexOf(posB)
+  }
   const headers = [
     { value: 'name', text: 'Name' },
     { value: 'status', text: 'Status' },
     { value: 'age', text: 'Age' },
-    { value: 'pos', text: 'Pos' },
+    { value: 'pos', text: 'Pos', sort: sortPos },
     { value: 'secPos', text: '2nd Pos' },
     { value: 'kitNo', text: 'Kit No' },
     { value: 'ovr', text: 'OVR' },

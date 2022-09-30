@@ -9,6 +9,7 @@ import Match from './Match'
 import Goal from './Goal'
 import Booking from './Booking'
 import Team from './Team'
+import { positions, nationalities } from '~/constants'
 
 export default class Player extends Model {
   static entity = 'Player'

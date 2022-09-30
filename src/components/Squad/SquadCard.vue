@@ -16,8 +16,7 @@
       id: squadPlayer.id,
       playerId: squadPlayer.playerId,
       pos: squadPlayer.pos
-    })) || new Array(11).fill().map((_, id) => ({
-      id,
+    })) || new Array(11).fill().map(() => ({
       playerId: null,
       pos: null
     }))
@@ -86,7 +85,11 @@
 
   const playerRepo = useRepo(Player)
   const players = computed(() =>
-    playerRepo.where('status', status => !!status).orderBy('pos').get()
+    orderBy(
+      playerRepo.where('status', status => !!status).get(),
+      ['posIdx', 'ovr'],
+      ['asc', 'desc']
+    )
   )
   const unselectedPlayers = computed(() =>
     players.value.filter(player =>
