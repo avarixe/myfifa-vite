@@ -1,5 +1,5 @@
 <script setup>
-  import { Player } from '~/models'
+  import { Player, Squad } from '~/models'
 
   const { team } = useTeam()
 
@@ -12,14 +12,9 @@
 
   const attributes = reactive({
     name: props.record?.name,
-    squadPlayersAttributes: props.record?.squadPlayers?.map(squadPlayer => ({
-      id: squadPlayer.id,
-      playerId: squadPlayer.playerId,
-      pos: squadPlayer.pos
-    })) || new Array(11).fill().map(() => ({
-      playerId: null,
-      pos: null
-    }))
+    squadPlayersAttributes: props.record?.squadPlayers?.map(squadPlayer =>
+      pick(squadPlayer, ['id', 'playerId', 'pos'])
+    ) || new Array(11).fill().map(() => ({ playerId: null, pos: null }))
   })
 
   const formationCells = computed(() =>
@@ -32,11 +27,9 @@
   )
 
   function resetCard () {
-    attributes.squadPlayersAttributes = props.record?.squadPlayers?.map(squadPlayer => ({
-      id: squadPlayer.id,
-      playerId: squadPlayer.playerId,
-      pos: squadPlayer.pos
-    }))
+    attributes.squadPlayersAttributes = props.record?.squadPlayers?.map(
+      squadPlayer => pick(squadPlayer, ['id', 'playerId', 'pos'])
+    )
     selectedPlayerId.value = null
     inEditMode.value = false
   }
@@ -76,6 +69,7 @@
       const { data: { addSquad: { errors, squad } } } =
         await createSquad({ teamId: props.teamId, attributes })
       if (squad) {
+        useRepo(Squad).save(squad)
         emit('created')
       } else {
         alert(errors.fullMessages[0])

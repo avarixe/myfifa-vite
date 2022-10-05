@@ -1,4 +1,8 @@
 <script setup>
+  const props = defineProps({
+    user: { type: Object, required: true }
+  })
+
   const attributes = reactive({
     currentPassword: '',
     password: '',
@@ -28,10 +32,17 @@
     <v-card>
       <v-card-title>Change Password</v-card-title>
       <v-card-text>
+        <input
+          name="username"
+          :value="user.username"
+          class="d-none"
+          autocomplete="username"
+        />
         <v-text-field
           v-model="attributes.currentPassword"
           label="Current Password"
           type="password"
+          autocomplete="current-password"
         />
         <v-text-field
           v-model="attributes.password"

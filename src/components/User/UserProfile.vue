@@ -1,13 +1,11 @@
 <script setup>
   const props = defineProps({
-    record: { type: Object, required: true }
+    user: { type: Object, required: true }
   })
 
-  const attributes = reactive({
-    fullName: props.record.fullName,
-    username: props.record.username,
-    email: props.record.email
-  })
+  const attributes = reactive(
+    pick(props.user, ['fullName', 'username', 'email'])
+  )
 
   const { executeMutation: updateUser } = useMutation(gql`
     mutation updateUser($id: ID!, $attributes: UserAttributes!) {
@@ -23,7 +21,7 @@
   async function onSubmit () {
     loading.value = true
     const { data: { updateUser: { errors } } } =
-      await updateUser({ id: props.record.id, attributes })
+      await updateUser({ id: props.user.id, attributes })
     errors && alert(errors.fullMessages[0])
     loading.value = false
   }

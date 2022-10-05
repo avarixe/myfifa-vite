@@ -62,5 +62,6 @@
   <v-breadcrumbs
     v-show="breadcrumbs.length > 1"
     :items="breadcrumbs"
+    color="primary"
   />
 </template>

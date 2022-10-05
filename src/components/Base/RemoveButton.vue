@@ -23,7 +23,6 @@
   const emit = defineEmits(['removed'])
   async function onClick () {
     if (confirm(`Remove ${props.label}?`)) {
-      await removeRecord({ })
       const { data: { [`remove${props.store}`]: { errors, [storeCamelCase]: record} } } =
         await removeRecord({ id: props.record.id })
       if (record) {

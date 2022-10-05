@@ -49,6 +49,9 @@ export default defineConfig({
           'lodash.orderby': [
             ['default', 'orderBy']
           ],
+          'lodash.pick': [
+            ['default', 'pick']
+          ],
           'date-fns': [
             'format',
             'parseISO'

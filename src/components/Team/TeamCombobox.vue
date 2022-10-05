@@ -15,10 +15,10 @@
     items.value = defaultItems
   }, { deep: true, immediate: true })
 
-  const modelValue = ref(props.modelValue)
+  const textValue = ref(props.modelValue)
   const emit = defineEmits(['update:modelValue'])
-  watch(modelValue, () => {
-    emit('update:modelValue', modelValue.value)
+  watch(textValue, () => {
+    emit('update:modelValue', textValue.value)
     onSearchInputUpdate()
   })
 
@@ -30,7 +30,7 @@
     `,
     variables: {
       category: 'Team',
-      search: modelValue.value
+      search: textValue
     },
     requestPolicy: 'network-only',
     pause: true
@@ -43,9 +43,9 @@
 
   async function onSearchInputUpdate () {
     clearTimeout(timeout.value)
-    if (items.value.includes(modelValue.value)) {
+    if (items.value.includes(textValue.value)) {
       items.value = []
-    } else if (modelValue.value.length >= 3) {
+    } else if (textValue.value.length >= 3) {
       timeout.value = setTimeout(() => searchItems(), 300)
     } else {
       items.value = props.defaultItems
@@ -66,25 +66,20 @@
     }
   }
 
-  const menuProps = reactive({ modelValue: false })
-  watchEffect(() => {
-    menuProps.modelValue = items.value.length > 1
-  })
-
   const listId = `teams-${uuidv4()}`
 </script>
 
 <template>
   <v-text-field
     v-bind="$attrs"
-    :model-value="modelValue"
+    :model-value="textValue"
     :loading="loading"
     spellcheck="false"
     autocapitalize="words"
     autocomplete="off"
     autocorrect="off"
     :list="listId"
-    @update:model-value="modelValue = $event"
+    @update:model-value="textValue = $event"
   />
 
   <datalist :id="listId">

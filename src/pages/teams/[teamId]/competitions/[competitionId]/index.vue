@@ -27,10 +27,19 @@
   const competitionRepo = useRepo(Competition)
   competitionRepo.save(data.value?.competition)
   const competition = computed(() =>
-    competitionRepo.withAll().find(parseInt(props.competitionId))
+    competitionRepo.with('stages', query =>
+      query
+        .with('tableRows')
+        .with('fixtures', fixtureQuery => fixtureQuery.with('legs'))
+    ).find(parseInt(props.competitionId))
   )
 
+  const tableStages = computed(() => competition.value.stages.filter(stage => stage.table))
+  const roundStages = computed(() => competition.value.stages.filter(stage => !stage.table))
+
   const router = useRouter()
+
+  const expansionPanels = ref([0, 1])
 </script>
 
 <template>
@@ -38,6 +47,11 @@
 
   <div>
     <v-btn :to="`/teams/${team.id}/competitions/${competition.id}/edit`">Edit</v-btn>
+    &nbsp;
+    <v-btn>
+      Add Stage
+      <stage-form :competition-id="competition.id" />
+    </v-btn>
     &nbsp;
     <remove-button
       :record="competition"
@@ -52,7 +66,22 @@
     <div v-if="competition.champion"><b>Champion:</b> {{ competition.champion }}</div>
   </div>
 
-  <h3><u>Stages</u></h3>
-  <p>Coming Soon!</p>
-  <!-- <stage-grid :stage="stage" /> -->
+  <v-expansion-panels v-model="expansionPanels" multiple>
+    <v-expansion-panel
+      v-if="tableStages.length > 0"
+      title="Group Stages"
+    >
+      <v-expansion-panel-text>
+        <stage-grid :stages="tableStages" />
+      </v-expansion-panel-text>
+    </v-expansion-panel>
+    <v-expansion-panel
+      v-if="roundStages.length > 0"
+      title="Knockout Stages"
+    >
+      <v-expansion-panel-text>
+        <stage-grid :stages="roundStages" />
+      </v-expansion-panel-text>
+    </v-expansion-panel>
+  </v-expansion-panels>
 </template>

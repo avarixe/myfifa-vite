@@ -18,10 +18,10 @@
 <template>
   <v-row>
     <v-col>
-      <user-profile :record="user" />
+      <user-profile :user="user" />
     </v-col>
     <v-col>
-      <user-password-manager />
+      <user-password-manager :user="user" />
     </v-col>
   </v-row>
 </template>

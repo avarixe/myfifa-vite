@@ -18,6 +18,7 @@
     "lodash.keyby": "^4.6.0",
     "lodash.mapkeys": "^4.6.0",
     "lodash.orderby": "^4.6.0",
+    "lodash.pick": "^4.4.0",
     "pinia": "^2.0.17",
     "pinia-orm": "^1.0.0-rc.5",
     "uuid": "^8.3.2",
