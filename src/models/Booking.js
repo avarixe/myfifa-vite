@@ -1,4 +1,5 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/casts'
 import Match from './Match'
 import Player from './Player'
 
@@ -10,7 +11,7 @@ export default class Booking extends Model {
       // Primary/Foreign keys
       id: this.number(0),
       matchId: this.number(0),
-      playerId: this.number(null).nullable(),
+      playerId: this.number(null),
 
       // Database fields
       playerName: this.string(''),
@@ -29,9 +30,9 @@ export default class Booking extends Model {
 
   static casts () {
     return {
-      id: 'number',
-      matchId: 'number',
-      playerId: 'number'
+      id: NumberCast,
+      matchId: NumberCast,
+      playerId: NumberCast
     }
   }
 }

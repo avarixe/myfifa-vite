@@ -1,4 +1,5 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/casts'
 
 export default class PenaltyShootout extends Model {
   static entity = 'PenaltyShootout'
@@ -17,8 +18,8 @@ export default class PenaltyShootout extends Model {
 
   static casts () {
     return {
-      id: 'number',
-      matchId: 'number'
+      id: NumberCast,
+      matchId: NumberCast
     }
   }
 }

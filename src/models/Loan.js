@@ -1,4 +1,5 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/casts'
 
 export default class Loan extends Model {
   static entity = 'Loan'
@@ -12,20 +13,20 @@ export default class Loan extends Model {
       // Database fields
       startedOn: this.string(''),
       signedOn: this.string(''),
-      endedOn: this.string('').nullable(),
+      endedOn: this.string(''),
       origin: this.string(''),
       destination: this.string(''),
-      wagePercentage: this.number(null).nullable(),
-      transferFee: this.number(null).nullable(),
-      addonClause: this.number(null).nullable(),
+      wagePercentage: this.number(null),
+      transferFee: this.number(null),
+      addonClause: this.number(null),
       createdAt: this.string('')
     }
   }
 
   static casts () {
     return {
-      id: 'number',
-      playerId: 'number'
+      id: NumberCast,
+      playerId: NumberCast
     }
   }
 }

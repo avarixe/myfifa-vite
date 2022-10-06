@@ -1,4 +1,5 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/casts'
 import Team from './Team'
 import PenaltyShootout from './PenaltyShootout'
 import Goal from './Goal'
@@ -20,7 +21,7 @@ export default class Match extends Model {
       home: this.string(''),
       away: this.string(''),
       competition: this.string(''),
-      stage: this.string('').nullable(),
+      stage: this.string(''),
       playedOn: this.string(''),
       extraTime: this.boolean(false),
       homeScore: this.number(0),
@@ -28,7 +29,7 @@ export default class Match extends Model {
 
       // Calculated fields
       score: this.string(''),
-      teamResult: this.attr(null).nullable(),
+      teamResult: this.attr(null),
       season: this.number(0),
 
       // Associations
@@ -44,8 +45,8 @@ export default class Match extends Model {
 
   static casts () {
     return {
-      id: 'number',
-      teamId: 'number'
+      id: NumberCast,
+      teamId: NumberCast
     }
   }
 

@@ -3,10 +3,13 @@
 </script>
 
 <template>
-  <v-dialog activator="parent">
+  <v-dialog
+    activator="parent"
+    max-width="300px"
+  >
     <v-card>
       <v-card-title class="text-center">
-        <v-img :src="logo" />
+        <v-img :src="logo" height="64px" />
         MyFIFA Manager
       </v-card-title>
       <v-table>

@@ -1,4 +1,5 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/casts'
 import Stage from './Stage'
 
 export default class TableRow extends Model {
@@ -11,16 +12,16 @@ export default class TableRow extends Model {
       stageId: this.number(0),
 
       // Database fields
-      name: this.string('').nullable(),
-      wins: this.number(null).nullable(),
-      draws: this.number(null).nullable(),
-      losses: this.number(null).nullable(),
-      goalsFor: this.number(null).nullable(),
-      goalsAgainst: this.number(null).nullable(),
+      name: this.string(''),
+      wins: this.number(null),
+      draws: this.number(null),
+      losses: this.number(null),
+      goalsFor: this.number(null),
+      goalsAgainst: this.number(null),
 
       // Calculated fields
-      goalDifference: this.number(null).nullable(),
-      points: this.number(null).nullable(),
+      goalDifference: this.number(null),
+      points: this.number(null),
 
       // Associations
       stage: this.belongsTo(Stage, 'stageId')
@@ -29,8 +30,8 @@ export default class TableRow extends Model {
 
   static casts () {
     return {
-      id: 'number',
-      stageId: 'number'
+      id: NumberCast,
+      stageId: NumberCast
     }
   }
 }

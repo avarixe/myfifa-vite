@@ -1,4 +1,5 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/casts'
 import Player from './Player'
 
 export default class Contract extends Model {
@@ -12,15 +13,15 @@ export default class Contract extends Model {
 
       // Database fields
       signedOn: this.string(''),
-      wage: this.number(null).nullable(),
-      signingBonus: this.number(null).nullable(),
-      releaseClause: this.number(null).nullable(),
-      performanceBonus: this.number(null).nullable(),
-      bonusReq: this.number(null).nullable(),
-      bonusReqType: this.string(null).nullable(),
+      wage: this.number(null),
+      signingBonus: this.number(null),
+      releaseClause: this.number(null),
+      performanceBonus: this.number(null),
+      bonusReq: this.number(null),
+      bonusReqType: this.string(null),
       endedOn: this.string(''),
       startedOn: this.string(''),
-      conclusion: this.string(null).nullable(),
+      conclusion: this.string(null),
       createdAt: this.string(''),
 
       // Associations
@@ -30,8 +31,8 @@ export default class Contract extends Model {
 
   static casts () {
     return {
-      id: 'number',
-      playerId: 'number'
+      id: NumberCast,
+      playerId: NumberCast
     }
   }
 }

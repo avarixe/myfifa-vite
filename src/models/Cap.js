@@ -1,4 +1,5 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/casts'
 import Match from './Match'
 import Player from './Player'
 
@@ -16,7 +17,7 @@ export default class Cap extends Model {
       pos: this.string(''),
       start: this.number(0),
       stop: this.number(90),
-      rating: this.number(0).nullable(),
+      rating: this.number(0),
       subbedOut: this.boolean(false),
 
       // Associations
@@ -27,9 +28,9 @@ export default class Cap extends Model {
 
   static casts () {
     return {
-      id: 'number',
-      matchId: 'number',
-      playerId: 'number'
+      id: NumberCast,
+      matchId: NumberCast,
+      playerId: NumberCast
     }
   }
 }

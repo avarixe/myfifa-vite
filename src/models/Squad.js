@@ -1,4 +1,5 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/casts'
 import SquadPlayer from './SquadPlayer'
 import Player from './Player'
 
@@ -22,8 +23,8 @@ export default class Squad extends Model {
 
   static casts () {
     return {
-      id: 'number',
-      teamId: 'number'
+      id: NumberCast,
+      teamId: NumberCast
     }
   }
 }

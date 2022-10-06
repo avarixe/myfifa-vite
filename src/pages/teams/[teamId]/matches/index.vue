@@ -38,6 +38,7 @@
   <data-table
     :headers="headers"
     :items="matches"
+    item-key="id"
     sort-by="playedOn"
     sort-desc
   >

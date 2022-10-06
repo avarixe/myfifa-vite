@@ -37,6 +37,7 @@
   <data-table
     :headers="headers"
     :items="competitions"
+    item-key="id"
     sort-by="season"
     sort-desc
   >

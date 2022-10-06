@@ -1,4 +1,5 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/casts'
 import Player from './Player'
 import Match from './Match'
 import Squad from './Squad'
@@ -21,7 +22,7 @@ export default class Team extends Model {
 
       // Calculated fields
       timePeriod: this.string(''),
-      badgePath: this.string('').nullable(),
+      badgePath: this.string(''),
 
       // Associations
       players: this.hasMany(Player, 'teamId'),
@@ -33,7 +34,7 @@ export default class Team extends Model {
 
   static casts () {
     return {
-      id: 'number'
+      id: NumberCast
     }
   }
 

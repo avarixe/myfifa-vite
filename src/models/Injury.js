@@ -1,4 +1,5 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/casts'
 
 export default class Injury extends Model {
   static entity = 'Injury'
@@ -11,7 +12,7 @@ export default class Injury extends Model {
 
       // Database fields
       startedOn: this.string(''),
-      endedOn: this.string('').nullable(),
+      endedOn: this.string(''),
       description: this.string(''),
       createdAt: this.string('')
     }
@@ -19,8 +20,8 @@ export default class Injury extends Model {
 
   static casts () {
     return {
-      id: 'number',
-      playerId: 'number'
+      id: NumberCast,
+      playerId: NumberCast
     }
   }
 }

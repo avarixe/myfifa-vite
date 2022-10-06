@@ -1,4 +1,5 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/casts'
 
 export default class FixtureLeg extends Model {
   static entity = 'FixtureLeg'
@@ -10,15 +11,15 @@ export default class FixtureLeg extends Model {
       fixtureId: this.number(0),
 
       // Database fields
-      homeScore: this.string('').nullable(),
-      awayScore: this.string('').nullable()
+      homeScore: this.string(''),
+      awayScore: this.string('')
     }
   }
 
   static casts () {
     return {
-      id: 'number',
-      fixtureId: 'number'
+      id: NumberCast,
+      fixtureId: NumberCast
     }
   }
 

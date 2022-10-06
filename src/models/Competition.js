@@ -1,4 +1,5 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/casts'
 import Stage from './Stage'
 import Team from './Team'
 
@@ -14,11 +15,11 @@ class Competition extends Model {
       // Database fields
       season: this.number(0),
       name: this.string(''),
-      champion: this.string(null).nullable(),
+      champion: this.string(null),
       presetFormat: this.attr(null),
-      numTeams: this.number(null).nullable(),
-      numTeamsPerGroup: this.number(null).nullable(),
-      numAdvancesFromGroup: this.number(null).nullable(),
+      numTeams: this.number(null),
+      numTeamsPerGroup: this.number(null),
+      numAdvancesFromGroup: this.number(null),
 
       // Associations
       team: this.belongsTo(Team, 'teamId'),
@@ -28,8 +29,8 @@ class Competition extends Model {
 
   static casts () {
     return {
-      id: 'number',
-      teamId: 'number'
+      id: NumberCast,
+      teamId: NumberCast
     }
   }
 

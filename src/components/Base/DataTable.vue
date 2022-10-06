@@ -2,6 +2,7 @@
   const props = defineProps({
     headers: { type: Array, default: () => [] },
     items: { type: Array, default: () => [] },
+    itemKey: { type: String, required: true },
     itemsPerPage: { type: Number, default: 10 },
     itemsPerPageOptions: { type: Array, default: () => [10, 20, 50, -1] },
     sortBy: { type: String, default: null },
@@ -107,7 +108,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(item, i) in pageItems" :key="i">
+      <tr v-for="item in pageItems" :key="item[itemKey]">
         <slot name="item" :item="item">
           <td
             v-for="(header, j) in headers"

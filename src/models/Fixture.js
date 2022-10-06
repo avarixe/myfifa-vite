@@ -1,4 +1,5 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/casts'
 import FixtureLeg from './FixtureLeg'
 
 export default class Fixture extends Model {
@@ -11,8 +12,8 @@ export default class Fixture extends Model {
       stageId: this.number(0),
 
       // Database fields
-      homeTeam: this.string('').nullable(),
-      awayTeam: this.string('').nullable(),
+      homeTeam: this.string(''),
+      awayTeam: this.string(''),
 
       // Associations
       legs: this.hasMany(FixtureLeg, 'fixtureId', 'id')
@@ -21,8 +22,8 @@ export default class Fixture extends Model {
 
   static casts () {
     return {
-      id: 'number',
-      stageId: 'number'
+      id: NumberCast,
+      stageId: NumberCast
     }
   }
 }

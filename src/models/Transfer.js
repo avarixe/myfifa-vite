@@ -1,4 +1,5 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/casts'
 import Player from './Player'
 
 export default class Transfer extends Model {
@@ -15,9 +16,9 @@ export default class Transfer extends Model {
       movedOn: this.string(''),
       origin: this.string(''),
       destination: this.string(''),
-      fee: this.number(null).nullable(),
-      tradedPlayer: this.string(null).nullable(),
-      addonClause: this.number(null).nullable(),
+      fee: this.number(null),
+      tradedPlayer: this.string(null),
+      addonClause: this.number(null),
       createdAt: this.string(''),
 
       // Associations
@@ -27,8 +28,8 @@ export default class Transfer extends Model {
 
   static casts () {
     return {
-      id: 'number',
-      playerId: 'number'
+      id: NumberCast,
+      playerId: NumberCast
     }
   }
 }

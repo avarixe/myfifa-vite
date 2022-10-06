@@ -1,4 +1,5 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/casts'
 import Player from './Player'
 
 export default class Goal extends Model {
@@ -9,12 +10,12 @@ export default class Goal extends Model {
       // Primary/Foreign keys
       id: this.number(0),
       matchId: this.number(0),
-      playerId: this.number(null).nullable(),
-      assistId: this.number(null).nullable(),
+      playerId: this.number(null),
+      assistId: this.number(null),
 
       // Database fields
       playerName: this.string(''),
-      assistedBy: this.string('').nullable(),
+      assistedBy: this.string(''),
       minute: this.number(0),
       home: this.boolean(true),
       ownGoal: this.boolean(false),
@@ -29,10 +30,10 @@ export default class Goal extends Model {
 
   static casts () {
     return {
-      id: 'number',
-      matchId: 'number',
-      playerId: 'number',
-      assistId: 'number'
+      id: NumberCast,
+      matchId: NumberCast,
+      playerId: NumberCast,
+      assistId: NumberCast
     }
   }
 }

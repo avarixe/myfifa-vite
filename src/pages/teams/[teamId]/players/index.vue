@@ -44,6 +44,8 @@
     return players.value.map(player => {
       return {
         ...player,
+        statusColor: player.statusColor,
+        statusIcon: player.statusIcon,
         wage: currentContractsByPlayerId.value[player.id]?.wage,
         endDate: currentContractsByPlayerId.value[player.id]?.endedOn
       }
@@ -77,7 +79,8 @@
 
   <data-table
     :headers="headers"
-    :items="players"
+    :items="rows"
+    item-key="id"
     sort-by="pos"
   >
     <template #item-name="{ item: player }">
@@ -89,8 +92,29 @@
         v-text="player.name"
       />
     </template>
+    <template #item-status="{ item: player }">
+      <v-icon :color="player.statusColor">
+        mdi-{{ player.statusIcon }}
+      </v-icon>
+    </template>
     <template #item-secPos="{ item: player }">
       {{ player.secPos.join(', ') }}
+    </template>
+    <template #item-kitNo="{ item: player }">
+      <inline-select
+        :record="player"
+        attribute="kitNo"
+        label="Kit No"
+        :options="Array.from({ length: 98 }, (v, k) => k + 1)"
+      />
+    </template>
+    <template #item-ovr="{ item: player }">
+      <inline-select
+        :record="player"
+        attribute="ovr"
+        label="OVR"
+        :options="Array.from({ length: 61 }, (v, k) => k + 40)"
+      />
     </template>
     <template #item-value="{ item: player }">
       {{ team.currency }}{{ player.value.toLocaleString() }}

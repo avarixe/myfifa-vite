@@ -1,4 +1,5 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/casts'
 
 export default class PlayerHistory extends Model {
   static entity = 'PlayerHistory'
@@ -13,14 +14,14 @@ export default class PlayerHistory extends Model {
       recordedOn: this.string(''),
       ovr: this.number(60),
       value: this.number(0),
-      kitNo: this.number(0).nullable()
+      kitNo: this.number(0)
     }
   }
 
   static casts () {
     return {
-      id: 'number',
-      playerId: 'number'
+      id: NumberCast,
+      playerId: NumberCast
     }
   }
 }

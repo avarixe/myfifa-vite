@@ -35,6 +35,7 @@
   <data-table
     :headers="headers"
     :items="teams"
+    item-key="id"
     sort-desc
   >
     <template #item="{ item: team }">

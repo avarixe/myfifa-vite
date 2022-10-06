@@ -1,4 +1,5 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/casts'
 import Player from './Player'
 
 export default class Substitution extends Model {
@@ -29,10 +30,10 @@ export default class Substitution extends Model {
 
   static casts () {
     return {
-      id: 'number',
-      matchId: 'number',
-      playerId: 'number',
-      replacementId: 'number'
+      id: NumberCast,
+      matchId: NumberCast,
+      playerId: NumberCast,
+      replacementId: NumberCast
     }
   }
 }

@@ -1,4 +1,5 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/casts'
 import PlayerHistory from './PlayerHistory'
 import Injury from './Injury'
 import Loan from './Loan'
@@ -22,14 +23,14 @@ export default class Player extends Model {
 
       // Database fields
       name: this.string(''),
-      nationality: this.string('').nullable(),
+      nationality: this.string(''),
       pos: this.string(''),
       secPos: this.attr([]),
       ovr: this.number(60),
-      value: this.number(null).nullable(),
-      status: this.string(null).nullable(),
+      value: this.number(null),
+      status: this.string(null),
       youth: this.boolean(false),
-      kitNo: this.number(null).nullable(),
+      kitNo: this.number(null),
 
       // Calculated fields
       age: this.number(16),
@@ -51,8 +52,8 @@ export default class Player extends Model {
 
   static casts () {
     return {
-      id: 'number',
-      teamId: 'number'
+      id: NumberCast,
+      teamId: NumberCast
     }
   }
 
