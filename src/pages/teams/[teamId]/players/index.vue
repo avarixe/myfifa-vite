@@ -24,9 +24,35 @@
     .filter(contract => contract)
   contractRepo.save(contracts)
 
+  const filter = ref('Active')
+  const filterOptions = [
+    { text: 'All', color: 'blue', icon: 'earth' },
+    { text: 'Youth', color: 'cyan', icon: 'school' },
+    { text: 'Active', color: 'light-green', icon: 'account-check' },
+    { text: 'Injured', color: 'pink', icon: 'ambulance' },
+    { text: 'Loaned', color: 'deep-orange', icon: 'transit-transfer' },
+    { text: 'Pending', color: 'orange', icon: 'lock-clock' }
+  ]
+  const search = ref('')
+
   const playerRepo = useRepo(Player)
   const players = computed(() =>
-    playerRepo.where('teamId', team.value.id).get()
+    playerRepo
+      .where('teamId', team.value.id)
+      .where('status', status => {
+        switch (filter.value) {
+          case 'Active':
+            return status !== null
+          case 'Injured':
+          case 'Loaned':
+          case 'Pending':
+            return status === filter.value
+          default:
+            return true
+        }
+      })
+      .where('youth', youth => filter.value !== 'Youth' || youth)
+      .get()
   )
 
   const currentContractsByPlayerId = computed(() => {
@@ -40,6 +66,7 @@
       contract => contract.playerId
     )
   })
+
   const rows = computed(() => {
     return players.value.map(player => {
       return {
@@ -52,20 +79,20 @@
     })
   })
 
-  function sortPos (posA, posB) {
-    return positions.indexOf(posA) - positions.indexOf(posB)
+  function sortPos (playerA, playerB) {
+    return positions.indexOf(playerA.pos) - positions.indexOf(playerB.pos)
   }
   const headers = [
     { value: 'name', text: 'Name' },
-    { value: 'status', text: 'Status' },
-    { value: 'age', text: 'Age' },
-    { value: 'pos', text: 'Pos', sort: sortPos },
+    { value: 'status', text: 'Status', class: 'text-center', cellClass: 'text-center' },
+    { value: 'age', text: 'Age', class: 'text-center', cellClass: 'text-center' },
+    { value: 'pos', text: 'Pos', sort: sortPos, class: 'text-center', cellClass: 'text-center' },
     { value: 'secPos', text: '2nd Pos' },
-    { value: 'kitNo', text: 'Kit No' },
-    { value: 'ovr', text: 'OVR' },
-    { value: 'value', text: 'Value' },
-    { value: 'wage', text: 'Wage' },
-    { value: 'endDate', text: 'Contract Ends' }
+    { value: 'kitNo', text: 'Kit No', class: 'text-center', cellClass: 'text-center' },
+    { value: 'ovr', text: 'OVR', class: 'text-center', cellClass: 'text-center' },
+    { value: 'value', text: 'Value', class: 'text-right', cellClass: 'text-right' },
+    { value: 'wage', text: 'Wage', class: 'text-right', cellClass: 'text-right' },
+    { value: 'endDate', text: 'Contract Ends', class: 'text-right', cellClass: 'text-right' }
   ]
 </script>
 
@@ -76,6 +103,23 @@
     <v-icon left>mdi-plus</v-icon>
     Player
   </v-btn>
+  &nbsp;
+  <v-btn-toggle v-model="filter" variant="outlined">
+    <v-btn
+      v-for="option in filterOptions"
+      :key="option.text"
+      icon
+      :color="option.color"
+      :value="option.text"
+    >
+      <v-icon>mdi-{{ option.icon }}</v-icon>
+      <v-tooltip
+        activator="parent"
+        :text="`${option.text} Players`"
+        location="bottom"
+      />
+    </v-btn>
+  </v-btn-toggle>
 
   <data-table
     :headers="headers"
@@ -101,23 +145,29 @@
       {{ player.secPos.join(', ') }}
     </template>
     <template #item-kitNo="{ item: player }">
-      <inline-select
-        :record="player"
+      <player-attribute
+        :player="player"
         attribute="kitNo"
         label="Kit No"
-        :options="Array.from({ length: 98 }, (v, k) => k + 1)"
       />
     </template>
     <template #item-ovr="{ item: player }">
-      <inline-select
-        :record="player"
+      <player-attribute
+        :player="player"
         attribute="ovr"
         label="OVR"
-        :options="Array.from({ length: 61 }, (v, k) => k + 40)"
       />
     </template>
     <template #item-value="{ item: player }">
-      {{ team.currency }}{{ player.value.toLocaleString() }}
+      <player-attribute
+        :player="player"
+        attribute="value"
+        label="Value"
+      >
+        <template #display>
+          {{ team.currency }}{{ player.value.toLocaleString() }}
+        </template>
+      </player-attribute>
     </template>
     <template #item-wage="{ item: player }">
       <span v-if="player.wage">
