@@ -74,21 +74,19 @@
         flag: player.flag,
         statusColor: player.statusColor,
         statusIcon: player.statusIcon,
+        posIdx: player.posIdx,
         wage: currentContractsByPlayerId.value[player.id]?.wage,
         endDate: currentContractsByPlayerId.value[player.id]?.endedOn
       }
     })
   })
 
-  function sortPos (playerA, playerB) {
-    return positions.indexOf(playerA.pos) - positions.indexOf(playerB.pos)
-  }
   const headers = [
     { value: 'name', text: 'Name' },
     { value: 'nationality', text: 'Nationality', class: 'text-center', cellClass: 'text-center' },
     { value: 'status', text: 'Status', class: 'text-center', cellClass: 'text-center' },
     { value: 'age', text: 'Age', class: 'text-center', cellClass: 'text-center' },
-    { value: 'pos', text: 'Pos', sort: sortPos, class: 'text-center', cellClass: 'text-center' },
+    { value: 'pos', text: 'Pos', sortBy: 'posIdx', class: 'text-center', cellClass: 'text-center' },
     { value: 'secPos', text: '2nd Pos' },
     { value: 'kitNo', text: 'Kit No', class: 'text-center', cellClass: 'text-center' },
     { value: 'ovr', text: 'OVR', class: 'text-center', cellClass: 'text-center' },

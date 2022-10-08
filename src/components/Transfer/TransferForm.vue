@@ -31,17 +31,16 @@
   )
   const transferColor = computed(() => transferOut.value ? 'red' : 'green')
 
-
   function onOpen () {
     if (props.record) {
-      attributes = pick(props.record, [
+      Object.assign(attributes, pick(props.record, [
         'signedOn',
         'movedOn',
         'origin',
         'destination',
         'fee',
         'addonClause'
-      ])
+      ]))
     } else {
       attributes.movedOn = team.value.currentlyOn
       if (transferOut.value) {

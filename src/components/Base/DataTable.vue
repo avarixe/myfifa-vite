@@ -28,21 +28,19 @@
       sortDesc.value = false
     }
   }
-  function defaultSort () {
-    return (a, b) => {
-      const attr = sortBy.value
-      if (sortDesc.value) {
-        return (b[attr] > a[attr]) - (a[attr] > b[attr])
-      } else {
-        return (a[attr] > b[attr]) - (b[attr] > a[attr])
-      }
+  function defaultSort (a, b) {
+    const sortHeader = props.headers[sortIndex.value]
+    const attr = sortHeader.sortBy || sortBy.value
+    if (sortDesc.value) {
+      return (b[attr] > a[attr]) - (a[attr] > b[attr])
+    } else {
+      return (a[attr] > b[attr]) - (b[attr] > a[attr])
     }
   }
   const sortedItems = computed(() => {
     const sortHeader = props.headers[sortIndex.value]
     if (sortHeader) {
-      const sort = sortHeader.sort || defaultSort(sortHeader.value)
-      return props.items.sort(sort)
+      return props.items.sort(defaultSort)
     } else {
       return props.items
     }

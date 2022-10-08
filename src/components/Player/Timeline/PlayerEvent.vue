@@ -1,4 +1,16 @@
 <script setup>
+  import ContractForm from '~/components/Contract/ContractForm.vue'
+  import InjuryForm from '~/components/Injury/InjuryForm.vue'
+  import LoanForm from '~/components/Loan/LoanForm.vue'
+  import TransferForm from '~/components/Transfer/TransferForm.vue'
+
+  const eventForm = {
+    Contract: ContractForm,
+    Injury: InjuryForm,
+    Loan: LoanForm,
+    Transfer: TransferForm
+  }
+
   defineProps({
     player: { type: Object, required: true },
     event: { type: Object, required: true },
@@ -12,7 +24,6 @@
   <v-timeline-item
     :icon="icon"
     :dot-color="color"
-    fill-dot
   >
     <v-card dense flat>
       <v-card-title class="py-0">
@@ -37,6 +48,11 @@
           color="orange"
         >
           Edit
+          <component
+            :is="eventForm[event.timelineType]"
+            :player="player"
+            :record="event"
+          />
         </v-btn>
         <slot name="additional-actions" />
         <remove-button

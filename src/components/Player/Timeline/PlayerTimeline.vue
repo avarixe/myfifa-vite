@@ -4,6 +4,13 @@
   import LoanEvent from './LoanEvent.vue'
   import TransferEvent from './TransferEvent.vue'
 
+  const eventComponent = {
+    Contract: ContractEvent,
+    Injury: InjuryEvent,
+    Loan: LoanEvent,
+    Transfer: TransferEvent
+  }
+
   const { team } = useTeam()
 
   const props = defineProps({
@@ -22,13 +29,6 @@
   events.value.forEach(event => {
     console.log(event)
   })
-
-  const eventComponent = {
-    Contract: ContractEvent,
-    Injury: InjuryEvent,
-    Loan: LoanEvent,
-    Transfer: TransferEvent
-  }
 </script>
 
 <template>
@@ -37,29 +37,38 @@
       <v-timeline align="start" side="end">
         <v-timeline-item
           icon="mdi-plus"
-          dot-color="success"
-          fill-dot
+          dot-color="primary"
         >
-          <v-card dense flat>
-            <v-card-text>
-              <v-btn>
-                Sign New Contract
+          <v-row dense>
+            <v-col cols="6">
+              <v-btn color="blue">
+                <v-icon start>mdi-file-document</v-icon>
+                Contract
                 <contract-form :player="player" />
               </v-btn>
-              <v-btn>
-                Record New Injury
+            </v-col>
+            <v-col cols="6">
+              <v-btn color="pink">
+                <v-icon start>mdi-ambulance</v-icon>
+                Injury
                 <injury-form :player="player" />
               </v-btn>
-              <v-btn>
-                Record New Loan
+            </v-col>
+            <v-col cols="6">
+              <v-btn color="deep-orange">
+                <v-icon start>mdi-transit-transfer</v-icon>
+                Loan
                 <loan-form :player="player" />
               </v-btn>
-              <v-btn>
-                Record New Transfer
+            </v-col>
+            <v-col cols="6">
+              <v-btn :color="player.isActive ? 'red' : 'green'">
+                <v-icon start>mdi-airplane</v-icon>
+                Transfer
                 <transfer-form :player="player" />
               </v-btn>
-            </v-card-text>
-          </v-card>
+            </v-col>
+          </v-row>
         </v-timeline-item>
         <template v-if="events.length > 0">
           <template v-for="event in events" :key="`${event.type}-${event.id}`">

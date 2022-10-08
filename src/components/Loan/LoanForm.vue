@@ -42,7 +42,7 @@
 
   function onOpen () {
     if (props.record) {
-      attributes = pick(props.record, [
+      Object.assign(attributes, pick(props.record, [
         'signedOn',
         'startedOn',
         'endedOn',
@@ -51,7 +51,7 @@
         'wagePercentage',
         'transferFee',
         'addonClause'
-      ])
+      ]))
     } else {
       attributes.startedOn = team.value.currentlyOn
       console.log(endOfCurrentSeason.value)
