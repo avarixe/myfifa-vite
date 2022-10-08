@@ -35,4 +35,8 @@ export default class Contract extends Model {
       playerId: NumberCast
     }
   }
+
+  get timelineType () {
+    return 'Contract'
+  }
 }

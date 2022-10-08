@@ -1,0 +1,84 @@
+<script setup>
+  import ContractEvent from './ContractEvent.vue'
+  import InjuryEvent from './InjuryEvent.vue'
+  import LoanEvent from './LoanEvent.vue'
+  import TransferEvent from './TransferEvent.vue'
+
+  const { team } = useTeam()
+
+  const props = defineProps({
+    player: { type: Object, required: true }
+  })
+
+  const events = computed(() =>
+    orderBy([
+      ...props.player.contracts,
+      ...props.player.injuries,
+      ...props.player.loans,
+      ...props.player.transfers
+    ], ['startedOn', 'createdAt'], ['desc', 'desc'])
+  )
+
+  events.value.forEach(event => {
+    console.log(event)
+  })
+
+  const eventComponent = {
+    Contract: ContractEvent,
+    Injury: InjuryEvent,
+    Loan: LoanEvent,
+    Transfer: TransferEvent
+  }
+</script>
+
+<template>
+  <v-card flat>
+    <v-card-text>
+      <v-timeline align="start" side="end">
+        <v-timeline-item
+          icon="mdi-plus"
+          dot-color="success"
+          fill-dot
+        >
+          <v-card dense flat>
+            <v-card-text>
+              <v-btn>
+                Sign New Contract
+                <contract-form :player="player" />
+              </v-btn>
+              <v-btn>
+                Record New Injury
+                <injury-form :player="player" />
+              </v-btn>
+              <v-btn>
+                Record New Loan
+                <loan-form :player="player" />
+              </v-btn>
+              <v-btn>
+                Record New Transfer
+                <transfer-form :player="player" />
+              </v-btn>
+            </v-card-text>
+          </v-card>
+        </v-timeline-item>
+        <template v-if="events.length > 0">
+          <template v-for="event in events" :key="`${event.type}-${event.id}`">
+            <component
+              :is="eventComponent[event.timelineType]"
+              :player="player"
+              :event="event"
+            />
+          </template>
+        </template>
+        <v-timeline-item
+          v-else
+          color="grey"
+          icon="mdi-calendar"
+          fill-dot
+        >
+          <div class="mt-2">No Player Events</div>
+        </v-timeline-item>
+      </v-timeline>
+    </v-card-text>
+  </v-card>
+</template>

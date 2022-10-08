@@ -24,4 +24,8 @@ export default class Injury extends Model {
       playerId: NumberCast
     }
   }
+
+  get timelineType () {
+    return 'Injury'
+  }
 }

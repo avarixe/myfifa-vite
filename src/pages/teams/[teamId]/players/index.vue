@@ -71,6 +71,7 @@
     return players.value.map(player => {
       return {
         ...player,
+        flag: player.flag,
         statusColor: player.statusColor,
         statusIcon: player.statusIcon,
         wage: currentContractsByPlayerId.value[player.id]?.wage,
@@ -84,6 +85,7 @@
   }
   const headers = [
     { value: 'name', text: 'Name' },
+    { value: 'nationality', text: 'Nationality', class: 'text-center', cellClass: 'text-center' },
     { value: 'status', text: 'Status', class: 'text-center', cellClass: 'text-center' },
     { value: 'age', text: 'Age', class: 'text-center', cellClass: 'text-center' },
     { value: 'pos', text: 'Pos', sort: sortPos, class: 'text-center', cellClass: 'text-center' },
@@ -100,7 +102,7 @@
   <h1>Players</h1>
 
   <v-btn :to="`/teams/${team.id}/players/new`">
-    <v-icon left>mdi-plus</v-icon>
+    <v-icon start>mdi-plus</v-icon>
     Player
   </v-btn>
   &nbsp;
@@ -136,6 +138,13 @@
         v-text="player.name"
       />
     </template>
+    <template #item-nationality="{ item: player }">
+      <flag
+        :iso="player.flag"
+        :title="player.nationality"
+        class="mr-2"
+      />
+    </template>
     <template #item-status="{ item: player }">
       <v-icon :color="player.statusColor">
         mdi-{{ player.statusIcon }}
@@ -165,13 +174,13 @@
         label="Value"
       >
         <template #display>
-          {{ team.currency }}{{ player.value.toLocaleString() }}
+          {{ formatMoney(player.value, team.currency) }}
         </template>
       </player-attribute>
     </template>
     <template #item-wage="{ item: player }">
       <span v-if="player.wage">
-        {{ team.currency }}{{ player.wage.toLocaleString() }}
+        {{ formatMoney(player.wage, team.currency) }}
       </span>
     </template>
     <template #item-endDate="{ item: player }">

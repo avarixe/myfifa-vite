@@ -20,12 +20,24 @@ export default () => {
     return `${format(start, 'yyyy')} - ${format(end, 'yyyy')}`
   }
 
+  const startOfCurrentSeason = computed(() => {
+    const date = parseISO(team.value.startedOn)
+    return format(addYears(date, currentSeason.value), 'yyyy-MM-dd')
+  })
+
+  const endOfCurrentSeason = computed(() => {
+    const date = parseISO(startOfCurrentSeason.value)
+    return format(addYears(date, 1), 'yyyy-MM-dd')
+  })
+
   return {
     teamId,
     teamRepo,
     team,
 
     currentSeason,
-    seasonLabel
+    seasonLabel,
+    startOfCurrentSeason,
+    endOfCurrentSeason
   }
 }

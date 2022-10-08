@@ -44,6 +44,19 @@
     playerRepo.withAll().find(parseInt(props.playerId))
   )
 
+  const { team: { playerPerformanceStats } } = data.value
+  const playerStats = {
+    numMatches: 0,
+    numCleanSheets: 0,
+    numGoals: 0,
+    numAssists: 0
+  }
+  playerPerformanceStats.forEach(stats => {
+    for (const stat in playerStats) {
+      playerStats[stat] += stats[stat]
+    }
+  })
+
   const router = useRouter()
 </script>
 
@@ -61,33 +74,126 @@
     />
   </div>
 
-  <div class="mt-2">
-    <div><b>Status:</b> {{ player.status }}</div>
-    <div><b>Age:</b> {{ player.age }}</div>
-    <div><b>Position:</b> {{ player.pos }}</div>
-    <div><b>Secondary Position(s):</b> {{ player.secPos.join(', ') }}</div>
-    <div><b>Kit No:</b> {{ player.kitNo }}</div>
-    <div><b>OVR:</b> {{ player.ovr }}</div>
-    <div><b>Value:</b> {{ team.currency }}{{ player.value }}</div>
-  </div>
+  <v-row class="text-center mt-2" justify="space-around">
+    <v-col cols="6" sm="2">
+      <div class="text-h4">{{ player.pos }}</div>
+      <div class="subheading">Position</div>
+    </v-col>
+    <v-col v-if="player.secPos.length > 0" cols="6" sm="2">
+      <div class="text-h4">{{ player.secPos?.join(', ') || 'N/A' }}</div>
+      <div class="subheading">Secondary Position(s)</div>
+    </v-col>
+    <v-col cols="4" sm="2">
+      <div class="text-h4">{{ player.age }}</div>
+      <div class="subheading">Age</div>
+    </v-col>
+    <v-col v-if="player.nationality" cols="4" sm="2">
+      <flag
+        v-if="player.flag"
+        :iso="player.flag"
+        :title="player.nationality"
+        size="xl"
+      />
+      <div v-else class="text-h4">{{ player.nationality }}</div>
+      <div class="subheading">Nationality</div>
+    </v-col>
+    <v-col cols="4" sm="2">
+      <v-icon
+        class="text-h4"
+        :color="player.statusColor"
+        :icon="`mdi-${player.statusIcon}`"
+      />
+      <div class="subheading">{{ player.status || 'Status' }}</div>
+    </v-col>
+  </v-row>
+  <v-row class="text-center mt-2" justify="space-around">
+    <v-col cols="6" sm="4">
+      <player-attribute
+        :player="player"
+        attribute="kitNo"
+        label="Kit No"
+        class="text-h4"
+      />
+      <div class="subheading">Kit No</div>
+    </v-col>
+    <v-col cols="6" sm="4">
+      <player-attribute
+        :player="player"
+        attribute="ovr"
+        label="OVR"
+        class="text-h4"
+      />
+      <div class="subheading">OVR</div>
+    </v-col>
+    <v-col cols="12" sm="4">
+      <player-attribute
+        :player="player"
+        attribute="value"
+        label="Value"
+        class="text-h4"
+      >
+        <template #display>
+          {{ formatMoney(player.value, team.currency) }}
+        </template>
+      </player-attribute>
+      <div class="subheading">Value</div>
+    </v-col>
+  </v-row>
 
-  <contract-grid
-    :player="player"
-    class="mt-4"
-  />
+  <section id="performance">
+    <div class="text-h4 my-3 text-primary font-weight-light">
+      <v-icon start large>mdi-run</v-icon>
+      Performance
+    </div>
 
-  <transfer-grid
-    :player="player"
-    class="mt-4"
-  />
+    <v-row class="text-center" justify="space-around">
+      <v-col cols="6" sm="2">
+        <div class="text-h4">{{ playerStats.numMatches || 0 }}</div>
+        <div class="subheading">Matches</div>
+      </v-col>
+      <v-col cols="6" sm="2">
+        <div class="text-h4">{{ playerStats.numCleanSheets || 0 }}</div>
+        <div class="subheading">Clean Sheets</div>
+      </v-col>
+      <v-col cols="6" sm="2">
+        <div class="text-h4">{{ playerStats.numGoals || 0 }}</div>
+        <div class="subheading">Goals</div>
+      </v-col>
+      <v-col cols="6" sm="2">
+        <div class="text-h4">{{ playerStats.numAssists || 0 }}</div>
+        <div class="subheading">Assists</div>
+      </v-col>
+      <v-col cols="12" sm="3">
+        <div class="text-h4">
+          <v-rating readonly />
+        </div>
+        <div class="subheading">Rating</div>
+      </v-col>
+    </v-row>
+  </section>
 
-  <loan-grid
-    :player="player"
-    class="mt-4"
-  />
+  <section id="timeline">
+    <div class="text-h4 my-3 text-primary font-weight-light">
+      <v-icon start large>mdi-timeline</v-icon>
+      Timeline
+    </div>
 
-  <injury-grid
-    :player="player"
-    class="mt-4"
-  />
+    <player-timeline :player="player" />
+  </section>
+
+  <section id="development">
+    <div class="text-h4 my-3 text-primary font-weight-light">
+      <v-icon start large>mdi-chart-line</v-icon>
+      Development
+    </div>
+
+    <v-row class="text-center">
+      <v-col cols="12">
+        <div class="subheading">Overall Rating</div>
+      </v-col>
+      <v-col cols="12">
+        <div class="subheading">Value</div>
+      </v-col>
+    </v-row>
+  </section>
 </template>

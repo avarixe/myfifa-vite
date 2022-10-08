@@ -48,21 +48,6 @@
     :submit="onSubmit"
     @open="attributes.table = false"
   >
-    <template #activator="{ on }">
-      <slot
-        name="activator"
-        :on="on"
-      >
-        <v-btn
-          class="my-1"
-          dark
-          color="teal"
-          v-on="on"
-        >
-          Add Stage
-        </v-btn>
-      </slot>
-    </template>
     <template #form>
       <v-col cols="12">
         <v-text-field

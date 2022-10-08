@@ -30,7 +30,7 @@
   <h1>Competitions</h1>
 
   <v-btn :to="`/teams/${team.id}/competitions/new`">
-    <v-icon left>mdi-plus</v-icon>
+    <v-icon start>mdi-plus</v-icon>
     Competition
   </v-btn>
 

@@ -34,7 +34,7 @@
           <v-toolbar dense>
             <slot name="header">
               <v-toolbar-title>
-                <v-icon v-if="titleIcon" left>{{ titleIcon }}</v-icon>
+                <v-icon v-if="titleIcon" start>{{ titleIcon }}</v-icon>
                 {{ title }}
               </v-toolbar-title>
             </slot>

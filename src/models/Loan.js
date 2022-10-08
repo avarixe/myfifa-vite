@@ -29,4 +29,8 @@ export default class Loan extends Model {
       playerId: NumberCast
     }
   }
+
+  get timelineType () {
+    return 'Loan'
+  }
 }

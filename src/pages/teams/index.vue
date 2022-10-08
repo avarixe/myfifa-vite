@@ -28,7 +28,7 @@
   <h1>Teams</h1>
 
   <v-btn to="/teams/new">
-    <v-icon left>mdi-plus</v-icon>
+    <v-icon start>mdi-plus</v-icon>
     Team
   </v-btn>
 

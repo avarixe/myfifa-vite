@@ -31,7 +31,7 @@
   <h1>Matches</h1>
 
   <v-btn :to="`/teams/${team.id}/matches/new`">
-    <v-icon left>mdi-plus</v-icon>
+    <v-icon start>mdi-plus</v-icon>
     Match
   </v-btn>
 

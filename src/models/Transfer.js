@@ -32,4 +32,12 @@ export default class Transfer extends Model {
       playerId: NumberCast
     }
   }
+
+  get timelineType () {
+    return 'Transfer'
+  }
+
+  get startedOn () {
+    return this.movedOn
+  }
 }

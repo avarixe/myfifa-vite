@@ -34,7 +34,7 @@
   <v-row>
     <v-col cols="12">
       <v-btn @click="startNewSquad">
-        <v-icon left>mdi-plus</v-icon>
+        <v-icon start>mdi-plus</v-icon>
         Squad
       </v-btn>
     </v-col>

@@ -26,9 +26,8 @@ export default defineConfig({
       dirs: [
         './src/composables',
         './src/constants',
-        './src/filters',
         './src/fragments',
-        './src/rules'
+        './src/helpers'
       ],
       imports: [
         'vue',
