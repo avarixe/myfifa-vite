@@ -17,9 +17,9 @@
 
   const headers = [
     { value: 'name', text: 'Name' },
-    { value: 'badgeUrl', text: 'Badge', sortable: false },
-    { value: 'startedOn', text: 'Start Date' },
-    { value: 'currentlyOn', text: 'Current Date' }
+    { value: 'badgeUrl', text: 'Badge', class: 'text-center', sortable: false },
+    { value: 'startedOn', text: 'Start Date', class: 'text-center' },
+    { value: 'currentlyOn', text: 'Current Date', class: 'text-center' }
   ]
 
 </script>
@@ -47,9 +47,9 @@
           v-text="team.name"
         />
       </td>
-      <td><img :src="team.badgeUrl" width="50" /></td>
-      <td>{{ formatDate(team.startedOn) }}</td>
-      <td>{{ formatDate(team.currentlyOn) }}</td>
+      <td class="text-center"><img :src="team.badgeUrl" width="50" /></td>
+      <td class="text-center">{{ formatDate(team.startedOn) }}</td>
+      <td class="text-center">{{ formatDate(team.currentlyOn) }}</td>
     </template>
   </data-table>
 </template>

@@ -79,7 +79,7 @@
             :key="header.value"
             :class="header.class"
             :style="header.style"
-            @click="changeSortColumn(header.value)"
+            @click="header.sortable !== false ? changeSortColumn(header.value) : null"
           >
             <slot :name="`header-${header.value}`" :header="header">
               <v-hover v-slot="{ isHovering, props }">
@@ -92,7 +92,7 @@
                     mdi-chevron-{{ sortDesc ? 'down' : 'up' }}
                   </v-icon>
                   <v-icon
-                    v-else
+                    v-else-if="header.sortable !== false"
                     class="text-disabled"
                     :style="{ visibility: isHovering ? 'inherit' : 'hidden' }"
                   >

@@ -18,7 +18,7 @@
 </script>
 
 <template>
-  <div :class="['flag', `size-${size}`]">
+  <div :class="['flag', 'elevation-1', `size-${size}`]">
     <img :src="imageUrl">
   </div>
 </template>
