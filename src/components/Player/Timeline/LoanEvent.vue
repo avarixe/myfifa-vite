@@ -105,6 +105,10 @@
         :color="event.origin === team.name ? 'red' : 'green'"
       >
         Activate Buy Option
+        <loan-buy-option-activator
+          :player="player"
+          :loan="event"
+        />
       </v-btn>
     </template>
   </player-event>
