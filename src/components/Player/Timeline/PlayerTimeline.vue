@@ -40,32 +40,46 @@
           dot-color="primary"
         >
           <v-row dense>
-            <v-col cols="6">
+            <v-col cols="6" md="4">
               <v-btn color="blue">
                 <v-icon start>mdi-file-document</v-icon>
                 Contract
                 <contract-form :player="player" />
               </v-btn>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="6" md="4">
               <v-btn color="pink">
                 <v-icon start>mdi-ambulance</v-icon>
                 Injury
                 <injury-form :player="player" />
               </v-btn>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="6" md="4">
               <v-btn color="deep-orange">
                 <v-icon start>mdi-transit-transfer</v-icon>
                 Loan
                 <loan-form :player="player" />
               </v-btn>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="6" md="4">
               <v-btn :color="player.isActive ? 'red' : 'green'">
                 <v-icon start>mdi-airplane</v-icon>
                 Transfer
                 <transfer-form :player="player" />
+              </v-btn>
+            </v-col>
+            <v-col cols="6" md="4">
+              <v-btn color="grey-darken-2">
+                <v-icon start>mdi-human-greeting</v-icon>
+                Retire
+                <player-retire-button :player="player" />
+              </v-btn>
+            </v-col>
+            <v-col cols="6" md="4">
+              <v-btn color="red-darken-4">
+                <v-icon start>mdi-text-box-remove</v-icon>
+                Release
+                <player-release-button :player="player" />
               </v-btn>
             </v-col>
           </v-row>
