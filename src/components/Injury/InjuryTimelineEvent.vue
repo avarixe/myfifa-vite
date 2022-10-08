@@ -17,7 +17,7 @@
 </script>
 
 <template>
-  <player-event
+  <player-timeline-event
     :player="player"
     :event="event"
     :title="`${event.description} Injury`"
@@ -37,5 +37,5 @@
         <td class="pl-1">Injured for {{ duration }}</td>
       </tr>
     </template>
-  </player-event>
+  </player-timeline-event>
 </template>

@@ -8,7 +8,7 @@
 </script>
 
 <template>
-  <player-event
+  <player-timeline-event
     :player="player"
     :event="event"
     title="Contract"
@@ -61,5 +61,5 @@
         </td>
       </tr>
     </template>
-  </player-event>
+  </player-timeline-event>
 </template>

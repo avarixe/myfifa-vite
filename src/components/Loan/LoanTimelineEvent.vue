@@ -33,7 +33,7 @@
 </script>
 
 <template>
-  <player-event
+  <player-timeline-event
     :player="player"
     :event="event"
     :title="title"
@@ -111,5 +111,5 @@
         />
       </v-btn>
     </template>
-  </player-event>
+  </player-timeline-event>
 </template>

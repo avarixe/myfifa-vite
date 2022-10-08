@@ -1,14 +1,14 @@
 <script setup>
-  import ContractEvent from './ContractEvent.vue'
-  import InjuryEvent from './InjuryEvent.vue'
-  import LoanEvent from './LoanEvent.vue'
-  import TransferEvent from './TransferEvent.vue'
+  import ContractTimelineEvent from '~/components/Contract/ContractTimelineEvent.vue'
+  import InjuryTimelineEvent from '~/components/Injury/InjuryTimelineEvent.vue'
+  import LoanTimelineEvent from '~/components/Loan/LoanTimelineEvent.vue'
+  import TransferTimelineEvent from '~/components/Transfer/TransferTimelineEvent.vue'
 
   const eventComponent = {
-    Contract: ContractEvent,
-    Injury: InjuryEvent,
-    Loan: LoanEvent,
-    Transfer: TransferEvent
+    Contract: ContractTimelineEvent,
+    Injury: InjuryTimelineEvent,
+    Loan: LoanTimelineEvent,
+    Transfer: TransferTimelineEvent
   }
 
   const { team } = useTeam()

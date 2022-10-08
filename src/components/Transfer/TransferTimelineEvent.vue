@@ -17,7 +17,7 @@
 </script>
 
 <template>
-  <player-event
+  <player-timeline-event
     :player="player"
     :event="event"
     :title="title"
@@ -59,5 +59,5 @@
         <td class="pl-1">{{ event.addonClause }}%</td>
       </tr>
     </template>
-  </player-event>
+  </player-timeline-event>
 </template>
