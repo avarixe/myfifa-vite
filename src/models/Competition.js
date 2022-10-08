@@ -46,7 +46,7 @@ class Competition extends Model {
 
   get statusColor () {
     if (this.champion === this.team.name) {
-      return 'yellow darken-2'
+      return 'amber'
     } else if (this.champion) {
       return 'green'
     } else {
