@@ -1,9 +1,7 @@
 <script setup>
   const props = defineProps({
     player: { type: Object, required: true },
-    record: { type: Object, default: null },
-    color: { type: String, default: null },
-    dark: { type: Boolean, default: false }
+    record: { type: Object, default: null }
   })
 
   const attributes = reactive({

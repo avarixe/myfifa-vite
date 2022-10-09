@@ -36,4 +36,8 @@ export default class Substitution extends Model {
       replacementId: NumberCast
     }
   }
+
+  get timelineType () {
+    return 'Substitution'
+  }
 }

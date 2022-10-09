@@ -35,4 +35,8 @@ export default class Booking extends Model {
       playerId: NumberCast
     }
   }
+
+  get timelineType () {
+    return 'Booking'
+  }
 }

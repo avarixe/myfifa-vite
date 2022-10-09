@@ -43,7 +43,10 @@
   const matchRepo = useRepo(Match)
   matchRepo.save(data.value?.match)
   const match = computed(() =>
-    matchRepo.withAll().find(parseInt(props.matchId))
+    matchRepo
+      .withAll()
+      .with('caps', query => query.with('player'))
+      .find(parseInt(props.matchId))
   )
 
   const router = useRouter()
@@ -70,22 +73,33 @@
     <div><b>Date Played:</b> {{ formatDate(match.playedOn) }}</div>
   </div>
 
+  <section id="timeline">
+    <div class="text-h4 my-3 text-primary font-weight-light">
+      <v-icon start large>mdi-timeline</v-icon>
+      Timeline
+    </div>
+
+    <v-btn>
+      + Goal
+      <goal-form :match="match" />
+    </v-btn>
+    <v-btn>
+      + Booking
+      <booking-form :match="match" />
+    </v-btn>
+    <v-btn>
+      + Substitution
+      <substitution-form :match="match" />
+    </v-btn>
+    <v-btn v-if="!match.penaltyShootout">
+      + Penalty Shootout
+      <penalty-shootout-form :match="match" />
+    </v-btn>
+
+    <match-timeline :match="match" />
+  </section>
+
   <cap-grid
-    :match="match"
-    class="mt-4"
-  />
-
-  <goal-grid
-    :match="match"
-    class="mt-4"
-  />
-
-  <booking-grid
-    :match="match"
-    class="mt-4"
-  />
-
-  <substitution-grid
     :match="match"
     class="mt-4"
   />

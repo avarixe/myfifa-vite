@@ -36,4 +36,8 @@ export default class Goal extends Model {
       assistId: NumberCast
     }
   }
+
+  get timelineType () {
+    return 'Goal'
+  }
 }
