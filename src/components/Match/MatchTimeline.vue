@@ -44,12 +44,10 @@
     />
     <v-timeline-item
       v-else-if="events.length === 0"
-      color="grey"
+      dot-color="grey"
       icon="mdi-timer"
-      fill-dot
     >
       <div class="mt-2">No Match Events</div>
     </v-timeline-item>
-
   </v-timeline>
 </template>

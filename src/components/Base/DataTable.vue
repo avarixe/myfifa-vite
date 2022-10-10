@@ -121,61 +121,63 @@
         </slot>
       </tr>
     </tbody>
-    <tfoot>
-      <tr>
-        <td class="py-1" :colspan="headers.length">
-          <div class="d-flex align-center">
-            <v-btn
-              round
-              variant="text"
-              append-icon="mdi-menu-down"
-              class="border-b"
-            >
-              {{ showAll ? 'All' : itemsPerPage }}
-              <v-menu activator="parent">
-                <v-list dense>
-                  <v-list-item
-                    v-for="option in itemsPerPageOptions"
-                    :key="option"
-                    :title="option > 0 ? option : 'All'"
-                    @click="itemsPerPage = option"
-                  />
-                </v-list>
-              </v-menu>
-            </v-btn>
-            <span class="text-caption">
-              {{ pageStart }} - {{ pageStop }} of {{ props.items.length}}
-            </span>
+    <slot name="foot">
+      <tfoot>
+        <tr>
+          <td class="py-1" :colspan="headers.length">
+            <div class="d-flex align-center">
+              <v-btn
+                round
+                variant="text"
+                append-icon="mdi-menu-down"
+                class="border-b"
+              >
+                {{ showAll ? 'All' : itemsPerPage }}
+                <v-menu activator="parent">
+                  <v-list dense>
+                    <v-list-item
+                      v-for="option in itemsPerPageOptions"
+                      :key="option"
+                      :title="option > 0 ? option : 'All'"
+                      @click="itemsPerPage = option"
+                    />
+                  </v-list>
+                </v-menu>
+              </v-btn>
+              <span class="text-caption">
+                {{ pageStart }} - {{ pageStop }} of {{ props.items.length}}
+              </span>
 
-            <v-spacer />
+              <v-spacer />
 
-            <v-btn
-              icon="mdi-page-first"
-              variant="text"
-              :disabled="page === 0"
-              @click="page = 0"
-            />
-            <v-btn
-              icon="mdi-chevron-left"
-              variant="text"
-              :disabled="page === 0"
-              @click="page--"
-            />
-            <v-btn
-              icon="mdi-chevron-right"
-              variant="text"
-              :disabled="page === pageCount - 1"
-              @click="page++"
-            />
-            <v-btn
-              icon="mdi-page-last"
-              variant="text"
-              :disabled="page === pageCount - 1"
-              @click="page = pageCount - 1"
-            />
-          </div>
-        </td>
-      </tr>
-    </tfoot>
+              <v-btn
+                icon="mdi-page-first"
+                variant="text"
+                :disabled="page === 0"
+                @click="page = 0"
+              />
+              <v-btn
+                icon="mdi-chevron-left"
+                variant="text"
+                :disabled="page === 0"
+                @click="page--"
+              />
+              <v-btn
+                icon="mdi-chevron-right"
+                variant="text"
+                :disabled="page === pageCount - 1"
+                @click="page++"
+              />
+              <v-btn
+                icon="mdi-page-last"
+                variant="text"
+                :disabled="page === pageCount - 1"
+                @click="page = pageCount - 1"
+              />
+            </div>
+          </td>
+        </tr>
+      </tfoot>
+    </slot>
   </v-table>
 </template>

@@ -15,6 +15,10 @@ export default () => {
   })
 
   function seasonLabel (season) {
+    if (!team.value) {
+      return ''
+    }
+
     const start = addYears(parseISO(team.value.startedOn), season)
     const end = addYears(start, 1)
     return `${format(start, 'yyyy')} - ${format(end, 'yyyy')}`

@@ -141,7 +141,7 @@
   </v-row>
 
   <section id="performance">
-    <div class="text-h4 my-3 text-primary font-weight-light">
+    <div class="text-h4 my-3 text-info font-weight-light">
       <v-icon start large>mdi-run</v-icon>
       Performance
     </div>
@@ -173,7 +173,7 @@
   </section>
 
   <section id="timeline">
-    <div class="text-h4 my-3 text-primary font-weight-light">
+    <div class="text-h4 my-3 text-info font-weight-light">
       <v-icon start large>mdi-timeline</v-icon>
       Timeline
     </div>
@@ -182,7 +182,7 @@
   </section>
 
   <section id="development">
-    <div class="text-h4 my-3 text-primary font-weight-light">
+    <div class="text-h4 my-3 text-info font-weight-light">
       <v-icon start large>mdi-chart-line</v-icon>
       Development
     </div>

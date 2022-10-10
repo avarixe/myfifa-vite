@@ -19,7 +19,16 @@
 
 <template>
   <v-list>
-    <v-list-subheader class="text-h4 text-primary">{{ seasonLabel(season) }}</v-list-subheader>
+    <v-list-subheader>
+      <v-btn
+        :to="`/teams/${team.id}/seasons/${season}`"
+        size="x-large"
+        color="primary"
+        variant="text"
+        class="text-h4"
+        v-text="seasonLabel(season)"
+      />
+    </v-list-subheader>
     <v-list-item
       v-if="season === currentSeason"
       title="New Competition"

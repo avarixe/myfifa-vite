@@ -8,6 +8,7 @@
 
   const route = useRoute()
   const capitalize = str => `${str[0].toUpperCase()}${str.slice(1)}`
+  const { seasonLabel } = useTeam()
   const breadcrumbs = computed(() => {
     const routeSteps = route.name === 'index'
       ? ['']
@@ -23,6 +24,7 @@
         case 'matches':
         case 'squads':
         case 'competitions':
+        case 'seasons':
         case 'account':
           return { to, text: capitalize(step) }
         case 'new':
@@ -50,6 +52,8 @@
             case 'competitions':
               const competition = competitionRepo.find(parseInt(step))
               return { to, text: competition?.name }
+            case 'seasons':
+              return { to, text: seasonLabel(parseInt(step)) }
             default:
               return { to, text: step }
           }
