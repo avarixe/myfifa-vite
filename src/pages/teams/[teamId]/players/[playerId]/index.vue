@@ -187,21 +187,9 @@
       Development
     </div>
 
-    <v-row class="text-center">
-      <v-col cols="12" md="6">
-        <player-growth-chart
-          :player="player"
-          attribute="ovr"
-          label="Overall Rating"
-        />
-      </v-col>
-      <v-col cols="12" md="6">
-        <player-growth-chart
-          :player="player"
-          attribute="value"
-          label="Value"
-          :formatter="v => formatMoney(v, team.currency)"
-        />
+    <v-row class="text-center justify-center">
+      <v-col cols="12" md="10" lg="8">
+        <player-development-chart :player="player" />
       </v-col>
     </v-row>
   </section>

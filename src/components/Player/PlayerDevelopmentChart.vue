@@ -3,9 +3,7 @@
 
   const props = defineProps({
     player: { type: Object, required: true },
-    attribute: { type: String, required: true },
-    label: { type: String, required: true },
-    formatter: { type: Function, default: v => v }
+    attribute: { type: String, required: true }
   })
 
   const contractRepo = useRepo(Contract)
@@ -24,54 +22,65 @@
       : team.value.currentlyOn
   })
 
-  const series = computed(() => [{
-    name: props.label,
-    data: props.player.histories.reduce((data, history) => {
+  function attributeData (attribute) {
+    return props.player.histories.reduce((data, history) => {
       data.splice(-1, 0, {
         x: parseISO(history.recordedOn),
-        y: history[props.attribute]
+        y: history[attribute]
       })
       return data
     }, [
       {
         x: parseISO(lastDate.value),
-        y: props.player[props.attribute]
+        y: props.player[attribute]
       }
     ])
-  }])
+  }
+
+  const series = computed(() => [
+    {
+      name: 'Overall Rating',
+      data: attributeData('ovr')
+    },
+    {
+      name: 'Value',
+      data: attributeData('value')
+    }
+  ])
+
+
   const options = reactive({
     chart: { type: 'area' },
     xaxis: {
       type: 'datetime'
     },
-    yaxis: {
-      labels: {
-        formatter: props.formatter
+    yaxis: [
+      {
+        title: { text: 'Overall Rating' },
+        min: 40,
+        max: 100
+      },
+      {
+        opposite: true,
+        title: { text: 'Value' },
+        labels: {
+          formatter: v => formatMoney(v, team.value.currency)
+        }
       }
-    },
+    ],
     title: {
-      text: props.label,
+      text: props.player.name,
     },
     subtitle: {
-      text: props.player.name
+      text: `${formatDate(props.player.histories[0].recordedOn)} - ${formatDate(lastDate.value)}`
     },
-    dataLabels: {
-      formatter: props.formatter
-    },
+    dataLabels: { enabled: false },
     tooltip: {
-      x: {
-        format: 'MMM d, yyyy'
-      },
-      y: {
-        formatter: props.formatter
-      }
+      x: { format: 'MMM d, yyyy' }
     }
   })
 </script>
 
 <template>
-  <apexchart
-    :series="series"
-    :options="options"
-  />
+  <apexchart :series="series" :options="options" />
 </template>
