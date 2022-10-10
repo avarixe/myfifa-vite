@@ -188,11 +188,20 @@
     </div>
 
     <v-row class="text-center">
-      <v-col cols="12">
-        <div class="subheading">Overall Rating</div>
+      <v-col cols="12" md="6">
+        <player-growth-chart
+          :player="player"
+          attribute="ovr"
+          label="Overall Rating"
+        />
       </v-col>
-      <v-col cols="12">
-        <div class="subheading">Value</div>
+      <v-col cols="12" md="6">
+        <player-growth-chart
+          :player="player"
+          attribute="value"
+          label="Value"
+          :formatter="v => formatMoney(v, team.currency)"
+        />
       </v-col>
     </v-row>
   </section>

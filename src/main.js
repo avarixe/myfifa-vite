@@ -7,6 +7,8 @@ import { createVuetify } from 'vuetify'
 import * as directives from 'vuetify/directives'
 import 'vuetify/styles'
 
+import VueApexCharts from 'vue3-apexcharts'
+
 import App from './App.vue'
 
 const routes = setupLayouts(generatedRoutes)
@@ -24,5 +26,6 @@ const app = createApp(App)
   .use(router)
   .use(pinia)
   .use(vuetify)
+  .use(VueApexCharts)
 
 app.mount('#app')
