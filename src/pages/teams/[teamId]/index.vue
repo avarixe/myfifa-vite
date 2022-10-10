@@ -1,12 +1,54 @@
 <script setup>
-  const { team } = await useTeamQuery({
+  const { data, team, currentSeason } = await useTeamQuery({
     query: gql`
-      query fetchTeam($teamId: ID!) {
-        team(id: $teamId) { ...TeamData }
+      query loadTeamDashboard($teamId: ID!) {
+        team(id: $teamId) {
+          ...TeamData
+          lastMatch { ...MatchData }
+          injuredPlayers {
+            id
+            name
+            pos
+            currentInjury {
+              description
+              startedOn
+              endedOn
+            }
+          }
+          loanedPlayers {
+            id
+            name
+            pos
+            value
+            currentLoan {
+              transferFee
+              addonClause
+            }
+          }
+          expiringPlayers {
+            id
+            name
+            pos
+            value
+            currentContract {
+              wage
+            }
+          }
+          competitions { ...CompetitionData }
+        }
       }
       ${teamFragment}
+      ${matchFragment}
+      ${competitionFragment}
     `
   })
+
+  const {
+    lastMatch,
+    injuredPlayers,
+    loanedPlayers,
+    expiringPlayers
+  } = data.value.team
 
   const router = useRouter()
 </script>
@@ -25,9 +67,143 @@
     />
   </div>
 
-  <div class="mt-2">
-    <div><b>Start Date:</b> {{ formatDate(team.startedOn) }}</div>
-    <div><b>Current Date:</b> {{ formatDate(team.currentlyOn) }}</div>
-    <div><b>Currency:</b> {{ team.currency }}</div>
-  </div>
+  <v-row dense>
+    <v-col cols="12" md="6">
+      <v-card class="mt-4">
+        <v-card-title>Current Season</v-card-title>
+        <v-card-text>
+          <competition-list :season="currentSeason" />
+        </v-card-text>
+      </v-card>
+
+      <v-card v-if="lastMatch" class="mt-4">
+        <v-card-title>Latest Match</v-card-title>
+        <v-card-text class="text-center font-weight-light">
+          <div class="mb-0">
+            {{ lastMatch.competition }}
+            <span v-if="lastMatch.stage">· {{ lastMatch.stage }}</span>
+          </div>
+          <div class="text-h6 mt-0 mb-3">{{ lastMatch.home }} v {{ lastMatch.away }}</div>
+          <div class="text-h6 mb-0">{{ lastMatch.score }}</div>
+          <div class="mt-0 mb-2">{{ formatDate(lastMatch.playedOn) }}</div>
+        </v-card-text>
+        <v-card-actions class="justify-center">
+          <v-btn :to="`/teams/${team.id}/matches/${lastMatch.id}`" color="info">
+            Go To Match
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-col>
+    <v-col cols="12" md="6">
+      <v-card class="mt-4">
+        <v-card-title>
+          <v-icon start color="pink" icon="mdi-hospital" />
+          Injured Players
+        </v-card-title>
+        <v-table>
+          <thead>
+            <tr>
+              <th>Player</th>
+              <th class="text-center">Position</th>
+              <th>Injury</th>
+              <th class="text-right">Recovers On</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="player in injuredPlayers"
+              :key="player.id"
+              v-ripple
+              @click="router.push(`/teams/${team.id}/players/${player.id}`)"
+            >
+              <td>{{ player.name }}</td>
+              <td class="text-center">{{ player.pos }}</td>
+              <td>{{ player.currentInjury.description }}</td>
+              <td class="text-right">{{ formatDate(player.currentInjury.endedOn) }}</td>
+            </tr>
+          </tbody>
+        </v-table>
+      </v-card>
+
+      <v-card class="mt-4">
+        <v-card-title>
+          <v-icon start color="deep-orange" icon="mdi-transit-transfer" />
+          Loaned Players
+        </v-card-title>
+        <v-table>
+          <thead>
+            <tr>
+              <th>Player</th>
+              <th class="text-center">Position</th>
+              <th class="text-right">Value</th>
+              <th class="text-right">Transfer Fee</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="player in loanedPlayers"
+              :key="player.id"
+              v-ripple
+              :class="{ 'text-error': player.currentLoan.transferFee && player.currentLoan.transferFee < player.value }"
+              @click="router.push(`/teams/${team.id}/players/${player.id}`)"
+            >
+              <td>{{ player.name }}</td>
+              <td class="text-center">{{ player.pos }}</td>
+              <td class="text-right">
+                {{ formatMoney(player.value, team.currency) }}
+              </td>
+              <td class="text-right">
+                <span v-if="player.currentLoan.transferFee">
+                  {{ formatMoney(player.currentLoan.transferFee, team.currency) }}
+                </span>
+                <span v-if="player.currentLoan.addonClause">
+                  (+{{ player.currentLoan.addonClause }}%)
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </v-table>
+      </v-card>
+
+      <v-card class="mt-4">
+        <v-card-title>
+          <v-icon start color="blue" icon="mdi-file-document-remove" />
+          Expired Contracts
+        </v-card-title>
+        <v-table>
+          <thead>
+            <tr>
+              <th>Player</th>
+              <th class="text-center">Position</th>
+              <th class="text-right">Value</th>
+              <th class="text-right">Wage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="player in expiringPlayers"
+              :key="player.id"
+              v-ripple
+              @click="router.push(`/teams/${team.id}/players/${player.id}`)"
+            >
+              <td>{{ player.name }}</td>
+              <td class="text-center">{{ player.pos }}</td>
+              <td class="text-right">
+                {{ formatMoney(player.value, team.currency) }}
+              </td>
+              <td class="text-right">
+                {{ formatMoney(player.currentContract.wage, team.currency) }}
+              </td>
+            </tr>
+          </tbody>
+        </v-table>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
+
+<style scoped>
+  tbody > tr {
+    cursor: pointer;
+  }
+</style>

@@ -16,7 +16,7 @@
         <tbody>
           <tr>
             <td>Version:</td>
-            <td class="text-info">3.0.0-alpha.2</td>
+            <td class="text-info">3.0.0-alpha.3</td>
           </tr>
           <tr>
             <td>Built with:</td>
