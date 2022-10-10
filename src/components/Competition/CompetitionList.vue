@@ -9,7 +9,11 @@
 
   const competitionRepo = useRepo(Competition)
   const competitions = computed(() =>
-    competitionRepo.with('team').where('season', props.season).get()
+    competitionRepo
+      .with('team')
+      .where('teamId', team.value.id)
+      .where('season', props.season)
+      .get()
   )
 </script>
 

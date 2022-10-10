@@ -88,7 +88,7 @@
           <div class="mt-0 mb-2">{{ formatDate(lastMatch.playedOn) }}</div>
         </v-card-text>
         <v-card-actions class="justify-center">
-          <v-btn :to="`/teams/${team.id}/matches/${lastMatch.id}`" color="info">
+          <v-btn :to="`/teams/${team.id}/matches/${lastMatch.id}`" color="primary">
             Go To Match
           </v-btn>
         </v-card-actions>
@@ -113,10 +113,16 @@
             <tr
               v-for="player in injuredPlayers"
               :key="player.id"
-              v-ripple
-              @click="router.push(`/teams/${team.id}/players/${player.id}`)"
             >
-              <td>{{ player.name }}</td>
+              <td>
+                <v-btn
+                  :to="`/teams/${team.id}/players/${player.id}`"
+                  variant="text"
+                  color="primary"
+                  class="text-capitalize"
+                  v-text="player.name"
+                />
+              </td>
               <td class="text-center">{{ player.pos }}</td>
               <td>{{ player.currentInjury.description }}</td>
               <td class="text-right">{{ formatDate(player.currentInjury.endedOn) }}</td>
@@ -143,11 +149,17 @@
             <tr
               v-for="player in loanedPlayers"
               :key="player.id"
-              v-ripple
               :class="{ 'text-error': player.currentLoan.transferFee && player.currentLoan.transferFee < player.value }"
-              @click="router.push(`/teams/${team.id}/players/${player.id}`)"
             >
-              <td>{{ player.name }}</td>
+              <td>
+                <v-btn
+                  :to="`/teams/${team.id}/players/${player.id}`"
+                  variant="text"
+                  color="primary"
+                  class="text-capitalize"
+                  v-text="player.name"
+                />
+              </td>
               <td class="text-center">{{ player.pos }}</td>
               <td class="text-right">
                 {{ formatMoney(player.value, team.currency) }}
@@ -183,10 +195,16 @@
             <tr
               v-for="player in expiringPlayers"
               :key="player.id"
-              v-ripple
-              @click="router.push(`/teams/${team.id}/players/${player.id}`)"
             >
-              <td>{{ player.name }}</td>
+              <td>
+                <v-btn
+                  :to="`/teams/${team.id}/players/${player.id}`"
+                  variant="text"
+                  color="primary"
+                  class="text-capitalize"
+                  v-text="player.name"
+                />
+              </td>
               <td class="text-center">{{ player.pos }}</td>
               <td class="text-right">
                 {{ formatMoney(player.value, team.currency) }}
@@ -201,9 +219,3 @@
     </v-col>
   </v-row>
 </template>
-
-<style scoped>
-  tbody > tr {
-    cursor: pointer;
-  }
-</style>
