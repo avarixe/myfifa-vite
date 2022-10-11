@@ -42,7 +42,7 @@
       .where('status', status => {
         switch (filter.value) {
           case 'Active':
-            return status !== null
+            return status !== null && status !== 'Pending'
           case 'Injured':
           case 'Loaned':
           case 'Pending':

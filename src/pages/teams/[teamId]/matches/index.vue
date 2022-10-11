@@ -46,12 +46,10 @@
     { value: 'link', text: 'Link', class: 'text-center', sortable: false }
   ]
 
-  const options = {
-    season: [...Array(currentSeason.value + 1).keys()].map(season => ({
-      title: seasonLabel(season),
-      value: season
-    }))
-  }
+  const seasonOptions = [...Array(currentSeason.value + 1).keys()].map(season => ({
+    title: seasonLabel(season),
+    value: season
+  }))
 
   const matchCompetitions = computed(() =>
     [...new Set(matches.value.map(match => match.competition))].filter(comp => !!comp).sort()
@@ -74,7 +72,7 @@
     <v-select
       v-model="filters.season"
       label="Season"
-      :items="options.season"
+      :items="seasonOptions"
       density="compact"
       clearable
       hide-details

@@ -9,8 +9,6 @@
           competitions { ...CompetitionData }
           players { ...PlayerData }
           competitionStats(season: $season) { ...CompetitionStatsData }
-          playerPerformanceStats(season: $season) { ...PlayerPerformanceStatsData }
-          playerDevelopmentStats(season: $season) { ...PlayerDevelopmentStatsData }
           teamDevelopmentStats(season: $season) { ...TeamDevelopmentStatsData }
           transferActivity(season: $season) {
             arrivals { ...ContractData }
@@ -24,8 +22,6 @@
       ${competitionFragment}
       ${playerFragment}
       ${competitionStatsFragment}
-      ${playerPerformanceStatsFragment}
-      ${playerDevelopmentStatsFragment}
       ${teamDevelopmentStatsFragment}
       ${contractFragment}
       ${transferFragment}
@@ -39,8 +35,6 @@
 
   const {
     competitionStats,
-    playerPerformanceStats,
-    playerDevelopmentStats,
     teamDevelopmentStats,
     transferActivity
   } = data.value.team
@@ -86,19 +80,6 @@
     <season-competition-table
       :season="season"
       :competition-stats="competitionStats"
-    />
-  </section>
-
-  <section id="players">
-    <div class="text-h4 my-3 text-info font-weight-light">
-      <v-icon start large>mdi-account-multiple</v-icon>
-      Players
-    </div>
-
-    <season-player-grid
-      :season="season"
-      :player-performance-stats="playerPerformanceStats"
-      :player-development-stats="playerDevelopmentStats"
     />
   </section>
 

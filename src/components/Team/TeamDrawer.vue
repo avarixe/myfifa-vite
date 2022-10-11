@@ -22,7 +22,7 @@
 
 <template>
   <v-navigation-drawer v-bind="$attrs">
-    <v-list nav>
+    <v-list nav density="compact">
       <v-list-item
         :prepend-avatar="team.badgeUrl"
         :title="team.name"
@@ -50,6 +50,11 @@
         :to="`/teams/${team.id}/competitions`"
       />
       <v-list-item
+        prepend-icon="mdi-calendar"
+        title="Season"
+        :to="`/teams/${team.id}/seasons/${currentSeason}`"
+      />
+      <v-list-item
         prepend-icon="mdi-soccer-field"
         title="Matches"
         :to="`/teams/${team.id}/matches`"
@@ -59,6 +64,26 @@
         title="Squads"
         :to="`/teams/${team.id}/squads`"
       />
+      <v-list-group>
+        <template #activator="{ props }">
+          <v-list-item
+            v-bind="props"
+            prepend-icon="mdi-google-analytics"
+            title="Analytics"
+          />
+        </template>
+
+        <v-list-item
+          prepend-icon="mdi-trending-up"
+          title="Development"
+          :to="`/teams/${team.id}/analytics/development`"
+        />
+        <v-list-item
+          prepend-icon="mdi-numeric"
+          title="Statistics"
+          :to="`/teams/${team.id}/analytics/statistics`"
+        />
+      </v-list-group>
     </v-list>
   </v-navigation-drawer>
 </template>

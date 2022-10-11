@@ -45,6 +45,9 @@ export default defineConfig({
           'lodash.keyby': [
             ['default', 'keyBy']
           ],
+          'lodash.groupby': [
+            ['default', 'groupBy']
+          ],
           'lodash.orderby': [
             ['default', 'orderBy']
           ],

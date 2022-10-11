@@ -24,9 +24,13 @@
         case 'matches':
         case 'squads':
         case 'competitions':
-        case 'seasons':
         case 'account':
+        case 'development':
+        case 'statistics':
           return { to, text: capitalize(step) }
+        case 'analytics':
+        case 'seasons':
+          return { to, text: capitalize(step), disabled: true }
         case 'new':
           return {
             to,

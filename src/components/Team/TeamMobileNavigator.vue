@@ -1,5 +1,5 @@
 <script setup>
-  const { team } = useTeam()
+  const { team, currentSeason } = useTeam()
 </script>
 
 <template>
@@ -7,6 +7,10 @@
     <v-btn :to="`/teams/${team.id}/players`">
       <span>Players</span>
       <v-icon>mdi-run</v-icon>
+    </v-btn>
+    <v-btn :to="`/teams/${team.id}/seasons/${currentSeason}`">
+      <span>Season</span>
+      <v-icon>mdi-calendar</v-icon>
     </v-btn>
     <v-btn :to="`/teams/${team.id}/competitions`">
       <span>Competitions</span>
