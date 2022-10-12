@@ -2,8 +2,7 @@
   import { Contract } from '~/models'
 
   const props = defineProps({
-    player: { type: Object, required: true },
-    attribute: { type: String, required: true }
+    player: { type: Object, required: true }
   })
 
   const contractRepo = useRepo(Contract)
@@ -48,9 +47,10 @@
     }
   ])
 
-
-  const options = reactive({
+  const theme = useTheme()
+  const options = computed(() => ({
     chart: { type: 'area' },
+    theme: { mode: theme.global.current.value.dark ? 'dark' : 'light' },
     xaxis: {
       type: 'datetime'
     },
@@ -78,7 +78,7 @@
     tooltip: {
       x: { format: 'MMM d, yyyy' }
     }
-  })
+  }))
 </script>
 
 <template>

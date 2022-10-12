@@ -52,7 +52,6 @@
       ]))
     } else {
       attributes.startedOn = team.value.currentlyOn
-      console.log(endOfCurrentSeason.value)
       attributes.endedOn = format(
         subDays(parseISO(endOfCurrentSeason.value), 1),
         'yyyy-MM-dd'

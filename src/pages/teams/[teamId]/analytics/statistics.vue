@@ -44,7 +44,8 @@
     { text: 'Minutes', value: 'numMinutes', align: 'end', class: 'text-right' },
     { text: 'Goals', value: 'numGoals', align: 'end', class: 'text-right' },
     { text: 'Assists', value: 'numAssists', align: 'end', class: 'text-right' },
-    { text: 'Clean Sheets', value: 'numCleanSheets', align: 'end', class: 'text-right' }
+    { text: 'Clean Sheets', value: 'numCleanSheets', align: 'end', class: 'text-right' },
+    { text: 'Rating', value: 'avgRating' }
   ]
 
   const filters = reactive({
@@ -65,27 +66,35 @@
     }
   }).map(player => {
     const playerStats = []
-    const matchStats = (statsByPlayerId[player.id] || []).reduce(
-      (totalStats, data) => {
-        if (
-          [null, data.season].includes(filters.season) &&
-          [null, data.competition].includes(filters.competition)
-        ) {
-          playerStats.push(data)
-          metrics.forEach(metric => {
-            totalStats[metric] += data[metric]
-          })
+    const matchStats = {
+      numMatches: 0,
+      numMinutes: 0,
+      numGoals: 0,
+      numAssists: 0,
+      numCleanSheets: 0,
+      avgRating: 0
+    }
+    let numRatedMinutes = 0
+
+    statsByPlayerId[player.id]?.forEach(data => {
+      if (
+        [null, data.season].includes(filters.season) &&
+        [null, data.competition].includes(filters.competition)
+      ) {
+        playerStats.push(data)
+        for (const metric in matchStats) {
+          if (metric === 'avgRating') {
+            if (data.avgRating > 0) {
+              numRatedMinutes += data.numMinutes
+              matchStats.avgRating += data.avgRating * data.numMinutes
+            }
+          } else {
+            matchStats[metric] += data[metric]
+          }
         }
-        return totalStats
-      },
-      {
-        numMatches: 0,
-        numMinutes: 0,
-        numGoals: 0,
-        numAssists: 0,
-        numCleanSheets: 0
       }
-    )
+    })
+    matchStats.avgRating /= (numRatedMinutes || 1)
 
     return {
       ...player,
@@ -112,6 +121,16 @@
         .map(comp => comp.name)
     )
   ])
+
+  function ratingColor (rating) {
+    switch (Math.round(rating)) {
+      case 1: return 'red'
+      case 2: return 'orange'
+      case 3: return 'lime'
+      case 4: return 'light-green'
+      case 5: return 'green'
+    }
+  }
 </script>
 
 <template>
@@ -189,6 +208,17 @@
       <td class="text-right">{{ item.numGoals }}</td>
       <td class="text-right">{{ item.numAssists }}</td>
       <td class="text-right">{{ item.numCleanSheets }}</td>
+      <td>
+        <v-progress-linear
+          :model-value="(item.avgRating / 5) * 100"
+          :color="ratingColor(item.avgRating)"
+          size="x-small"
+          striped
+          height="25"
+        >
+          <strong class="text-black">{{ item.avgRating.toFixed(2) }}</strong>
+        </v-progress-linear>
+      </td>
     </template>
   </data-table>
 </template>

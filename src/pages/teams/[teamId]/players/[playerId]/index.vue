@@ -49,11 +49,28 @@
     numMatches: 0,
     numCleanSheets: 0,
     numGoals: 0,
-    numAssists: 0
+    numAssists: 0,
+    numMinutes: 0,
+    avgRating: 0
   }
   playerPerformanceStats.forEach(stats => {
     for (const stat in playerStats) {
-      playerStats[stat] += stats[stat]
+      if (stat === 'avgRating') {
+        playerStats.avgRating += stats.avgRating * stats.numMinutes
+      } else {
+        playerStats[stat] += stats[stat]
+      }
+    }
+  })
+  playerStats.avgRating /= playerStats.numMinutes || 1
+
+  const ratingColor = computed(() => {
+    switch (Math.round(playerStats.avgRating)) {
+      case 1: return 'red'
+      case 2: return 'orange'
+      case 3: return 'lime'
+      case 4: return 'light-green'
+      case 5: return 'green'
     }
   })
 
@@ -165,7 +182,12 @@
       </v-col>
       <v-col cols="12" sm="3">
         <div class="text-h4">
-          <v-rating readonly />
+          <v-rating
+            readonly
+            :model-value="playerStats.avgRating"
+            half-increments
+            :color="ratingColor"
+          />
         </div>
         <div class="subheading">Rating</div>
       </v-col>

@@ -22,6 +22,7 @@ export const playerPerformanceStatsFragment = gql`
     numGoals
     numAssists
     numCleanSheets
+    avgRating
   }
 `
 

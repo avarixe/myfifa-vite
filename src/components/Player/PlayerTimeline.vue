@@ -25,10 +25,6 @@
       ...props.player.transfers
     ], ['startedOn', 'createdAt'], ['desc', 'desc'])
   )
-
-  events.value.forEach(event => {
-    console.log(event)
-  })
 </script>
 
 <template>
