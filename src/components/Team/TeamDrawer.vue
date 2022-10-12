@@ -51,7 +51,7 @@
       />
       <v-list-item
         prepend-icon="mdi-calendar"
-        title="Season"
+        title="Current Season"
         :to="`/teams/${team.id}/seasons/${currentSeason}`"
       />
       <v-list-item

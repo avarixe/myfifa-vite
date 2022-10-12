@@ -1,4 +1,6 @@
 <script setup>
+  import { differenceInYears } from 'date-fns'
+
   const { data } = await useQuery({
     query: gql`
       query fetchTeams {
@@ -23,11 +25,18 @@
   const currentTeam = computed(() => latestTeams[teamIndex.value])
   const lastMatch = computed(() => currentTeam.value?.lastMatch)
 
+  const currentSeason = computed(() =>
+    differenceInYears(
+      parseISO(currentTeam.value.currentlyOn),
+      parseISO(currentTeam.value.startedOn)
+    )
+  )
+
   const teamLinks = computed(() => [
     {
-      to: `/teams/${currentTeam.value.id}/competitions`,
-      icon: 'mdi-trophy',
-      text: 'Competitions'
+      to: `/teams/${currentTeam.value.id}/seasons/${currentSeason.value}`,
+      icon: 'mdi-calendar',
+      text: 'Current Season'
     },
     {
       to: `/teams/${currentTeam.value.id}/players`,

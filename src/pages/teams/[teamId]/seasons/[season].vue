@@ -10,6 +10,7 @@
           players { ...PlayerData }
           competitionStats(season: $season) { ...CompetitionStatsData }
           teamDevelopmentStats(season: $season) { ...TeamDevelopmentStatsData }
+          playerDevelopmentStats(season: $season) { ...PlayerDevelopmentStatsData }
           transferActivity(season: $season) {
             arrivals { ...ContractData }
             departures { ...ContractData }
@@ -22,6 +23,7 @@
       ${competitionFragment}
       ${playerFragment}
       ${competitionStatsFragment}
+      ${playerDevelopmentStatsFragment}
       ${teamDevelopmentStatsFragment}
       ${contractFragment}
       ${transferFragment}
@@ -33,11 +35,12 @@
     }
   })
 
-  const {
-    competitionStats,
-    teamDevelopmentStats,
-    transferActivity
-  } = data.value.team
+  const playerValues = computed(() =>
+    data.value.team.playerDevelopmentStats.reduce(
+      (obj, stats) => ({ ...obj, [stats.playerId]: stats.value }),
+      {}
+    )
+  )
 </script>
 
 <template>
@@ -66,8 +69,8 @@
     </div>
 
     <season-summary
-      :competition-stats="competitionStats"
-      :team-development-stats="teamDevelopmentStats"
+      :competition-stats="data.team.competitionStats"
+      :team-development-stats="data.team.teamDevelopmentStats"
     />
   </section>
 
@@ -79,7 +82,7 @@
 
     <season-competition-table
       :season="season"
-      :competition-stats="competitionStats"
+      :competition-stats="data.team.competitionStats"
     />
   </section>
 
@@ -91,7 +94,8 @@
 
     <season-transfer-table
       :season="season"
-      :transfer-activity="transferActivity"
+      :transfer-activity="data.team.transferActivity"
+      :player-values="playerValues"
     />
   </section>
 </template>
