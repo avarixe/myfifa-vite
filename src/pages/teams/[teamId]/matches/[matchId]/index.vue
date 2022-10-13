@@ -79,7 +79,8 @@
       Lineup
     </div>
 
-    <match-lineup :match="match" />
+    <match-formation :match="match" />
+    <match-lineup :match="match" class="mt-4"/>
   </section>
 
   <section id="timeline">

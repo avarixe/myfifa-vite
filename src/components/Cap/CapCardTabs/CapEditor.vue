@@ -30,7 +30,6 @@
       label="Position"
       prepend-icon="mdi-run"
       :items="Object.keys(matchPositions)"
-      menu-props="auto"
       required
       @change="onPositionChange"
     />
