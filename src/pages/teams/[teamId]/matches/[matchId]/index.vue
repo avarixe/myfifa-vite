@@ -73,6 +73,15 @@
     <div><b>Date Played:</b> {{ formatDate(match.playedOn) }}</div>
   </div>
 
+  <section id="lineup">
+    <div class="text-h4 my-3 text-primary font-weight-light">
+      <v-icon start large>mdi-vector-polygon-variant</v-icon>
+      Lineup
+    </div>
+
+    <match-lineup :match="match" />
+  </section>
+
   <section id="timeline">
     <div class="text-h4 my-3 text-primary font-weight-light">
       <v-icon start large>mdi-timeline</v-icon>
