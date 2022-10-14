@@ -18,7 +18,7 @@
     :close-on-content-click="false"
     activator="parent"
   >
-    <v-card width="500">
+    <v-card width="400">
       <v-card-title class="text-subtitle-1 pa-2 d-flex">
         <small class="mr-2 text-overline">
           {{ [match.home, match.away].includes(team.name) ? 'vs' : side }}

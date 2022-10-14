@@ -49,6 +49,12 @@
       .find(parseInt(props.matchId))
   )
 
+  const { mobile } = useDisplay()
+  const showFormation = ref(!mobile.value)
+  watchEffect(() => {
+    showFormation.value = !mobile.value
+  })
+
   const router = useRouter()
 </script>
 
@@ -73,18 +79,28 @@
     <div><b>Date Played:</b> {{ formatDate(match.playedOn) }}</div>
   </div>
 
-  <section id="lineup">
-    <div class="text-h4 my-3 text-primary font-weight-light">
-      <v-icon start large>mdi-vector-polygon-variant</v-icon>
+  <section id="lineup" class="mt-4">
+    <div class="text-h4 mb-2 text-primary font-weight-light">
+      <v-icon start large>mdi-account-multiple</v-icon>
       Lineup
     </div>
 
-    <match-formation :match="match" />
-    <match-lineup :match="match" class="mt-4"/>
+    <v-btn-toggle
+      v-model="showFormation"
+      variant="outlined"
+      color="primary"
+      class="mb-2"
+    >
+      <v-btn icon="mdi-vector-polygon-variant" :value="true" />
+      <v-btn icon="mdi-format-list-bulleted" :value="false" />
+    </v-btn-toggle>
+
+    <match-formation v-if="showFormation" :match="match" />
+    <match-lineup v-else :match="match" />
   </section>
 
-  <section id="timeline">
-    <div class="text-h4 my-3 text-primary font-weight-light">
+  <section id="timeline" class="mt-4">
+    <div class="text-h4 mb-2 text-primary font-weight-light">
       <v-icon start large>mdi-timeline</v-icon>
       Timeline
     </div>
@@ -108,9 +124,4 @@
 
     <match-timeline :match="match" />
   </section>
-
-  <cap-grid
-    :match="match"
-    class="mt-4"
-  />
 </template>

@@ -19,7 +19,7 @@
     :close-on-content-click="false"
     activator="parent"
   >
-    <v-card width="500">
+    <v-card width="400">
       <v-card-title class="text-subtitle-1 pa-2 d-flex">
         <span class="mr-2">{{ cap.pos }}</span>
         <span class="font-weight-light">{{ player.name }}</span>

@@ -113,7 +113,7 @@
   .counter {
     color: black;
 
-    .theme--dark & {
+    .v-theme--dark & {
       color: white;
     }
   }
