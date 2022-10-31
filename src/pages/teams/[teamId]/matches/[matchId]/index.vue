@@ -1,10 +1,9 @@
 <script setup>
   import { Match } from '~/models'
 
-  const props = defineProps({
-    teamId: { type: String, required: true },
-    matchId: { type: String, required: true }
-  })
+  const route = useRoute()
+  const teamId = computed(() => parseInt(route.params.teamId))
+  const matchId = computed(() => parseInt(route.params.matchId))
 
   const { data, team } = await useTeamQuery({
     query: gql`
@@ -35,19 +34,22 @@
       ${playerFragment}
       ${baseSquadFragment}
     `,
-    variables: {
-      teamId: props.teamId,
-      matchId: props.matchId
-    }
+    variables: { teamId, matchId }
   })
   const matchRepo = useRepo(Match)
-  matchRepo.save(data.value?.match)
+  watchEffect(() => {
+    matchRepo.save(data.value.match)
+  })
+
   const match = computed(() =>
     matchRepo
       .withAll()
       .with('caps', query => query.with('player'))
-      .find(parseInt(props.matchId))
+      .find(parseInt(matchId.value))
   )
+
+  const nextMatch = computed(() => data.value.match.nextMatch)
+  const previousMatch = computed(() => data.value.match.previousMatch)
 
   const { mobile } = useDisplay()
   const showFormation = ref(!mobile.value)
@@ -62,6 +64,18 @@
   <h1>{{ match.home }} v {{ match.away }}</h1>
 
   <div>
+    <v-btn
+      :to="`/teams/${team.id}/matches/${previousMatch?.id}`"
+      :disabled="!previousMatch"
+      v-text="'Previous'"
+    />
+    &nbsp;
+    <v-btn
+      :to="`/teams/${team.id}/matches/${nextMatch?.id}`"
+      :disabled="!nextMatch"
+      v-text="'Next'"
+    />
+    &nbsp;
     <v-btn :to="`/teams/${team.id}/matches/${match.id}/edit`">Edit</v-btn>
     &nbsp;
     <remove-button
