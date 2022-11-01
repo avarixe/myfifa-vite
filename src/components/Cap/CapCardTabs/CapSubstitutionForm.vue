@@ -32,6 +32,7 @@
     ${substitutionFragment}
   `)
 
+  const emit = defineEmits(['submitted'])
   async function onSubmit () {
     const { data: { addSubstitution: { errors } } } = await createSubstitution({
       matchId: props.match.id,
@@ -39,6 +40,8 @@
     })
     if (errors) {
       alert(errors.fullMessages[0])
+    } else {
+      emit('submitted')
     }
   }
 </script>

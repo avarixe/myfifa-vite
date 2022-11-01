@@ -30,11 +30,14 @@
     ${bookingFragment}
   `)
 
+  const emit = defineEmits(['submitted'])
   async function onSubmit () {
     const { data: { addBooking: { errors } } } =
       await createBooking({ matchId: props.match.id, attributes })
     if (errors) {
       alert(errors.fullMessages[0])
+    } else {
+      emit('submitted')
     }
   }
 </script>

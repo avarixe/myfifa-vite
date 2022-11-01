@@ -16,14 +16,14 @@
     form.value.reset()
   }
 
-  const emit = defineEmits(['success', 'reset'])
+  const emit = defineEmits(['submitted', 'reset'])
   async function submitForm () {
     if (form.value.validate()) {
       try {
         loading.value = true
         error.value = false
         await props.submit()
-        emit('success')
+        emit('submitted')
         if (props.resetAfterSubmit) {
           resetForm()
           emit('reset')

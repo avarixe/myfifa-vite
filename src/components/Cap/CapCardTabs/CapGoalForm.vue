@@ -47,6 +47,7 @@
     ${goalFragment}
   `)
 
+  const emit = defineEmits(['submitted'])
   async function onSubmit () {
     const { data: { addGoal: { errors } } } = await createGoal({
       matchId: props.match.id,
@@ -54,6 +55,8 @@
     })
     if (errors) {
       alert(errors.fullMessages[0])
+    } else {
+      emit('submitted')
     }
   }
 </script>

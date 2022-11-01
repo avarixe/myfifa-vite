@@ -27,7 +27,7 @@
   >
     <base-form
       :submit="submit"
-      @success="dialog = false"
+      @submitted="dialog = false"
     >
       <template v-slot="{ error, errorMessage, onErrorInput, loading, valid }">
         <v-card>

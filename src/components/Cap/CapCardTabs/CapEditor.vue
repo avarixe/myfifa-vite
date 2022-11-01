@@ -23,6 +23,8 @@
     ${capFragment}
   `)
 
+  const emit = defineEmits(['submitted'])
+
   async function onPositionChange () {
     const { data: { updateCap: { errors } } } = await updateCap({
       id: props.cap.id,
@@ -30,6 +32,8 @@
     })
     if (errors) {
       alert(errors.fullMessages[0])
+    } else {
+      emit('submitted')
     }
   }
 
@@ -40,6 +44,8 @@
     })
     if (errors) {
       alert(errors.fullMessages[0])
+    } else {
+      emit('submitted')
     }
   }
 </script>
