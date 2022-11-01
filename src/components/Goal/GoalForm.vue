@@ -71,7 +71,44 @@
     attributes.assistedBy = null
   }
 
-  function onSubmit () {
+  const { executeMutation: createGoal } = useMutation(gql`
+    mutation createGoal($matchId: ID!, $attributes: GoalAttributes!) {
+      addGoal(matchId: $matchId, attributes: $attributes) {
+        goal { ...GoalData }
+        errors { fullMessages }
+      }
+    }
+    ${goalFragment}
+  `)
+
+  const { executeMutation: updateGoal } = useMutation(gql`
+    mutation ($id: ID!, $attributes: GoalAttributes!) {
+      updateGoal(id: $id, attributes: $attributes) {
+        goal { ...GoalData }
+        errors { fullMessages }
+      }
+    }
+    ${goalFragment}
+  `)
+
+  async function onSubmit () {
+    if (props.record) {
+      const { data: { updateGoal: { errors} } } = await updateGoal({
+        id: props.record.id,
+        attributes: { ...attributes, minute: minute.value }
+      })
+      if (errors) {
+        alert(errors.fullMessages[0])
+      }
+    } else {
+      const { data: { addGoal: { errors } } } = await createGoal({
+        matchId: props.match.id,
+        attributes: { ...attributes, minute: minute.value }
+      })
+      if (errors) {
+        alert(errors.fullMessages[0])
+      }
+    }
   }
 </script>
 
@@ -104,7 +141,7 @@
       </v-col>
       <v-col cols="12">
         <v-text-field
-          v-model="minute"
+          v-model.number="minute"
           label="Minute"
           type="number"
         />
@@ -135,7 +172,7 @@
           v-model="attributes.assistId"
           :caps="assistOptions"
           label="Assisted By"
-          icon="mdi-human-greeting"
+          prepend-icon="mdi-human-greeting"
           :disabled="attributes.penalty || attributes.ownGoal"
           clearable
           hide-details

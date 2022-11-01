@@ -32,10 +32,7 @@
     <div>
       <v-btn variant="text" color="orange">
         Edit
-        <penalty-shootout-form
-          :match="match"
-          :record="event"
-        />
+        <penalty-shootout-form :match="match" />
       </v-btn>
       <remove-button
         :record="event"

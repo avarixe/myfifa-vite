@@ -103,11 +103,26 @@
       v-model="showFormation"
       variant="outlined"
       color="primary"
-      class="mb-2"
     >
       <v-btn icon="mdi-vector-polygon-variant" :value="true" />
       <v-btn icon="mdi-format-list-bulleted" :value="false" />
     </v-btn-toggle>
+
+    <div class="my-2">
+      <v-btn>
+        <v-icon start>mdi-download</v-icon>
+        Apply Squad
+
+        <match-squad-applier :match="match" />
+      </v-btn>
+      &nbsp;
+      <v-btn>
+        <v-icon start>mdi-upload</v-icon>
+        Save Lineup
+
+        <match-squad-saver :match="match" />
+      </v-btn>
+    </div>
 
     <match-formation v-if="showFormation" :match="match" />
     <match-lineup v-else :match="match" />
@@ -118,23 +133,6 @@
       <v-icon start large>mdi-timeline</v-icon>
       Timeline
     </div>
-
-    <v-btn>
-      + Goal
-      <goal-form :match="match" />
-    </v-btn>
-    <v-btn>
-      + Booking
-      <booking-form :match="match" />
-    </v-btn>
-    <v-btn>
-      + Substitution
-      <substitution-form :match="match" />
-    </v-btn>
-    <v-btn v-if="!match.penaltyShootout">
-      + Penalty Shootout
-      <penalty-shootout-form :match="match" />
-    </v-btn>
 
     <match-timeline :match="match" />
   </section>

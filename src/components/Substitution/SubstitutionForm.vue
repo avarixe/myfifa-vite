@@ -46,7 +46,44 @@
     }
   }
 
-  function onSubmit () {
+  const { executeMutation: createSubstitution } = useMutation(gql`
+    mutation createSubstitution($matchId: ID!, $attributes: SubstitutionAttributes!) {
+      addSubstitution(matchId: $matchId, attributes: $attributes) {
+        substitution { ...SubstitutionData }
+        errors { fullMessages }
+      }
+    }
+    ${substitutionFragment}
+  `)
+
+  const { executeMutation: updateSubstitution } = useMutation(gql`
+    mutation ($id: ID!, $attributes: SubstitutionAttributes!) {
+      updateSubstitution(id: $id, attributes: $attributes) {
+        substitution { ...SubstitutionData }
+        errors { fullMessages }
+      }
+    }
+    ${substitutionFragment}
+  `)
+
+  async function onSubmit () {
+    if (props.record) {
+      const { data: { updateSubstitution: { errors} } } = await updateSubstitution({
+        id: props.record.id,
+        attributes: { ...attributes, minute: minute.value }
+      })
+      if (errors) {
+        alert(errors.fullMessages[0])
+      }
+    } else {
+      const { data: { addSubstitution: { errors } } } = await createSubstitution({
+        matchId: props.match.id,
+        attributes: { ...attributes, minute: minute.value }
+      })
+      if (errors) {
+        alert(errors.fullMessages[0])
+      }
+    }
   }
 </script>
 
@@ -60,7 +97,7 @@
     <template #form>
       <v-col cols="12">
         <v-text-field
-          v-model="minute"
+          v-model.number="minute"
           label="Minute"
           type="number"
         />
@@ -70,7 +107,7 @@
           v-model="attributes.playerId"
           :caps="unsubbedPlayers"
           label="Player"
-          icon="mdi-subdirectory-arrow-left"
+          prepend-icon="mdi-subdirectory-arrow-left"
         />
       </v-col>
       <v-col cols="12">
@@ -78,7 +115,7 @@
           v-model="attributes.replacementId"
           :players="availablePlayers"
           label="Replaced By"
-          icon="mdi-subdirectory-arrow-right"
+          prepend-icon="mdi-subdirectory-arrow-right"
         />
       </v-col>
       <v-col cols="12">

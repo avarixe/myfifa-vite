@@ -15,7 +15,22 @@
     attributes.home = props.side === 'home'
   })
 
-  function onSubmit () {
+  const { executeMutation: createBooking } = useMutation(gql`
+    mutation createBooking($matchId: ID!, $attributes: BookingAttributes!) {
+      addBooking(matchId: $matchId, attributes: $attributes) {
+        booking { ...BookingData }
+        errors { fullMessages }
+      }
+    }
+    ${bookingFragment}
+  `)
+
+  async function onSubmit () {
+    const { data: { addBooking: { errors } } } =
+      await createBooking({ matchId: props.match.id, attributes })
+    if (errors) {
+      alert(errors.fullMessages[0])
+    }
   }
 </script>
 
@@ -28,7 +43,7 @@
       <div class="pa-2">
         <div class="text-subtitle-2 pb-2">Book Player</div>
         <v-text-field
-          v-model="attributes.minute"
+          v-model.number="attributes.minute"
           label="Minute"
           type="number"
         />
@@ -59,8 +74,8 @@
           <v-btn
             type="submit"
             :disabled="!valid"
-            primary
-            text
+            color="primary"
+            variant="text"
             :loading="loading"
             v-text="'Save'"
           />

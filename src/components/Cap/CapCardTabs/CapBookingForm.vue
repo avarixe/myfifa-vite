@@ -20,7 +20,22 @@
     attributes.home = props.match.home === team.value.name
   })
 
-  function onSubmit () {
+  const { executeMutation: createBooking } = useMutation(gql`
+    mutation createBooking($matchId: ID!, $attributes: BookingAttributes!) {
+      addBooking(matchId: $matchId, attributes: $attributes) {
+        booking { ...BookingData }
+        errors { fullMessages }
+      }
+    }
+    ${bookingFragment}
+  `)
+
+  async function onSubmit () {
+    const { data: { addBooking: { errors } } } =
+      await createBooking({ matchId: props.match.id, attributes })
+    if (errors) {
+      alert(errors.fullMessages[0])
+    }
   }
 </script>
 
@@ -35,7 +50,7 @@
           Book Player
         </div>
         <v-text-field
-          v-model="attributes.minute"
+          v-model.number="attributes.minute"
           label="Minute"
           type="number"
         />
@@ -57,7 +72,7 @@
             type="submit"
             :disabled="!valid"
             color="primary"
-            variant="flat"
+            variant="text"
             :loading="loading"
             v-text="'Save'"
           />

@@ -22,7 +22,24 @@
     return activePlayers.value.filter(player => selectedIds.indexOf(player.id) < 0)
   })
 
-  function onSubmit () {
+  const { executeMutation: createSubstitution } = useMutation(gql`
+    mutation createSubstitution($matchId: ID!, $attributes: SubstitutionAttributes!) {
+      addSubstitution(matchId: $matchId, attributes: $attributes) {
+        substitution { ...SubstitutionData }
+        errors { fullMessages }
+      }
+    }
+    ${substitutionFragment}
+  `)
+
+  async function onSubmit () {
+    const { data: { addSubstitution: { errors } } } = await createSubstitution({
+      matchId: props.match.id,
+      attributes: { ...attributes, minute: minute.value }
+    })
+    if (errors) {
+      alert(errors.fullMessages[0])
+    }
   }
 </script>
 
@@ -57,8 +74,8 @@
           <v-btn
             type="submit"
             :disabled="!valid"
-            primary
-            text
+            color="primary"
+            variant="text"
             :loading="loading"
           >
             Save

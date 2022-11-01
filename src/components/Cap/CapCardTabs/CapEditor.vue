@@ -13,10 +13,34 @@
 
   const { activePlayers } = useActivePlayers()
 
-  function onPositionChange () {
+  const { executeMutation: updateCap } = useMutation(gql`
+    mutation ($id: ID!, $attributes: CapAttributes!) {
+      updateCap(id: $id, attributes: $attributes) {
+        cap { ...CapData }
+        errors { fullMessages }
+      }
+    }
+    ${capFragment}
+  `)
+
+  async function onPositionChange () {
+    const { data: { updateCap: { errors } } } = await updateCap({
+      id: props.cap.id,
+      attributes: { pos: pos.value }
+    })
+    if (errors) {
+      alert(errors.fullMessages[0])
+    }
   }
 
-  function onPlayerChange () {
+  async function onPlayerChange () {
+    const { data: { updateCap: { errors } } } = await updateCap({
+      id: props.cap.id,
+      attributes: { playerId: playerId.value }
+    })
+    if (errors) {
+      alert(errors.fullMessages[0])
+    }
   }
 </script>
 
@@ -30,16 +54,15 @@
       label="Position"
       prepend-icon="mdi-run"
       :items="Object.keys(matchPositions)"
-      required
-      @change="onPositionChange"
+      @update:modelValue="onPositionChange"
     />
     <player-select
       v-model="playerId"
       :players="activePlayers"
       item-value="id"
-      required
+      prepend-icon="mdi-account"
       :disabled="cap.start > 0"
-      @input="onPlayerChange"
+      @update:modelValue="onPlayerChange"
     />
   </div>
 </template>

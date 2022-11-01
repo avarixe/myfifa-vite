@@ -39,7 +39,44 @@
     attributes.playerName = null
   }
 
-  function onSubmit () {
+  const { executeMutation: createBooking } = useMutation(gql`
+    mutation createBooking($matchId: ID!, $attributes: BookingAttributes!) {
+      addBooking(matchId: $matchId, attributes: $attributes) {
+        booking { ...BookingData }
+        errors { fullMessages }
+      }
+    }
+    ${bookingFragment}
+  `)
+
+  const { executeMutation: updateBooking } = useMutation(gql`
+    mutation ($id: ID!, $attributes: BookingAttributes!) {
+      updateBooking(id: $id, attributes: $attributes) {
+        booking { ...BookingData }
+        errors { fullMessages }
+      }
+    }
+    ${bookingFragment}
+  `)
+
+  async function onSubmit () {
+    if (props.record) {
+      const { data: { updateBooking: { errors} } } = await updateBooking({
+        id: props.record.id,
+        attributes: { ...attributes, minute: minute.value }
+      })
+      if (errors) {
+        alert(errors.fullMessages[0])
+      }
+    } else {
+      const { data: { addBooking: { errors } } } = await createBooking({
+        matchId: props.match.id,
+        attributes: { ...attributes, minute: minute.value }
+      })
+      if (errors) {
+        alert(errors.fullMessages[0])
+      }
+    }
   }
 </script>
 
@@ -72,7 +109,7 @@
       </v-col>
       <v-col cols="12">
         <v-text-field
-          v-model="minute"
+          v-model.number="minute"
           label="Minute"
           type="number"
         />

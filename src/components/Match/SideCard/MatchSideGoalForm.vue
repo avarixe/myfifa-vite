@@ -21,12 +21,27 @@
     }
   })
 
-  function onSubmit () {
-  }
-
   function resetAttributes () {
     attributes.ownGoal = false
     attributes.penalty = false
+  }
+
+  const { executeMutation: createGoal } = useMutation(gql`
+    mutation createGoal($matchId: ID!, $attributes: GoalAttributes!) {
+      addGoal(matchId: $matchId, attributes: $attributes) {
+        goal { ...GoalData }
+        errors { fullMessages }
+      }
+    }
+    ${goalFragment}
+  `)
+
+  async function onSubmit () {
+    const { data: { addGoal: { errors } } } =
+      await createGoal({ matchId: props.match.id, attributes })
+    if (errors) {
+      alert(errors.fullMessages[0])
+    }
   }
 </script>
 
@@ -41,7 +56,7 @@
           Add Goal
         </div>
         <v-text-field
-          v-model="attributes.minute"
+          v-model.number="attributes.minute"
           label="Minute"
           type="number"
         />

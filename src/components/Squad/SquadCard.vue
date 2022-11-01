@@ -165,11 +165,10 @@
               />
             </v-list>
           </v-navigation-drawer>
-          <v-main>
+          <v-main :class="{ editing: inEditMode, selecting: !!selectedPlayerId }">
             <formation-grid
               :cells="formationCells"
               :hide-empty-cells="!inEditMode"
-              :class="{ editing: inEditMode, selecting: !!selectedPlayerId }"
             >
               <template #filled-pos="{ pos, cell }">
                 <div

@@ -1,11 +1,11 @@
 <script setup>
   const props = defineProps({
-    record: { type: Object, default: null }
+    match: { type: Object, required: true }
   })
 
   const attributes = reactive({
-    homeScore: null,
-    awayScore: null
+    homeScore: props.match.penaltyShootout?.homeScore,
+    awayScore: props.match.penaltyShootout?.awayScore
   })
 
   const rulesFor = {
@@ -21,7 +21,26 @@
     }
   }
 
-  function onSubmit () {
+  const { executeMutation: savePenaltyShootout } = useMutation(gql`
+    mutation savePenaltyShootout($matchId: ID!, $attributes: PenaltyShootoutAttributes!) {
+      updateMatch(id: $matchId, attributes: { penaltyShootoutAttributes: $attributes }) {
+        match {
+          ...MatchData
+          penaltyShootout { ...PenaltyShootoutData }
+        }
+        errors { fullMessages }
+      }
+    }
+    ${matchFragment}
+    ${penaltyShootoutFragment}
+  `)
+
+  async function onSubmit () {
+    const { data: { updateMatch: { errors } } } =
+      await savePenaltyShootout({ matchId: props.match.id, attributes })
+    if (errors) {
+      alert(errors.fullMessages[0])
+    }
   }
 </script>
 
