@@ -28,5 +28,13 @@
     :items="players"
     item-title="name"
     item-value="id"
-  />
+  >
+    <template #item="{ item, props }">
+      <v-list-item v-bind="props">
+        <template #append>
+          <small class="text-overline">{{ playerPositions[item.value] }}</small>
+        </template>
+      </v-list-item>
+    </template>
+  </v-autocomplete>
 </template>

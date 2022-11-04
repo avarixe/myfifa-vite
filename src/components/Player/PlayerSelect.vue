@@ -13,11 +13,9 @@
   >
     <template #item="{ item, props }">
       <v-list-item v-bind="props">
-        <template #prepend>
-          {{ item.pos }}
+        <template #append>
+          <small class="text-overline">{{ item.raw.pos }}</small>
         </template>
-
-        <v-list-item-title>{{ item.name }}</v-list-item-title>
       </v-list-item>
     </template>
   </v-autocomplete>
