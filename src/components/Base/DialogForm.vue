@@ -29,8 +29,8 @@
       :submit="submit"
       @submitted="dialog = false"
     >
-      <template v-slot="{ error, errorMessage, onErrorInput, loading, valid }">
-        <v-card>
+      <template v-slot="{ loading, valid }">
+        <v-card :style="{ maxHeight: '75vh' }">
           <v-toolbar dense>
             <slot name="header">
               <v-toolbar-title>
@@ -47,14 +47,6 @@
               </v-row>
             </v-container>
           </v-card-text>
-          <v-alert
-            :model-value="error"
-            type="error"
-            dismissible
-            tile
-            :title="errorMessage"
-            @input="onErrorInput"
-          />
           <v-divider />
           <v-card-actions>
             <v-spacer />

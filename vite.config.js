@@ -27,7 +27,8 @@ export default defineConfig({
         './src/composables',
         './src/constants',
         './src/fragments',
-        './src/helpers'
+        './src/helpers',
+        './src/store'
       ],
       imports: [
         'vue',

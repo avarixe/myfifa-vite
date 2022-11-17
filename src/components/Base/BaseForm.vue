@@ -6,8 +6,6 @@
 
   const form = ref(null)
   const key = ref(0)
-  const error = ref(false)
-  const errorMessage = ref('')
   const loading = ref(false)
   const valid = ref(false)
 
@@ -17,11 +15,12 @@
   }
 
   const emit = defineEmits(['submitted', 'reset'])
+  const broadcastStore = useBroadcastStore()
   async function submitForm () {
     if (form.value.validate()) {
       try {
         loading.value = true
-        error.value = false
+        broadcastStore.clear()
         await props.submit()
         emit('submitted')
         if (props.resetAfterSubmit) {
@@ -29,13 +28,16 @@
           emit('reset')
         }
       } catch (err) {
-        errorMessage.value = err.message
-        error.value = true
+        broadcastStore.error(err.message)
       } finally {
         loading.value = false
       }
     }
   }
+
+  onMounted(() => {
+    broadcastStore.error('hello world!')
+  })
 </script>
 
 <template>
@@ -46,9 +48,6 @@
     @submit.prevent="submitForm"
   >
     <slot
-      :error="error"
-      :error-message="errorMessage"
-      :on-error-input="val => error = val"
       :loading="loading"
       :valid="valid"
     />
