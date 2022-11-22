@@ -2,22 +2,9 @@
   import { User } from '~/models'
   import logo from '~/assets/logo.png'
 
-  const { data } = await useQuery({
-    query: gql`
-      query fetchUser {
-        user { ...UserData }
-      }
-      ${userFragment}
-    `
-  })
-
+  const authStore = useAuthStore()
   const userRepo = useRepo(User)
-  if (data.value.user) {
-    userRepo.save(data.value.user)
-  } else {
-    useToken().value = null
-  }
-  const user = computed(() => userRepo.find(parseInt(data.value.user.id)))
+  const user = computed(() => userRepo.find(authStore.userId))
 
   const { mobile, smAndUp } = useDisplay()
   const drawer = ref(!mobile.value)

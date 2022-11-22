@@ -1,4 +1,5 @@
 <script setup>
+  import { User } from '~/models'
   import logo from '~/assets/logo.png'
 
   const username = ref('')
@@ -17,15 +18,20 @@
   `)
 
   const loading = ref(false)
+  const { setToken, authStore } = useToken()
+  const router = useRouter()
   async function onSubmit () {
     loading.value = true
-    const { data: { grantAccessToken: { token, errors} } } =
+    const { data: { grantAccessToken: { token, user, errors } } } =
       await grantAccessToken({
         username: username.value,
         password: password.value
       })
     if (token) {
-      useToken().value = token
+      setToken(token)
+      useRepo(User).save(user)
+      authStore.userId = parseInt(user.id)
+      router.push(authStore.redirectUrl || '/')
     } else {
       alert(errors.fullMessages[0])
     }

@@ -65,6 +65,9 @@ export default defineConfig({
           'vuetify': [
             'useDisplay',
             'useTheme'
+          ],
+          'axios': [
+            ['default', 'axios']
           ]
         }
       ],

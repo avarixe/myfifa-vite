@@ -1,7 +1,7 @@
 <script setup>
   import { createClient, provideClient } from '@urql/vue'
 
-  const token = useToken()
+  const { token } = useToken()
   const client = createClient({
     url: `${import.meta.env.VITE_API_URL}/graphql`,
     fetchOptions: () => ({

@@ -1,6 +1,13 @@
-import { createGlobalState, useStorage } from '@vueuse/core'
+export default () => {
+  const authStore = useAuthStore()
 
-const useGlobalState = createGlobalState(() => useStorage('token', null))
+  const token = computed(() => authStore.token)
+  const { setToken, clearToken } = authStore
 
-export default () => useGlobalState()
-
+  return {
+    token,
+    setToken,
+    clearToken,
+    authStore
+  }
+}

@@ -1,18 +1,11 @@
 <script setup>
-  const router = useRouter()
-  const route = useRoute()
-  const token = useToken()
-  watch(token, () => {
-    if (token.value) {
-      if (route.name === 'login') {
-        router.push('/')
-      }
-    } else if (route.name !== 'login') {
-      router.push('/login')
-    }
-  }, { immediate: true })
-
+  const { token } = useToken()
   const { team } = useTeam()
+
+  const route = useRoute()
+  const inPublicPage = computed(() =>
+    ['login'].includes(route.name)
+  )
 </script>
 
 <template>
@@ -24,7 +17,7 @@
       <v-container>
         <app-breadcrumbs v-if="token" />
         <suspense>
-          <router-view />
+          <router-view v-if="token || inPublicPage" />
         </suspense>
       </v-container>
     </v-main>

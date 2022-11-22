@@ -71,7 +71,7 @@
     })
   }
 
-  const token = useToken()
+  const { token } = useToken()
   const socket = ref(null)
 
   function connectToWebSocket () {

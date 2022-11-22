@@ -36,6 +36,7 @@
     `,
     variables: { teamId, matchId }
   })
+
   const matchRepo = useRepo(Match)
   watchEffect(() => {
     matchRepo.save(data.value.match)

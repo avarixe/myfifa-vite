@@ -1,6 +1,4 @@
 <script setup>
-  const token = useToken()
-
   const { executeMutation: revokeAccessToken } = useMutation(gql`
     mutation revokeAccessToken($token: String!) {
       revokeAccessToken(token: $token) {
@@ -8,13 +6,17 @@
       }
     }
   `)
+
+  const { token, clearToken } = useToken()
+  const router = useRouter()
   async function logout () {
     const { data: { revokeAccessToken: { errors} } } =
       await revokeAccessToken({ token: token.value })
     if (errors) {
       alert(errors.fullMessages[0])
     } else {
-      token.value = null
+      clearToken()
+      router.push('/login')
     }
   }
 </script>
