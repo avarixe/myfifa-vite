@@ -1,7 +1,17 @@
 <script setup>
-  const { token } = useToken()
-  const { team } = useTeam()
+  import { createClient, provideClient } from '@urql/vue'
 
+  const { token } = useToken()
+  const client = createClient({
+    url: `${import.meta.env.VITE_API_URL}/graphql`,
+    fetchOptions: () => ({
+      headers: { authorization: token.value ? `Bearer ${token.value}` : '' }
+    })
+  })
+
+  provideClient(client)
+
+  const { team } = useTeam()
   const route = useRoute()
   const inPublicPage = computed(() =>
     ['login'].includes(route.name)
@@ -17,7 +27,7 @@
       <v-container>
         <app-breadcrumbs v-if="token" />
         <suspense v-if="token || inPublicPage">
-          <router-view />
+          <nuxt-page />
         </suspense>
       </v-container>
     </v-main>

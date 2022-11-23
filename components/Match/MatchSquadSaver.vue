@@ -1,6 +1,5 @@
 <script setup>
   import { Squad } from '~/models'
-import { squadFragment } from '../../fragments'
 
   const props = defineProps({
     match: { type: Object, required: true }

@@ -26,12 +26,12 @@
     <v-app-bar-title v-if="smAndUp">MyFIFA Manager</v-app-bar-title>
     <v-spacer />
     <v-btn icon="mdi-account" to="/account" />
-    <dark-mode-toggle :user="user" />
+    <user-dark-mode-toggle :user="user" />
     <v-btn icon>
       <v-icon>mdi-information-outline</v-icon>
       <app-info />
     </v-btn>
-    <logout-button />
+    <app-logout-button />
   </v-app-bar>
 
   <team-drawer

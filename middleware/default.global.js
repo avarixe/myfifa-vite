@@ -1,27 +1,6 @@
-import { createORM } from 'pinia-orm'
-import { createRouter, createWebHistory } from 'vue-router'
-import { setupLayouts } from 'virtual:generated-layouts'
-import generatedRoutes from 'virtual:generated-pages'
+import axios from 'axios'
 
-import { createVuetify } from 'vuetify'
-import * as directives from 'vuetify/directives'
-import 'vuetify/styles'
-
-import VueApexCharts from 'vue3-apexcharts'
-
-import App from './App.vue'
-import { User } from '~/models'
-
-const routes = setupLayouts(generatedRoutes)
-
-const router = createRouter({
-  history: createWebHistory(),
-  routes
-})
-
-const pinia = createPinia().use(createORM())
-
-router.beforeEach(async (to) => {
+export default defineNuxtRouteMiddleware(async to => {
   const { token, authStore } = useToken()
   if (token.value) {
     // check if user is authenticated
@@ -53,13 +32,3 @@ router.beforeEach(async (to) => {
     return '/login'
   }
 })
-
-const vuetify = createVuetify({ directives })
-
-const app = createApp(App)
-  .use(router)
-  .use(pinia)
-  .use(vuetify)
-  .use(VueApexCharts)
-
-app.mount('#app')
