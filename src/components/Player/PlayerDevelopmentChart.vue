@@ -1,4 +1,5 @@
 <script setup>
+  import ApexChart from 'vue3-apexcharts'
   import { Contract } from '~/models'
 
   const props = defineProps({
@@ -82,5 +83,5 @@
 </script>
 
 <template>
-  <apexchart :series="series" :options="options" />
+  <apex-chart :series="series" :options="options" />
 </template>

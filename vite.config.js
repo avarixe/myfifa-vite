@@ -78,5 +78,8 @@ export default defineConfig({
         Vuetify3Resolver()
       ]
     })
-  ]
+  ],
+  ssr: {
+    noExternal: ['vuetify']
+  }
 })
