@@ -104,6 +104,7 @@
   <v-table id="rows" density="compact">
     <thead>
       <tr>
+        <th />
         <th class="text-left">Team</th>
         <th class="text-right">W</th>
         <th class="text-right">D</th>
@@ -120,6 +121,9 @@
         :key="`row-${i}`"
         :class="{ 'd-none': row._destroy }"
       >
+        <td class="text-center" :style="{ width: '40px' }">
+          <small class="text-disabled">{{ i + 1 }}</small>
+        </td>
         <td class="text-left">
           <team-combobox
             v-if="editing"
