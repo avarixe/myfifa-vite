@@ -43,7 +43,7 @@
     </template>
     <template #form="{ closeMenu }">
       <v-text-field
-        v-model="modelValue"
+        v-model.number="modelValue"
         :label="label"
         hide-details
         variant="solo"

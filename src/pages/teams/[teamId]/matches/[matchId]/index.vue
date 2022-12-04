@@ -92,11 +92,32 @@
     />
   </div>
 
-  <div class="mt-2">
-    <div><b>Competition:</b> {{ match.competition }}</div>
-    <div><b>Stage:</b> {{ match.stage }}</div>
-    <div><b>Score:</b> {{ match.score }}</div>
-    <div><b>Date Played:</b> {{ formatDate(match.playedOn) }}</div>
+  <div class="mt-4 text-center">
+    <v-row dense justify="space-between" align="center">
+      <v-col cols="12">
+        <div class="text-h4">{{ match.competition }}</div>
+        <div v-if="match.stage" class="text-h5">{{ match.stage }}</div>
+        <div class="subheading">{{ formatDate(match.playedOn) }}</div>
+      </v-col>
+      <v-col cols="6">
+        <div class="font-weight-light text-h6 text-sm-h4">{{ match.home }}</div>
+        <div :class="`font-weight-bold text-h4 text-${match.resultColor}`">
+          {{ match.homeScore }}
+          <span v-if="match.penaltyShootout">
+            ({{ match.penaltyShootout.homeScore }})
+          </span>
+        </div>
+      </v-col>
+      <v-col cols="6">
+        <div class="font-weight-light text-h6 text-sm-h4">{{ match.away }}</div>
+        <div :class="`font-weight-bold text-h4 text-${match.resultColor}`">
+          {{ match.awayScore }}
+          <span v-if="match.penaltyShootout">
+            ({{ match.penaltyShootout.awayScore }})
+          </span>
+        </div>
+      </v-col>
+    </v-row>
   </div>
 
   <section id="lineup" class="mt-4">

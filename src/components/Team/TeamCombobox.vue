@@ -32,7 +32,6 @@
       category: 'Team',
       search: textValue
     },
-    requestPolicy: 'network-only',
     pause: true
   })
 

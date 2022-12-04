@@ -13,7 +13,7 @@ export default () => {
     return differenceInYears(parseISO(date), startDate)
   }
 
-  const currentSeason = computed(() => seasonOn(team.value.startedOn))
+  const currentSeason = computed(() => seasonOn(team.value.currentlyOn))
 
   function seasonLabel (season) {
     if (!team.value) {

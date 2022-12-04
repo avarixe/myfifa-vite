@@ -20,7 +20,7 @@ export default class Stage extends Model {
       table: this.boolean(false),
 
       // Associations
-      competition: this.belongsTo(Competition, 'competitionId'),
+      competition: this.belongsTo(Competition, 'competitionId', 'id'),
       fixtures: this.hasMany(Fixture, 'stageId'),
       tableRows: this.hasMany(TableRow, 'stageId')
     }
