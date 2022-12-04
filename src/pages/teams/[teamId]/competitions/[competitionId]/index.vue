@@ -26,16 +26,9 @@
   })
   const competitionRepo = useRepo(Competition)
   competitionRepo.save(data.value?.competition)
-  const competition = computed(() =>
-    competitionRepo.with('stages', query =>
-      query
-        .with('tableRows')
-        .with('fixtures', fixtureQuery => fixtureQuery.with('legs'))
-    ).find(parseInt(props.competitionId))
-  )
+  const { competition, orderedRounds } = useCompetition(parseInt(props.competitionId))
 
   const tableStages = computed(() => competition.value.stages.filter(stage => stage.table))
-  const roundStages = computed(() => competition.value.stages.filter(stage => !stage.table))
 
   const router = useRouter()
 
@@ -76,11 +69,11 @@
       </v-expansion-panel-text>
     </v-expansion-panel>
     <v-expansion-panel
-      v-if="roundStages.length > 0"
+      v-if="orderedRounds.length > 0"
       title="Knockout Stages"
     >
       <v-expansion-panel-text>
-        <stage-grid :stages="roundStages" />
+        <stage-grid :stages="orderedRounds" />
       </v-expansion-panel-text>
     </v-expansion-panel>
   </v-expansion-panels>

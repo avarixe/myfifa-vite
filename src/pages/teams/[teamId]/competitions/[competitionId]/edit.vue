@@ -9,10 +9,17 @@
   const { data } = await useTeamQuery({
     query: gql`
       query fetchCompetitionPage($teamId: ID!, $competitionId: ID!) {
-        competition(id: $competitionId) { ...CompetitionData }
-        team(id: $teamId) { ...TeamData }
+        competition(id: $competitionId) {
+          ...CompetitionData
+          stages { ...StageData }
+        }
+        team(id: $teamId) {
+          ...TeamData
+          competitions { ...CompetitionData }
+        }
       }
       ${competitionFragment}
+      ${stageFragment}
       ${teamFragment}
     `,
     variables: {
@@ -20,11 +27,10 @@
       competitionId: props.competitionId
     }
   })
+
   const competitionRepo = useRepo(Competition)
   competitionRepo.save(data.value?.competition)
-  const competition = computed(() =>
-    competitionRepo.find(parseInt(props.competitionId))
-  )
+  const { competition } = useCompetition(parseInt(props.competitionId))
 </script>
 
 <template>

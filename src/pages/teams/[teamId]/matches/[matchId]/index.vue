@@ -72,9 +72,14 @@
     />
     &nbsp;
     <v-btn
+      v-if="nextMatch"
       :to="`/teams/${team.id}/matches/${nextMatch?.id}`"
-      :disabled="!nextMatch"
       v-text="'Next'"
+    />
+    <v-btn
+      v-else
+      :to="`/teams/${team.id}/matches/new`"
+      v-text="'New'"
     />
     &nbsp;
     <v-btn :to="`/teams/${team.id}/matches/${match.id}/edit`">Edit</v-btn>

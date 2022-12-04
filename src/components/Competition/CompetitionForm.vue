@@ -1,4 +1,6 @@
 <script setup>
+  import { Competition } from '~/models'
+
   const { team, currentSeason, seasonLabel } = useTeam()
 
   const props = defineProps({
@@ -60,6 +62,18 @@
     loading.value = false
   }
 
+  const competitionRepo = useRepo(Competition)
+  const competitionOptions = computed(() => {
+    const names = competitionRepo
+      .where('teamId', team.value.id)
+      .orderBy('name')
+      .get()
+      .map(comp => comp.name)
+    return [...new Set(names)]
+  })
+
+  const { championOptions } = useCompetition(props.record?.id)
+
   const presetFormats = [
     'League',
     'Knockout',
@@ -74,16 +88,19 @@
       label="Season"
       disabled
     />
-    <v-text-field
+    <v-autocomplete
       v-model="attributes.name"
       label="Name"
+      :items="competitionOptions"
     />
-    <v-text-field
+    <v-autocomplete
+      v-if="record"
       v-model="attributes.champion"
       label="Champion"
+      :items="championOptions"
     />
     <v-select
-      v-if="!record"
+      v-else
       v-model="attributes.presetFormat"
       label="Preset Format"
       :items="presetFormats"

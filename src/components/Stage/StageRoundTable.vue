@@ -24,6 +24,9 @@
     resetAttributes()
   }
 
+  const { previousRoundTeams } = useCompetition(parseInt(props.stage.competitionId))
+  const teamOptions = computed(() => previousRoundTeams(props.stage))
+
   function addFixture () {
     attributes.fixturesAttributes.push({
       homeTeam: '',
@@ -134,6 +137,7 @@
           <team-combobox
             v-if="editing"
             v-model="fixture.homeTeam"
+            :default-items="teamOptions"
             density="compact"
             single-line
             variant="outlined"
@@ -189,6 +193,7 @@
           <team-combobox
             v-if="editing"
             v-model="fixture.awayTeam"
+            :default-items="teamOptions"
             density="compact"
             single-line
             variant="outlined"

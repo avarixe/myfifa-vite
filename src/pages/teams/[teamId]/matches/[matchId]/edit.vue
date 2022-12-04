@@ -10,10 +10,18 @@
     query: gql`
       query fetchMatchPage($teamId: ID!, $matchId: ID!) {
         match(id: $matchId) { ...MatchData }
-        team(id: $teamId) { ...TeamData }
+        team(id: $teamId) {
+          ...TeamData
+          competitions {
+            ...CompetitionData
+            stages { ...BaseStageData }
+          }
+        }
       }
       ${matchFragment}
       ${teamFragment}
+      ${competitionFragment}
+      ${baseStageFragment}
     `,
     variables: {
       teamId: props.teamId,

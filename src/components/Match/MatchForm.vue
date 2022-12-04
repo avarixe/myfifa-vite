@@ -1,5 +1,7 @@
 <script setup>
-  const { team } = useTeam()
+  import { Competition, Stage } from '~/models'
+
+  const { team, seasonOn } = useTeam()
 
   const props = defineProps({
     teamId: { type: Number, default: null },
@@ -7,7 +9,7 @@
   })
 
   const attributes = reactive({
-    playedOn: props.record?.playedOn,
+    playedOn: props.record?.playedOn || team.value.currentlyOn,
     competition: props.record?.competition,
     stage: props.record?.stage,
     home: props.record?.home,
@@ -58,6 +60,39 @@
     }
     loading.value = false
   }
+
+  const competitionRepo = useRepo(Competition)
+  const competitionOptions = computed(() => {
+    if (attributes.playedOn) {
+      const names = competitionRepo
+        .where('teamId', team.value.id)
+        .where('season', seasonOn(attributes.playedOn))
+        .orderBy('name')
+        .get()
+        .map(comp => comp.name)
+      return [...new Set(names)]
+    } else {
+      return []
+    }
+  })
+
+  const stageRepo = useRepo(Stage)
+  const stageOptions = computed(() => {
+    if (attributes.competition && attributes.playedOn) {
+      return stageRepo
+        .where('table', false)
+        .whereHas('competition', query => {
+          query
+            .where('name', attributes.competition)
+            .where('season', seasonOn(attributes.playedOn))
+            .get()
+        })
+        .get()
+        .map(stage => stage.name)
+    } else {
+      return []
+    }
+  })
 </script>
 
 <template>
@@ -67,13 +102,16 @@
       label="Date Played"
       type="date"
     />
-    <v-text-field
+    <v-combobox
       v-model="attributes.competition"
       label="Competition"
+      :items="competitionOptions"
     />
-    <v-text-field
+    <v-combobox
+      v-if="!!attributes.competition"
       v-model="attributes.stage"
       label="Stage"
+      :items="stageOptions"
     />
     <team-combobox
       v-model="attributes.home"

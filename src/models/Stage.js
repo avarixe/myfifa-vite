@@ -1,5 +1,6 @@
 import { Model } from 'pinia-orm'
 import { NumberCast } from 'pinia-orm/casts'
+import Competition from './Competition'
 import Fixture from './Fixture'
 import TableRow from './TableRow'
 
@@ -19,6 +20,7 @@ export default class Stage extends Model {
       table: this.boolean(false),
 
       // Associations
+      competition: this.belongsTo(Competition, 'competitionId'),
       fixtures: this.hasMany(Fixture, 'stageId'),
       tableRows: this.hasMany(TableRow, 'stageId')
     }
