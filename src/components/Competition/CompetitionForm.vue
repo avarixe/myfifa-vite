@@ -46,7 +46,7 @@
       const { data: { updateCompetition: { errors, competition} } } =
         await updateCompetition({ id: props.record.id, attributes })
       if (competition) {
-        router.push(`/teams/${team.value.id}/competitiones/${competition.id}`)
+        router.push(`/teams/${team.value.id}/competitions/${competition.id}`)
       } else {
         alert(errors.fullMessages[0])
       }
@@ -54,7 +54,7 @@
       const { data: { addCompetition: { errors, competition } } } =
         await createCompetition({ teamId: props.teamId, attributes })
       if (competition) {
-        router.push(`/teams/${team.value.id}/competitiones/${competition.id}`)
+        router.push(`/teams/${team.value.id}/competitions/${competition.id}`)
       } else {
         alert(errors.fullMessages[0])
       }
