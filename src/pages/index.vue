@@ -63,63 +63,41 @@
 </script>
 
 <template>
-  <!-- <v-container class="fill-height">
-    <v-row
-      align="center"
-      justify="center"
-    >
-      <v-col cols="12">
-        <v-card v-if="currentTeam">
-          <div class="d-sm-flex flex-no-wrap text-center">
-            <v-avatar
+    <div class="row items-center justify-center">
+      <div class="col col-12 pa-4">
+        <q-card v-if="currentTeam">
+          <div class="sm:flex text-center">
+            <q-avatar
               class="ma-3"
-              size="250"
-              tile
+              size="250px"
+              square
             >
-              <v-img
+              <q-img
                 v-if="currentTeam.badgePath"
                 :src="badgeUrl(currentTeam)"
-                contain
+                fit="contain"
               />
-              <v-tooltip
-                v-else
-                bottom
-              >
-                <template #activator="{ on }">
-                  <v-icon
-                    size="100"
-                    v-on="on"
-                  >
-                    mdi-shield-off-outline
-                  </v-icon>
-                </template>
-                <span>Edit Team to upload Badge</span>
-              </v-tooltip>
-            </v-avatar>
-            <div class="w-100">
-              <v-card-title class="d-flex align-center">
+              <q-icon v-else size="100" name="mdi-shield-off-outline">
+                <q-tooltip>
+                  Edit Team to upload Badge
+                </q-tooltip>
+              </q-icon>
+            </q-avatar>
+            <div class="w-full">
+              <q-card-section class="flex align-center">
                 <div class="text-h5">{{ currentTeam.name }}</div>
-                <v-spacer />
-                <v-hover v-slot="{ isHovering, props }">
-                  <v-btn
-                    :to="`/teams/${currentTeam.id}`"
-                    variant="text"
-                    class="my-2"
-                    v-bind="props"
-                  >
-                    <v-icon :start="isHovering">mdi-arrow-right</v-icon>
-                    <span v-show="isHovering">Go To Team</span>
-                  </v-btn>
-                </v-hover>
-              </v-card-title>
-              <v-divider class="mx-4" />
-              <v-card-text>
-                <v-row dense>
-                  <v-col
-                    cols="12"
-                    lg="6"
-                    class="text-left"
-                  >
+                <q-space />
+                <q-btn
+                  :to="`/teams/${currentTeam.id}`"
+                  flat
+                  icon="mdi-arrow-right"
+                  class="my-2"
+                />
+              </q-card-section>
+              <q-separator class="mx-4" />
+              <q-card-section>
+                <div class="row">
+                  <div class="col col-12 col-lg-6 text-left">
                     <div>
                       <span class="text-grey">Started Date: </span>
                       <b>{{ formatDate(currentTeam.startedOn) }}</b>
@@ -132,12 +110,10 @@
                       <span class="text-grey">Currency: </span>
                       <b>{{ currentTeam.currency }}</b>
                     </div>
-                  </v-col>
-                  <v-col
+                  </div>
+                  <div
                     v-if="lastMatch"
-                    cols="12"
-                    lg="6"
-                    class="d-flex align-top"
+                    class="col col-12 col-lg-6 flex align-top"
                   >
                     <div
                       class="text-grey"
@@ -152,77 +128,60 @@
                       <b>{{ lastMatch.home }} v {{ lastMatch.away }}</b>
                       <div>{{ lastMatch.competition }}</div>
                       <div><i>{{ formatDate(lastMatch.playedOn) }}</i></div>
-                      <v-hover v-slot="{ isHovering, props }">
-                        <v-btn
-                          :to="`/teams/${currentTeam.id}/matches/${lastMatch.id}`"
-                          variant="outlined"
-                          color="info"
-                          class="my-2"
-                          v-bind="props"
-                        >
-                          <v-icon :start="isHovering">mdi-play</v-icon>
-                          <span v-show="isHovering">Go To Match</span>
-                        </v-btn>
-                      </v-hover>
+                      <q-btn
+                        :to="`/teams/${currentTeam.id}/matches/${lastMatch.id}`"
+                        outline
+                        color="info"
+                        icon="mdi-play"
+                        class="my-2"
+                      />
                     </div>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-              <v-card-actions class="justify-space-around">
-                <v-hover
+                  </div>
+                </div>
+              </q-card-section>
+              <q-card-actions class="flex justify-around">
+                <q-btn
                   v-for="(link, i) in teamLinks"
                   :key="i"
-                  v-slot="{ isHovering, props }"
-                >
-                  <v-btn
-                    :to="link.to"
-                    variant="text"
-                    v-bind="props"
-                  >
-                    <v-icon :start="isHovering">{{ link.icon }}</v-icon>
-                    <span v-show="isHovering">{{ link.text }}</span>
-                  </v-btn>
-                </v-hover>
-              </v-card-actions>
+                  :to="link.to"
+                  flat
+                  :icon="link.icon"
+                />
+              </q-card-actions>
             </div>
           </div>
-        </v-card>
-      </v-col>
-      <v-col
+        </q-card>
+      </div>
+      <div
         v-for="(team, i) in latestTeams"
         v-show="i !== teamIndex"
         :key="i"
-        cols="3"
-        sm="3"
+        class="col col-3 pa-4"
       >
-        <v-card
-          class="text-center"
+        <q-card
+          class="text-center cursor-pointer hover:bg-gray-100"
           @click="teamIndex = i"
         >
-          <v-avatar
-            class="ma-3"
-            tile
-          >
-            <v-img
+          <q-avatar class="ma-3" square>
+            <q-img
               v-if="team.badgePath"
               :src="badgeUrl(team)"
-              contain
+              fit="contain"
             />
             <div v-else>{{ team.name }}</div>
-          </v-avatar>
-        </v-card>
-      </v-col>
-      <v-col cols="12">
-        <v-btn to="/teams">
-          <v-icon start>mdi-shield-search</v-icon>
+          </q-avatar>
+        </q-card>
+      </div>
+      <div class="col col-12 pa-4">
+        <q-btn to="/teams">
+          <v-icon name="mdi-shield-search" />
           View All Teams
-        </v-btn>
+        </q-btn>
         &nbsp;
-        <v-btn to="/teams/new">
-          <v-icon start>mdi-plus</v-icon>
+        <q-btn to="/teams/new">
+          <q-icon name="mdi-plus" />
           Create New Team
-        </v-btn>
-      </v-col>
-    </v-row>
-  </v-container> -->
+        </q-btn>
+      </div>
+    </div>
 </template>

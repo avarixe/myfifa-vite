@@ -4,6 +4,8 @@ import Pages from 'vite-plugin-pages'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
+import UnoCSS from 'unocss/vite'
+import presetWind from '@unocss/preset-wind'
 import path from 'path'
 
 // https://vitejs.dev/config/
@@ -75,6 +77,11 @@ export default defineConfig({
     Components({}),
     quasar({
       sassVariables: 'src/quasar/variables.sass'
+    }),
+    UnoCSS({
+      presets: [
+        presetWind()
+      ]
     })
   ]
 })

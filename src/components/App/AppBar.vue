@@ -10,7 +10,7 @@
 </script>
 
 <template>
-  <q-header elevated class="bg-white text-dark">
+  <q-header elevated>
     <q-toolbar>
       <q-btn
         v-if="!!team"
