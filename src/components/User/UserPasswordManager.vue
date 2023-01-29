@@ -28,44 +28,45 @@
 </script>
 
 <template>
-  <v-form @submit.prevent="onSubmit">
-    <v-card>
-      <v-card-title>Change Password</v-card-title>
-      <v-card-text>
+  <q-form @submit="onSubmit">
+    <q-card>
+      <q-card-section>
+        <div class="text-h4">Change Password</div>
         <input
           name="username"
           :value="user.username"
-          class="d-none"
+          class="hidden"
           autocomplete="username"
         />
-        <v-text-field
+        <q-input
           v-model="attributes.currentPassword"
           label="Current Password"
           type="password"
           autocomplete="current-password"
         />
-        <v-text-field
+        <q-input
           v-model="attributes.password"
           label="New Password"
           type="password"
           autocomplete="new-password"
         />
-        <v-text-field
+        <q-input
           v-model="attributes.passwordConfirmation"
           label="Confirm New Password"
           type="password"
           autocomplete="new-password"
         />
-      </v-card-text>
-      <v-card-actions>
-        <v-btn
+      </q-card-section>
+      <q-card-actions>
+        <q-btn
           type="submit"
           color="primary"
+          flat
           :loading="loading"
         >
           Update
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-form>
+        </q-btn>
+      </q-card-actions>
+    </q-card>
+  </q-form>
 </template>

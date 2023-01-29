@@ -24,7 +24,7 @@
   <q-layout view="lHh lpR lFf">
     <app-bar v-if="token" />
     <q-page-container>
-      <q-page>
+      <q-page class="pa-2 lg:pa-5">
         <app-breadcrumbs v-if="token" />
         <suspense v-if="token || inPublicPage">
           <router-view />

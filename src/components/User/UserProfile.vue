@@ -28,33 +28,34 @@
 </script>
 
 <template>
-  <v-form @submit.prevent="onSubmit">
-    <v-card>
-      <v-card-title>Profile</v-card-title>
-      <v-card-text>
-        <v-text-field
+  <q-form @submit="onSubmit">
+    <q-card>
+      <q-card-section>
+        <div class="text-h4">Profile</div>
+        <q-input
           v-model="attributes.fullName"
           label="Name"
         />
-        <v-text-field
+        <q-input
           v-model="attributes.username"
           label="Username"
         />
-        <v-text-field
+        <q-input
           v-model="attributes.email"
           label="Email Address"
           type="email"
         />
-      </v-card-text>
-      <v-card-actions>
-        <v-btn
+      </q-card-section>
+      <q-card-actions>
+        <q-btn
           type="submit"
           color="primary"
+          flat
           :loading="loading"
         >
           Update
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-form>
+        </q-btn>
+      </q-card-actions>
+    </q-card>
+  </q-form>
 </template>

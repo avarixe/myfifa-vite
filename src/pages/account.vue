@@ -16,12 +16,12 @@
 </script>
 
 <template>
-  <v-row>
-    <v-col>
+  <div class="row">
+    <div class="col pa-2">
       <user-profile :user="user" />
-    </v-col>
-    <v-col>
+    </div>
+    <div class="col pa-2">
       <user-password-manager :user="user" />
-    </v-col>
-  </v-row>
+    </div>
+  </div>
 </template>

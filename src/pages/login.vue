@@ -42,41 +42,45 @@
 </script>
 
 <template>
-  <v-form @submit.prevent="onSubmit">
-    <v-card>
-      <v-card-title>
-        <v-img
-          :src="logo"
-          height="128px"
-        />
-        <div>MyFIFA Manager</div>
-        <small>v3.0.0</small>
-      </v-card-title>
-      <v-card-text>
-        <v-text-field
-          v-model="username"
-          label="Username"
-          autofocus
-          autocapitalize="off"
-        />
-        <v-text-field
-          v-model="password"
-          label="Password"
-          :type="showPassword ? 'text' : 'password'"
-          :append-inner-icon="`mdi-eye${showPassword ? '' : '-off'}`"
-          @click:append-inner="showPassword = !showPassword"
-        />
-      </v-card-text>
-      <v-card-actions>
-        <v-btn
-          type="submit"
-          color="primary"
-          text
-          :loading="loading"
-        >
-          Log In
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-form>
+  <div class="w-full h-screen flex flex-center">
+    <q-form @submit="onSubmit">
+      <q-card class="w-100">
+        <q-card-section>
+          <div class="text-center">
+            <q-img :src="logo" width="128px" />
+            <div class="text-h4">MyFIFA Manager</div>
+            <div class="text-caption">v3.0.0</div>
+          </div>
+          <q-input
+            v-model="username"
+            label="Username"
+            autofocus
+            autocapitalize="off"
+          />
+          <q-input
+            v-model="password"
+            label="Password"
+            :type="showPassword ? 'text' : 'password'"
+          >
+            <template #append>
+              <q-icon
+                :name="`mdi-eye${showPassword ? '' : '-off'}`"
+                @click="showPassword = !showPassword"
+              />
+            </template>
+          </q-input>
+        </q-card-section>
+        <q-card-actions>
+          <q-btn
+            type="submit"
+            color="primary"
+            flat
+            :loading="loading"
+          >
+            Log In
+          </q-btn>
+        </q-card-actions>
+      </q-card>
+    </q-form>
+  </div>
 </template>
