@@ -2,6 +2,13 @@ import { createORM } from 'pinia-orm'
 import { createRouter, createWebHistory } from 'vue-router'
 import routes from '~pages'
 
+import { Quasar } from 'quasar'
+import quasarIconSet from 'quasar/icon-set/svg-mdi-v6'
+
+import '@quasar/extras/roboto-font/roboto-font.css'
+import '@quasar/extras/mdi-v6/mdi-v6.css'
+import 'quasar/src/css/index.sass'
+
 import { createVuetify } from 'vuetify'
 import * as directives from 'vuetify/directives'
 import 'vuetify/styles'
@@ -57,6 +64,10 @@ const app = createApp(App)
   .use(router)
   .use(pinia)
   .use(vuetify)
+  .use(Quasar, {
+    plugins: {},
+    iconSet: quasarIconSet
+  })
   .use(VueApexCharts)
 
 app.mount('#app')

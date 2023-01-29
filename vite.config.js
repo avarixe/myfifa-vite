@@ -4,6 +4,7 @@ import Pages from 'vite-plugin-pages'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { Vuetify3Resolver } from 'unplugin-vue-components/resolvers'
+import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 import path from 'path'
 
 // https://vitejs.dev/config/
@@ -18,7 +19,9 @@ export default defineConfig({
     },
   },
   plugins: [
-    Vue(),
+    Vue({
+      template: { transformAssetUrls }
+    }),
     Pages(),
     AutoImport({
       dirs: [
@@ -75,6 +78,9 @@ export default defineConfig({
       resolvers: [
         Vuetify3Resolver()
       ]
+    }),
+    quasar({
+      sassVariables: 'src/quasar/variables.sass'
     })
   ]
 })
