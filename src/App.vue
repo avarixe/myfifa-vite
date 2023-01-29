@@ -11,8 +11,26 @@
   })
 
   provideClient(client)
+
+  const { team } = useTeam()
+
+  const route = useRoute()
+  const inPublicPage = computed(() =>
+    ['login'].includes(route.name)
+  )
 </script>
 
 <template>
-  <router-view />
+  <v-app>
+    <app-bar v-if="token" />
+    <v-main>
+      <v-container>
+        <app-breadcrumbs v-if="token" />
+        <suspense v-if="token || inPublicPage">
+          <router-view />
+        </suspense>
+      </v-container>
+    </v-main>
+  </v-app>
+  <team-channel v-if="team" :team="team" />
 </template>

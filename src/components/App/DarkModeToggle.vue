@@ -1,9 +1,9 @@
 <script setup>
   import { User } from '~/models'
 
-  const props = defineProps({
-    user: { type: Object, required: true }
-  })
+  const authStore = useAuthStore()
+  const userRepo = useRepo(User)
+  const user = computed(() => userRepo.find(authStore.userId))
 
   const { executeMutation: updateUser } = useMutation(gql`
     mutation updateUser($id: ID!, $attributes: UserAttributes!) {
@@ -18,15 +18,15 @@
   async function toggleMode () {
     loading.value = true
     const { data: { updateUser: { errors } } } = await updateUser({
-      id: props.user.id,
-      attributes: { darkMode: !props.user.darkMode }
+      id: user.value.id,
+      attributes: { darkMode: !user.value.darkMode }
     })
     if (errors) {
       alert(errors.fullMessages[0])
     } else {
       useRepo(User).save({
-        id: props.user.id,
-        darkMode: !props.user.darkMode
+        id: user.value.id,
+        darkMode: !user.value.darkMode
       })
     }
     loading.value = false
@@ -34,12 +34,15 @@
 
   const theme = useTheme()
   watchEffect(() => {
-    theme.global.name.value = props.user.darkMode ? 'dark' : 'light'
+    if (user.value) {
+      theme.global.name.value = user.value.darkMode ? 'dark' : 'light'
+    }
   })
 </script>
 
 <template>
   <v-btn
+    v-if="user"
     :icon="`mdi-weather-${user.darkMode ? 'night' : 'sunny'}`"
     :loading="loading"
     @click="toggleMode"

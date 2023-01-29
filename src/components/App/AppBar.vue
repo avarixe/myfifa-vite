@@ -1,10 +1,5 @@
 <script setup>
-  import { User } from '~/models'
   import logo from '~/assets/logo.png'
-
-  const authStore = useAuthStore()
-  const userRepo = useRepo(User)
-  const user = computed(() => userRepo.find(authStore.userId))
 
   const { mobile, smAndUp } = useDisplay()
   const drawer = ref(!mobile.value)
@@ -26,7 +21,7 @@
     <v-app-bar-title v-if="smAndUp">MyFIFA Manager</v-app-bar-title>
     <v-spacer />
     <v-btn icon="mdi-account" to="/account" />
-    <dark-mode-toggle :user="user" />
+    <dark-mode-toggle />
     <v-btn icon>
       <v-icon>mdi-information-outline</v-icon>
       <app-info />
