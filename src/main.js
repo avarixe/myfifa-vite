@@ -9,10 +9,6 @@ import '@quasar/extras/roboto-font/roboto-font.css'
 import '@quasar/extras/mdi-v6/mdi-v6.css'
 import 'quasar/src/css/index.sass'
 
-import { createVuetify } from 'vuetify'
-import * as directives from 'vuetify/directives'
-import 'vuetify/styles'
-
 import App from './App.vue'
 import { User } from '~/models'
 
@@ -38,7 +34,7 @@ router.beforeEach(async (to) => {
           `.loc.source.body
         }, { headers: { authorization: `Bearer ${token.value}` } })
       if (data.user) {
-        await useRepo(User).save(data.user)
+        await useRepo(User).save({ ...data.user, id: parseInt(data.user.id) })
         authStore.userId = parseInt(data.user.id)
       } else {
         authStore.clearToken()
@@ -58,12 +54,9 @@ router.beforeEach(async (to) => {
 
 const pinia = createPinia().use(createORM())
 
-const vuetify = createVuetify({ directives })
-
 const app = createApp(App)
   .use(router)
   .use(pinia)
-  .use(vuetify)
   .use(Quasar, {
     plugins: {},
     iconSet: quasarIconSet

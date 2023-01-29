@@ -21,16 +21,16 @@
 </script>
 
 <template>
-  <v-app>
+  <q-layout view="lHh lpR lFf">
     <app-bar v-if="token" />
-    <v-main>
-      <v-container>
+    <q-page-container>
+      <q-page>
         <app-breadcrumbs v-if="token" />
         <suspense v-if="token || inPublicPage">
           <router-view />
         </suspense>
-      </v-container>
-    </v-main>
-  </v-app>
+      </q-page>
+    </q-page-container>
+  </q-layout>
   <team-channel v-if="team" :team="team" />
 </template>

@@ -3,7 +3,6 @@ import Vue from '@vitejs/plugin-vue'
 import Pages from 'vite-plugin-pages'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-import { Vuetify3Resolver } from 'unplugin-vue-components/resolvers'
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 import path from 'path'
 
@@ -63,9 +62,8 @@ export default defineConfig({
           'uuid': [
             ['v4', 'uuidv4']
           ],
-          'vuetify': [
-            'useDisplay',
-            'useTheme'
+          'quasar': [
+            'useQuasar'
           ],
           'axios': [
             ['default', 'axios']
@@ -74,11 +72,7 @@ export default defineConfig({
       ],
       vueTemplate: true
     }),
-    Components({
-      resolvers: [
-        Vuetify3Resolver()
-      ]
-    }),
+    Components({}),
     quasar({
       sassVariables: 'src/quasar/variables.sass'
     })

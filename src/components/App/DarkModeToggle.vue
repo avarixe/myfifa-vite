@@ -24,7 +24,7 @@
     if (errors) {
       alert(errors.fullMessages[0])
     } else {
-      useRepo(User).save({
+      userRepo.save({
         id: user.value.id,
         darkMode: !user.value.darkMode
       })
@@ -32,18 +32,20 @@
     loading.value = false
   }
 
-  const theme = useTheme()
+  const $q = useQuasar()
   watchEffect(() => {
     if (user.value) {
-      theme.global.name.value = user.value.darkMode ? 'dark' : 'light'
+      $q.dark.set(user.value.darkMode)
     }
   })
 </script>
 
 <template>
-  <v-btn
+  <q-btn
     v-if="user"
     :icon="`mdi-weather-${user.darkMode ? 'night' : 'sunny'}`"
+    flat
+    dense
     :loading="loading"
     @click="toggleMode"
   />

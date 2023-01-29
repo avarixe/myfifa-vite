@@ -1,33 +1,40 @@
 <script setup>
   import logo from '~/assets/logo.png'
 
-  const { mobile, smAndUp } = useDisplay()
-  const drawer = ref(!mobile.value)
+  const $q = useQuasar()
+  const drawer = ref($q.screen.lt.md)
+
+  const showAppInfo = ref(false)
 
   const { team } = useTeam()
 </script>
 
 <template>
-  <v-app-bar app>
-    <v-app-bar-nav-icon
-      v-if="mobile && !!team"
-      @click="drawer = !drawer"
-    />
-    <v-img
-      :src="logo"
-      class="ml-2"
-      :style="{ maxWidth: '48px' }"
-    />
-    <v-app-bar-title v-if="smAndUp">MyFIFA Manager</v-app-bar-title>
-    <v-spacer />
-    <v-btn icon="mdi-account" to="/account" />
-    <dark-mode-toggle />
-    <v-btn icon>
-      <v-icon>mdi-information-outline</v-icon>
-      <app-info />
-    </v-btn>
-    <logout-button />
-  </v-app-bar>
+  <q-header elevated class="bg-white text-dark">
+    <q-toolbar>
+      <q-btn
+        v-if="!!team"
+        dense
+        flat
+        round
+        icon="mdi-menu"
+        class="lt-md"
+        @click="drawer = !drawer"
+      />
+
+      <q-toolbar-title>
+        <q-img :src="logo" class="ml-2" :style="{ maxWidth: '48px' }" />
+        <span class="gt-xs">MyFIFA Manager</span>
+      </q-toolbar-title>
+
+      <q-space />
+      <q-btn icon="mdi-account" dense flat to="/account" />
+      <dark-mode-toggle />
+      <q-btn icon="mdi-information-outline" dense flat @click="showAppInfo = true" />
+      <app-info v-model="showAppInfo" />
+      <logout-button />
+    </q-toolbar>
+  </q-header>
 
   <team-drawer
     v-if="!!team"
@@ -35,9 +42,10 @@
     app
   />
   <team-mobile-navigator
-    v-if="mobile && !!team"
+    v-if="!!team"
     grow
     hide-on-scroll
+    class="lt-md"
   />
 </template>
 

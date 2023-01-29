@@ -1,18 +1,22 @@
 <script setup>
   import logo from '~/assets/logo.png'
+
+  defineProps({
+    modelValue: { type: Boolean, default: false }
+  })
 </script>
 
 <template>
-  <v-dialog
-    activator="parent"
-    max-width="300px"
+  <q-dialog
+    :model-value="modelValue"
+    @update:model-value="$emit('update:modelValue', $event)"
   >
-    <v-card>
-      <v-card-title class="text-center">
-        <v-img :src="logo" height="64px" />
+    <q-card>
+      <q-card-section class="text-center">
+        <q-img :src="logo" />
         MyFIFA Manager
-      </v-card-title>
-      <v-table>
+      </q-card-section>
+      <table>
         <tbody>
           <tr>
             <td>Version:</td>
@@ -22,27 +26,24 @@
             <td>Built with:</td>
             <td>
               <span>
-                <v-icon>mdi-vuejs</v-icon>
-                <v-tooltip activator="parent" location="bottom">
-                  Vue.js
-                </v-tooltip>
+                <q-icon name="mdi-vuejs">
+                  <q-tooltip>Vue.js</q-tooltip>
+                </q-icon>
               </span>
               <span>
-                <v-icon>mdi-vuetify</v-icon>
-                <v-tooltip activator="parent" location="bottom">
-                  Vuetify
-                </v-tooltip>
+                <q-icon name="mdi-vuetify">
+                  <q-tooltip>Vuetify</q-tooltip>
+                </q-icon>
               </span>
               <span>
-                <v-icon>mdi-language-ruby-on-rails</v-icon>
-                <v-tooltip activator="parent" location="bottom">
-                  Ruby on Rails
-                </v-tooltip>
+                <q-icon name="mdi-language-ruby-on-rails">
+                  <q-tooltip>Ruby on Rails</q-tooltip>
+                </q-icon>
               </span>
             </td>
           </tr>
         </tbody>
-      </v-table>
-    </v-card>
-  </v-dialog>
+      </table>
+    </q-card>
+  </q-dialog>
 </template>

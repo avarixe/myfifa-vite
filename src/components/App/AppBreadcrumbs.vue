@@ -18,7 +18,7 @@
       const prevStep = routeSteps[i - 1]
       switch (step) {
         case '': // root
-          return { to: '/', text: 'Home' }
+          return { to: '/', label: 'Home' }
         case 'teams':
         case 'players':
         case 'matches':
@@ -27,39 +27,39 @@
         case 'account':
         case 'development':
         case 'statistics':
-          return { to, text: capitalize(step) }
+          return { to, label: capitalize(step) }
         case 'analytics':
         case 'seasons':
-          return { to, text: capitalize(step), disabled: true }
+          return { to, label: capitalize(step), disabled: true }
         case 'new':
           return {
             to,
-            text: `New ${capitalize(prevStep).replace(/e?s$/, '')}`
+            label: `New ${capitalize(prevStep).replace(/e?s$/, '')}`
           }
         case 'edit':
           const twoStepsAgo = routeSteps[i - 2]
           return {
             to,
-            text: `Edit ${capitalize(twoStepsAgo).replace(/e?s$/, '')}`
+            label: `Edit ${capitalize(twoStepsAgo).replace(/e?s$/, '')}`
           }
         default:
           switch (prevStep) {
             case 'teams':
               const team = teamRepo.find(parseInt(step))
-              return { to, text: team?.name }
+              return { to, label: team?.name }
             case 'players':
               const player = playerRepo.find(parseInt(step))
-              return { to, text: player?.name }
+              return { to, label: player?.name }
             case 'matches':
               const match = matchRepo.find(parseInt(step))
-              return { to, text: `${match?.home} v ${match?.away}` }
+              return { to, label: `${match?.home} v ${match?.away}` }
             case 'competitions':
               const competition = competitionRepo.find(parseInt(step))
-              return { to, text: competition?.name }
+              return { to, label: competition?.name }
             case 'seasons':
-              return { to, text: seasonLabel(parseInt(step)) }
+              return { to, label: seasonLabel(parseInt(step)) }
             default:
-              return { to, text: step }
+              return { to, label: step }
           }
       }
     })
@@ -67,9 +67,12 @@
 </script>
 
 <template>
-  <v-breadcrumbs
-    v-show="breadcrumbs.length > 1"
-    :items="breadcrumbs"
-    color="primary"
-  />
+  <q-breadcrumbs v-show="breadcrumbs.length > 1">
+    <q-breadcrumbs-el
+      v-for="(breadcrumb, i) in breadcrumbs"
+      :key="breadcrumb.label"
+      :label="breadcrumb.label"
+      :to="breadcrumb.to"
+    />
+  </q-breadcrumbs>
 </template>

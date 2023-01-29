@@ -22,5 +22,5 @@
 </script>
 
 <template>
-  <v-btn icon="mdi-exit-to-app" @click="logout" />
+  <q-btn dense flat icon="mdi-exit-to-app" @click="logout" />
 </template>
