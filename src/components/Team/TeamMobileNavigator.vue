@@ -3,26 +3,40 @@
 </script>
 
 <template>
-  <v-bottom-navigation v-bind="$attrs">
-    <v-btn :to="`/teams/${team.id}/players`">
-      <span>Players</span>
-      <v-icon>mdi-run</v-icon>
-    </v-btn>
-    <v-btn :to="`/teams/${team.id}/seasons/${currentSeason}`">
-      <span>Season</span>
-      <v-icon>mdi-calendar</v-icon>
-    </v-btn>
-    <v-btn :to="`/teams/${team.id}/competitions`">
-      <span>Competitions</span>
-      <v-icon>mdi-trophy</v-icon>
-    </v-btn>
-    <v-btn :to="`/teams/${team.id}/matches`">
-      <span>Matches</span>
-      <v-icon>mdi-soccer-field</v-icon>
-    </v-btn>
-    <v-btn :to="`/teams/${team.id}/squads`">
-      <span>Squads</span>
-      <v-icon>mdi-clipboard-text</v-icon>
-    </v-btn>
-  </v-bottom-navigation>
+  <q-footer elevated>
+    <q-toolbar>
+      <q-tabs dense align="justify" mobile-arrows outside-arrows class="w-full">
+        <q-route-tab
+          :to="`/teams/${team.id}/players`"
+          label="Players"
+          icon="mdi-run"
+          class="text-capitalize"
+        />
+        <q-route-tab
+          :to="`/teams/${team.id}/seasons/${currentSeason}`"
+          label="Season"
+          icon="mdi-calendar"
+          class="text-capitalize"
+        />
+        <q-route-tab
+          :to="`/teams/${team.id}/competitions`"
+          label="Competitions"
+          icon="mdi-trophy"
+          class="text-capitalize"
+        />
+        <q-route-tab
+          :to="`/teams/${team.id}/matches`"
+          label="Matches"
+          icon="mdi-soccer-field"
+          class="text-capitalize"
+        />
+        <q-route-tab
+          :to="`/teams/${team.id}/squads`"
+          label="Squads"
+          icon="mdi-clipboard-text"
+          class="text-capitalize"
+        />
+      </q-tabs>
+    </q-toolbar>
+  </q-footer>
 </template>

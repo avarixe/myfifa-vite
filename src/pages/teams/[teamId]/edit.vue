@@ -10,7 +10,7 @@
 </script>
 
 <template>
-  <h1>Edit Team</h1>
+  <h3 class="text-h3">Edit Team</h3>
 
   <team-form :record="team" />
 </template>

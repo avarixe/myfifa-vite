@@ -1,8 +1,12 @@
 <script setup>
   import logo from '~/assets/logo.png'
 
+  const drawer = ref(false)
+
   const $q = useQuasar()
-  const drawer = ref($q.screen.lt.md)
+  watchEffect(() => {
+    drawer.value = $q.screen.gt.sm
+  })
 
   const showAppInfo = ref(false)
 
@@ -39,12 +43,9 @@
   <team-drawer
     v-if="!!team"
     v-model="drawer"
-    app
   />
   <team-mobile-navigator
     v-if="!!team"
-    grow
-    hide-on-scroll
     class="lt-md"
   />
 </template>

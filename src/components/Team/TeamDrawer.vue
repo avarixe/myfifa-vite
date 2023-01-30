@@ -1,6 +1,10 @@
 <script setup>
   const { team, currentSeason, seasonLabel } = useTeam()
 
+  defineProps({
+    modelValue: { type: Boolean, default: false }
+  })
+
   const { executeMutation: updateTeam } = useMutation(gql`
     mutation ($id: ID!, $attributes: TeamAttributes!) {
       updateTeam(id: $id, attributes: $attributes) {
@@ -21,69 +25,84 @@
 </script>
 
 <template>
-  <v-navigation-drawer v-bind="$attrs">
-    <v-list nav density="compact">
-      <v-list-item
-        :prepend-avatar="team.badgeUrl"
-        :title="team.name"
-        :subtitle="seasonLabel(currentSeason)"
-      />
-      <v-divider />
-      <v-list-item prepend-icon="mdi-calendar-today">
-        <v-text-field
+  <q-drawer
+    bordered
+    :model-value="modelValue"
+    @update:model-value="$emit('update:modelValue', $event)"
+  >
+    <q-list nav density="compact">
+      <q-item>
+        <q-item-section avatar>
+          <q-img :src="team.badgeUrl" />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>{{ team.name }}</q-item-label>
+          <q-item-label caption>{{ seasonLabel(currentSeason) }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-separator />
+      <q-item>
+        <q-item-section avatar>
+          <q-icon name="mdi-calendar-today" />
+        </q-item-section>
+        <date-field
           :model-value="team.currentlyOn"
           label="Current Date"
-          density="compact"
-          hide-details
-          type="date"
+          class="w-full"
           @update:model-value="onDateChange"
         />
-      </v-list-item>
-      <v-list-item
-        prepend-icon="mdi-run"
-        title="Players"
-        :to="`/teams/${team.id}/players`"
-      />
-      <v-list-item
-        prepend-icon="mdi-trophy"
-        title="Competitions"
-        :to="`/teams/${team.id}/competitions`"
-      />
-      <v-list-item
-        prepend-icon="mdi-calendar"
-        title="Current Season"
-        :to="`/teams/${team.id}/seasons/${currentSeason}`"
-      />
-      <v-list-item
-        prepend-icon="mdi-soccer-field"
-        title="Matches"
-        :to="`/teams/${team.id}/matches`"
-      />
-      <v-list-item
-        prepend-icon="mdi-clipboard-text"
-        title="Squads"
-        :to="`/teams/${team.id}/squads`"
-      />
-      <v-list-group>
-        <template #activator="{ props }">
-          <v-list-item
-            v-bind="props"
-            prepend-icon="mdi-google-analytics"
-            title="Analytics"
-          />
-        </template>
-
-        <v-list-item
-          prepend-icon="mdi-trending-up"
-          title="Development"
-          :to="`/teams/${team.id}/analytics/development`"
-        />
-        <v-list-item
-          prepend-icon="mdi-numeric"
-          title="Statistics"
-          :to="`/teams/${team.id}/analytics/statistics`"
-        />
-      </v-list-group>
-    </v-list>
-  </v-navigation-drawer>
+      </q-item>
+      <q-item :to="`/teams/${team.id}/players`">
+        <q-item-section avatar>
+          <q-icon name="mdi-run" />
+        </q-item-section>
+        <q-item-section>Players</q-item-section>
+      </q-item>
+      <q-item :to="`/teams/${team.id}/competitions`">
+        <q-item-section avatar>
+          <q-icon name="mdi-trophy" />
+        </q-item-section>
+        <q-item-section>Competitions</q-item-section>
+      </q-item>
+      <q-item :to="`/teams/${team.id}/seasons/${currentSeason}`">
+        <q-item-section avatar>
+          <q-icon name="mdi-calendar" />
+        </q-item-section>
+        <q-item-section>Current Season</q-item-section>
+      </q-item>
+      <q-item :to="`/teams/${team.id}/matches`"
+      >
+        <q-item-section avatar>
+          <q-icon name="mdi-soccer-field" />
+        </q-item-section>
+        <q-item-section>Matches</q-item-section>
+      </q-item>
+      <q-item :to="`/teams/${team.id}/squads`">
+        <q-item-section avatar>
+          <q-icon name="mdi-clipboard-text" />
+        </q-item-section>
+        <q-item-section>Squads</q-item-section>
+      </q-item>
+      <q-expansion-item
+        icon="mdi-google-analytics"
+        label="Analytics"
+        :content-inset-level="1"
+      >
+        <q-list>
+          <q-item :to="`/teams/${team.id}/analytics/development`">
+            <q-item-section avatar>
+              <q-icon name="mdi-trending-up" />
+            </q-item-section>
+            <q-item-section>Development</q-item-section>
+          </q-item>
+          <q-item :to="`/teams/${team.id}/analytics/statistics`">
+            <q-item-section avatar>
+              <q-icon name="mdi-numeric" />
+            </q-item-section>
+            <q-item-section>Statistics</q-item-section>
+          </q-item>
+        </q-list>
+      </q-expansion-item>
+    </q-list>
+  </q-drawer>
 </template>

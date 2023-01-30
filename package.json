@@ -23,7 +23,7 @@
     "lodash.mapkeys": "^4.6.0",
     "lodash.orderby": "^4.6.0",
     "lodash.pick": "^4.4.0",
-    "pinia": "^2.0.23",
+    "pinia": "^2.0.29",
     "pinia-orm": "1.4.0",
     "quasar": "^2.11.5",
     "uuid": "^8.3.2",

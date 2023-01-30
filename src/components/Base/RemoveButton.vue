@@ -36,16 +36,16 @@
 </script>
 
 <template>
-  <v-btn
+  <q-btn
     v-if="icon"
     :icon="icon"
-    variant="text"
+    flat
     @click="onClick"
   />
-  <v-btn
+  <q-btn
     v-else
     @click="onClick"
   >
     <slot>Remove</slot>
-  </v-btn>
+  </q-btn>
 </template>

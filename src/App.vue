@@ -21,7 +21,7 @@
 </script>
 
 <template>
-  <q-layout view="lHh lpR lFf">
+  <q-layout view="hHh lpR lFf">
     <app-bar v-if="token" />
     <q-page-container>
       <q-page class="pa-2 lg:pa-5">

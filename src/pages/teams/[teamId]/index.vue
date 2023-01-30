@@ -54,10 +54,10 @@
 </script>
 
 <template>
-  <h1>{{ team.name }}</h1>
+  <h3 class="text-h3">{{ team.name }}</h3>
 
   <div>
-    <v-btn :to="`/teams/${team.id}/edit`">Edit</v-btn>
+    <q-btn :to="`/teams/${team.id}/edit`">Edit</q-btn>
     &nbsp;
     <remove-button
       :record="team"
@@ -67,60 +67,61 @@
     />
   </div>
 
-  <v-row dense>
-    <v-col cols="12" md="6">
-      <v-card class="mt-4">
-        <v-card-title>Current Season</v-card-title>
-        <v-card-text>
+  <div class="row">
+    <div class="col col-12 col-md-6 pa-2">
+      <q-card class="mt-4">
+        <q-card-section>
+          <div class="text-h6">Current Season</div>
           <competition-list :season="currentSeason" />
-        </v-card-text>
-      </v-card>
+        </q-card-section>
+      </q-card>
 
-      <v-card v-if="lastMatch" class="mt-4">
-        <v-card-title>Latest Match</v-card-title>
-        <v-card-text class="text-center font-weight-light">
-          <div class="mb-0">
-            {{ lastMatch.competition }}
-            <span v-if="lastMatch.stage">· {{ lastMatch.stage }}</span>
+      <q-card v-if="lastMatch" class="mt-4">
+        <q-card-section>
+          <div class="text-h6">Latest Match</div>
+          <div class="text-center font-weight-light">
+            <div class="mb-0">
+              {{ lastMatch.competition }}
+              <span v-if="lastMatch.stage">· {{ lastMatch.stage }}</span>
+            </div>
+            <div class="text-h6 mt-0 mb-3">{{ lastMatch.home }} v {{ lastMatch.away }}</div>
+            <div class="text-h6 mb-0">{{ lastMatch.score }}</div>
+            <div class="mt-0 mb-2">{{ formatDate(lastMatch.playedOn) }}</div>
           </div>
-          <div class="text-h6 mt-0 mb-3">{{ lastMatch.home }} v {{ lastMatch.away }}</div>
-          <div class="text-h6 mb-0">{{ lastMatch.score }}</div>
-          <div class="mt-0 mb-2">{{ formatDate(lastMatch.playedOn) }}</div>
-        </v-card-text>
-        <v-card-actions class="justify-center">
-          <v-btn :to="`/teams/${team.id}/matches/${lastMatch.id}`" color="primary">
-            Go To Match
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-    <v-col cols="12" md="6">
-      <v-card class="mt-4">
-        <v-card-title>
-          <v-icon start color="pink" icon="mdi-hospital" />
+        </q-card-section>
+        <q-card-actions class="justify-center">
+          <q-btn
+            :to="`/teams/${team.id}/matches/${lastMatch.id}`"
+            color="primary"
+            label="Go To Match"
+          />
+        </q-card-actions>
+      </q-card>
+    </div>
+    <div class="col col-12 col-md-6 pa-2">
+      <q-card class="mt-4">
+        <q-card-section class="text-h6">
+          <q-icon color="pink" name="mdi-hospital" />
           Injured Players
-        </v-card-title>
-        <v-table>
+        </q-card-section>
+        <q-markup-table>
           <thead>
             <tr>
-              <th>Player</th>
+              <th class="text-left">Player</th>
               <th class="text-center">Position</th>
               <th>Injury</th>
               <th class="text-right">Recovers On</th>
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="player in injuredPlayers"
-              :key="player.id"
-            >
+            <tr v-for="player in injuredPlayers" :key="player.id">
               <td>
-                <v-btn
+                <q-btn
                   :to="`/teams/${team.id}/players/${player.id}`"
-                  variant="text"
+                  flat
                   color="primary"
                   class="text-capitalize"
-                  v-text="player.name"
+                  :label="player.name"
                 />
               </td>
               <td class="text-center">{{ player.pos }}</td>
@@ -128,18 +129,18 @@
               <td class="text-right">{{ formatDate(player.currentInjury.endedOn) }}</td>
             </tr>
           </tbody>
-        </v-table>
-      </v-card>
+        </q-markup-table>
+      </q-card>
 
-      <v-card class="mt-4">
-        <v-card-title>
-          <v-icon start color="deep-orange" icon="mdi-transit-transfer" />
+      <q-card class="mt-4">
+        <q-card-section class="text-h6">
+          <q-icon color="deep-orange" name="mdi-transit-transfer" />
           Loaned Players
-        </v-card-title>
-        <v-table>
+        </q-card-section>
+        <q-markup-table>
           <thead>
             <tr>
-              <th>Player</th>
+              <th class="text-left">Player</th>
               <th class="text-center">Position</th>
               <th class="text-right">Value</th>
               <th class="text-right">Transfer Fee</th>
@@ -149,15 +150,15 @@
             <tr
               v-for="player in loanedPlayers"
               :key="player.id"
-              :class="{ 'text-error': player.currentLoan.transferFee && player.currentLoan.transferFee < player.value }"
+              :class="{ 'text-negative': player.currentLoan.transferFee && player.currentLoan.transferFee < player.value }"
             >
               <td>
-                <v-btn
+                <q-btn
                   :to="`/teams/${team.id}/players/${player.id}`"
-                  variant="text"
+                  flat
                   color="primary"
                   class="text-capitalize"
-                  v-text="player.name"
+                  :label="player.name"
                 />
               </td>
               <td class="text-center">{{ player.pos }}</td>
@@ -174,15 +175,15 @@
               </td>
             </tr>
           </tbody>
-        </v-table>
-      </v-card>
+        </q-markup-table>
+      </q-card>
 
-      <v-card class="mt-4">
-        <v-card-title>
-          <v-icon start color="blue" icon="mdi-file-document-remove" />
+      <q-card class="mt-4">
+        <q-card-section class="text-h6">
+          <q-icon color="blue" name="mdi-file-document-remove" />
           Expired Contracts
-        </v-card-title>
-        <v-table>
+        </q-card-section>
+        <q-markup-table>
           <thead>
             <tr>
               <th>Player</th>
@@ -192,17 +193,14 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="player in expiringPlayers"
-              :key="player.id"
-            >
+            <tr v-for="player in expiringPlayers" :key="player.id">
               <td>
-                <v-btn
+                <q-btn
                   :to="`/teams/${team.id}/players/${player.id}`"
-                  variant="text"
+                  flat
                   color="primary"
                   class="text-capitalize"
-                  v-text="player.name"
+                  :label="player.name"
                 />
               </td>
               <td class="text-center">{{ player.pos }}</td>
@@ -214,8 +212,8 @@
               </td>
             </tr>
           </tbody>
-        </v-table>
-      </v-card>
-    </v-col>
-  </v-row>
+        </q-markup-table>
+      </q-card>
+    </div>
+  </div>
 </template>

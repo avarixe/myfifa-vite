@@ -22,16 +22,32 @@
         return 'Invalid State: Please refresh the page.'
     }
   })
-  const connectionColor = computed(() => {
+
+  const $q = useQuasar()
+  const notif = ref(null)
+  watchEffect(() => {
     switch (connectionState.value) {
-      case 'Connecting':
-        return 'warning'
       case 'Connected':
-        return 'success'
+        notif.value({
+          message: connectionMessage.value,
+          type: 'positive'
+        })
+        return
       case 'Disconnected':
-        return 'error'
-      default:
-        return null
+        notif.value({
+          message: connectionMessage.value,
+          type: 'negative',
+          timeout: 0,
+          actions: [
+            { label: 'Reconnect', color: 'white', hander: connectToWebSocket }
+          ]
+        })
+        return
+      default: // Connecting
+        notif.value = $q.notify({
+          message: connectionMessage.value,
+          type: 'ongoing'
+        })
     }
   })
 
@@ -116,31 +132,8 @@
   onUnmounted(() => {
     socket.value.close()
   })
-
-  const snackbar = ref(false)
-  watch(connectionState, () => {
-    snackbar.value = true
-  })
 </script>
 
 <template>
-  <v-snackbar
-    v-model="snackbar"
-    location="top"
-    :timeout="connectionState === 'Connected' ? 5000 : -1"
-    :color="connectionColor"
-  >
-    {{ connectionMessage }}
-
-    <template #actions>
-      <v-btn
-        v-if="connectionState === 'Disconnected'"
-        color="error"
-        variant="text"
-        @click="connectToWebSocket"
-      >
-        Reconnect
-      </v-btn>
-    </template>
-  </v-snackbar>
+  <div />
 </template>

@@ -18,42 +18,46 @@
 </script>
 
 <template>
-  <v-list>
-    <v-list-subheader>
-      <v-btn
+  <q-list>
+    <q-item-label header>
+      <q-btn
         :to="`/teams/${team.id}/seasons/${season}`"
         size="x-large"
         color="primary"
-        variant="text"
+        flat
         class="text-h4"
-        v-text="seasonLabel(season)"
+        :label="seasonLabel(season)"
       />
-    </v-list-subheader>
-    <v-list-item
+    </q-item-label>
+    <q-item
       v-if="season === currentSeason"
+      v-ripple
+      clickable
       title="New Competition"
       :to="`/teams/${team.id}/competitions/new`"
     >
-      <template #prepend>
-        <v-icon
-          icon="mdi-plus-circle"
-          color="success"
-        />
-      </template>
-    </v-list-item>
-    <v-list-item
+      <q-item-section avatar>
+        <q-icon color="positive" name="mdi-plus-circle" />
+      </q-item-section>
+      <q-item-section>New Competition</q-item-section>
+    </q-item>
+    <q-item
       v-for="competition in competitions"
       :key="competition.id"
-      :title="competition.name"
-      :subtitle="competition.champion"
+      v-ripple
+      clickable
       :to="`/teams/${team.id}/competitions/${competition.id}`"
     >
-      <template #prepend>
-        <v-icon
-          :icon="competition.statusIcon"
+      <q-item-section avatar>
+        <q-icon
+          :name="competition.statusIcon"
           :color="competition.statusColor"
         />
-      </template>
-    </v-list-item>
-  </v-list>
+      </q-item-section>
+      <q-item-section>
+        <q-item-label>{{ competition.name }}</q-item-label>
+        <q-item-label caption>{{ competition.champion }}</q-item-label>
+      </q-item-section>
+    </q-item>
+  </q-list>
 </template>
