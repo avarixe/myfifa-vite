@@ -56,29 +56,32 @@
 </script>
 
 <template>
-  <v-form @submit.prevent="onSubmit">
+  <q-form @submit="onSubmit">
     <team-combobox
       v-model="attributes.name"
       label="Name"
+      class="mt-4"
     />
-    <v-text-field
+    <date-field
       v-model="attributes.startedOn"
       label="Start Date"
-      type="date"
+      class="mt-4"
     />
-    <v-text-field
+    <date-field
       v-model="attributes.currentlyOn"
       label="Current Date"
-      type="date"
+      class="mt-4"
     />
-    <v-text-field
+    <q-input
       v-model="attributes.currency"
       label="Currency"
+      class="mt-4"
     />
-    <v-btn
+    <q-btn
       type="submit"
       :loading="loading"
-      v-text="props.record ? 'Update' : 'Create'"
+      :label="props.record ? 'Update' : 'Create'"
+      class="mt-4"
     />
-  </v-form>
+  </q-form>
 </template>

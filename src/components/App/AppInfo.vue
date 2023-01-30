@@ -16,7 +16,7 @@
         <q-img :src="logo" />
         MyFIFA Manager
       </q-card-section>
-      <table>
+      <q-markup-table>
         <tbody>
           <tr>
             <td>Version:</td>
@@ -25,25 +25,21 @@
           <tr>
             <td>Built with:</td>
             <td>
-              <span>
-                <q-icon name="mdi-vuejs">
+              <div class="flex justify-around">
+                <q-icon name="mdi-vuejs" size="sm">
                   <q-tooltip>Vue.js</q-tooltip>
                 </q-icon>
-              </span>
-              <span>
-                <q-icon name="mdi-vuetify">
+                <q-icon name="mdi-vuetify" size="sm">
                   <q-tooltip>Vuetify</q-tooltip>
                 </q-icon>
-              </span>
-              <span>
-                <q-icon name="mdi-language-ruby-on-rails">
+                <q-icon name="mdi-language-ruby-on-rails" size="sm">
                   <q-tooltip>Ruby on Rails</q-tooltip>
                 </q-icon>
-              </span>
+              </div>
             </td>
           </tr>
         </tbody>
-      </table>
+      </q-markup-table>
     </q-card>
   </q-dialog>
 </template>

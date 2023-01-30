@@ -1,5 +1,5 @@
 <template>
-  <h1>New Team</h1>
+  <h3 class="text-h3">New Team</h3>
 
   <team-form />
 </template>

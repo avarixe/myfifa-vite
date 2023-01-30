@@ -15,41 +15,56 @@
 
   const teams = computed(() => teamRepo.orderBy('id', 'desc').get())
 
-  const headers = [
-    { value: 'name', text: 'Name' },
-    { value: 'badgeUrl', text: 'Badge', class: 'text-center', sortable: false },
-    { value: 'startedOn', text: 'Start Date', class: 'text-center' },
-    { value: 'currentlyOn', text: 'Current Date', class: 'text-center' }
+  const columns = [
+    { name: 'name', field: 'name', label: 'Name', align: 'left', sortable: true },
+    { name: 'badgeUrl', field: 'badgeUrl', label: 'Badge', align: 'center' },
+    {
+      name: 'startedOn',
+      field: 'startedOn',
+      label: 'Start Date',
+      align: 'center',
+      sortable: true,
+      format: (value, _row) => formatDate(value)
+    },
+    {
+      name: 'currentlyOn',
+      field: 'currentlyOn',
+      label: 'Current Date',
+      align: 'center',
+      sortable: true,
+      format: (value, _row) => formatDate(value)
+    }
   ]
-
 </script>
 
 <template>
-  <h1>Teams</h1>
+  <h3 class="text-h3">Teams</h3>
 
-  <v-btn to="/teams/new">
-    <v-icon start>mdi-plus</v-icon>
-    Team
-  </v-btn>
+  <q-btn
+    to="/teams/new"
+    icon="mdi-plus"
+    label="Team"
+  />
 
-  <data-table
-    :headers="headers"
-    :items="teams"
-    item-key="id"
-    sort-desc
+  <q-table
+    :columns="columns"
+    :rows="teams"
+    class="mt-4"
   >
-    <template #item="{ item: team }">
-      <td>
-        <v-btn
-          variant="text"
+    <template #body-cell-name="props">
+      <q-td :props="props">
+        <q-btn
+          flat
           color="primary"
-          :to="`/teams/${team.id}`"
-          v-text="team.name"
+          :to="`/teams/${props.row.id}`"
+          :label="props.value"
         />
-      </td>
-      <td class="text-center"><img :src="team.badgeUrl" width="50" /></td>
-      <td class="text-center">{{ formatDate(team.startedOn) }}</td>
-      <td class="text-center">{{ formatDate(team.currentlyOn) }}</td>
+      </q-td>
     </template>
-  </data-table>
+    <template #body-cell-badgeUrl="props">
+      <q-td :props="props">
+        <img :src="props.value" width="50" />
+      </q-td>
+    </template>
+  </q-table>
 </template>

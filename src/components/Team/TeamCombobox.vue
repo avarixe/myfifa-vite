@@ -1,9 +1,3 @@
-<script>
-  export default {
-    inheritAttrs: false
-  }
-</script>
-
 <script setup>
   const props = defineProps({
     modelValue: { type: String, default: null },
@@ -16,12 +10,6 @@
   }, { deep: true, immediate: true })
 
   const textValue = ref(props.modelValue)
-  const emit = defineEmits(['update:modelValue'])
-  watch(textValue, () => {
-    emit('update:modelValue', textValue.value)
-    onSearchInputUpdate()
-  })
-
   const { data, executeQuery } = useQuery({
     query: gql`
       query fetchTeamOptions($category: OptionCategory!, $search: String) {
@@ -40,15 +28,18 @@
     clearTimeout(timeout.value)
   })
 
-  async function onSearchInputUpdate () {
+  async function filter (inputValue, doneFn, _abortFn) {
     clearTimeout(timeout.value)
-    if (items.value.includes(textValue.value)) {
-      items.value = []
-    } else if (textValue.value.length >= 3) {
-      timeout.value = setTimeout(() => searchItems(), 300)
-    } else {
-      items.value = props.defaultItems
-    }
+    doneFn(() => {
+      if (items.value.includes(inputValue)) {
+        items.value = []
+      } else if (inputValue.length >= 3) {
+        textValue.value = inputValue
+        timeout.value = setTimeout(() => searchItems(), 300)
+      } else {
+        items.value = props.defaultItems
+      }
+    })
   }
 
   const loading = ref(false)
@@ -64,28 +55,21 @@
       loading.value = false
     }
   }
-
-  const listId = `teams-${uuidv4()}`
 </script>
 
 <template>
-  <v-text-field
-    v-bind="$attrs"
-    :model-value="textValue"
+  <q-select
+    :model-value="modelValue"
+    :options="items"
     :loading="loading"
+    use-input
+    new-value-mode="add-unique"
     spellcheck="false"
     autocapitalize="words"
     autocomplete="off"
     autocorrect="off"
-    :list="listId"
-    @update:model-value="textValue = $event"
+    input-debounce="100"
+    @filter="filter"
+    @update:model-value="$emit('update:modelValue', $event)"
   />
-
-  <datalist :id="listId">
-    <option
-      v-for="(item, i) in items"
-      :key="i"
-      :value="item"
-    />
-  </datalist>
 </template>
