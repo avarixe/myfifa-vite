@@ -29,8 +29,12 @@
         case 'statistics':
           return { to, label: capitalize(step) }
         case 'analytics':
+          return { to, label: capitalize(step), disable: true }
         case 'seasons':
-          return { to, label: capitalize(step), disabled: true }
+          return {
+            to: to.replace(/seasons/, 'competitions'),
+            label: capitalize(step)
+          }
         case 'new':
           return {
             to,
@@ -73,6 +77,7 @@
       :key="breadcrumb.label"
       :label="breadcrumb.label"
       :to="breadcrumb.to"
+      :disable="breadcrumb.disable"
     />
   </q-breadcrumbs>
 </template>

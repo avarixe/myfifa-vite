@@ -1,16 +1,9 @@
 <script setup>
   import logo from '~/assets/logo.png'
-
-  defineProps({
-    modelValue: { type: Boolean, default: false }
-  })
 </script>
 
 <template>
-  <q-dialog
-    :model-value="modelValue"
-    @update:model-value="$emit('update:modelValue', $event)"
-  >
+  <q-dialog>
     <q-card>
       <q-card-section class="text-center">
         <q-img :src="logo" />

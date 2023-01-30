@@ -1,15 +1,15 @@
 <script setup>
-  defineProps({
+  const props = defineProps({
+    modelValue: { type: Boolean, default: false },
     submit: { type: Function, required: true },
     title: { type: String, default: '' },
     titleIcon: { type: String, default: '' },
     fullWidth: { type: Boolean, default: false }
   })
 
-  const dialog = ref(false)
   const emit = defineEmits(['open', 'close'])
   watchEffect(() => {
-    if (dialog.value) {
+    if (props.modelValue) {
       emit('open')
     } else {
       emit('close')
@@ -18,58 +18,51 @@
 </script>
 
 <template>
-  <v-dialog
-    v-model="dialog"
-    persistent
-    scrollable
-    :max-width="fullWidth ? '' : '500px'"
-    activator="parent"
+  <q-dialog
+    :model-value="modelValue"
+    @update:model-value="$emit('update:modelValue', $event)"
   >
-    <base-form
-      :submit="submit"
-      @submitted="dialog = false"
-    >
-      <template v-slot="{ loading, valid }">
-        <v-card :style="{ maxHeight: '75vh' }">
-          <v-toolbar dense>
+   <q-card :style="{ maxHeight: '75vh', width: fullWidth ? '100%' : '500px' }">
+      <base-form
+        :submit="submit"
+        @submitted="$emit('update:modelValue', false)"
+      >
+        <template v-slot="{ loading, valid }">
+          <q-toolbar class="text-h5">
             <slot name="header">
-              <v-toolbar-title>
-                <v-icon v-if="titleIcon" start>{{ titleIcon }}</v-icon>
-                {{ title }}
-              </v-toolbar-title>
+              <q-icon v-if="titleIcon" :name="titleIcon" />
+              {{ title }}
             </slot>
-          </v-toolbar>
-          <v-divider />
-          <v-card-text>
-            <v-container>
-              <v-row dense>
-                <slot name="form" />
-              </v-row>
-            </v-container>
-          </v-card-text>
-          <v-divider />
-          <v-card-actions>
-            <v-spacer />
-            <v-btn
+          </q-toolbar>
+          <q-separator />
+          <q-card-section>
+            <div class="row">
+              <slot name="form" />
+            </div>
+          </q-card-section>
+          <q-separator />
+          <q-card-actions>
+            <q-space />
+            <q-btn
               size="large"
-              :disabled="loading"
-              @click="dialog = false"
-            >
-              Cancel
-            </v-btn>
+              :disable="loading"
+              flat
+              label="Cancel"
+              @click="$emit('update:modelValue', false)"
+            />
             <slot name="additional-actions" />
-            <v-btn
+            <q-btn
               type="submit"
-              :disabled="!valid"
+              :disable="!valid"
               color="primary"
               size="large"
+              flat
               :loading="loading"
-            >
-              Save
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </template>
-    </base-form>
-  </v-dialog>
+              label="Save"
+            />
+          </q-card-actions>
+        </template>
+      </base-form>
+    </q-card>
+  </q-dialog>
 </template>

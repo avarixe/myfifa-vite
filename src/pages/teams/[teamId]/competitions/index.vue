@@ -12,20 +12,20 @@
     `
   })
 
-  const { smAndDown } = useDisplay()
+  const $q = useQuasar()
 </script>
 
 <template>
-  <h1>Competitions</h1>
+  <h3 class="text-h3">Competitions</h3>
 
-  <v-timeline :side="smAndDown ? 'end' : null">
-    <v-timeline-item
+  <q-timeline :layout="$q.screen.lt.md ? 'dense' : 'loose'">
+    <q-timeline-entry
       v-for="season in [...Array(currentSeason + 1).keys()].reverse()"
       :key="season"
-      dot-color="primary"
+      :title="`Season ${season + 1}`"
+      :side="season % 2 === 0 ? 'right' : 'left'"
     >
-      <template #icon>{{ season + 1 }}</template>
       <competition-list :season="season" />
-    </v-timeline-item>
-  </v-timeline>
+    </q-timeline-entry>
+  </q-timeline>
 </template>

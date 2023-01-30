@@ -2,16 +2,17 @@
   const props = defineProps({
     stages: { type: Array, default: () => [] }
   })
+
+  const lgWidth = computed(() => props.stages.length === 1 ? 12 : 6)
+  const xlWidth = computed(() => props.stages.length === 1 ? 12 : (props.stages.length === 2 ? 6 : 4))
 </script>
 
 <template>
-  <v-row dense>
-    <v-col
+  <div class="row q-gutter-sm">
+    <div
       v-for="stage in stages"
       :key="stage.id"
-      cols="12"
-      :lg="stages.length === 1 ? 12 : 6"
-      :xl="stages.length === 1 ? 12 : (stages === 2 ? 6 : 4)"
+      :class="`col col-12 col-lg-${lgWidth} col-xl-${xlWidth}`"
     >
       <stage-group-table
         v-if="stage.table"
@@ -23,6 +24,6 @@
         :stage="stage"
         :is-named="stages.length > 1"
       />
-    </v-col>
-  </v-row>
+    </div>
+  </div>
 </template>

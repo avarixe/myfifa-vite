@@ -69,28 +69,27 @@
 </script>
 
 <template>
-  <div class="d-flex">
-    <v-text-field
+  <div class="flex">
+    <q-input
       v-if="isNamed"
       v-model="attributes.name"
-      :variant="editing ? 'outlined' : null"
-      density="compact"
-      hide-details
+      :outline="editing"
+      dense
       :readonly="!editing"
     />
-    <v-spacer v-else />
+    <q-space />
 
-    <v-btn
+    <q-btn
       :icon="`mdi-${editing ? 'close' : 'pencil'}`"
-      variant="text"
-      small
+      flat
+      size="small"
       @click="toggleEditing"
     />
-    <v-btn
+    <q-btn
       v-if="editing"
       icon="mdi-content-save"
-      variant="text"
-      small
+      flat
+      size="small"
       @click="onSubmit"
     />
     <remove-button
@@ -101,7 +100,7 @@
       icon="mdi-delete"
     />
   </div>
-  <v-table id="rows" density="compact">
+  <q-markup-table id="rows" class="w-full">
     <thead>
       <tr>
         <th />
@@ -119,7 +118,7 @@
       <tr
         v-for="(row, i) in attributes.tableRowsAttributes"
         :key="`row-${i}`"
-        :class="{ 'd-none': row._destroy }"
+        :class="{ 'hidden': row._destroy }"
       >
         <td class="text-center" :style="{ width: '40px' }">
           <small class="text-disabled">{{ i + 1 }}</small>
@@ -128,10 +127,8 @@
           <team-combobox
             v-if="editing"
             v-model="row.name"
-            density="compact"
-            single-line
-            variant="outlined"
-            hide-details
+            dense
+            outlined
           />
           <template v-else>{{ row.name }}</template>
         </td>
@@ -140,14 +137,12 @@
           :key="stat"
           class="text-right"
         >
-          <v-hover v-if="editing" v-slot="{ isHovering, props }">
-            <input
-              v-model="row[stat]"
-              :class="`elevation-${isHovering ? 3 : 1} rounded`"
-              type="number"
-              v-bind="props"
-            />
-          </v-hover>
+          <input
+            v-if="editing"
+            v-model="row[stat]"
+            class="elevation-1 rounded"
+            type="number"
+          />
           <template v-else>{{ row[stat] }}</template>
         </td>
         <td v-if="!editing" class="text-right">{{ stage.tableRows[i]?.goalDifference }}</td>
@@ -157,16 +152,16 @@
     <tfoot v-if="editing">
       <tr>
         <td colspan="6">
-          <v-btn size="x-small" @click="addRow">Add Row</v-btn>
-          <v-btn size="x-small" @click="removeRow">Remove Row</v-btn>
+          <q-btn size="x-small" @click="addRow">Add Row</q-btn>
+          <q-btn size="x-small" @click="removeRow">Remove Row</q-btn>
         </td>
       </tr>
     </tfoot>
-  </v-table>
+  </q-markup-table>
 </template>
 
 <style scoped lang="scss">
-  .v-table#rows {
+  #rows {
     :deep(.v-field input) {
       padding: 0 8px;
       min-height: auto;

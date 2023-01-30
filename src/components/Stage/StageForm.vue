@@ -49,8 +49,8 @@
     @open="attributes.table = false"
   >
     <template #form>
-      <v-col cols="12">
-        <v-text-field
+      <div class="col col-12">
+        <q-input
           v-model="attributes.name"
           label="Name"
           prepend-icon="mdi-table"
@@ -60,46 +60,32 @@
           autocomplete="off"
           autocorrect="off"
         />
-      </v-col>
-      <v-col cols="12">
-        <v-radio-group
+      </div>
+      <div class="col col-12">
+        <q-option-group
           v-model="attributes.table"
           inline
-          hide-details
-        >
-          <v-radio
-            label="Group"
-            :value="true"
-          />
-          <v-radio
-            label="Knockout"
-            :value="false"
-          />
-        </v-radio-group>
-      </v-col>
-      <v-col cols="12">
-        <v-text-field
+          :options="[{ label: 'Group', value: true }, { label: 'Knockout', value: false }]"
+        />
+      </div>
+      <div class="col col-12">
+        <q-input
           v-model.number="attributes.numTeams"
           label="Number of Teams"
           prepend-icon="mdi-account-group"
           :rules="rulesFor.numTeams"
           inputmode="numeric"
         />
-      </v-col>
-      <v-scroll-y-transition mode="out-in">
-        <v-col
-          v-if="!attributes.table"
-          cols="12"
-        >
-          <v-text-field
-            v-model.number="attributes.numFixtures"
-            label="Number of Fixtures"
-            prepend-icon="mdi-sword-cross"
-            :rules="rulesFor.numFixtures"
-            inputmode="numeric"
-          />
-        </v-col>
-      </v-scroll-y-transition>
+      </div>
+      <div v-if="!attributes.table" class="col col-12">
+        <q-input
+          v-model.number="attributes.numFixtures"
+          label="Number of Fixtures"
+          prepend-icon="mdi-sword-cross"
+          :rules="rulesFor.numFixtures"
+          inputmode="numeric"
+        />
+      </div>
     </template>
   </dialog-form>
 </template>

@@ -32,19 +32,20 @@
 
   const router = useRouter()
 
-  const expansionPanels = ref([0, 1])
+  const addStageDialog = ref(false)
 </script>
 
 <template>
-  <h1>{{ competition.name }}</h1>
+  <h3 class="text-h3">{{ competition.name }}</h3>
 
   <div>
-    <v-btn :to="`/teams/${team.id}/competitions/${competition.id}/edit`">Edit</v-btn>
+    <q-btn :to="`/teams/${team.id}/competitions/${competition.id}/edit`">Edit</q-btn>
     &nbsp;
-    <v-btn>
-      Add Stage
-      <stage-form :competition-id="competition.id" />
-    </v-btn>
+    <q-btn @click="addStageDialog = true">Add Stage</q-btn>
+    <stage-form
+      v-model="addStageDialog"
+      :competition-id="competition.id"
+    />
     &nbsp;
     <remove-button
       :record="competition"
@@ -59,22 +60,20 @@
     <div v-if="competition.champion"><b>Champion:</b> {{ competition.champion }}</div>
   </div>
 
-  <v-expansion-panels v-model="expansionPanels" multiple>
-    <v-expansion-panel
-      v-if="tableStages.length > 0"
-      title="Group Stages"
-    >
-      <v-expansion-panel-text>
-        <stage-grid :stages="tableStages" />
-      </v-expansion-panel-text>
-    </v-expansion-panel>
-    <v-expansion-panel
-      v-if="orderedRounds.length > 0"
-      title="Knockout Stages"
-    >
-      <v-expansion-panel-text>
-        <stage-grid :stages="orderedRounds" />
-      </v-expansion-panel-text>
-    </v-expansion-panel>
-  </v-expansion-panels>
+  <q-expansion-item
+    v-if="tableStages.length > 0"
+    label="Group Stages"
+    default-opened
+    class="my-4"
+  >
+    <stage-grid :stages="tableStages" />
+  </q-expansion-item>
+  <q-expansion-item
+    v-if="orderedRounds.length > 0"
+    label="Knockout Stages"
+    default-opened
+    class="my-4"
+  >
+    <stage-grid :stages="orderedRounds" />
+  </q-expansion-item>
 </template>

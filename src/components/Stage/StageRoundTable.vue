@@ -86,28 +86,27 @@
 </script>
 
 <template>
-  <div class="d-flex">
-    <v-text-field
+  <div class="flex">
+    <q-input
       v-if="isNamed"
       v-model="attributes.name"
-      :variant="editing ? 'outlined' : null"
-      density="compact"
-      hide-details
+      :outline="editing"
+      dense
       :readonly="!editing"
     />
-    <v-spacer v-else />
+    <q-space />
 
-    <v-btn
+    <q-btn
       :icon="`mdi-${editing ? 'close' : 'pencil'}`"
-      variant="text"
-      small
+      flat
+      size="small"
       @click="toggleEditing"
     />
-    <v-btn
+    <q-btn
       v-if="editing"
       icon="mdi-content-save"
-      variant="text"
-      small
+      flat
+      size="small"
       @click="onSubmit"
     />
     <remove-button
@@ -119,7 +118,7 @@
     />
   </div>
 
-  <v-table id="fixtures" density="compact">
+  <q-markup-table id="fixtures">
     <thead>
       <tr>
         <th class="text-right">Home Team</th>
@@ -131,17 +130,15 @@
       <tr
         v-for="(fixture, i) in attributes.fixturesAttributes"
         :key="`fixture-${i}`"
-        :class="{ 'd-none': fixture._destroy }"
+        :class="{ 'hidden': fixture._destroy }"
       >
         <td class="text-right">
           <team-combobox
             v-if="editing"
             v-model="fixture.homeTeam"
             :default-items="teamOptions"
-            density="compact"
-            single-line
-            variant="outlined"
-            hide-details
+            dense
+            outline
           />
           <template v-else>{{ fixture.homeTeam }}</template>
         </td>
@@ -149,44 +146,36 @@
           <div
             v-for="(leg, j) in fixture.legsAttributes"
             :key="`leg-${j}`"
-            :class="{ 'text-center': true, 'd-none': leg._destroy }"
+            :class="{ 'text-center': true, 'hidden': leg._destroy }"
             :style="{ minWidth: '10em' }"
           >
             <template v-if="editing">
-              <v-hover v-slot="{ isHovering, props }">
-                <input
-                  v-model="leg.homeScore"
-                  :class="`elevation-${isHovering ? 3 : 1} rounded`"
-                  v-bind="props"
-                />
-              </v-hover>
+              <input
+                v-model="leg.homeScore"
+                class="elevation-1 rounded"
+              />
               -
-              <v-hover v-slot="{ isHovering, props }">
-                <input
-                  v-model="leg.awayScore"
-                  :class="`elevation-${isHovering ? 3 : 1} rounded`"
-                  v-bind="props"
-                />
-              </v-hover>
+              <input
+                v-model="leg.awayScore"
+                class="elevation-1 rounded"
+              />
             </template>
             <template v-else>{{ leg.homeScore }} - {{ leg.awayScore }}</template>
           </div>
           <template v-if="editing">
-            <v-btn
+            <q-btn
               size="x-small"
+              icon="mdi-plus-circle"
               class="my-1"
               @click="addLeg(i)"
-            >
-              <v-icon>mdi-plus-circle</v-icon>
-            </v-btn>
+            />
             &nbsp;
-            <v-btn
+            <q-btn
               size="x-small"
+              icon="mdi-minus-circle"
               class="my-1"
               @click="removeLeg(i)"
-            >
-              <v-icon>mdi-minus-circle</v-icon>
-            </v-btn>
+            />
           </template>
         </td>
         <td class="text-left">
@@ -194,10 +183,8 @@
             v-if="editing"
             v-model="fixture.awayTeam"
             :default-items="teamOptions"
-            density="compact"
-            single-line
-            variant="outlined"
-            hide-details
+            dense
+            outline
           />
           <template v-else>{{ fixture.awayTeam }}</template>
         </td>
@@ -206,16 +193,16 @@
     <tfoot v-if="editing">
       <tr>
         <td colspan="3">
-          <v-btn size="x-small" @click="addFixture">Add Fixture</v-btn>
-          <v-btn size="x-small" @click="removeFixture">Remove Fixture</v-btn>
+          <q-btn size="x-small" @click="addFixture">Add Fixture</q-btn>
+          <q-btn size="x-small" @click="removeFixture">Remove Fixture</q-btn>
         </td>
       </tr>
     </tfoot>
-  </v-table>
+  </q-markup-table>
 </template>
 
 <style scoped lang="scss">
-  .v-table#fixtures {
+  #fixtures {
     th, td {
       padding: 0 8px;
 

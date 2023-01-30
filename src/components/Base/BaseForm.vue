@@ -34,22 +34,15 @@
       }
     }
   }
-
-  onMounted(() => {
-    broadcastStore.error('hello world!')
-  })
 </script>
 
 <template>
-  <v-form
+  <q-form
     ref="form"
     :key="key"
     v-model="valid"
-    @submit.prevent="submitForm"
+    @submit="submitForm"
   >
-    <slot
-      :loading="loading"
-      :valid="valid"
-    />
-  </v-form>
+    <slot :loading="loading" :valid="valid" />
+  </q-form>
 </template>

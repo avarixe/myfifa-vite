@@ -74,6 +74,29 @@
 
   const { championOptions } = useCompetition(props.record?.id)
 
+  const selectSettings = reactive({
+    name: {
+      options: competitionOptions.value,
+      filter: (val, update, _abort) => {
+        update(() => {
+          const search = val.toLowerCase()
+          selectSettings.name.options =
+            competitionOptions.value.filter(v => v.toLowerCase().includes(search))
+        })
+      }
+    },
+    champion: {
+      options: championOptions.value,
+      filter: (val, update, _abort) => {
+        update(() => {
+          const search = val.toLowerCase()
+          selectSettings.champion.options =
+            championOptions.value.filter(v => v.toLowerCase().includes(search))
+        })
+      }
+    }
+  })
+
   const presetFormats = [
     'League',
     'Knockout',
@@ -82,51 +105,58 @@
 </script>
 
 <template>
-  <v-form @submit.prevent="onSubmit">
-    <v-text-field
+  <q-form @submit.prevent="onSubmit">
+    <q-input
       :model-value="seasonLabel(attributes.season)"
       label="Season"
-      disabled
+      disable
     />
-    <v-autocomplete
+    <q-select
       v-model="attributes.name"
       label="Name"
-      :items="competitionOptions"
+      use-input
+      :options="selectSettings.name.options"
+      input-debounce="100"
+      @filter="selectSettings.name.filter"
     />
-    <v-autocomplete
+    <q-select
       v-if="record"
       v-model="attributes.champion"
       label="Champion"
-      :items="championOptions"
+      use-input
+      :options="selectSettings.champion.options"
+      input-debounce="100"
+      @filter="selectSettings.champion.filter"
     />
-    <v-select
+    <q-select
       v-else
       v-model="attributes.presetFormat"
       label="Preset Format"
-      :items="presetFormats"
+      :options="presetFormats"
     />
-    <v-text-field
+    <q-input
       v-if="attributes.presetFormat"
       v-model="attributes.numTeams"
       label="Number of Teams"
       type="number"
     />
     <template v-if="attributes.presetFormat === 'Group + Knockout'">
-      <v-text-field
+      <q-input
         v-model="attributes.numTeamsPerGroup"
         label="Teams per Group"
         type="number"
       />
-      <v-text-field
+      <q-input
         v-model="attributes.numAdvancesFromGroup"
         label="Teams Advance per Group"
         type="number"
       />
     </template>
-    <v-btn
+    <q-btn
       type="submit"
       :loading="loading"
-      v-text="props.record ? 'Update' : 'Create'"
+      :label="props.record ? 'Update' : 'Create'"
+      class="mt-4"
     />
-  </v-form>
+  </q-form>
 </template>
