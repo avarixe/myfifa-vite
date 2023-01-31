@@ -44,27 +44,27 @@
 </script>
 
 <template>
-  <h1>{{ seasonLabel(season) }} Season</h1>
+  <h3 class="text-h3">{{ seasonLabel(season) }} Season</h3>
 
-  <v-row>
-    <v-col cols="12">
-      <v-btn
+  <div class="row">
+    <div class="col">
+      <q-btn
         :to="`/teams/${team.id}/seasons/${season - 1}`"
-        :disabled="season === 0"
-        v-text="'Previous Season'"
+        :disable="season === 0"
+        label="Previous Season"
       />
       &nbsp;
-      <v-btn
+      <q-btn
         :to="`/teams/${team.id}/seasons/${season + 1}`"
-        :disabled="season >= currentSeason"
-        v-text="'Next Season'"
+        :disable="season >= currentSeason"
+        label="Next Season"
       />
-    </v-col>
-  </v-row>
+    </div>
+  </div>
 
   <section id="summary">
     <div class="text-h4 my-3 text-info font-weight-light">
-      <v-icon start large>mdi-calendar</v-icon>
+      <q-icon name="mdi-calendar" />
       Summary
     </div>
 
@@ -76,7 +76,7 @@
 
   <section id="competitions">
     <div class="text-h4 my-3 text-info font-weight-light">
-      <v-icon start large>mdi-trophy</v-icon>
+      <q-icon name="mdi-trophy" />
       Competitions
     </div>
 
@@ -88,7 +88,7 @@
 
   <section id="transfers">
     <div class="text-h4 my-3 text-info font-weight-light">
-      <v-icon start large>mdi-airplane-takeoff</v-icon>
+      <q-icon name="mdi-airplane-takeoff" />
       Transfers
     </div>
 

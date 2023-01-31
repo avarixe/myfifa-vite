@@ -7,15 +7,15 @@
   })
 
   const headers = [
-    { text: 'Competition', value: 'name', class: 'stick-left', cellClass: 'stick-left' },
-    { text: 'Status', value: 'status', class: 'text-center' },
-    { text: 'GP', value: 'matchesPlayed', class: 'text-right' },
-    { text: 'W', value: 'wins', class: 'text-right' },
-    { text: 'D', value: 'draws', class: 'text-right' },
-    { text: 'L', value: 'losses', class: 'text-right' },
-    { text: 'GF', value: 'goalsFor', class: 'text-right' },
-    { text: 'GA', value: 'goalsAgainst', class: 'text-right' },
-    { text: 'GD', value: 'goalDifference', class: 'text-right' }
+    { label: 'Competition', name: 'name', field: 'name', headerClasses: 'stick-left', classes: 'stick-left', sortable: true },
+    { label: 'Status', name: 'status', field: 'status', align: 'center' },
+    { label: 'GP', name: 'matchesPlayed', field: 'matchesPlayed', align: 'right', sortable: true },
+    { label: 'W', name: 'wins', field: 'wins', align: 'right', sortable: true },
+    { label: 'D', name: 'draws', field: 'draws', align: 'right', sortable: true },
+    { label: 'L', name: 'losses', field: 'losses', align: 'right', sortable: true },
+    { label: 'GF', name: 'goalsFor', field: 'goalsFor', align: 'right', sortable: true },
+    { label: 'GA', name: 'goalsAgainst', field: 'goalsAgainst', align: 'right', sortable: true },
+    { label: 'GD', name: 'goalDifference', field: 'goalDifference', align: 'right', sortable: true }
   ]
 
   const { team } = useTeam()
@@ -59,38 +59,34 @@
 </script>
 
 <template>
-  <data-table
-    :headers="headers"
-    :items="rows"
-    item-key="id"
-    :items-per-page="-1"
+  <q-table
+    :columns="headers"
+    :rows="rows"
+    :pagination="{ rowsPerPage: 0 }"
+    :rows-per-page-options="[0]"
+    virtual-scroll
+    hide-bottom
     class="mt-2"
   >
-    <template #item="{ item }">
-      <td class="stick-left">
-        <v-btn
-          :to="`/teams/${team.id}/competitions/${item.id}`"
+    <template #body-cell-name="props">
+      <q-td :props="props">
+        <q-btn
+          :to="`/teams/${team.id}/competitions/${props.row.id}`"
           size="small"
-          variant="text"
+          flat
           color="primary"
           class="text-capitalize"
-          v-text="item.name"
+          :label="props.value"
         />
-      </td>
-      <td class="text-center">
-        <v-icon
-          :color="item.statusColor"
-          size="small"
-          :icon="item.statusIcon"
-        />
-      </td>
-      <td class="text-right">{{ item.matchesPlayed }}</td>
-      <td class="text-right">{{ item.wins }}</td>
-      <td class="text-right">{{ item.draws }}</td>
-      <td class="text-right">{{ item.losses }}</td>
-      <td class="text-right">{{ item.goalsFor }}</td>
-      <td class="text-right">{{ item.goalsAgainst }}</td>
-      <td class="text-right">{{ item.goalDifference }}</td>
+      </q-td>
     </template>
-  </data-table>
+    <template #body-cell-status="props">
+      <q-td :props="props">
+        <q-icon
+          :color="props.row.statusColor"
+          :name="props.row.statusIcon"
+        />
+      </q-td>
+    </template>
+  </q-table>
 </template>

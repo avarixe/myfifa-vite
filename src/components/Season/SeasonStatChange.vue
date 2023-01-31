@@ -16,13 +16,13 @@
 
 <template>
   <div :class="`text-${color}`">
-    <v-icon :color="color" :icon="icon" />
+    <q-icon :color="color" :name="icon" />
     {{ formatter(endValue) }}
 
     <!-- TODO: instead of tooltip, have old value with an up arrow shown below -->
-    <v-tooltip activator="parent" location="bottom">
+    <q-tooltip>
       {{ valueIncreased ? 'Increased' : 'Decreased' }} from
       {{ formatter(startValue) }} by {{ percentage.toFixed(2) }}%
-    </v-tooltip>
+    </q-tooltip>
   </div>
 </template>

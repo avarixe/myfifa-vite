@@ -1,6 +1,7 @@
 <script setup>
   import { addYears } from 'date-fns'
   import { Player } from '~/models'
+import { formatDate } from '../../helpers/formatters';
 
   function sortPos (posA, posB) {
     return positions.indexOf(posA) - positions.indexOf(posB)
@@ -153,104 +154,112 @@
     transfers.value.filter(transfer => transfer.iconColor === 'green').length
   )
 
-  const headers = [
-    { text: 'Player', value: 'name', class: 'stick-left', width: 200 },
-    { text: 'Pos', value: 'pos', class: 'text-center', sortBy: 'posIdx', width: 100 },
-    { text: 'Date', value: 'date', class: 'text-center', width: 120 },
-    { text: '', value: 'icon', class: 'text-center', sortable: false, width: 40 },
-    { text: 'From/To', value: 'fromTo', width: 170 },
-    { text: 'Value', value: 'value', class: 'text-right', class: 'text-right', width: 150 },
-    { text: 'Fee', value: 'fee', class: 'text-right', class: 'text-right', width: 150 },
-    { text: 'Net Value', value: 'netValue', class: 'text-right', class: 'text-right', width: 150 },
+  const columns = [
+    { label: 'Player', name: 'name', field: 'name', class: 'stick-left', width: 200 },
+    { label: 'Pos', name: 'pos', field: 'pos', align: 'center', sortBy: 'posIdx', width: 100 },
+    { label: 'Date', name: 'date', field: 'date', align: 'center', width: 120, format: (value) => formatDate(value) },
+    { label: '', name: 'icon', field: 'icon', align: 'center', width: 40 },
+    { label: 'From/To', name: 'fromTo', field: 'fromTo', align: 'left', width: 170 },
+    { label: 'Value', name: 'value', field: 'value', align: 'right', width: 150 },
+    { label: 'Fee', name: 'fee', field: 'fee', align: 'right', width: 150 },
+    { label: 'Net Value', name: 'netValue', field: 'netValue', align: 'right', width: 150 },
   ]
 </script>
 
 <template>
-  <data-table
-    :headers="headers"
-    :items="rows"
-    item-key="id"
-    :items-per-page="-1"
-    sort-by="date"
+  <q-table
+    :columns="columns"
+    :rows="rows"
+    :pagination="{ rowsPerPage: 0, sortBy: 'date' }"
+    :rows-per-page-options="[0]"
+    virtual-scroll
+    hide-bottom
     class="mt-2"
   >
-    <template #item="{ item }">
-      <td class="stick-left">
-        <v-btn
-          :to="`/teams/${team.id}/players/${item.playerId}`"
+    <template #body-cell-name="props">
+      <q-td :props="props">
+        <q-btn
+          :to="`/teams/${team.id}/players/${props.row.playerId}`"
           size="small"
-          variant="text"
+          flat
           color="primary"
           class="text-capitalize"
-          v-text="item.name"
+          :label="props.value"
         />
-      </td>
-      <td class="text-center">{{ item.pos }}</td>
-      <td class="text-center">{{ formatDate(item.date) }}</td>
-      <td class="text-center">
-        <v-icon :color="item.iconColor" :icon="item.icon" />
-      </td>
-      <td>{{ item.fromTo }}</td>
-      <td class="text-right" :class="`text-${item.value > 0 ? 'green' : 'red'}`">
-        <span v-if="item.value">{{ item.value > 0 ? '+' : '-' }}</span>
-        {{ formatMoney(Math.abs(item.value), team.currency, ' ') }}
-      </td>
-      <td class="text-right">
-        <span v-if="item.fee" :class="`text-${item.fee > 0 ? 'green' : 'red'}`">
-          {{ item.fee > 0 ? '+' : '-' }}
-          {{ formatMoney(Math.abs(item.fee), team.currency, ' ') }}
-          <span v-if="item.addonClause">(+{{ item.addonClause }}%)</span>
+      </q-td>
+    </template>
+    <template #body-cell-icon="props">
+      <q-td :props="props">
+        <q-icon :color="props.row.iconColor" :name="props.row.icon" />
+      </q-td>
+    </template>
+    <template #body-cell-value="props">
+      <q-td :props="props">
+        <span :class="`text-${props.value > 0 ? 'positive' : 'negative'}`">
+          <span v-if="props.value">{{ props.value > 0 ? '+' : '-' }}</span>
+          {{ formatMoney(Math.abs(props.value), team.currency, ' ') }}
         </span>
-      </td>
-      <td class="text-right" :class="`text-${item.netValue > 0 ? 'green' : 'red'}`">
-        <span v-if="item.netValue">{{ item.netValue > 0 ? '+' : '-' }}</span>
-        {{ formatMoney(Math.abs(item.netValue), team.currency, ' ') }}
-      </td>
+      </q-td>
     </template>
-    <template #foot>
-      <tfoot class="font-weight-bold">
-        <tr v-if="rows.length">
-          <td class="stick-left">
-            <span class="pl-3">Summary</span>
-          </td>
-          <td colspan="2" />
-          <td colspan="2" class="py-2">
-            <div>
-              {{ numYouthPlayers }}
-              <v-icon size="small" color="cyan">mdi-school</v-icon>
-              Youth Academy
-            </div>
-            <div>
-              {{ arrivals.length - numYouthPlayers }}
-              <v-icon size="small" color="blue">mdi-human-greeting</v-icon>
-              Free Arrivals
-            </div>
-            <div>
-              {{ numTransfersIn }}
-              <v-icon size="small" color="green">mdi-airplane-landing</v-icon>
-              Transfers (In)
-            </div>
-            <div>
-              {{ transfers.length - numTransfersIn }}
-              <v-icon size="small" color="red">mdi-airplane-takeoff</v-icon>
-              Transfers (Out)
-            </div>
-            <div>
-              {{ departures.length }}
-              <v-icon size="small" color="purple">mdi-exit-run</v-icon>
-              Departures
-            </div>
-          </td>
-          <td
-            v-for="attr in ['value', 'fee', 'netValue']"
-            :key="attr"
-            :class="`text-right text-${totals[attr] > 0 ? 'green' : 'red'}`"
-          >
-            {{ totals[attr] > 0 ? '+' : '-' }}
-            {{ formatMoney(Math.abs(totals[attr]), team.currency, ' ') }}
-          </td>
-        </tr>
-      </tfoot>
+    <template #body-cell-fee="props">
+      <q-td :props="props">
+        <span v-if="props.value" :class="`text-${props.value > 0 ? 'positive' : 'negative'}`">
+          {{ props.value > 0 ? '+' : '-' }}
+          {{ formatMoney(Math.abs(props.value), team.currency, ' ') }}
+          <span v-if="props.row.addonClause">(+{{ props.row.addonClause }}%)</span>
+        </span>
+      </q-td>
     </template>
-  </data-table>
+    <template #body-cell-netValue="props">
+      <q-td :props="props">
+        <span :class="`text-${props.value > 0 ? 'positive' : 'negative'}`">
+          <span v-if="props.value">{{ props.value > 0 ? '+' : '-' }}</span>
+          {{ formatMoney(Math.abs(props.value), team.currency, ' ') }}
+        </span>
+      </q-td>
+    </template>
+    <template #bottom-row>
+      <tr v-if="rows.length" class="text-bold">
+        <td class="stick-left text-right">
+          <span class="pr-4">Summary</span>
+        </td>
+        <td colspan="2" />
+        <td colspan="2" class="py-2">
+          <div>
+            {{ numYouthPlayers }}
+            <q-icon color="cyan" name="mdi-school" />
+            Youth Academy
+          </div>
+          <div>
+            {{ arrivals.length - numYouthPlayers }}
+            <q-icon color="blue" name="mdi-human-greeting" />
+            Free Arrivals
+          </div>
+          <div>
+            {{ numTransfersIn }}
+            <q-icon color="green" name="mdi-airplane-landing" />
+            Transfers (In)
+          </div>
+          <div>
+            {{ transfers.length - numTransfersIn }}
+            <q-icon color="red" name="mdi-airplane-takeoff" />
+            Transfers (Out)
+          </div>
+          <div>
+            {{ departures.length }}
+            <q-icon color="purple" name="mdi-exit-run" />
+            Departures
+          </div>
+        </td>
+        <td
+          v-for="attr in ['value', 'fee', 'netValue']"
+          :key="attr"
+          :class="`text-right text-${totals[attr] > 0 ? 'positive' : 'negative'}`"
+        >
+          {{ totals[attr] > 0 ? '+' : '-' }}
+          {{ formatMoney(Math.abs(totals[attr]), team.currency, ' ') }}
+        </td>
+      </tr>
+    </template>
+  </q-table>
 </template>
