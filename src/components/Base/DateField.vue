@@ -3,7 +3,7 @@
     modelValue: { type: String, default: null },
     label: { type: String, default: null },
     prefill: { type: String, default: null },
-    density: { type: String, default: null },
+    density: { type: String, default: 'comfortable' },
     hideDetails: { type: Boolean, default: false }
   })
 
@@ -32,6 +32,7 @@
           :model-value="humanizedValue"
           :label="label"
           :density="density"
+          readonly
           :hide-details="hideDetails"
           :append-icon="prefill ? 'mdi-calendar-arrow-left' : null"
           @click:append="$emit('update:modelValue', prefill)"
