@@ -152,6 +152,19 @@
         <template #display>
           {{ formatMoney(player.value, team.currency) }}
         </template>
+        <template #form="{ modelValue, updateModelValue, closeMenu }">
+          <money-field
+            label="Value"
+            hide-details
+            variant="solo"
+            density="compact"
+            clearable
+            autofocus
+            :style="{ width: '10em' }"
+            :model-value="modelValue"
+            @update:model-value="updateModelValue"
+            @keydown.enter="closeMenu" />
+        </template>
       </player-attribute>
       <div class="subheading">Value</div>
     </v-col>

@@ -42,16 +42,23 @@
       <slot name="display" />
     </template>
     <template #form="{ closeMenu }">
-      <v-text-field
-        v-model.number="modelValue"
-        :label="label"
-        hide-details
-        variant="solo"
-        density="compact"
-        type="number"
-        autofocus
-        @keydown.enter="closeMenu"
-      />
+      <slot
+        name="form"
+        :model-value="modelValue"
+        :update-model-value="value => { modelValue = value }"
+        :close-menu="closeMenu"
+      >
+        <v-text-field
+          v-model.number="modelValue"
+          :label="label"
+          hide-details
+          variant="solo"
+          density="compact"
+          type="number"
+          autofocus
+          @keydown.enter="closeMenu"
+        />
+      </slot>
     </template>
   </inline-field>
 </template>

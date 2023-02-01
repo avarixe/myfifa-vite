@@ -162,31 +162,27 @@
       </v-col>
       <v-col cols="12">
         <money-field
-          v-model.number="attributes.wage"
+          v-model="attributes.wage"
           label="Wage"
-          :prefix="team.currency"
           required
         />
       </v-col>
       <v-col cols="12">
         <money-field
-          v-model.number="attributes.signingBonus"
+          v-model="attributes.signingBonus"
           label="Signing Bonus"
-          :prefix="team.currency"
         />
       </v-col>
       <v-col cols="12">
         <money-field
-          v-model.number="attributes.releaseClause"
+          v-model="attributes.releaseClause"
           label="Release Clause"
-          :prefix="team.currency"
         />
       </v-col>
       <v-col cols="12">
         <money-field
-          v-model.number="attributes.performanceBonus"
+          v-model="attributes.performanceBonus"
           label="Performance Bonus"
-          :prefix="team.currency"
         />
       </v-col>
       <v-scroll-y-transition mode="out-in">

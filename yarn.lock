@@ -1335,6 +1335,11 @@ vite@^4.0.4:
   optionalDependencies:
     fsevents "~2.3.2"
 
+vue-currency-input@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/vue-currency-input/-/vue-currency-input-3.0.3.tgz#4a4938dfcadcce57c044b9a8233e3c7e32a94af9"
+  integrity sha512-Q2i1DMoOeRaAay+wuwOvUB4b3dEpyfbatimkiMfo4JjQgjHtoCeAwBMEXuB1XSiIBYX9+QeABsiJ2n8TFvQ/rQ==
+
 vue-demi@*:
   version "0.13.2"
   resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.13.2.tgz#f6081c2feb5b698549729a81683ce029b8da289e"

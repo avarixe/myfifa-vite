@@ -94,10 +94,9 @@
       min="1"
       max="99"
     />
-    <v-text-field
+    <money-field
       v-model="attributes.value"
       label="Value"
-      type="number"
     />
     <v-text-field
       v-model="attributes.kitNo"

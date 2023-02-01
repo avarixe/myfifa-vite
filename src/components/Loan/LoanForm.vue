@@ -172,9 +172,8 @@
       </v-col>
       <v-col cols="12">
         <money-field
-          v-model.number="attributes.transferFee"
+          v-model="attributes.transferFee"
           label="Transfer Fee"
-          :prefix="team.currency"
         />
       </v-col>
       <v-col cols="12">
