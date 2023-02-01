@@ -97,10 +97,9 @@
 
 <template>
   <v-form @submit.prevent="onSubmit">
-    <v-text-field
+    <date-field
       v-model="attributes.playedOn"
       label="Date Played"
-      type="date"
     />
     <v-combobox
       v-model="attributes.competition"

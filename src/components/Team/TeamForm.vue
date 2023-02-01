@@ -61,15 +61,13 @@
       v-model="attributes.name"
       label="Name"
     />
-    <v-text-field
+    <date-field
       v-model="attributes.startedOn"
       label="Start Date"
-      type="date"
     />
-    <v-text-field
+    <date-field
       v-model="attributes.currentlyOn"
       label="Current Date"
-      type="date"
     />
     <v-text-field
       v-model="attributes.currency"

@@ -9,6 +9,8 @@ import 'vuetify/styles'
 import App from './App.vue'
 import { User } from '~/models'
 
+import Datepicker from '@vuepic/vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
 import VueApexCharts from 'vue3-apexcharts'
 
 const router = createRouter({
@@ -58,5 +60,7 @@ const app = createApp(App)
   .use(pinia)
   .use(vuetify)
   .use(VueApexCharts)
+
+app.component('date-picker', Datepicker)
 
 app.mount('#app')

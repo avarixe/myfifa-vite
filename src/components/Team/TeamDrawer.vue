@@ -30,12 +30,11 @@
       />
       <v-divider />
       <v-list-item prepend-icon="mdi-calendar-today">
-        <v-text-field
+        <date-field
           :model-value="team.currentlyOn"
           label="Current Date"
           density="compact"
           hide-details
-          type="date"
           @update:model-value="onDateChange"
         />
       </v-list-item>
