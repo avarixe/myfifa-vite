@@ -1,10 +1,7 @@
 <script setup>
   const props = defineProps({
     modelValue: { type: String, default: null },
-    label: { type: String, default: null },
-    prefill: { type: String, default: null },
-    density: { type: String, default: 'comfortable' },
-    hideDetails: { type: Boolean, default: false }
+    prefill: { type: String, default: null }
   })
 
   const humanizedValue = computed(() => {
@@ -12,32 +9,34 @@
   })
 
   const theme = useTheme()
+
+  const menu = ref(false)
+
+  const emit = defineEmits(['update:modelValue'])
+  function onCalendarUpdate (value) {
+    emit('update:modelValue', value)
+    menu.value = false
+  }
 </script>
 
 <template>
-  <date-picker
-    auto-apply
-    model-type="yyyy-MM-dd"
-    :dark="theme.global.current.value.dark"
-    :offset="-12"
-    position="left"
-    :enable-time-picker="false"
-    :transitions="{ menuAppear: 'scale-transition' }"
-    :model-value="modelValue"
-    @update:model-value="$emit('update:modelValue', $event)"
+  <v-text-field
+    v-bind="$attrs"
+    :model-value="humanizedValue"
+    readonly
+    :append-icon="prefill ? 'mdi-calendar-arrow-left' : null"
+    @click:append="emit('update:modelValue', prefill)"
   >
-    <template #trigger>
-      <slot name="trigger">
-        <v-text-field
-          :model-value="humanizedValue"
-          :label="label"
-          :density="density"
-          readonly
-          :hide-details="hideDetails"
-          :append-icon="prefill ? 'mdi-calendar-arrow-left' : null"
-          @click:append="$emit('update:modelValue', prefill)"
-        />
-      </slot>
-    </template>
-  </date-picker>
+    <v-menu v-model="menu" activator="parent">
+      <date-picker
+        inline
+        auto-apply
+        model-type="yyyy-MM-dd"
+        :dark="theme.global.current.value.dark"
+        :enable-time-picker="false"
+        :model-value="modelValue"
+        @update:model-value="onCalendarUpdate"
+      />
+    </v-menu>
+  </v-text-field>
 </template>
