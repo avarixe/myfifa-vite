@@ -1,9 +1,3 @@
-<script>
-  export default {
-    inheritAttrs: false
-  }
-</script>
-
 <script setup>
   const props = defineProps({
     modelValue: { type: String, default: null },
@@ -15,26 +9,6 @@
     items.value = defaultItems
   }, { deep: true, immediate: true })
 
-  const textValue = ref(props.modelValue)
-  const emit = defineEmits(['update:modelValue'])
-  watch(textValue, () => {
-    emit('update:modelValue', textValue.value)
-    onSearchInputUpdate()
-  })
-
-  const { data, executeQuery } = useQuery({
-    query: gql`
-      query fetchTeamOptions($category: OptionCategory!, $search: String) {
-        options(category: $category, search: $search)
-      }
-    `,
-    variables: {
-      category: 'Team',
-      search: textValue
-    },
-    pause: true
-  })
-
   const timeout = ref(null)
   onBeforeUnmount(() => {
     clearTimeout(timeout.value)
@@ -42,21 +16,39 @@
 
   async function onSearchInputUpdate () {
     clearTimeout(timeout.value)
-    if (items.value.includes(textValue.value)) {
+    if (items.value.includes(search.value)) {
       items.value = []
-    } else if (textValue.value.length >= 3) {
+    } else if (search.value.length >= 3) {
       timeout.value = setTimeout(() => searchItems(), 300)
     } else {
       items.value = props.defaultItems
     }
   }
 
+  const search = ref('')
+  watch(search, onSearchInputUpdate)
+
+  const { data, executeQuery } = useQuery({
+    query: gql`
+        query fetchTeamOptions($category: OptionCategory!, $search: String) {
+          options(category: $category, search: $search)
+        }
+      `,
+    variables: {
+      category: 'Team',
+      search
+    },
+    pause: true
+  })
+
   const loading = ref(false)
+  const combobox = ref(null)
   async function searchItems () {
     try {
       loading.value = true
       await executeQuery()
       const { options } = data.value
+      combobox.value.menu = true
       items.value = options
     } catch (e) {
       console.error(e)
@@ -64,28 +56,20 @@
       loading.value = false
     }
   }
-
-  const listId = `teams-${uuidv4()}`
 </script>
 
 <template>
-  <v-text-field
+  <v-combobox
+    ref="combobox"
     v-bind="$attrs"
-    :model-value="textValue"
+    v-model:search="search"
+    :model-value="modelValue"
+    :items="items"
     :loading="loading"
     spellcheck="false"
     autocapitalize="words"
     autocomplete="off"
     autocorrect="off"
-    :list="listId"
-    @update:model-value="textValue = $event"
+    @update:model-value="$emit('update:modelValue', $event)"
   />
-
-  <datalist :id="listId">
-    <option
-      v-for="(item, i) in items"
-      :key="i"
-      :value="item"
-    />
-  </datalist>
 </template>
