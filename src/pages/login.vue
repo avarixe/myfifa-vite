@@ -1,6 +1,5 @@
 <script setup>
   import { User } from '~/models'
-  import logo from '~/assets/logo.png'
 
   const username = ref('')
   const password = ref('')
@@ -42,41 +41,32 @@
 </script>
 
 <template>
-  <v-form @submit.prevent="onSubmit">
-    <v-card>
-      <v-card-title>
-        <v-img
-          :src="logo"
-          height="128px"
-        />
-        <div>MyFIFA Manager</div>
-        <small>v3.0.0</small>
-      </v-card-title>
-      <v-card-text>
-        <v-text-field
-          v-model="username"
-          label="Username"
-          autofocus
-          autocapitalize="off"
-        />
-        <v-text-field
-          v-model="password"
-          label="Password"
-          :type="showPassword ? 'text' : 'password'"
-          :append-inner-icon="`mdi-eye${showPassword ? '' : '-off'}`"
-          @click:append-inner="showPassword = !showPassword"
-        />
-      </v-card-text>
-      <v-card-actions>
-        <v-btn
-          type="submit"
-          color="primary"
-          text
-          :loading="loading"
-        >
-          Log In
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-form>
+  <div class="d-flex align-center justify-center" :style="{ minHeight: '90vh' }">
+    <v-form @submit.prevent="onSubmit">
+      <v-card>
+        <v-card-title class="text-center">
+          <app-entry-header />
+        </v-card-title>
+        <v-card-text>
+          <v-text-field
+            v-model="username"
+            label="Username"
+            autofocus
+            autocapitalize="off"
+          />
+          <v-text-field
+            v-model="password"
+            label="Password"
+            :type="showPassword ? 'text' : 'password'"
+            :append-inner-icon="`mdi-eye${showPassword ? '' : '-off'}`"
+            @click:append-inner="showPassword = !showPassword"
+          />
+        </v-card-text>
+        <v-card-actions>
+          <v-btn type="submit" color="primary" :loading="loading">Log In</v-btn>
+          <v-btn to="/register">Register</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-form>
+  </div>
 </template>

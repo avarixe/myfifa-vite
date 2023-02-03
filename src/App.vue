@@ -16,7 +16,7 @@
 
   const route = useRoute()
   const inPublicPage = computed(() =>
-    ['login'].includes(route.name)
+    ['login', 'register'].includes(route.name)
   )
 </script>
 
@@ -34,3 +34,9 @@
   </v-app>
   <team-channel v-if="team" :team="team" />
 </template>
+
+<style>
+  html {
+    overflow-y: auto;
+  }
+</style>

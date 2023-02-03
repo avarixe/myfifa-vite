@@ -32,19 +32,9 @@
     <v-card>
       <v-card-title>Profile</v-card-title>
       <v-card-text>
-        <v-text-field
-          v-model="attributes.fullName"
-          label="Name"
-        />
-        <v-text-field
-          v-model="attributes.username"
-          label="Username"
-        />
-        <v-text-field
-          v-model="attributes.email"
-          label="Email Address"
-          type="email"
-        />
+        <v-text-field v-model="attributes.fullName" label="Name" />
+        <v-text-field v-model="attributes.username" label="Username" />
+        <v-text-field v-model="attributes.email" label="Email Address" type="email" />
       </v-card-text>
       <v-card-actions>
         <v-btn

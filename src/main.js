@@ -42,10 +42,10 @@ router.beforeEach(async (to) => {
       }
     }
 
-    if (to.name === 'login') {
+    if (['login', 'register'].includes(to.name)) {
       return authStore.redirectUrl || '/'
     }
-  } else if (to.name !== 'login') {
+  } else if (!['login', 'register'].includes(to.name)) {
     authStore.redirectUrl = to
     return '/login'
   }

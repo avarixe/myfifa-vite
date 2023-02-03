@@ -1,44 +1,53 @@
 <script setup>
   import logo from '~/assets/logo.png'
+
+  const libs = [
+    { icon: 'mdi-vuejs', name: 'Vue.js' },
+    { icon: 'mdi-vuetify', name: 'Vuetify' },
+    { icon: 'mdi-language-ruby-on-rails', name: 'Ruby on Rails' }
+  ]
+
+  const repos = [
+    { name: 'Web App', url: 'myfifa-vite' },
+    { name: 'API', url: 'myfifa-api' }
+  ]
 </script>
 
 <template>
   <v-dialog
     activator="parent"
-    max-width="300px"
+    max-width="400px"
   >
     <v-card>
       <v-card-title class="text-center">
-        <v-img :src="logo" height="64px" />
-        MyFIFA Manager
+        <app-entry-header />
       </v-card-title>
       <v-table>
         <tbody>
           <tr>
-            <td>Version:</td>
-            <td class="text-info">3.0.0-alpha.7</td>
-          </tr>
-          <tr>
-            <td>Built with:</td>
+            <td>Built With:</td>
             <td>
-              <span>
-                <v-icon>mdi-vuejs</v-icon>
+              <span v-for="lib in libs" :key="lib.name">
+                <v-icon>{{ lib.icon }}</v-icon>
                 <v-tooltip activator="parent" location="bottom">
-                  Vue.js
+                  {{ lib.name}}
                 </v-tooltip>
               </span>
-              <span>
-                <v-icon>mdi-vuetify</v-icon>
-                <v-tooltip activator="parent" location="bottom">
-                  Vuetify
-                </v-tooltip>
-              </span>
-              <span>
-                <v-icon>mdi-language-ruby-on-rails</v-icon>
-                <v-tooltip activator="parent" location="bottom">
-                  Ruby on Rails
-                </v-tooltip>
-              </span>
+            </td>
+          </tr>
+          <tr v-for="repo in repos" :key="repo.name">
+            <td>{{ repo.name }}:</td>
+            <td>
+              <v-btn
+                :href="`https://github.com/avarixe/${repo.url}`"
+                target="_blank"
+                rel="noopener"
+                variant="flat"
+                size="small"
+              >
+                <v-icon start>mdi-github</v-icon>
+                View on GitHub
+              </v-btn>
             </td>
           </tr>
         </tbody>
