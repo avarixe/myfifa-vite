@@ -6,14 +6,14 @@
 
 ``` bash
 # install dependencies
-pnpm install
+yarn install
 
 # serve with hot reload at localhost:3000
-pnpm dev -- [--open] [--port PORT]
+yarn dev [--open] [--port PORT]
 
 # build for production with minification
-pnpm build
+yarn build
 
 # preview production build
-pnpm serve
+yarn serve
 ```
