@@ -34,11 +34,7 @@
     v-model="drawer"
     app
   />
-  <team-mobile-navigator
-    v-if="mobile && !!team"
-    grow
-    hide-on-scroll
-  />
+  <team-mobile-navigator v-if="mobile && !!team" />
 </template>
 
 <style scoped>

@@ -93,6 +93,14 @@
       return []
     }
   })
+
+  function setTeamAs (side) {
+    const otherSide = side === 'home' ? 'away' : 'home'
+    attributes[side] = team.value.name
+    if (attributes[otherSide] === team.value.name) {
+      attributes[otherSide] = null
+    }
+  }
 </script>
 
 <template>
@@ -101,7 +109,7 @@
       v-model="attributes.playedOn"
       label="Date Played"
     />
-    <v-combobox
+    <v-autocomplete
       v-model="attributes.competition"
       label="Competition"
       :items="competitionOptions"
@@ -115,10 +123,14 @@
     <team-combobox
       v-model="attributes.home"
       label="Home Team"
+      :append-icon="`mdi-shield-${attributes.home === team.name ? 'star' : 'outline'}`"
+      @click:append="setTeamAs('home')"
     />
     <team-combobox
       v-model="attributes.away"
       label="Away Team"
+      :append-icon="`mdi-shield-${attributes.away === team.name ? 'star' : 'outline'}`"
+      @click:append="setTeamAs('away')"
     />
     <v-checkbox
       v-model="attributes.extraTime"

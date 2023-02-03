@@ -31,8 +31,8 @@
   >
     <template #item="{ item, props }">
       <v-list-item v-bind="props">
-        <template #append>
-          <small class="text-overline">{{ playerPositions[item.value] }}</small>
+        <template #prepend>
+          <small class="text-disabled font-weight-bold mr-4">{{ playerPositions[item.value] }}</small>
         </template>
       </v-list-item>
     </template>

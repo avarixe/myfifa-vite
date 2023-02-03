@@ -29,8 +29,9 @@
         case 'statistics':
           return { to, text: capitalize(step) }
         case 'analytics':
-        case 'seasons':
           return { to, text: capitalize(step), disabled: true }
+        case 'seasons':
+          return { to: to.replace(/seasons/, 'competitions'), text: capitalize(step) }
         case 'new':
           return {
             to,
@@ -71,5 +72,6 @@
     v-show="breadcrumbs.length > 1"
     :items="breadcrumbs"
     color="primary"
+    class="hidden-sm-and-down"
   />
 </template>
