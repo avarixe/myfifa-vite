@@ -78,7 +78,19 @@
       v-model="attributes.nationality"
       label="Nationality"
       :items="Object.keys(nationalities)"
-    />
+    >
+      <template #selection="{ item, props }">
+        <flag :iso="nationalities[item.raw]" class="mt-1 mr-2" />
+        <span class="text-body-1">{{ item.raw }}</span>
+      </template>
+      <template #item="{ item, props }">
+        <v-list-item v-bind="props">
+          <template #prepend>
+            <flag :iso="nationalities[item.raw]" class="mr-2" />
+          </template>
+        </v-list-item>
+      </template>
+    </v-autocomplete>
     <v-autocomplete
       v-model="attributes.secPos"
       label="Secondary Position(s)"
