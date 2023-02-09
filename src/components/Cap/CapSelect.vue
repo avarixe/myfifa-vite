@@ -29,8 +29,8 @@
     item-title="name"
     item-value="id"
   >
-    <template #item="{ item, props }">
-      <v-list-item v-bind="props">
+    <template #item="{ item, props: itemProps }">
+      <v-list-item v-bind="itemProps">
         <template #prepend>
           <small class="text-disabled font-weight-bold mr-4">{{ playerPositions[item.value] }}</small>
         </template>

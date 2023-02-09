@@ -153,19 +153,19 @@
             :style="{ minWidth: '10em' }"
           >
             <template v-if="editing">
-              <v-hover v-slot="{ isHovering, props }">
+              <v-hover v-slot="{ isHovering, props: hoverProps }">
                 <input
                   v-model="leg.homeScore"
                   :class="`elevation-${isHovering ? 3 : 1} rounded`"
-                  v-bind="props"
+                  v-bind="hoverProps"
                 />
               </v-hover>
               -
-              <v-hover v-slot="{ isHovering, props }">
+              <v-hover v-slot="{ isHovering, props: hoverProps }">
                 <input
                   v-model="leg.awayScore"
                   :class="`elevation-${isHovering ? 3 : 1} rounded`"
-                  v-bind="props"
+                  v-bind="hoverProps"
                 />
               </v-hover>
             </template>

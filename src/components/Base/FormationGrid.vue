@@ -1,5 +1,5 @@
 <script setup>
-  const props = defineProps({
+  defineProps({
     cells: { type: Object, required: true },
     hideEmptyCells: { type: Boolean, default: false }
   })

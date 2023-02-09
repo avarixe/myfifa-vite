@@ -60,7 +60,7 @@
       label="Position"
       prepend-icon="mdi-run"
       :items="Object.keys(matchPositions)"
-      @update:modelValue="onPositionChange"
+      @update:model-value="onPositionChange"
     />
     <player-select
       v-model="playerId"
@@ -68,7 +68,7 @@
       item-value="id"
       prepend-icon="mdi-account"
       :disabled="cap.start > 0"
-      @update:modelValue="onPlayerChange"
+      @update:model-value="onPlayerChange"
     />
   </div>
 </template>

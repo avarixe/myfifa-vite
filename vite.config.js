@@ -4,6 +4,7 @@ import Pages from 'vite-plugin-pages'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { Vuetify3Resolver } from 'unplugin-vue-components/resolvers'
+import eslint from 'vite-plugin-eslint'
 import path from 'path'
 
 // https://vitejs.dev/config/
@@ -72,6 +73,7 @@ export default defineConfig({
       resolvers: [
         Vuetify3Resolver()
       ]
-    })
+    }),
+    eslint()
   ]
 })

@@ -26,8 +26,9 @@
         color="primary"
         variant="text"
         class="text-h4"
-        v-text="seasonLabel(season)"
-      />
+      >
+        {{ seasonLabel(season) }}
+      </v-btn>
     </v-list-subheader>
     <v-list-item
       v-if="season === currentSeason"

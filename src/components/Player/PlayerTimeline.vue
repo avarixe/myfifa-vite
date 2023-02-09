@@ -11,8 +11,6 @@
     Transfer: TransferTimelineEvent
   }
 
-  const { team } = useTeam()
-
   const props = defineProps({
     player: { type: Object, required: true }
   })

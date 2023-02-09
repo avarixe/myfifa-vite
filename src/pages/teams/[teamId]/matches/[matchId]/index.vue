@@ -65,22 +65,16 @@
   <h1>{{ match.home }} v {{ match.away }}</h1>
 
   <div>
-    <v-btn
-      :to="`/teams/${team.id}/matches/${previousMatch?.id}`"
-      :disabled="!previousMatch"
-      v-text="'Previous'"
-    />
+    <v-btn :to="`/teams/${team.id}/matches/${previousMatch?.id}`" :disabled="!previousMatch">
+      Previous
+    </v-btn>
     &nbsp;
-    <v-btn
-      v-if="nextMatch"
-      :to="`/teams/${team.id}/matches/${nextMatch?.id}`"
-      v-text="'Next'"
-    />
-    <v-btn
-      v-else
-      :to="`/teams/${team.id}/matches/new`"
-      v-text="'New'"
-    />
+    <v-btn v-if="nextMatch" :to="`/teams/${team.id}/matches/${nextMatch?.id}`">
+      Next
+    </v-btn>
+    <v-btn v-else :to="`/teams/${team.id}/matches/new`">
+      New
+    </v-btn>
     &nbsp;
     <v-btn :to="`/teams/${team.id}/matches/${match.id}/edit`">Edit</v-btn>
     &nbsp;

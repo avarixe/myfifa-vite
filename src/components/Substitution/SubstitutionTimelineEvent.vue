@@ -1,5 +1,5 @@
 <script setup>
-  const props = defineProps({
+  defineProps({
     match: { type: Object, required: true },
     event: { type: Object, required: true }
   })

@@ -44,8 +44,9 @@
           variant="text"
           color="primary"
           :to="`/teams/${team.id}`"
-          v-text="team.name"
-        />
+        >
+          {{ team.name }}
+        </v-btn>
       </td>
       <td class="text-center"><img :src="team.badgeUrl" width="50" /></td>
       <td class="text-center">{{ formatDate(team.startedOn) }}</td>

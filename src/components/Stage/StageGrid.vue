@@ -1,5 +1,5 @@
 <script setup>
-  const props = defineProps({
+  defineProps({
     stages: { type: Array, default: () => [] }
   })
 </script>

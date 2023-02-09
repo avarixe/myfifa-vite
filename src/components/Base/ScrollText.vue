@@ -5,7 +5,6 @@
   })
 
   const textClass = ref('truncated')
-  const textCssVars = reactive({})
   const resizeListener = ref(null)
 
   onBeforeUnmount(() => {

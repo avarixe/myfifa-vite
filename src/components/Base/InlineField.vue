@@ -1,6 +1,6 @@
 <script setup>
-  const props = defineProps({
-    displayValue: { default: null },
+  defineProps({
+    displayValue: { type: [String, Number], default: null },
     tooltip: { type: String, default: null }
   })
 

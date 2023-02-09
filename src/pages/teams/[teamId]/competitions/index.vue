@@ -1,5 +1,5 @@
 <script setup>
-  const { team, currentSeason } = await useTeamQuery({
+  const { currentSeason } = await useTeamQuery({
     query: gql`
       query fetchCompetitionsPage($teamId: ID!) {
         team(id: $teamId) {

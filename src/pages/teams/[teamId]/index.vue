@@ -120,8 +120,9 @@
                   variant="text"
                   color="primary"
                   class="text-capitalize"
-                  v-text="player.name"
-                />
+                >
+                  {{ player.name }}
+                </v-btn>
               </td>
               <td class="text-center">{{ player.pos }}</td>
               <td>{{ player.currentInjury.description }}</td>
@@ -157,8 +158,9 @@
                   variant="text"
                   color="primary"
                   class="text-capitalize"
-                  v-text="player.name"
-                />
+                >
+                  {{ player.name }}
+                </v-btn>
               </td>
               <td class="text-center">{{ player.pos }}</td>
               <td class="text-right">
@@ -202,8 +204,9 @@
                   variant="text"
                   color="primary"
                   class="text-capitalize"
-                  v-text="player.name"
-                />
+                >
+                  {{ player.name }}
+                </v-btn>
               </td>
               <td class="text-center">{{ player.pos }}</td>
               <td class="text-right">

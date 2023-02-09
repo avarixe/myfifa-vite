@@ -105,8 +105,9 @@
             color="primary"
             variant="text"
             :loading="loading"
-            v-text="'Save'"
-          />
+          >
+            Save
+          </v-btn>
         </div>
       </div>
     </template>

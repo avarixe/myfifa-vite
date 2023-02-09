@@ -29,7 +29,7 @@
       :submit="submit"
       @submitted="dialog = false"
     >
-      <template v-slot="{ loading, valid }">
+      <template #default="{ loading, valid }">
         <v-card :style="{ maxHeight: '75vh' }">
           <v-toolbar dense>
             <slot name="header">

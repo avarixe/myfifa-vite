@@ -33,7 +33,7 @@
     { text: 'Loaned', color: 'deep-orange', icon: 'transit-transfer' },
     { text: 'Pending', color: 'orange', icon: 'lock-clock' }
   ]
-  const search = ref('')
+  // const search = ref('')
 
   const playerRepo = useRepo(Player)
   const players = computed(() =>
@@ -133,8 +133,9 @@
         color="primary"
         class="text-capitalize"
         :to="`/teams/${team.id}/players/${player.id}`"
-        v-text="player.name"
-      />
+      >
+        {{ player.name }}
+      </v-btn>
     </template>
     <template #item-nationality="{ item: player }">
       <flag

@@ -1,7 +1,7 @@
 <script setup>
   import { Squad } from '~/models'
 
-  const { team, data } = await useTeamQuery({
+  const { team } = await useTeamQuery({
     query: gql`
       query fetchSquadsPage($teamId: ID!) {
         team(id: $teamId) {
@@ -22,9 +22,9 @@
   )
 
   const newSquads = ref([])
-  let i = 0
+  let index = 0
   function startNewSquad () {
-    newSquads.value.push(++i)
+    newSquads.value.push(++index)
   }
 </script>
 

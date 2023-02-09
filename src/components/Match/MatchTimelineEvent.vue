@@ -35,7 +35,7 @@
     <template #icon>
       <small>{{ event.minute }}'</small>
     </template>
-    <template v-slot:[slotName]>
+    <template #[slotName]>
       <div
         v-if="!mdAndUp"
         :class="`font-weight-light text-caption text-truncate mx-1 text-${itemColor} my-0`"

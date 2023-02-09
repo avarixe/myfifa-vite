@@ -1,12 +1,11 @@
 <script setup>
   const { team } = useTeam()
 
-  const props = defineProps({
+  defineProps({
     player: { type: Object, required: true },
     record: { type: Object, default: null }
   })
 
-  const valid = ref(false)
   const attributes = reactive({
     startedOn: null,
     endedOn: null,

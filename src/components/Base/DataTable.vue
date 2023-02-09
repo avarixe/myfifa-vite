@@ -40,7 +40,7 @@
   const sortedItems = computed(() => {
     const sortHeader = props.headers[sortIndex.value]
     if (sortHeader) {
-      return props.items.sort(defaultSort)
+      return [...props.items].sort(defaultSort)
     } else {
       return props.items
     }
@@ -82,10 +82,10 @@
             @click="header.sortable !== false ? changeSortColumn(header.value) : null"
           >
             <slot :name="`header-${header.value}`" :header="header">
-              <v-hover v-slot="{ isHovering, props }">
+              <v-hover v-slot="{ isHovering, props: hoverProps }">
                 <span
                   :style="{ cursor: 'pointer' }"
-                  v-bind="props"
+                  v-bind="hoverProps"
                 >
                   {{ header.text }}
                   <v-icon v-if="sortBy === header.value">

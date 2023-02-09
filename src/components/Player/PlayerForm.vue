@@ -79,12 +79,12 @@
       label="Nationality"
       :items="Object.keys(nationalities)"
     >
-      <template #selection="{ item, props }">
+      <template #selection="{ item }">
         <flag :iso="nationalities[item.raw]" class="mt-1 mr-2" />
         <span class="text-body-1">{{ item.raw }}</span>
       </template>
-      <template #item="{ item, props }">
-        <v-list-item v-bind="props">
+      <template #item="{ item, props: itemProps }">
+        <v-list-item v-bind="itemProps">
           <template #prepend>
             <flag :iso="nationalities[item.raw]" class="mr-2" />
           </template>
@@ -128,10 +128,8 @@
       v-model="attributes.youth"
       label="Youth Player"
     />
-    <v-btn
-      type="submit"
-      :loading="loading"
-      v-text="props.record ? 'Update' : 'Create'"
-    />
+    <v-btn type="submit" :loading="loading">
+      {{ props.record ? 'Update' : 'Create' }}
+    </v-btn>
   </v-form>
 </template>

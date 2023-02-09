@@ -92,13 +92,13 @@
 
   async function onSubmit () {
     if (props.record) {
-      const { data: { updateLoan: { errors, loan} } } =
+      const { data: { updateLoan: { errors } } } =
         await updateLoan({ id: props.record.id, attributes })
       if (errors) {
         alert(errors.fullMessages[0])
       }
     } else {
-      const { data: { addLoan: { errors, loan } } } =
+      const { data: { addLoan: { errors } } } =
         await createLoan({ playerId: props.player.id, attributes })
       if (errors) {
         alert(errors.fullMessages[0])

@@ -74,8 +74,9 @@
           variant="text"
           color="primary"
           class="text-capitalize"
-          v-text="item.name"
-        />
+        >
+          {{ item.name }}
+        </v-btn>
       </td>
       <td class="text-center">
         <v-icon

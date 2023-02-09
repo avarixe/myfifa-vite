@@ -28,14 +28,6 @@
     { text: 'Active', color: 'light-green', icon: 'account-check' },
   ]
 
-  const metrics = [
-    'numMatches',
-    'numMinutes',
-    'numGoals',
-    'numAssists',
-    'numCleanSheets'
-  ]
-
   const headers = [
     { text: 'Name', value: 'name', width: 200, class: 'stick-left' },
     { text: 'Nationality', value: 'nationality', align: 'center', width: 120 },
@@ -192,8 +184,9 @@
           variant="text"
           color="primary"
           class="text-capitalize"
-          v-text="item.name"
-        />
+        >
+          {{ item.name }}
+        </v-btn>
       </td>
       <td class="text-center">
         <flag

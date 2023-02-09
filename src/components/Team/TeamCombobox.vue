@@ -4,6 +4,8 @@
     defaultItems: { type: Array, default: () => [] }
   })
 
+  defineEmits(['update:modelValue'])
+
   const items = ref([])
   watch(() => props.defaultItems, defaultItems => {
     items.value = defaultItems

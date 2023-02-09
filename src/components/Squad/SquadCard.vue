@@ -1,8 +1,6 @@
 <script setup>
   import { Player, Squad } from '~/models'
 
-  const { team } = useTeam()
-
   const props = defineProps({
     teamId: { type: Number, default: null },
     record: { type: Object, default: null }

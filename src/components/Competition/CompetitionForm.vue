@@ -123,10 +123,8 @@
         type="number"
       />
     </template>
-    <v-btn
-      type="submit"
-      :loading="loading"
-      v-text="props.record ? 'Update' : 'Create'"
-    />
+    <v-btn type="submit" :loading="loading">
+      {{ props.record ? 'Update' : 'Create' }}
+    </v-btn>
   </v-form>
 </template>

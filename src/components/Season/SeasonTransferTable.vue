@@ -2,10 +2,6 @@
   import { addYears } from 'date-fns'
   import { Player } from '~/models'
 
-  function sortPos (posA, posB) {
-    return positions.indexOf(posA) - positions.indexOf(posB)
-  }
-
   const props = defineProps({
     transferActivity: { type: Object, required: true },
     playerValues: { type: Object, required: true },
@@ -159,9 +155,9 @@
     { text: 'Date', value: 'date', class: 'text-center', width: 120 },
     { text: '', value: 'icon', class: 'text-center', sortable: false, width: 40 },
     { text: 'From/To', value: 'fromTo', width: 170 },
-    { text: 'Value', value: 'value', class: 'text-right', class: 'text-right', width: 150 },
-    { text: 'Fee', value: 'fee', class: 'text-right', class: 'text-right', width: 150 },
-    { text: 'Net Value', value: 'netValue', class: 'text-right', class: 'text-right', width: 150 },
+    { text: 'Value', value: 'value', class: 'text-right', width: 150 },
+    { text: 'Fee', value: 'fee', class: 'text-right', width: 150 },
+    { text: 'Net Value', value: 'netValue', class: 'text-right', width: 150 },
   ]
 </script>
 
@@ -182,8 +178,9 @@
           variant="text"
           color="primary"
           class="text-capitalize"
-          v-text="item.name"
-        />
+        >
+          {{ item.name }}
+        </v-btn>
       </td>
       <td class="text-center">{{ item.pos }}</td>
       <td class="text-center">{{ formatDate(item.date) }}</td>

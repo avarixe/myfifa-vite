@@ -140,12 +140,12 @@
           :key="stat"
           class="text-right"
         >
-          <v-hover v-if="editing" v-slot="{ isHovering, props }">
+          <v-hover v-if="editing" v-slot="{ isHovering, props: hoverProps }">
             <input
               v-model="row[stat]"
               :class="`elevation-${isHovering ? 3 : 1} rounded`"
               type="number"
-              v-bind="props"
+              v-bind="hoverProps"
             />
           </v-hover>
           <template v-else>{{ row[stat] }}</template>

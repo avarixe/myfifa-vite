@@ -28,7 +28,7 @@
       ? team.value.name === props.record.origin
       : props.player.status?.length > 0
   )
-  const transferColor = computed(() => transferOut.value ? 'red' : 'green')
+  // const transferColor = computed(() => transferOut.value ? 'red' : 'green')
 
   function onOpen () {
     if (props.record) {
