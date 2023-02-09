@@ -11,19 +11,19 @@
     window.removeEventListener('resize', resizeListener.value)
   })
 
-  function onEnter () {
+  function onEnter() {
     toggleScroll()
     resizeListener.value = window.addEventListener('resize', toggleScroll)
   }
 
-  function onLeave () {
+  function onLeave() {
     window.removeEventListener('resize', resizeListener.value)
     textClass.value = 'truncated'
   }
 
   const overflowWidth = ref(null)
   const duration = ref(null)
-  async function toggleScroll () {
+  async function toggleScroll() {
     textClass.value = null
     await nextTick()
     if (getOverflowWidth() > 0) {
@@ -37,13 +37,13 @@
 
   const textContainer = ref(null)
   const scroller = ref(null)
-  function getOverflowWidth () {
+  function getOverflowWidth() {
     return textContainer.value
       ? textContainer.value.clientWidth - scroller.value.clientWidth
       : 0
   }
 
-  function computeScrollDuration () {
+  function computeScrollDuration() {
     // distance in pixels divided by desired scroll speed
     // pad with 2 if overflow is small
     return getOverflowWidth() / props.speed + 2
@@ -51,17 +51,8 @@
 </script>
 
 <template>
-  <div
-    id="scroller"
-    ref="scroller"
-    @mouseenter="onEnter"
-    @mouseleave="onLeave"
-  >
-    <div
-      ref="textContainer"
-      :class="textClass"
-      v-text="text"
-    />
+  <div id="scroller" ref="scroller" @mouseenter="onEnter" @mouseleave="onLeave">
+    <div ref="textContainer" :class="textClass" v-text="text" />
   </div>
 </template>
 
@@ -83,9 +74,17 @@
   }
 
   @keyframes text-scroll {
-    0% { transform: translateX(0) }
-    40% { transform: translateX(v-bind(overflowWidth)) }
-    50% { transform: translateX(v-bind(overflowWidth)) }
-    80% { transform: translateX(0) }
+    0% {
+      transform: translateX(0);
+    }
+    40% {
+      transform: translateX(v-bind(overflowWidth));
+    }
+    50% {
+      transform: translateX(v-bind(overflowWidth));
+    }
+    80% {
+      transform: translateX(0);
+    }
   }
 </style>

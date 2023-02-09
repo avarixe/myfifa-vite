@@ -5,7 +5,7 @@ import Player from './Player'
 export default class SquadPlayer extends Model {
   static entity = 'SquadPlayer'
 
-  static fields () {
+  static fields() {
     return {
       // Primary/Foreign keys
       id: this.number(0),
@@ -20,7 +20,7 @@ export default class SquadPlayer extends Model {
     }
   }
 
-  static casts () {
+  static casts() {
     return {
       id: NumberCast,
       playerId: NumberCast,
@@ -28,7 +28,7 @@ export default class SquadPlayer extends Model {
     }
   }
 
-  get positionType () {
+  get positionType() {
     return matchPositions[this.pos]
   }
 }

@@ -36,10 +36,7 @@
       :to="`/teams/${team.id}/competitions/new`"
     >
       <template #prepend>
-        <v-icon
-          icon="mdi-plus-circle"
-          color="success"
-        />
+        <v-icon icon="mdi-plus-circle" color="success" />
       </template>
     </v-list-item>
     <v-list-item

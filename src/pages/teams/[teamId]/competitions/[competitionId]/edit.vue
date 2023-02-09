@@ -11,11 +11,15 @@
       query fetchCompetitionPage($teamId: ID!, $competitionId: ID!) {
         competition(id: $competitionId) {
           ...CompetitionData
-          stages { ...StageData }
+          stages {
+            ...StageData
+          }
         }
         team(id: $teamId) {
           ...TeamData
-          competitions { ...CompetitionData }
+          competitions {
+            ...CompetitionData
+          }
         }
       }
       ${competitionFragment}

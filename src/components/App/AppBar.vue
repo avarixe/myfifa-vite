@@ -9,15 +9,8 @@
 
 <template>
   <v-app-bar app>
-    <v-app-bar-nav-icon
-      v-if="mobile && !!team"
-      @click="drawer = !drawer"
-    />
-    <v-img
-      :src="logo"
-      class="ml-2"
-      :style="{ maxWidth: '48px' }"
-    />
+    <v-app-bar-nav-icon v-if="mobile && !!team" @click="drawer = !drawer" />
+    <v-img :src="logo" class="ml-2" :style="{ maxWidth: '48px' }" />
     <v-app-bar-title v-if="smAndUp">MyFIFA Manager</v-app-bar-title>
     <v-spacer />
     <v-btn icon="mdi-account" to="/account" />
@@ -29,11 +22,7 @@
     <logout-button />
   </v-app-bar>
 
-  <team-drawer
-    v-if="!!team"
-    v-model="drawer"
-    app
-  />
+  <team-drawer v-if="!!team" v-model="drawer" app />
   <team-mobile-navigator v-if="mobile && !!team" />
 </template>
 

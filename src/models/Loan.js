@@ -4,7 +4,7 @@ import { NumberCast } from 'pinia-orm/casts'
 export default class Loan extends Model {
   static entity = 'Loan'
 
-  static fields () {
+  static fields() {
     return {
       // Primary/Foreign keys
       id: this.number(0),
@@ -23,14 +23,14 @@ export default class Loan extends Model {
     }
   }
 
-  static casts () {
+  static casts() {
     return {
       id: NumberCast,
       playerId: NumberCast
     }
   }
 
-  get timelineType () {
+  get timelineType() {
     return 'Loan'
   }
 }

@@ -25,7 +25,9 @@ export const fixtureFragment = gql`
     stageId
     homeTeam
     awayTeam
-    legs { ...FixtureLegData }
+    legs {
+      ...FixtureLegData
+    }
   }
   ${fixtureLegFragment}
 `
@@ -59,8 +61,12 @@ export const baseStageFragment = gql`
 export const stageFragment = gql`
   fragment StageData on Stage {
     ...BaseStageData
-    fixtures { ...FixtureData }
-    tableRows { ...TableRowData }
+    fixtures {
+      ...FixtureData
+    }
+    tableRows {
+      ...TableRowData
+    }
   }
   ${baseStageFragment}
   ${fixtureFragment}

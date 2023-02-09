@@ -21,8 +21,12 @@
   const { executeMutation: createPlayer } = useMutation(gql`
     mutation createPlayer($teamId: ID!, $attributes: PlayerAttributes!) {
       addPlayer(teamId: $teamId, attributes: $attributes) {
-        player { ...PlayerData }
-        errors { fullMessages }
+        player {
+          ...PlayerData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${playerFragment}
@@ -31,8 +35,12 @@
   const { executeMutation: updatePlayer } = useMutation(gql`
     mutation ($id: ID!, $attributes: PlayerAttributes!) {
       updatePlayer(id: $id, attributes: $attributes) {
-        player { ...PlayerData }
-        errors { fullMessages }
+        player {
+          ...PlayerData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${playerFragment}
@@ -40,19 +48,25 @@
 
   const loading = ref(false)
   const router = useRouter()
-  async function onSubmit () {
+  async function onSubmit() {
     loading.value = true
     if (props.record) {
-      const { data: { updatePlayer: { errors, player} } } =
-        await updatePlayer({ id: props.record.id, attributes })
+      const {
+        data: {
+          updatePlayer: { errors, player }
+        }
+      } = await updatePlayer({ id: props.record.id, attributes })
       if (player) {
         router.push(`/teams/${team.value.id}/players/${player.id}`)
       } else {
         alert(errors.fullMessages[0])
       }
     } else {
-      const { data: { addPlayer: { errors, player } } } =
-        await createPlayer({ teamId: props.teamId, attributes })
+      const {
+        data: {
+          addPlayer: { errors, player }
+        }
+      } = await createPlayer({ teamId: props.teamId, attributes })
       if (player) {
         router.push(`/teams/${team.value.id}/players/${player.id}`)
       } else {
@@ -65,10 +79,7 @@
 
 <template>
   <v-form @submit.prevent="onSubmit">
-    <v-text-field
-      v-model="attributes.name"
-      label="Name"
-    />
+    <v-text-field v-model="attributes.name" label="Name" />
     <v-autocomplete
       v-model="attributes.pos"
       label="Position"
@@ -106,10 +117,7 @@
       min="1"
       max="99"
     />
-    <money-field
-      v-model="attributes.value"
-      label="Value"
-    />
+    <money-field v-model="attributes.value" label="Value" />
     <v-text-field
       v-model="attributes.kitNo"
       label="Kit Number"
@@ -124,10 +132,7 @@
       min="16"
       max="50"
     />
-    <v-checkbox
-      v-model="attributes.youth"
-      label="Youth Player"
-    />
+    <v-checkbox v-model="attributes.youth" label="Youth Player" />
     <v-btn type="submit" :loading="loading">
       {{ props.record ? 'Update' : 'Create' }}
     </v-btn>

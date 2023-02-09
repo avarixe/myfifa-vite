@@ -13,15 +13,23 @@
   const { executeMutation: updatePlayer } = useMutation(gql`
     mutation ($id: ID!, $attributes: PlayerAttributes!) {
       updatePlayer(id: $id, attributes: $attributes) {
-        player { ...PlayerData }
-        errors { fullMessages }
+        player {
+          ...PlayerData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${playerFragment}
   `)
-  async function updateAttribute () {
+  async function updateAttribute() {
     if (modelValue.value !== props.player[props.attribute]) {
-      const { data: { updatePlayer: { errors } } } = await updatePlayer({
+      const {
+        data: {
+          updatePlayer: { errors }
+        }
+      } = await updatePlayer({
         id: props.player.id,
         attributes: { [props.attribute]: modelValue.value }
       })
@@ -45,7 +53,11 @@
       <slot
         name="form"
         :model-value="modelValue"
-        :update-model-value="value => { modelValue = value }"
+        :update-model-value="
+          value => {
+            modelValue = value
+          }
+        "
         :close-menu="closeMenu"
       >
         <v-text-field

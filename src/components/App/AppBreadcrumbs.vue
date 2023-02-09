@@ -10,9 +10,7 @@
   const capitalize = str => `${str[0].toUpperCase()}${str.slice(1)}`
   const { seasonLabel } = useTeam()
   const breadcrumbs = computed(() => {
-    const routeSteps = route.name === 'index'
-      ? ['']
-      : route.path.split('/')
+    const routeSteps = route.name === 'index' ? [''] : route.path.split('/')
     return routeSteps.map((step, i) => {
       const to = `${routeSteps.slice(0, i + 1).join('/')}`
       const prevStep = routeSteps[i - 1]
@@ -31,7 +29,10 @@
         case 'analytics':
           return { to, text: capitalize(step), disabled: true }
         case 'seasons':
-          return { to: to.replace(/seasons/, 'competitions'), text: capitalize(step) }
+          return {
+            to: to.replace(/seasons/, 'competitions'),
+            text: capitalize(step)
+          }
         case 'new':
           return {
             to,

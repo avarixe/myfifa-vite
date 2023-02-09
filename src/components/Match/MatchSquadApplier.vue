@@ -11,29 +11,27 @@
   const squads = computed(() => squadRepo.where('teamId', team.value.id).get())
 
   const { executeMutation: applySquad } = useMutation(gql`
-      mutation applySquadToMatch($matchId: ID!, $squadId: ID!) {
-        applySquadToMatch(matchId: $matchId, squadId: $squadId) {
-          match {
-            ...MatchData
-            caps { ...CapData }
+    mutation applySquadToMatch($matchId: ID!, $squadId: ID!) {
+      applySquadToMatch(matchId: $matchId, squadId: $squadId) {
+        match {
+          ...MatchData
+          caps {
+            ...CapData
           }
         }
       }
-      ${matchFragment}
-      ${capFragment}
+    }
+    ${matchFragment}
+    ${capFragment}
   `)
 
-  function onClick (squadId) {
+  function onClick(squadId) {
     applySquad({ matchId: props.match.id, squadId })
   }
 </script>
 
 <template>
-  <v-menu
-    offset-y
-    offset-overflow
-    activator="parent"
-  >
+  <v-menu offset-y offset-overflow activator="parent">
     <v-list>
       <v-list-item
         v-for="squad in squads"

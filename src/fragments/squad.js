@@ -33,7 +33,9 @@ export const squadPlayerFragment = gql`
 export const squadFragment = gql`
   fragment SquadData on Squad {
     ...BaseSquadData
-    squadPlayers { ...SquadPlayerData }
+    squadPlayers {
+      ...SquadPlayerData
+    }
   }
   ${baseSquadFragment}
   ${squadPlayerFragment}

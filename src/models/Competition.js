@@ -6,7 +6,7 @@ import Team from './Team'
 class Competition extends Model {
   static entity = 'Competition'
 
-  static fields () {
+  static fields() {
     return {
       // Primary/Foreign keys
       id: this.number(0),
@@ -27,14 +27,14 @@ class Competition extends Model {
     }
   }
 
-  static casts () {
+  static casts() {
     return {
       id: NumberCast,
       teamId: NumberCast
     }
   }
 
-  get statusIcon () {
+  get statusIcon() {
     if (this.champion === this.team.name) {
       return 'mdi-trophy'
     } else if (this.champion) {
@@ -44,7 +44,7 @@ class Competition extends Model {
     }
   }
 
-  get statusColor () {
+  get statusColor() {
     if (this.champion === this.team.name) {
       return 'amber'
     } else if (this.champion) {

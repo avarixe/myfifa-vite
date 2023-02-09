@@ -2,16 +2,21 @@
   const { executeMutation: revokeAccessToken } = useMutation(gql`
     mutation revokeAccessToken($token: String!) {
       revokeAccessToken(token: $token) {
-        errors { fullMessages }
+        errors {
+          fullMessages
+        }
       }
     }
   `)
 
   const { token, clearSession } = useSession()
   const router = useRouter()
-  async function logout () {
-    const { data: { revokeAccessToken: { errors} } } =
-      await revokeAccessToken({ token: token.value })
+  async function logout() {
+    const {
+      data: {
+        revokeAccessToken: { errors }
+      }
+    } = await revokeAccessToken({ token: token.value })
     if (errors) {
       alert(errors.fullMessages[0])
     } else {

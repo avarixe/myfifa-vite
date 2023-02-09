@@ -26,11 +26,22 @@
 
       <v-menu activator="parent">
         <v-list>
-          <v-list-item :to="`/teams/${team.id}/players/new`" title="New Player" prepend-icon="mdi-account" />
-          <v-list-item :to="`/teams/${team.id}/matches/new`" title="New Match" prepend-icon="mdi-soccer" />
-          <v-list-item :to="`/teams/${team.id}/competitions/new`" title="New Competition" prepend-icon="mdi-tournament" />
+          <v-list-item
+            :to="`/teams/${team.id}/players/new`"
+            title="New Player"
+            prepend-icon="mdi-account"
+          />
+          <v-list-item
+            :to="`/teams/${team.id}/matches/new`"
+            title="New Match"
+            prepend-icon="mdi-soccer"
+          />
+          <v-list-item
+            :to="`/teams/${team.id}/competitions/new`"
+            title="New Competition"
+            prepend-icon="mdi-tournament"
+          />
         </v-list>
-
       </v-menu>
     </v-btn>
   </v-bottom-navigation>

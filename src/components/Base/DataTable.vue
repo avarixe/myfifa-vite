@@ -16,7 +16,7 @@
   const sortIndex = computed(() =>
     props.headers.findIndex(h => h.value === sortBy.value)
   )
-  function changeSortColumn (value) {
+  function changeSortColumn(value) {
     if (sortBy.value === value) {
       if (sortDesc.value && !props.mustSort) {
         sortBy.value = null
@@ -28,7 +28,7 @@
       sortDesc.value = false
     }
   }
-  function defaultSort (a, b) {
+  function defaultSort(a, b) {
     const sortHeader = props.headers[sortIndex.value]
     const attr = sortHeader.sortBy || sortBy.value
     if (sortDesc.value) {
@@ -54,7 +54,7 @@
     showAll.value ? 1 : Math.ceil(props.items.length / itemsPerPage.value)
   )
   const pageStart = computed(() =>
-    showAll.value ? 1 : (page.value * itemsPerPage.value) + 1
+    showAll.value ? 1 : page.value * itemsPerPage.value + 1
   )
   const pageStop = computed(() => {
     if (showAll.value) {
@@ -79,14 +79,13 @@
             :key="header.value"
             :class="header.class"
             :style="header.style"
-            @click="header.sortable !== false ? changeSortColumn(header.value) : null"
+            @click="
+              header.sortable !== false ? changeSortColumn(header.value) : null
+            "
           >
             <slot :name="`header-${header.value}`" :header="header">
               <v-hover v-slot="{ isHovering, props: hoverProps }">
-                <span
-                  :style="{ cursor: 'pointer' }"
-                  v-bind="hoverProps"
-                >
+                <span :style="{ cursor: 'pointer' }" v-bind="hoverProps">
                   {{ header.text }}
                   <v-icon v-if="sortBy === header.value">
                     mdi-chevron-{{ sortDesc ? 'down' : 'up' }}
@@ -145,7 +144,7 @@
                 </v-menu>
               </v-btn>
               <span class="text-caption">
-                {{ pageStart }} - {{ pageStop }} of {{ props.items.length}}
+                {{ pageStart }} - {{ pageStop }} of {{ props.items.length }}
               </span>
 
               <v-spacer />

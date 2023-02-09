@@ -6,8 +6,12 @@
       query fetchSquadsPage($teamId: ID!) {
         team(id: $teamId) {
           ...TeamData
-          squads { ...SquadData }
-          players { ...PlayerData }
+          squads {
+            ...SquadData
+          }
+          players {
+            ...PlayerData
+          }
         }
       }
       ${teamFragment}
@@ -23,7 +27,7 @@
 
   const newSquads = ref([])
   let index = 0
-  function startNewSquad () {
+  function startNewSquad() {
     newSquads.value.push(++index)
   }
 </script>
@@ -49,11 +53,7 @@
         @created="newSquads.splice(i, 1)"
       />
     </v-col>
-    <v-col
-      v-for="squad in squads"
-      :key="squad.id"
-      cols="12"
-    >
+    <v-col v-for="squad in squads" :key="squad.id" cols="12">
       <squad-card :record="squad" />
     </v-col>
   </v-row>

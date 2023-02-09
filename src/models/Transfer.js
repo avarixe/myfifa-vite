@@ -5,7 +5,7 @@ import Player from './Player'
 export default class Transfer extends Model {
   static entity = 'Transfer'
 
-  static fields () {
+  static fields() {
     return {
       // Primary/Foreign keys
       id: this.number(0),
@@ -26,18 +26,18 @@ export default class Transfer extends Model {
     }
   }
 
-  static casts () {
+  static casts() {
     return {
       id: NumberCast,
       playerId: NumberCast
     }
   }
 
-  get timelineType () {
+  get timelineType() {
     return 'Transfer'
   }
 
-  get startedOn () {
+  get startedOn() {
     return this.movedOn
   }
 }

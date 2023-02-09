@@ -9,8 +9,12 @@
   const { data } = await useTeamQuery({
     query: gql`
       query fetchPlayerPage($teamId: ID!, $playerId: ID!) {
-        player(id: $playerId) { ...PlayerData }
-        team(id: $teamId) { ...TeamData }
+        player(id: $playerId) {
+          ...PlayerData
+        }
+        team(id: $teamId) {
+          ...TeamData
+        }
       }
       ${playerFragment}
       ${teamFragment}
@@ -22,9 +26,7 @@
   })
   const playerRepo = useRepo(Player)
   playerRepo.save(data.value?.player)
-  const player = computed(() =>
-    playerRepo.find(parseInt(props.playerId))
-  )
+  const player = computed(() => playerRepo.find(parseInt(props.playerId)))
 </script>
 
 <template>

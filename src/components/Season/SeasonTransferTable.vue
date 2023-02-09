@@ -13,32 +13,42 @@
   const playerRepo = useRepo(Player)
 
   const arrivals = computed(() =>
-    props.transferActivity.arrivals.filter(arrival => {
-      return !transfers.value.some(transfer => {
-        return transfer.playerId === arrival.playerId &&
-          transfer.date === arrival.startedOn &&
-          transfer.iconColor === 'green'
-      }) && !loans.value.some(loan => {
-        return loan.playerId === arrival.playerId &&
-          loan.date === arrival.startedOn &&
-          loan.iconColor === 'light-green'
-      }) && arrival.startedOn !== team.value.startedOn
-    }).map((arrival, i) => {
-      const player = playerRepo.find(parseInt(arrival.playerId))
+    props.transferActivity.arrivals
+      .filter(arrival => {
+        return (
+          !transfers.value.some(transfer => {
+            return (
+              transfer.playerId === arrival.playerId &&
+              transfer.date === arrival.startedOn &&
+              transfer.iconColor === 'green'
+            )
+          }) &&
+          !loans.value.some(loan => {
+            return (
+              loan.playerId === arrival.playerId &&
+              loan.date === arrival.startedOn &&
+              loan.iconColor === 'light-green'
+            )
+          }) &&
+          arrival.startedOn !== team.value.startedOn
+        )
+      })
+      .map((arrival, i) => {
+        const player = playerRepo.find(parseInt(arrival.playerId))
 
-      return {
-        ...pick(player, ['name', 'pos']),
-        id: `arrival-${i}`,
-        playerId: arrival.playerId,
-        date: arrival.startedOn,
-        icon: `mdi-${player.youth ? 'school' : 'human-greeting'}`,
-        iconColor: player.youth ? 'cyan' : 'blue',
-        posIdx: player.posIdx,
-        fromTo: player.youth ? 'Youth Academy' : 'Free Agent',
-        value: props.playerValues[arrival.playerId][0],
-        netValue: props.playerValues[arrival.playerId][0]
-      }
-    })
+        return {
+          ...pick(player, ['name', 'pos']),
+          id: `arrival-${i}`,
+          playerId: arrival.playerId,
+          date: arrival.startedOn,
+          icon: `mdi-${player.youth ? 'school' : 'human-greeting'}`,
+          iconColor: player.youth ? 'cyan' : 'blue',
+          posIdx: player.posIdx,
+          fromTo: player.youth ? 'Youth Academy' : 'Free Agent',
+          value: props.playerValues[arrival.playerId][0],
+          netValue: props.playerValues[arrival.playerId][0]
+        }
+      })
   )
 
   const departures = computed(() =>
@@ -63,7 +73,8 @@
   const transfers = computed(() =>
     props.transferActivity.transfers.map((transfer, i) => {
       const player = playerRepo.find(parseInt(transfer.playerId))
-      const playerValues = props.playerValues[transfer.playerId] || Array(2).fill(player.value)
+      const playerValues =
+        props.playerValues[transfer.playerId] || Array(2).fill(player.value)
       const transferOut = team.value.name === transfer.origin
 
       return {
@@ -77,7 +88,9 @@
         fromTo: transferOut ? transfer.destination : transfer.origin,
         fee: (transferOut ? 1 : -1) * transfer.fee,
         value: transferOut ? -playerValues[1] : playerValues[0],
-        netValue: transferOut ? transfer.fee - playerValues[1] : playerValues[0] - transfer.fee
+        netValue: transferOut
+          ? transfer.fee - playerValues[1]
+          : playerValues[0] - transfer.fee
       }
     })
   )
@@ -109,9 +122,14 @@
           iconColor: `${loanOut ? 'orange' : 'light-green'}`
         })
       }
-      if (loan.endedOn <= seasonEnd.value && !transfers.value.some(transfer =>
-        transfer.playerId === loan.playerId && transfer.date === loan.endedOn
-      )) {
+      if (
+        loan.endedOn <= seasonEnd.value &&
+        !transfers.value.some(
+          transfer =>
+            transfer.playerId === loan.playerId &&
+            transfer.date === loan.endedOn
+        )
+      ) {
         loans.push({
           ...row,
           id: `loan-end-${loan.id}`,
@@ -124,40 +142,60 @@
     }, [])
   )
 
-  const rows = computed(() => [
-    ...arrivals.value,
-    ...departures.value,
-    ...transfers.value,
-    ...loans.value
-  ].sort((a, b) => a.date - b.date))
+  const rows = computed(() =>
+    [
+      ...arrivals.value,
+      ...departures.value,
+      ...transfers.value,
+      ...loans.value
+    ].sort((a, b) => a.date - b.date)
+  )
 
   const totals = computed(() =>
-    rows.value.reduce((totals, row) => {
-      ['value', 'fee', 'netValue'].forEach(attr => {
-        if (row[attr]) {
-          totals[attr] += row[attr]
-        }
-      })
-      return totals
-    }, { value: 0, fee: 0, netValue: 0 })
+    rows.value.reduce(
+      (totals, row) => {
+        ;['value', 'fee', 'netValue'].forEach(attr => {
+          if (row[attr]) {
+            totals[attr] += row[attr]
+          }
+        })
+        return totals
+      },
+      { value: 0, fee: 0, netValue: 0 }
+    )
   )
 
-  const numYouthPlayers = computed(() =>
-    arrivals.value.filter(arrival => arrival.fromTo === 'Youth Academy').length
+  const numYouthPlayers = computed(
+    () =>
+      arrivals.value.filter(arrival => arrival.fromTo === 'Youth Academy')
+        .length
   )
-  const numTransfersIn = computed(() =>
-    transfers.value.filter(transfer => transfer.iconColor === 'green').length
+  const numTransfersIn = computed(
+    () =>
+      transfers.value.filter(transfer => transfer.iconColor === 'green').length
   )
 
   const headers = [
     { text: 'Player', value: 'name', class: 'stick-left', width: 200 },
-    { text: 'Pos', value: 'pos', class: 'text-center', sortBy: 'posIdx', width: 100 },
+    {
+      text: 'Pos',
+      value: 'pos',
+      class: 'text-center',
+      sortBy: 'posIdx',
+      width: 100
+    },
     { text: 'Date', value: 'date', class: 'text-center', width: 120 },
-    { text: '', value: 'icon', class: 'text-center', sortable: false, width: 40 },
+    {
+      text: '',
+      value: 'icon',
+      class: 'text-center',
+      sortable: false,
+      width: 40
+    },
     { text: 'From/To', value: 'fromTo', width: 170 },
     { text: 'Value', value: 'value', class: 'text-right', width: 150 },
     { text: 'Fee', value: 'fee', class: 'text-right', width: 150 },
-    { text: 'Net Value', value: 'netValue', class: 'text-right', width: 150 },
+    { text: 'Net Value', value: 'netValue', class: 'text-right', width: 150 }
   ]
 </script>
 
@@ -188,7 +226,10 @@
         <v-icon :color="item.iconColor" :icon="item.icon" />
       </td>
       <td>{{ item.fromTo }}</td>
-      <td class="text-right" :class="`text-${item.value > 0 ? 'green' : 'red'}`">
+      <td
+        class="text-right"
+        :class="`text-${item.value > 0 ? 'green' : 'red'}`"
+      >
         <span v-if="item.value">{{ item.value > 0 ? '+' : '-' }}</span>
         {{ formatMoney(Math.abs(item.value), team.currency, ' ') }}
       </td>
@@ -199,7 +240,10 @@
           <span v-if="item.addonClause">(+{{ item.addonClause }}%)</span>
         </span>
       </td>
-      <td class="text-right" :class="`text-${item.netValue > 0 ? 'green' : 'red'}`">
+      <td
+        class="text-right"
+        :class="`text-${item.netValue > 0 ? 'green' : 'red'}`"
+      >
         <span v-if="item.netValue">{{ item.netValue > 0 ? '+' : '-' }}</span>
         {{ formatMoney(Math.abs(item.netValue), team.currency, ' ') }}
       </td>

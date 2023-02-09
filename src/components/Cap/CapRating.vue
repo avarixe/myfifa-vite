@@ -22,15 +22,23 @@
   const { executeMutation: updateCap } = useMutation(gql`
     mutation ($id: ID!, $attributes: CapAttributes!) {
       updateCap(id: $id, attributes: $attributes) {
-        cap { ...CapData }
-        errors { fullMessages }
+        cap {
+          ...CapData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${capFragment}
   `)
 
-  async function onInput () {
-    const { data: { updateCap: { errors } } } = await updateCap({
+  async function onInput() {
+    const {
+      data: {
+        updateCap: { errors }
+      }
+    } = await updateCap({
       id: props.cap.id,
       attributes: { rating: rating.value }
     })
@@ -39,7 +47,7 @@
     }
   }
 
-  function clearRating () {
+  function clearRating() {
     rating.value = null
     onInput()
   }
@@ -56,7 +64,10 @@
     {{ cap.rating || 'N/A' }}
 
     <v-menu open-on-hover location="center" activator="parent">
-      <v-card class="d-flex align-center px-2 py-1" :style="{ overflowX: 'hidden' }">
+      <v-card
+        class="d-flex align-center px-2 py-1"
+        :style="{ overflowX: 'hidden' }"
+      >
         <v-rating
           v-model="rating"
           hover
@@ -67,7 +78,9 @@
           <template #item="{ index, onClick }">
             <v-icon
               :color="color[hoverRating] || 'grey'"
-              :icon="`mdi-star-four-points${hoverRating > index ? '' : '-outline'}`"
+              :icon="`mdi-star-four-points${
+                hoverRating > index ? '' : '-outline'
+              }`"
               @mouseenter.prevent="hoverRating = index + 1"
               @click="onClick"
             />

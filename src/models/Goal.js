@@ -5,7 +5,7 @@ import Player from './Player'
 export default class Goal extends Model {
   static entity = 'Goal'
 
-  static fields () {
+  static fields() {
     return {
       // Primary/Foreign keys
       id: this.number(0),
@@ -28,7 +28,7 @@ export default class Goal extends Model {
     }
   }
 
-  static casts () {
+  static casts() {
     return {
       id: NumberCast,
       matchId: NumberCast,
@@ -37,7 +37,7 @@ export default class Goal extends Model {
     }
   }
 
-  get timelineType () {
+  get timelineType() {
     return 'Goal'
   }
 }

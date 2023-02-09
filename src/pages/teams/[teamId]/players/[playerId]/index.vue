@@ -11,11 +11,21 @@
       query fetchPlayerPage($teamId: ID!, $playerId: ID!) {
         player(id: $playerId) {
           ...PlayerData
-          contracts { ...ContractData }
-          transfers { ...TransferData }
-          loans { ...LoanData }
-          injuries { ...InjuryData }
-          histories { ...PlayerHistoryData }
+          contracts {
+            ...ContractData
+          }
+          transfers {
+            ...TransferData
+          }
+          loans {
+            ...LoanData
+          }
+          injuries {
+            ...InjuryData
+          }
+          histories {
+            ...PlayerHistoryData
+          }
         }
         team(id: $teamId) {
           ...TeamData
@@ -44,7 +54,9 @@
     playerRepo.withAll().find(parseInt(props.playerId))
   )
 
-  const { team: { playerPerformanceStats } } = data.value
+  const {
+    team: { playerPerformanceStats }
+  } = data.value
   const playerStats = {
     numMatches: 0,
     numCleanSheets: 0,
@@ -66,11 +78,16 @@
 
   const ratingColor = computed(() => {
     switch (Math.round(playerStats.avgRating)) {
-      case 1: return 'red'
-      case 2: return 'orange'
-      case 3: return 'lime'
-      case 4: return 'light-green'
-      case 5: return 'green'
+      case 1:
+        return 'red'
+      case 2:
+        return 'orange'
+      case 3:
+        return 'lime'
+      case 4:
+        return 'light-green'
+      case 5:
+        return 'green'
     }
   })
 
@@ -163,7 +180,8 @@
             :style="{ width: '10em' }"
             :model-value="modelValue"
             @update:model-value="updateModelValue"
-            @keydown.enter="closeMenu" />
+            @keydown.enter="closeMenu"
+          />
         </template>
       </player-attribute>
       <div class="subheading">Value</div>

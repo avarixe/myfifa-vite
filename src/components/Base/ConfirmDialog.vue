@@ -16,12 +16,7 @@
 </script>
 
 <template>
-  <v-dialog
-    v-model="dialog"
-    persistent
-    max-width="400px"
-    activator="parent"
-  >
+  <v-dialog v-model="dialog" persistent max-width="400px" activator="parent">
     <v-card>
       <v-card-text>
         <div class="text-h6">{{ confirmText }}</div>

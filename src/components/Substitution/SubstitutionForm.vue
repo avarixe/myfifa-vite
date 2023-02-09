@@ -10,7 +10,9 @@
     injury: false
   })
 
-  const title = computed(() => `${props.record ? 'Edit' : 'Record'} Substitution`)
+  const title = computed(
+    () => `${props.record ? 'Edit' : 'Record'} Substitution`
+  )
 
   const { activePlayers } = useActivePlayers()
   const { minute, sortedCaps } = useMatch(props.match)
@@ -27,19 +29,19 @@
   })
 
   const unsubbedPlayers = computed(() =>
-    sortedCaps.value.filter(cap =>
-      (cap.playerId !== attributes.replacementId && !cap.subbedOut) ||
-      (props.record && cap.playerId === props.record.playerId)
+    sortedCaps.value.filter(
+      cap =>
+        (cap.playerId !== attributes.replacementId && !cap.subbedOut) ||
+        (props.record && cap.playerId === props.record.playerId)
     )
   )
 
-  function onOpen () {
+  function onOpen() {
     if (props.record) {
-      Object.assign(attributes, pick(props.record, [
-        'playerId',
-        'replacementId',
-        'injury'
-      ]))
+      Object.assign(
+        attributes,
+        pick(props.record, ['playerId', 'replacementId', 'injury'])
+      )
       minute.value = props.record.minute
     } else {
       attributes.injury = false
@@ -47,10 +49,17 @@
   }
 
   const { executeMutation: createSubstitution } = useMutation(gql`
-    mutation createSubstitution($matchId: ID!, $attributes: SubstitutionAttributes!) {
+    mutation createSubstitution(
+      $matchId: ID!
+      $attributes: SubstitutionAttributes!
+    ) {
       addSubstitution(matchId: $matchId, attributes: $attributes) {
-        substitution { ...SubstitutionData }
-        errors { fullMessages }
+        substitution {
+          ...SubstitutionData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${substitutionFragment}
@@ -59,16 +68,24 @@
   const { executeMutation: updateSubstitution } = useMutation(gql`
     mutation ($id: ID!, $attributes: SubstitutionAttributes!) {
       updateSubstitution(id: $id, attributes: $attributes) {
-        substitution { ...SubstitutionData }
-        errors { fullMessages }
+        substitution {
+          ...SubstitutionData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${substitutionFragment}
   `)
 
-  async function onSubmit () {
+  async function onSubmit() {
     if (props.record) {
-      const { data: { updateSubstitution: { errors} } } = await updateSubstitution({
+      const {
+        data: {
+          updateSubstitution: { errors }
+        }
+      } = await updateSubstitution({
         id: props.record.id,
         attributes: { ...attributes, minute: minute.value }
       })
@@ -76,7 +93,11 @@
         alert(errors.fullMessages[0])
       }
     } else {
-      const { data: { addSubstitution: { errors } } } = await createSubstitution({
+      const {
+        data: {
+          addSubstitution: { errors }
+        }
+      } = await createSubstitution({
         matchId: props.match.id,
         attributes: { ...attributes, minute: minute.value }
       })
@@ -96,11 +117,7 @@
   >
     <template #form>
       <v-col cols="12">
-        <v-text-field
-          v-model.number="minute"
-          label="Minute"
-          type="number"
-        />
+        <v-text-field v-model.number="minute" label="Minute" type="number" />
       </v-col>
       <v-col cols="12">
         <cap-select
@@ -119,11 +136,7 @@
         />
       </v-col>
       <v-col cols="12">
-        <v-checkbox
-          v-model="attributes.injury"
-          label="Injury"
-          hide-details
-        />
+        <v-checkbox v-model="attributes.injury" label="Injury" hide-details />
       </v-col>
     </template>
   </dialog-form>

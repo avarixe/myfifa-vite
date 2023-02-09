@@ -4,7 +4,9 @@ export default competitionId => {
   const competitionRepo = useRepo(Competition)
   const competition = computed(() =>
     competitionRepo
-      .with('stages', query => { query.with('tableRows') })
+      .with('stages', query => {
+        query.with('tableRows')
+      })
       .find(competitionId)
   )
 
@@ -12,9 +14,7 @@ export default competitionId => {
   const allGroupTeams = computed(() =>
     tableRowRepo
       .whereHas('stage', query => {
-        query
-          .where('competitionId', competitionId)
-          .where('table', true)
+        query.where('competitionId', competitionId).where('table', true)
       })
       .orderBy('name')
       .get()
@@ -22,7 +22,7 @@ export default competitionId => {
   )
 
   const fixtureRepo = useRepo(Fixture)
-  function stageFixtureTeams (stage) {
+  function stageFixtureTeams(stage) {
     const names = fixtureRepo
       .where('stageId', stage.id)
       .get()
@@ -33,15 +33,19 @@ export default competitionId => {
   const stageRepo = useRepo(Stage)
   const orderedRounds = computed(() =>
     stageRepo
-      .with('fixtures', query => { query.with('legs') })
+      .with('fixtures', query => {
+        query.with('legs')
+      })
       .where('competitionId', competitionId)
       .where('table', false)
       .orderBy('numFixtures', 'desc')
       .get()
   )
 
-  function previousRoundTeams (stage) {
-    const stageIndex = orderedRounds.value.findIndex(round => round.id === stage.id)
+  function previousRoundTeams(stage) {
+    const stageIndex = orderedRounds.value.findIndex(
+      round => round.id === stage.id
+    )
     console.log(stageIndex)
     console.log(orderedRounds.value)
     if (stageIndex > 0) {

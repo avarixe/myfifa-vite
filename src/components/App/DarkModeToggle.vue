@@ -6,16 +6,25 @@
   const { executeMutation: updateUser } = useMutation(gql`
     mutation updateUser($id: ID!, $attributes: UserAttributes!) {
       updateUser(id: $id, attributes: $attributes) {
-        user { id darkMode }
-        errors { fullMessages }
+        user {
+          id
+          darkMode
+        }
+        errors {
+          fullMessages
+        }
       }
     }
   `)
 
   const loading = ref(false)
-  async function toggleMode () {
+  async function toggleMode() {
     loading.value = true
-    const { data: { updateUser: { errors } } } = await updateUser({
+    const {
+      data: {
+        updateUser: { errors }
+      }
+    } = await updateUser({
       id: currentUser.value.id,
       attributes: { darkMode: !currentUser.value.darkMode }
     })

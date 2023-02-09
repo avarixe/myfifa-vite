@@ -7,7 +7,7 @@ export const useSessionStore = defineStore('session', {
     redirectUrl: null
   }),
   actions: {
-    clearSession () {
+    clearSession() {
       this.token = null
       this.userId = null
       this.redirectUrl = null

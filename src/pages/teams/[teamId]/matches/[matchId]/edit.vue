@@ -9,12 +9,16 @@
   const { data } = await useTeamQuery({
     query: gql`
       query fetchMatchPage($teamId: ID!, $matchId: ID!) {
-        match(id: $matchId) { ...MatchData }
+        match(id: $matchId) {
+          ...MatchData
+        }
         team(id: $teamId) {
           ...TeamData
           competitions {
             ...CompetitionData
-            stages { ...BaseStageData }
+            stages {
+              ...BaseStageData
+            }
           }
         }
       }
@@ -30,9 +34,7 @@
   })
   const matchRepo = useRepo(Match)
   matchRepo.save(data.value?.match)
-  const match = computed(() =>
-    matchRepo.find(parseInt(props.matchId))
-  )
+  const match = computed(() => matchRepo.find(parseInt(props.matchId)))
 </script>
 
 <template>

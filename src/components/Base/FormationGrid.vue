@@ -16,12 +16,7 @@
 </script>
 
 <template>
-  <v-row
-    v-for="(row, i) in positions"
-    :key="i"
-    justify="space-around"
-    dense
-  >
+  <v-row v-for="(row, i) in positions" :key="i" justify="space-around" dense>
     <v-col
       v-for="(position, j) in row"
       :key="j"
@@ -35,11 +30,7 @@
           :pos="position"
           :cell="cells[position]"
         />
-        <slot
-          v-else-if="!hideEmptyCells"
-          name="empty-pos"
-          :pos="position"
-        />
+        <slot v-else-if="!hideEmptyCells" name="empty-pos" :pos="position" />
       </template>
     </v-col>
   </v-row>

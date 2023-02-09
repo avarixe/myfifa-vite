@@ -16,8 +16,12 @@
   const { executeMutation: updateCap } = useMutation(gql`
     mutation ($id: ID!, $attributes: CapAttributes!) {
       updateCap(id: $id, attributes: $attributes) {
-        cap { ...CapData }
-        errors { fullMessages }
+        cap {
+          ...CapData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${capFragment}
@@ -25,8 +29,12 @@
 
   const emit = defineEmits(['submitted'])
 
-  async function onPositionChange () {
-    const { data: { updateCap: { errors } } } = await updateCap({
+  async function onPositionChange() {
+    const {
+      data: {
+        updateCap: { errors }
+      }
+    } = await updateCap({
       id: props.cap.id,
       attributes: { pos: pos.value }
     })
@@ -37,8 +45,12 @@
     }
   }
 
-  async function onPlayerChange () {
-    const { data: { updateCap: { errors } } } = await updateCap({
+  async function onPlayerChange() {
+    const {
+      data: {
+        updateCap: { errors }
+      }
+    } = await updateCap({
       id: props.cap.id,
       attributes: { playerId: playerId.value }
     })
@@ -52,9 +64,7 @@
 
 <template>
   <div class="pa-2">
-    <div class="text-subtitle-2 pb-2">
-      Edit Position and Player
-    </div>
+    <div class="text-subtitle-2 pb-2">Edit Position and Player</div>
     <v-select
       v-model="pos"
       label="Position"

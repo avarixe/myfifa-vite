@@ -6,9 +6,9 @@ import Squad from './Squad'
 import Competition from './Competition'
 
 export default class Team extends Model {
-  static entity =  'Team'
+  static entity = 'Team'
 
-  static fields () {
+  static fields() {
     return {
       // Primary/Foreign keys
       id: this.number(0),
@@ -32,13 +32,13 @@ export default class Team extends Model {
     }
   }
 
-  static casts () {
+  static casts() {
     return {
       id: NumberCast
     }
   }
 
-  get badgeUrl () {
+  get badgeUrl() {
     return this.badgePath
       ? `${import.meta.env.VITE_API_URL.replace(/\/api/, '')}${this.badgePath}`
       : null

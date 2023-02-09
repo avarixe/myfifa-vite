@@ -9,8 +9,12 @@
       grantAccessToken(username: $username, password: $password) {
         token
         expiresAt
-        user { ...UserData }
-        errors { fullMessages }
+        user {
+          ...UserData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${userFragment}
@@ -19,13 +23,16 @@
   const loading = ref(false)
   const { sessionStore } = useSession()
   const router = useRouter()
-  async function onSubmit () {
+  async function onSubmit() {
     loading.value = true
-    const { data: { grantAccessToken: { token, user, errors } } } =
-      await grantAccessToken({
-        username: username.value,
-        password: password.value
-      })
+    const {
+      data: {
+        grantAccessToken: { token, user, errors }
+      }
+    } = await grantAccessToken({
+      username: username.value,
+      password: password.value
+    })
     if (token) {
       useRepo(User).save(user)
       sessionStore.token = token
@@ -41,7 +48,10 @@
 </script>
 
 <template>
-  <div class="d-flex align-center justify-center" :style="{ minHeight: '90vh' }">
+  <div
+    class="d-flex align-center justify-center"
+    :style="{ minHeight: '90vh' }"
+  >
     <v-form @submit.prevent="onSubmit">
       <v-card>
         <v-card-title class="text-center">

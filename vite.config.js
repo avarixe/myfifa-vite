@@ -15,8 +15,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '~/': `${path.resolve(__dirname, 'src')}/`,
-    },
+      '~/': `${path.resolve(__dirname, 'src')}/`
+    }
   },
   plugins: [
     Vue(),
@@ -34,45 +34,21 @@ export default defineConfig({
         'vue-router',
         'pinia',
         {
-          '@urql/vue': [
-            'useQuery',
-            'useMutation',
-            'gql'
-          ],
-          'pinia-orm': [
-            'useRepo'
-          ],
-          'lodash.keyby': [
-            ['default', 'keyBy']
-          ],
-          'lodash.groupby': [
-            ['default', 'groupBy']
-          ],
-          'lodash.orderby': [
-            ['default', 'orderBy']
-          ],
-          'lodash.pick': [
-            ['default', 'pick']
-          ],
-          'date-fns': [
-            'format',
-            'parseISO'
-          ],
-          'vuetify': [
-            'useDisplay',
-            'useTheme'
-          ],
-          'axios': [
-            ['default', 'axios']
-          ]
+          '@urql/vue': ['useQuery', 'useMutation', 'gql'],
+          'pinia-orm': ['useRepo'],
+          'lodash.keyby': [['default', 'keyBy']],
+          'lodash.groupby': [['default', 'groupBy']],
+          'lodash.orderby': [['default', 'orderBy']],
+          'lodash.pick': [['default', 'pick']],
+          'date-fns': ['format', 'parseISO'],
+          vuetify: ['useDisplay', 'useTheme'],
+          axios: [['default', 'axios']]
         }
       ],
       vueTemplate: true
     }),
     Components({
-      resolvers: [
-        Vuetify3Resolver()
-      ]
+      resolvers: [Vuetify3Resolver()]
     }),
     eslint()
   ]

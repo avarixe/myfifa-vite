@@ -8,7 +8,9 @@
     icon: { type: String, default: null }
   })
 
-  const storeCamelCase = `${props.store[0].toLowerCase()}${props.store.slice(1)}`
+  const storeCamelCase = `${props.store[0].toLowerCase()}${props.store.slice(
+    1
+  )}`
 
   const { executeMutation: removeRecord } = useMutation(gql`
     mutation remove${props.store}($id: ID!) {
@@ -21,31 +23,25 @@
   `)
 
   const emit = defineEmits(['removed'])
-  async function onClick () {
+  async function onClick() {
     if (confirm(`Remove ${props.label}?`)) {
-      const { data: { [`remove${props.store}`]: { errors, [storeCamelCase]: record} } } =
-        await removeRecord({ id: props.record.id })
+      const {
+        data: {
+          [`remove${props.store}`]: { errors, [storeCamelCase]: record }
+        }
+      } = await removeRecord({ id: props.record.id })
       if (record) {
         emit('removed')
       } else {
         alert(errors.fullMessages[0])
       }
-
     }
   }
 </script>
 
 <template>
-  <v-btn
-    v-if="icon"
-    :icon="icon"
-    variant="text"
-    @click="onClick"
-  />
-  <v-btn
-    v-else
-    @click="onClick"
-  >
+  <v-btn v-if="icon" :icon="icon" variant="text" @click="onClick" />
+  <v-btn v-else @click="onClick">
     <slot>Remove</slot>
   </v-btn>
 </template>

@@ -24,10 +24,7 @@
       isNumber('Wage Percentage'),
       inRange('Wage Percentage', [0, 100])
     ],
-    addonClause: [
-      isNumber('Add-On Clause'),
-      inRange('Add-On Clause', [0, 25])
-    ]
+    addonClause: [isNumber('Add-On Clause'), inRange('Add-On Clause', [0, 25])]
   }
 
   const { team, endOfCurrentSeason } = useTeam()
@@ -36,20 +33,25 @@
       ? team.value.name === props.record.origin
       : props.player.status?.length > 0
   )
-  const title = computed(() => props.record ? 'Update Loan' : 'Record New Loan')
+  const title = computed(() =>
+    props.record ? 'Update Loan' : 'Record New Loan'
+  )
 
-  function onOpen () {
+  function onOpen() {
     if (props.record) {
-      Object.assign(attributes, pick(props.record, [
-        'signedOn',
-        'startedOn',
-        'endedOn',
-        'origin',
-        'destination',
-        'wagePercentage',
-        'transferFee',
-        'addonClause'
-      ]))
+      Object.assign(
+        attributes,
+        pick(props.record, [
+          'signedOn',
+          'startedOn',
+          'endedOn',
+          'origin',
+          'destination',
+          'wagePercentage',
+          'transferFee',
+          'addonClause'
+        ])
+      )
     } else {
       attributes.startedOn = team.value.currentlyOn
       attributes.endedOn = format(
@@ -73,8 +75,12 @@
   const { executeMutation: createLoan } = useMutation(gql`
     mutation createLoan($playerId: ID!, $attributes: LoanAttributes!) {
       addLoan(playerId: $playerId, attributes: $attributes) {
-        loan { ...LoanData }
-        errors { fullMessages }
+        loan {
+          ...LoanData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${loanFragment}
@@ -83,23 +89,33 @@
   const { executeMutation: updateLoan } = useMutation(gql`
     mutation ($id: ID!, $attributes: LoanAttributes!) {
       updateLoan(id: $id, attributes: $attributes) {
-        loan { ...LoanData }
-        errors { fullMessages }
+        loan {
+          ...LoanData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${loanFragment}
   `)
 
-  async function onSubmit () {
+  async function onSubmit() {
     if (props.record) {
-      const { data: { updateLoan: { errors } } } =
-        await updateLoan({ id: props.record.id, attributes })
+      const {
+        data: {
+          updateLoan: { errors }
+        }
+      } = await updateLoan({ id: props.record.id, attributes })
       if (errors) {
         alert(errors.fullMessages[0])
       }
     } else {
-      const { data: { addLoan: { errors } } } =
-        await createLoan({ playerId: props.player.id, attributes })
+      const {
+        data: {
+          addLoan: { errors }
+        }
+      } = await createLoan({ playerId: props.player.id, attributes })
       if (errors) {
         alert(errors.fullMessages[0])
       }
@@ -108,11 +124,7 @@
 </script>
 
 <template>
-  <dialog-form
-    :title="title"
-    :submit="onSubmit"
-    @open="onOpen"
-  >
+  <dialog-form :title="title" :submit="onSubmit" @open="onOpen">
     <template #form>
       <v-col cols="12">
         <date-field
@@ -171,10 +183,7 @@
         />
       </v-col>
       <v-col cols="12">
-        <money-field
-          v-model="attributes.transferFee"
-          label="Transfer Fee"
-        />
+        <money-field v-model="attributes.transferFee" label="Transfer Fee" />
       </v-col>
       <v-col cols="12">
         <v-text-field

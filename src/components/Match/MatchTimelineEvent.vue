@@ -24,10 +24,12 @@
     }
   })
 
-  const itemColor = computed(() => teamIsHome.value ? 'teal' : 'blue-grey')
+  const itemColor = computed(() => (teamIsHome.value ? 'teal' : 'blue-grey'))
 
   const { mdAndUp } = useDisplay()
-  const slotName = computed(() => teamIsHome.value && mdAndUp.value ? 'opposite' : 'default')
+  const slotName = computed(() =>
+    teamIsHome.value && mdAndUp.value ? 'opposite' : 'default'
+  )
 </script>
 
 <template>
@@ -56,7 +58,9 @@
         <remove-button
           :record="event"
           :store="event.timelineType"
-          :label="`${event.timelineType[0].toUpperCase()}${event.timelineType.slice(1)}`"
+          :label="`${event.timelineType[0].toUpperCase()}${event.timelineType.slice(
+            1
+          )}`"
           variant="text"
         />
       </div>

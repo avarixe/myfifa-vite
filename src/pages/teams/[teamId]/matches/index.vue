@@ -6,7 +6,9 @@
       query fetchMatchesPage($teamId: ID!) {
         team(id: $teamId) {
           ...TeamData
-          matches { ...MatchData }
+          matches {
+            ...MatchData
+          }
         }
       }
       ${teamFragment}
@@ -27,13 +29,20 @@
     matchRepo
       .with('team')
       .where('teamId', team.value.id)
-      .where(match =>
-        !filters.team ||
+      .where(
+        match =>
+          !filters.team ||
           match.home.toLowerCase().includes(filters.team.toLowerCase()) ||
           match.away.toLowerCase().includes(filters.team.toLowerCase())
       )
-      .where('season', season => filters.season === null || filters.season === season)
-      .where('competition', comp => !filters.competition || filters.competition === comp)
+      .where(
+        'season',
+        season => filters.season === null || filters.season === season
+      )
+      .where(
+        'competition',
+        comp => !filters.competition || filters.competition === comp
+      )
       .where('stage', stage => !filters.stage || filters.stage === stage)
       .where('teamResult', teamResult => filters.result.includes(teamResult))
       .get()
@@ -46,17 +55,23 @@
     { value: 'link', text: 'Link', class: 'text-center', sortable: false }
   ]
 
-  const seasonOptions = [...Array(currentSeason.value + 1).keys()].map(season => ({
-    title: seasonLabel(season),
-    value: season
-  }))
+  const seasonOptions = [...Array(currentSeason.value + 1).keys()].map(
+    season => ({
+      title: seasonLabel(season),
+      value: season
+    })
+  )
 
   const matchCompetitions = computed(() =>
-    [...new Set(matches.value.map(match => match.competition))].filter(comp => !!comp).sort()
+    [...new Set(matches.value.map(match => match.competition))]
+      .filter(comp => !!comp)
+      .sort()
   )
 
   const matchStages = computed(() =>
-    [...new Set(matches.value.map(match =>  match.stage))].filter(stage => !!stage).sort()
+    [...new Set(matches.value.map(match => match.stage))]
+      .filter(stage => !!stage)
+      .sort()
   )
 </script>
 

@@ -16,10 +16,7 @@
   const rulesFor = {
     origin: [isRequired('Origin')],
     destination: [isRequired('Destination')],
-    addonClause: [
-      isNumber('Add-On Clause'),
-      inRange('Add-On Clause', [0, 25])
-    ]
+    addonClause: [isNumber('Add-On Clause'), inRange('Add-On Clause', [0, 25])]
   }
 
   const { team } = useTeam()
@@ -30,16 +27,19 @@
   )
   // const transferColor = computed(() => transferOut.value ? 'red' : 'green')
 
-  function onOpen () {
+  function onOpen() {
     if (props.record) {
-      Object.assign(attributes, pick(props.record, [
-        'signedOn',
-        'movedOn',
-        'origin',
-        'destination',
-        'fee',
-        'addonClause'
-      ]))
+      Object.assign(
+        attributes,
+        pick(props.record, [
+          'signedOn',
+          'movedOn',
+          'origin',
+          'destination',
+          'fee',
+          'addonClause'
+        ])
+      )
     } else {
       attributes.movedOn = team.value.currentlyOn
       if (transferOut.value) {
@@ -50,7 +50,6 @@
     }
   }
 
-
   watchEffect(() => {
     if (!attributes.addonClause) {
       attributes.addonClause = 0
@@ -60,8 +59,12 @@
   const { executeMutation: createTransfer } = useMutation(gql`
     mutation createTransfer($playerId: ID!, $attributes: TransferAttributes!) {
       addTransfer(playerId: $playerId, attributes: $attributes) {
-        transfer { ...TransferData }
-        errors { fullMessages }
+        transfer {
+          ...TransferData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${transferFragment}
@@ -70,23 +73,33 @@
   const { executeMutation: updateTransfer } = useMutation(gql`
     mutation ($id: ID!, $attributes: TransferAttributes!) {
       updateTransfer(id: $id, attributes: $attributes) {
-        transfer { ...TransferData }
-        errors { fullMessages }
+        transfer {
+          ...TransferData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${transferFragment}
   `)
 
-  async function onSubmit () {
+  async function onSubmit() {
     if (props.record) {
-      const { data: { updateTransfer: { errors} } } =
-        await updateTransfer({ id: props.record.id, attributes })
+      const {
+        data: {
+          updateTransfer: { errors }
+        }
+      } = await updateTransfer({ id: props.record.id, attributes })
       if (errors) {
         alert(errors.fullMessages[0])
       }
     } else {
-      const { data: { addTransfer: { errors } } } =
-        await createTransfer({ playerId: props.playerId, attributes })
+      const {
+        data: {
+          addTransfer: { errors }
+        }
+      } = await createTransfer({ playerId: props.playerId, attributes })
       if (errors) {
         alert(errors.fullMessages[0])
       }
@@ -139,10 +152,7 @@
         />
       </v-col>
       <v-col cols="12">
-        <money-field
-          v-model="attributes.fee"
-          label="Fee"
-        />
+        <money-field v-model="attributes.fee" label="Fee" />
       </v-col>
       <v-col cols="12">
         <v-text-field

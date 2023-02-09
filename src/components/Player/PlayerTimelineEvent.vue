@@ -21,10 +21,7 @@
 </script>
 
 <template>
-  <v-timeline-item
-    :icon="icon"
-    :dot-color="color"
-  >
+  <v-timeline-item :icon="icon" :dot-color="color">
     <v-card dense flat>
       <v-card-title class="py-0">
         <div :class="`text-${color}`">
@@ -42,11 +39,7 @@
         </table>
       </v-card-text>
       <v-card-actions>
-        <v-btn
-          text
-          small
-          color="orange"
-        >
+        <v-btn text small color="orange">
           Edit
           <component
             :is="eventForm[event.timelineType]"

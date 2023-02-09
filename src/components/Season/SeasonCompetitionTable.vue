@@ -7,7 +7,12 @@
   })
 
   const headers = [
-    { text: 'Competition', value: 'name', class: 'stick-left', cellClass: 'stick-left' },
+    {
+      text: 'Competition',
+      value: 'name',
+      class: 'stick-left',
+      cellClass: 'stick-left'
+    },
     { text: 'Status', value: 'status', class: 'text-center' },
     { text: 'GP', value: 'matchesPlayed', class: 'text-right' },
     { text: 'W', value: 'wins', class: 'text-right' },
@@ -30,32 +35,37 @@
   )
 
   const results = computed(() =>
-    props.competitionStats.reduce((obj, stats) => ({
-      ...obj,
-      [stats.competition]: stats
-    }), {})
+    props.competitionStats.reduce(
+      (obj, stats) => ({
+        ...obj,
+        [stats.competition]: stats
+      }),
+      {}
+    )
   )
 
-  const rows = computed(() => competitions.value.map(competition => {
-    const {
-      wins = 0,
-      draws = 0,
-      losses = 0,
-      goalsFor = 0,
-      goalsAgainst = 0
-    } = results.value[competition.name] || {}
+  const rows = computed(() =>
+    competitions.value.map(competition => {
+      const {
+        wins = 0,
+        draws = 0,
+        losses = 0,
+        goalsFor = 0,
+        goalsAgainst = 0
+      } = results.value[competition.name] || {}
 
-    return {
-      ...pick(competition, ['id', 'name', 'statusIcon', 'statusColor']),
-      matchesPlayed: wins + draws + losses,
-      wins,
-      draws,
-      losses,
-      goalsFor,
-      goalsAgainst,
-      goalDifference: goalsFor - goalsAgainst
-    }
-  }))
+      return {
+        ...pick(competition, ['id', 'name', 'statusIcon', 'statusColor']),
+        matchesPlayed: wins + draws + losses,
+        wins,
+        draws,
+        losses,
+        goalsFor,
+        goalsAgainst,
+        goalDifference: goalsFor - goalsAgainst
+      }
+    })
+  )
 </script>
 
 <template>

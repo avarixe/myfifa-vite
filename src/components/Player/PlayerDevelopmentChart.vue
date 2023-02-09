@@ -22,19 +22,22 @@
       : team.value.currentlyOn
   })
 
-  function attributeData (attribute) {
-    return props.player.histories.reduce((data, history) => {
-      data.splice(-1, 0, {
-        x: parseISO(history.recordedOn),
-        y: history[attribute]
-      })
-      return data
-    }, [
-      {
-        x: parseISO(lastDate.value),
-        y: props.player[attribute]
-      }
-    ])
+  function attributeData(attribute) {
+    return props.player.histories.reduce(
+      (data, history) => {
+        data.splice(-1, 0, {
+          x: parseISO(history.recordedOn),
+          y: history[attribute]
+        })
+        return data
+      },
+      [
+        {
+          x: parseISO(lastDate.value),
+          y: props.player[attribute]
+        }
+      ]
+    )
   }
 
   const series = computed(() => [
@@ -70,10 +73,12 @@
       }
     ],
     title: {
-      text: props.player.name,
+      text: props.player.name
     },
     subtitle: {
-      text: `${formatDate(props.player.histories[0].recordedOn)} - ${formatDate(lastDate.value)}`
+      text: `${formatDate(props.player.histories[0].recordedOn)} - ${formatDate(
+        lastDate.value
+      )}`
     },
     dataLabels: { enabled: false },
     tooltip: {

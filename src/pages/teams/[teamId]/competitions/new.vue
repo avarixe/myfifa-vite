@@ -4,7 +4,9 @@
       query fetchTeam($teamId: ID!) {
         team(id: $teamId) {
           ...TeamData
-          competitions { ...CompetitionData }
+          competitions {
+            ...CompetitionData
+          }
         }
       }
       ${teamFragment}

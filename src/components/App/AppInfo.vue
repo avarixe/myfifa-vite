@@ -15,10 +15,7 @@
 </script>
 
 <template>
-  <v-dialog
-    activator="parent"
-    max-width="400px"
-  >
+  <v-dialog activator="parent" max-width="400px">
     <v-card>
       <v-card-title class="text-center">
         <app-entry-header />
@@ -31,7 +28,7 @@
               <span v-for="lib in libs" :key="lib.name">
                 <v-icon>{{ lib.icon }}</v-icon>
                 <v-tooltip activator="parent" location="bottom">
-                  {{ lib.name}}
+                  {{ lib.name }}
                 </v-tooltip>
               </span>
             </td>

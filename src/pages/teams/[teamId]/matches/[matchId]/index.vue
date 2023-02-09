@@ -10,18 +10,36 @@
       query fetchMatchPage($matchId: ID!, $teamId: ID!) {
         match(id: $matchId) {
           ...MatchData
-          caps { ...CapData }
-          goals { ...GoalData }
-          substitutions { ...SubstitutionData }
-          bookings { ...BookingData }
-          penaltyShootout { ...PenaltyShootoutData }
-          previousMatch { id }
-          nextMatch { id }
+          caps {
+            ...CapData
+          }
+          goals {
+            ...GoalData
+          }
+          substitutions {
+            ...SubstitutionData
+          }
+          bookings {
+            ...BookingData
+          }
+          penaltyShootout {
+            ...PenaltyShootoutData
+          }
+          previousMatch {
+            id
+          }
+          nextMatch {
+            id
+          }
         }
         team(id: $teamId) {
           ...TeamData
-          players { ...PlayerData }
-          squads { ...BaseSquadData }
+          players {
+            ...PlayerData
+          }
+          squads {
+            ...BaseSquadData
+          }
         }
       }
       ${matchFragment}
@@ -65,16 +83,17 @@
   <h1>{{ match.home }} v {{ match.away }}</h1>
 
   <div>
-    <v-btn :to="`/teams/${team.id}/matches/${previousMatch?.id}`" :disabled="!previousMatch">
+    <v-btn
+      :to="`/teams/${team.id}/matches/${previousMatch?.id}`"
+      :disabled="!previousMatch"
+    >
       Previous
     </v-btn>
     &nbsp;
     <v-btn v-if="nextMatch" :to="`/teams/${team.id}/matches/${nextMatch?.id}`">
       Next
     </v-btn>
-    <v-btn v-else :to="`/teams/${team.id}/matches/new`">
-      New
-    </v-btn>
+    <v-btn v-else :to="`/teams/${team.id}/matches/new`"> New </v-btn>
     &nbsp;
     <v-btn :to="`/teams/${team.id}/matches/${match.id}/edit`">Edit</v-btn>
     &nbsp;
@@ -120,11 +139,7 @@
       Lineup
     </div>
 
-    <v-btn-toggle
-      v-model="showFormation"
-      variant="outlined"
-      color="primary"
-    >
+    <v-btn-toggle v-model="showFormation" variant="outlined" color="primary">
       <v-btn icon="mdi-vector-polygon-variant" :value="true" />
       <v-btn icon="mdi-format-list-bulleted" :value="false" />
     </v-btn-toggle>

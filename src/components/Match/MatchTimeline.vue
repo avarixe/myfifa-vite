@@ -13,27 +13,34 @@
     match: { type: Object, required: true }
   })
 
-  const events = computed(() => orderBy([
-    ...props.match.bookings,
-    ...props.match.substitutions,
-    ...props.match.goals
-  ], ['minute', 'createdAt'], ['asc', 'asc']))
+  const events = computed(() =>
+    orderBy(
+      [
+        ...props.match.bookings,
+        ...props.match.substitutions,
+        ...props.match.goals
+      ],
+      ['minute', 'createdAt'],
+      ['asc', 'asc']
+    )
+  )
 
   const { mdAndUp } = useDisplay()
 </script>
 
 <template>
   <v-timeline align="start" side="end">
-    <v-timeline-item v-if="mdAndUp" dot-color="info" icon="mdi-shield-half-full">
+    <v-timeline-item
+      v-if="mdAndUp"
+      dot-color="info"
+      icon="mdi-shield-half-full"
+    >
       <template #opposite>
         <div class="text-h4 text-teal">{{ match.home }}</div>
       </template>
       <div class="text-h4 text-blue-grey">{{ match.away }}</div>
     </v-timeline-item>
-    <v-timeline-item
-      icon="mdi-plus"
-      dot-color="primary"
-    >
+    <v-timeline-item icon="mdi-plus" dot-color="primary">
       <template #opposite>
         <v-row v-if="mdAndUp" dense>
           <v-col>

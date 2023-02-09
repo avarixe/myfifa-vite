@@ -16,12 +16,16 @@
   })
 
   const events = computed(() =>
-    orderBy([
-      ...props.player.contracts,
-      ...props.player.injuries,
-      ...props.player.loans,
-      ...props.player.transfers
-    ], ['startedOn', 'createdAt'], ['desc', 'desc'])
+    orderBy(
+      [
+        ...props.player.contracts,
+        ...props.player.injuries,
+        ...props.player.loans,
+        ...props.player.transfers
+      ],
+      ['startedOn', 'createdAt'],
+      ['desc', 'desc']
+    )
   )
 </script>
 
@@ -29,10 +33,7 @@
   <v-card flat>
     <v-card-text>
       <v-timeline align="start" side="end">
-        <v-timeline-item
-          icon="mdi-plus"
-          dot-color="primary"
-        >
+        <v-timeline-item icon="mdi-plus" dot-color="primary">
           <v-row dense>
             <v-col cols="6" md="4">
               <v-btn color="blue">
@@ -87,12 +88,7 @@
             />
           </template>
         </template>
-        <v-timeline-item
-          v-else
-          color="grey"
-          icon="mdi-calendar"
-          fill-dot
-        >
+        <v-timeline-item v-else color="grey" icon="mdi-calendar" fill-dot>
           <div class="mt-2">No Player Events</div>
         </v-timeline-item>
       </v-timeline>

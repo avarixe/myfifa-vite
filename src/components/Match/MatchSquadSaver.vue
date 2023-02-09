@@ -1,6 +1,6 @@
 <script setup>
   import { Squad } from '~/models'
-import { squadFragment } from '../../fragments'
+  import { squadFragment } from '../../fragments'
 
   const props = defineProps({
     match: { type: Object, required: true }
@@ -17,35 +17,47 @@ import { squadFragment } from '../../fragments'
   const starters = computed(() => props.match.caps.filter(c => c.start === 0))
 
   const { executeMutation: storeLineup } = useMutation(gql`
-      mutation storeMatchLineupToSquad($matchId: ID!, $squadId: ID!) {
-        storeMatchLineupToSquad(matchId: $matchId, squadId: $squadId) {
-          squad { ...SquadData }
+    mutation storeMatchLineupToSquad($matchId: ID!, $squadId: ID!) {
+      storeMatchLineupToSquad(matchId: $matchId, squadId: $squadId) {
+        squad {
+          ...SquadData
         }
-      }
-      ${squadFragment}
-  `)
-
-  const { executeMutation: createSquad } = useMutation(gql`
-    mutation createSquad($teamId: ID!, $attributes: SquadAttributes!) {
-      addSquad(teamId: $teamId, attributes: $attributes) {
-        squad { ...SquadData }
-        errors { fullMessages }
       }
     }
     ${squadFragment}
   `)
 
-  async function onSelect (squadId) {
+  const { executeMutation: createSquad } = useMutation(gql`
+    mutation createSquad($teamId: ID!, $attributes: SquadAttributes!) {
+      addSquad(teamId: $teamId, attributes: $attributes) {
+        squad {
+          ...SquadData
+        }
+        errors {
+          fullMessages
+        }
+      }
+    }
+    ${squadFragment}
+  `)
+
+  async function onSelect(squadId) {
     loading.value = true
     if (squadId) {
       await storeLineup({ matchId: props.match.id, squadId })
       menu.value = false
     } else {
-      const { data: { addSquad: { errors } } } = await createSquad({
+      const {
+        data: {
+          addSquad: { errors }
+        }
+      } = await createSquad({
         teamId: team.value.id,
         attributes: {
           name: squadName.value,
-          squadPlayersAttributes: starters.value.map(cap => pick(cap, ['playerId', 'pos']))
+          squadPlayersAttributes: starters.value.map(cap =>
+            pick(cap, ['playerId', 'pos'])
+          )
         }
       })
       if (errors) {

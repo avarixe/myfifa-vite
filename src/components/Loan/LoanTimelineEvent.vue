@@ -25,8 +25,9 @@
       parseISO(props.event.startedOn)
     )
   )
-  const buyOptionAvailable = computed(() =>
-    props.event.signedOn &&
+  const buyOptionAvailable = computed(
+    () =>
+      props.event.signedOn &&
       props.event.endedOn > team.value.currentlyOn &&
       (props.event.transferFee || props.event.addonClause)
   )
@@ -41,13 +42,7 @@
     color="deep-orange"
   >
     <template #heading>
-      <v-chip
-        v-if="!event.signedOn"
-        color="error"
-        small
-        label
-        outlined
-      >
+      <v-chip v-if="!event.signedOn" color="error" small label outlined>
         <v-icon left small>mdi-pencil-off</v-icon>
         UNSIGNED
       </v-chip>
@@ -89,7 +84,9 @@
         </tr>
         <tr v-if="event.transferFee">
           <td class="font-weight-bold">Transfer Fee</td>
-          <td class="pl-1">{{ formatMoney(event.transferFee, team.currency) }}</td>
+          <td class="pl-1">
+            {{ formatMoney(event.transferFee, team.currency) }}
+          </td>
         </tr>
         <tr v-if="event.addonClause">
           <td class="font-weight-bold">Add-On Clause</td>
@@ -105,10 +102,7 @@
         :color="event.origin === team.name ? 'red' : 'green'"
       >
         Activate Buy Option
-        <loan-buy-option-activator
-          :player="player"
-          :loan="event"
-        />
+        <loan-buy-option-activator :player="player" :loan="event" />
       </v-btn>
     </template>
   </player-timeline-event>

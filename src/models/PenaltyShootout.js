@@ -4,7 +4,7 @@ import { NumberCast } from 'pinia-orm/casts'
 export default class PenaltyShootout extends Model {
   static entity = 'PenaltyShootout'
 
-  static fields () {
+  static fields() {
     return {
       // Primary/Foreign keys
       id: this.number(0),
@@ -16,7 +16,7 @@ export default class PenaltyShootout extends Model {
     }
   }
 
-  static casts () {
+  static casts() {
     return {
       id: NumberCast,
       matchId: NumberCast

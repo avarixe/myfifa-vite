@@ -9,14 +9,14 @@
   const loading = ref(false)
   const valid = ref(false)
 
-  function resetForm () {
+  function resetForm() {
     key.value++
     form.value.reset()
   }
 
   const emit = defineEmits(['submitted', 'reset'])
   const broadcastStore = useBroadcastStore()
-  async function submitForm () {
+  async function submitForm() {
     if (form.value.validate()) {
       try {
         loading.value = true
@@ -41,15 +41,7 @@
 </script>
 
 <template>
-  <v-form
-    ref="form"
-    :key="key"
-    v-model="valid"
-    @submit.prevent="submitForm"
-  >
-    <slot
-      :loading="loading"
-      :valid="valid"
-    />
+  <v-form ref="form" :key="key" v-model="valid" @submit.prevent="submitForm">
+    <slot :loading="loading" :valid="valid" />
   </v-form>
 </template>
