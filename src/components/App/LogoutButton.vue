@@ -7,7 +7,7 @@
     }
   `)
 
-  const { token, clearToken } = useToken()
+  const { token, clearSession } = useSession()
   const router = useRouter()
   async function logout () {
     const { data: { revokeAccessToken: { errors} } } =
@@ -15,7 +15,7 @@
     if (errors) {
       alert(errors.fullMessages[0])
     } else {
-      clearToken()
+      clearSession()
       router.push('/login')
     }
   }

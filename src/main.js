@@ -19,10 +19,10 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
-  const { token, authStore } = useToken()
+  const { token, sessionStore } = useSession()
   if (token.value) {
     // check if user is authenticated
-    if (!authStore.userId) {
+    if (!sessionStore.userId) {
       const { data: { data } } =
         await axios.post(`${import.meta.env.VITE_API_URL}/graphql`, {
           query: gql`
@@ -34,19 +34,19 @@ router.beforeEach(async (to) => {
         }, { headers: { authorization: `Bearer ${token.value}` } })
       if (data.user) {
         await useRepo(User).save(data.user)
-        authStore.userId = parseInt(data.user.id)
+        sessionStore.userId = parseInt(data.user.id)
       } else {
-        authStore.clearToken()
-        authStore.redirectUrl = to
+        sessionStore.clearSession()
+        sessionStore.redirectUrl = to
         return '/login'
       }
     }
 
     if (['login', 'register'].includes(to.name)) {
-      return authStore.redirectUrl || '/'
+      return sessionStore.redirectUrl || '/'
     }
   } else if (!['login', 'register'].includes(to.name)) {
-    authStore.redirectUrl = to
+    sessionStore.redirectUrl = to
     return '/login'
   }
 })

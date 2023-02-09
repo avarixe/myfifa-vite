@@ -1,9 +1,7 @@
 <script setup>
   import { User } from '~/models'
 
-  const authStore = useAuthStore()
-  const userRepo = useRepo(User)
-  const user = computed(() => userRepo.find(authStore.userId))
+  const { currentUser } = useSession()
 
   const { executeMutation: updateUser } = useMutation(gql`
     mutation updateUser($id: ID!, $attributes: UserAttributes!) {
@@ -18,32 +16,25 @@
   async function toggleMode () {
     loading.value = true
     const { data: { updateUser: { errors } } } = await updateUser({
-      id: user.value.id,
-      attributes: { darkMode: !user.value.darkMode }
+      id: currentUser.value.id,
+      attributes: { darkMode: !currentUser.value.darkMode }
     })
     if (errors) {
       alert(errors.fullMessages[0])
     } else {
       useRepo(User).save({
-        id: user.value.id,
-        darkMode: !user.value.darkMode
+        id: currentUser.value.id,
+        darkMode: !currentUser.value.darkMode
       })
     }
     loading.value = false
   }
-
-  const theme = useTheme()
-  watchEffect(() => {
-    if (user.value) {
-      theme.global.name.value = user.value.darkMode ? 'dark' : 'light'
-    }
-  })
 </script>
 
 <template>
   <v-btn
-    v-if="user"
-    :icon="`mdi-weather-${user.darkMode ? 'night' : 'sunny'}`"
+    v-if="currentUser"
+    :icon="`mdi-weather-${currentUser.darkMode ? 'night' : 'sunny'}`"
     :loading="loading"
     @click="toggleMode"
   />

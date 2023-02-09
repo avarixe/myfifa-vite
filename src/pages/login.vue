@@ -17,7 +17,7 @@
   `)
 
   const loading = ref(false)
-  const { setToken, authStore } = useToken()
+  const { sessionStore } = useSession()
   const router = useRouter()
   async function onSubmit () {
     loading.value = true
@@ -27,10 +27,10 @@
         password: password.value
       })
     if (token) {
-      setToken(token)
       useRepo(User).save(user)
-      authStore.userId = parseInt(user.id)
-      router.push(authStore.redirectUrl || '/')
+      sessionStore.token = token
+      sessionStore.userId = parseInt(user.id)
+      router.push(sessionStore.redirectUrl || '/')
     } else {
       alert(errors.fullMessages[0])
     }

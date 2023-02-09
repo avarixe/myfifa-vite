@@ -1,7 +1,7 @@
 <script setup>
   import { createClient, provideClient } from '@urql/vue'
 
-  const { token } = useToken()
+  const { token, currentUser } = useSession()
   const client = createClient({
     url: `${import.meta.env.VITE_API_URL}/graphql`,
     requestPolicy: 'network-only',
@@ -18,6 +18,11 @@
   const inPublicPage = computed(() =>
     ['login', 'register'].includes(route.name)
   )
+
+  const theme = useTheme()
+  watchEffect(() => {
+    theme.global.name.value = currentUser.value?.darkMode ? 'dark' : 'light'
+  })
 </script>
 
 <template>

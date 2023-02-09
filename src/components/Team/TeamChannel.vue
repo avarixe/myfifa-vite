@@ -71,7 +71,7 @@
     })
   }
 
-  const { token } = useToken()
+  const { token } = useSession()
   const socket = ref(null)
 
   function connectToWebSocket () {
