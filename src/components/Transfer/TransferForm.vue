@@ -138,7 +138,7 @@
           v-model="attributes.origin"
           label="Origin"
           prepend-icon="mdi-airplane-takeoff"
-          :rules="rulesFor.origin"
+          :rules="transerOut ? [] : rulesFor.origin"
           :disabled="transferOut"
         />
       </v-col>
@@ -147,7 +147,7 @@
           v-model="attributes.destination"
           label="Destination"
           prepend-icon="mdi-airplane-landing"
-          :rules="rulesFor.destination"
+          :rules="transferOut ? rulesFor.destination : []"
           :disabled="!transferOut"
         />
       </v-col>
@@ -158,7 +158,7 @@
         <v-text-field
           v-model.number="attributes.addonClause"
           label="Add-On Clause (%)"
-          :rules="rulesFor.addonClause"
+          :rules="attributes.addonClause ? rulesFor.addonClause : []"
           inputmode="numeric"
         />
       </v-col>

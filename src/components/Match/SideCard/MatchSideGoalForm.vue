@@ -21,11 +21,6 @@
     }
   })
 
-  function resetAttributes() {
-    attributes.ownGoal = false
-    attributes.penalty = false
-  }
-
   const { executeMutation: createGoal } = useMutation(gql`
     mutation createGoal($matchId: ID!, $attributes: GoalAttributes!) {
       addGoal(matchId: $matchId, attributes: $attributes) {
@@ -53,64 +48,72 @@
       emit('submitted')
     }
   }
+
+  function onReset() {
+    attributes.ownGoal = false
+    attributes.penalty = false
+  }
+
+  const { form, formKey, formIsLoading, formIsValid, submitForm } = useForm({
+    onSubmit,
+    onReset
+  })
 </script>
 
 <template>
-  <base-form :submit="onSubmit" @reset="resetAttributes">
-    <template #default="{ valid, loading }">
-      <div class="pa-2">
-        <div class="text-subtitle-2 pb-2">Add Goal</div>
-        <v-text-field
-          v-model.number="attributes.minute"
-          label="Minute"
-          type="number"
-        />
-        <v-text-field
-          v-model="attributes.playerName"
-          label="Goal Scorer"
-          prepend-icon="mdi-account"
-          :rules="[isRequired('Goal Scorer')]"
-          spellcheck="false"
-          autocapitalize="words"
-          autocomplete="off"
-          autocorrect="off"
-        />
-        <v-text-field
-          v-model="attributes.assistedBy"
-          label="Assisted By"
-          prepend-icon="mdi-human-greeting"
-          :disabled="attributes.penalty || attributes.ownGoal"
-          hide-details
-          spellcheck="false"
-          autocapitalize="words"
-          autocomplete="off"
-          autocorrect="off"
-        />
-        <v-checkbox
-          v-model="attributes.penalty"
-          label="Penalty"
-          :disabled="attributes.ownGoal"
-          hide-details
-        />
-        <v-checkbox
-          v-model="attributes.ownGoal"
-          label="Own Goal"
-          :disabled="attributes.penalty"
-          hide-details
-        />
-        <div class="d-flex">
-          <v-spacer />
-          <v-btn
-            type="submit"
-            :disabled="!valid"
-            color="primary"
-            variant="text"
-            :loading="loading"
-          >
-            Save
-          </v-btn>
-        </div>
+  <v-form ref="form" :key="formKey" v-model="formIsValid" @submit.prevent="submitForm">
+    <div class="pa-2">
+      <div class="text-subtitle-2 pb-2">Add Goal</div>
+      <v-text-field
+        v-model.number="attributes.minute"
+        label="Minute"
+        type="number"
+      />
+      <v-text-field
+        v-model="attributes.playerName"
+        label="Goal Scorer"
+        prepend-icon="mdi-account"
+        :rules="[isRequired('Goal Scorer')]"
+        spellcheck="false"
+        autocapitalize="words"
+        autocomplete="off"
+        autocorrect="off"
+      />
+      <v-text-field
+        v-model="attributes.assistedBy"
+        label="Assisted By"
+        prepend-icon="mdi-human-greeting"
+        :disabled="attributes.penalty || attributes.ownGoal"
+        hide-details
+        spellcheck="false"
+        autocapitalize="words"
+        autocomplete="off"
+        autocorrect="off"
+      />
+      <v-checkbox
+        v-model="attributes.penalty"
+        label="Penalty"
+        :disabled="attributes.ownGoal"
+        hide-details
+      />
+      <v-checkbox
+        v-model="attributes.ownGoal"
+        label="Own Goal"
+        :disabled="attributes.penalty"
+        hide-details
+      />
+      <div class="d-flex">
+        <v-spacer />
+        <v-btn
+          type="submit"
+          :disabled="!formIsValid"
+          color="primary"
+          variant="text"
+          :loading="formIsLoading"
+        >
+          Save
+        </v-btn>
       </div>
-    </template>
-  </base-form>
+    </div>
+  </v-form>
 </template>

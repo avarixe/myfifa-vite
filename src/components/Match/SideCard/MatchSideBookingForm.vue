@@ -42,45 +42,48 @@
       emit('submitted')
     }
   }
+
+  const { form, formKey, formIsLoading, formIsValid, submitForm } = useForm({
+    onSubmit,
+    onReset: () => { attributes.redCard = false }
+  })
 </script>
 
 <template>
-  <base-form :submit="onSubmit" @reset="attributes.redCard = false">
-    <template #default="{ valid, loading }">
-      <div class="pa-2">
-        <div class="text-subtitle-2 pb-2">Book Player</div>
-        <v-text-field
-          v-model.number="attributes.minute"
-          label="Minute"
-          type="number"
-        />
-        <v-text-field
-          v-model="attributes.playerName"
-          label="Player"
-          prepend-icon="mdi-account"
-          :rules="[isRequired('Player')]"
-          spellcheck="false"
-          autocapitalize="words"
-          autocomplete="off"
-          autocorrect="off"
-        />
-        <v-radio-group v-model="attributes.redCard" inline>
-          <v-radio label="Yellow Card" color="orange darken-2" :value="false" />
-          <v-radio label="Red Card" color="red darken-2" :value="true" />
-        </v-radio-group>
-        <div class="d-flex">
-          <v-spacer />
-          <v-btn
-            type="submit"
-            :disabled="!valid"
-            color="primary"
-            variant="text"
-            :loading="loading"
-          >
-            Save
-          </v-btn>
-        </div>
+  <v-form ref="form" :key="formKey" v-model="formIsValid" @submit.prevent="submitForm">
+    <div class="pa-2">
+      <div class="text-subtitle-2 pb-2">Book Player</div>
+      <v-text-field
+        v-model.number="attributes.minute"
+        label="Minute"
+        type="number"
+      />
+      <v-text-field
+        v-model="attributes.playerName"
+        label="Player"
+        prepend-icon="mdi-account"
+        :rules="[isRequired('Player')]"
+        spellcheck="false"
+        autocapitalize="words"
+        autocomplete="off"
+        autocorrect="off"
+      />
+      <v-radio-group v-model="attributes.redCard" inline>
+        <v-radio label="Yellow Card" color="orange darken-2" :value="false" />
+        <v-radio label="Red Card" color="red darken-2" :value="true" />
+      </v-radio-group>
+      <div class="d-flex">
+        <v-spacer />
+        <v-btn
+          type="submit"
+          :disabled="!formIsValid"
+          color="primary"
+          variant="text"
+          :loading="formIsLoading"
+        >
+          Save
+        </v-btn>
       </div>
-    </template>
-  </base-form>
+    </div>
+  </v-form>
 </template>

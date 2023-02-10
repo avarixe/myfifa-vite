@@ -32,11 +32,6 @@
     unsubbedPlayers.value.filter(cap => cap.playerId !== attributes.playerId)
   )
 
-  function resetAttributes() {
-    attributes.ownGoal = false
-    attributes.penalty = false
-  }
-
   const { executeMutation: createGoal } = useMutation(gql`
     mutation createGoal($matchId: ID!, $attributes: GoalAttributes!) {
       addGoal(matchId: $matchId, attributes: $attributes) {
@@ -67,48 +62,56 @@
       emit('submitted')
     }
   }
+
+  function onReset() {
+    attributes.ownGoal = false
+    attributes.penalty = false
+  }
+
+  const { form, formKey, formIsLoading, formIsValid, submitForm } = useForm({
+    onSubmit,
+    onReset
+  })
 </script>
 
 <template>
-  <base-form :submit="onSubmit" @reset="resetAttributes">
-    <template #default="{ valid, loading }">
-      <div class="pa-2">
-        <div class="text-subtitle-2 pb-2">Add Goal</div>
-        <v-text-field v-model.number="minute" label="Minute" type="number" />
-        <cap-select
-          v-model="attributes.assistId"
-          :caps="assistOptions"
-          label="Assisted By"
-          icon="mdi-human-greeting"
-          :disabled="attributes.penalty || attributes.ownGoal"
-          clearable
-          hide-details
-        />
-        <v-checkbox
-          v-model="attributes.penalty"
-          label="Penalty"
-          :disabled="attributes.ownGoal"
-          hide-details
-        />
-        <v-checkbox
-          v-model="attributes.ownGoal"
-          label="Own Goal"
-          :disabled="attributes.penalty"
-          hide-details
-        />
-        <div class="d-flex">
-          <v-spacer />
-          <v-btn
-            type="submit"
-            :disabled="!valid"
-            color="primary"
-            variant="text"
-            :loading="loading"
-          >
-            Save
-          </v-btn>
-        </div>
+  <v-form ref="form" :key="formKey" v-model="formIsValid" @submit.prevent="submitForm">
+    <div class="pa-2">
+      <div class="text-subtitle-2 pb-2">Add Goal</div>
+      <v-text-field v-model.number="minute" label="Minute" type="number" />
+      <cap-select
+        v-model="attributes.assistId"
+        :caps="assistOptions"
+        label="Assisted By"
+        icon="mdi-human-greeting"
+        :disabled="attributes.penalty || attributes.ownGoal"
+        clearable
+        hide-details
+      />
+      <v-checkbox
+        v-model="attributes.penalty"
+        label="Penalty"
+        :disabled="attributes.ownGoal"
+        hide-details
+      />
+      <v-checkbox
+        v-model="attributes.ownGoal"
+        label="Own Goal"
+        :disabled="attributes.penalty"
+        hide-details
+      />
+      <div class="d-flex">
+        <v-spacer />
+        <v-btn
+          type="submit"
+          :disabled="!formIsValid"
+          color="primary"
+          variant="text"
+          :loading="formIsLoading"
+        >
+          Save
+        </v-btn>
       </div>
-    </template>
-  </base-form>
+    </div>
+  </v-form>
 </template>
