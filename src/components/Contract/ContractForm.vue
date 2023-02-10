@@ -1,7 +1,7 @@
 <script setup>
   const { team } = useTeam()
 
-  defineProps({
+  const props = defineProps({
     player: { type: Object, required: true },
     record: { type: Object, default: null }
   })
