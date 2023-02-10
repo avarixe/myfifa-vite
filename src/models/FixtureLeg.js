@@ -4,7 +4,7 @@ import { NumberCast } from 'pinia-orm/casts'
 export default class FixtureLeg extends Model {
   static entity = 'FixtureLeg'
 
-  static fields () {
+  static fields() {
     return {
       // Primary/Foreign keys
       id: this.number(0),
@@ -16,14 +16,14 @@ export default class FixtureLeg extends Model {
     }
   }
 
-  static casts () {
+  static casts() {
     return {
       id: NumberCast,
       fixtureId: NumberCast
     }
   }
 
-  get score () {
+  get score() {
     return `${this.homeScore || ''} - ${this.awayScore || ''}`
   }
 }

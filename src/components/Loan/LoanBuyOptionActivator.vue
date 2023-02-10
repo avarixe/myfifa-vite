@@ -9,15 +9,23 @@
   const { executeMutation: updateLoan } = useMutation(gql`
     mutation ($id: ID!) {
       updateLoan(id: $id) {
-        loan { ...LoanData }
-        errors { fullMessages }
+        loan {
+          ...LoanData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${loanFragment}
   `)
 
-  async function onConfirm () {
-    const { data: { updateLoan: { errors } } } = await updateLoan({
+  async function onConfirm() {
+    const {
+      data: {
+        updateLoan: { errors }
+      }
+    } = await updateLoan({
       id: props.loan.id,
       attributes: {
         ...pick(props.loan, [

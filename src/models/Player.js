@@ -15,7 +15,7 @@ import { positions, nationalities } from '~/constants'
 export default class Player extends Model {
   static entity = 'Player'
 
-  static fields () {
+  static fields() {
     return {
       // Primary/Foreign keys
       id: this.number(0),
@@ -50,18 +50,18 @@ export default class Player extends Model {
     }
   }
 
-  static casts () {
+  static casts() {
     return {
       id: NumberCast,
       teamId: NumberCast
     }
   }
 
-  get isActive () {
+  get isActive() {
     return this.status && this.status.length > 0
   }
 
-  get statusColor () {
+  get statusColor() {
     switch (this.status) {
       case 'Active':
         return 'light-green'
@@ -76,7 +76,7 @@ export default class Player extends Model {
     }
   }
 
-  get statusIcon () {
+  get statusIcon() {
     switch (this.status) {
       case 'Active':
         return 'account-check'
@@ -91,27 +91,26 @@ export default class Player extends Model {
     }
   }
 
-  get posIdx () {
+  get posIdx() {
     return positions.indexOf(this.pos)
   }
 
-  get flag () {
+  get flag() {
     return nationalities[this.nationality]
   }
 
-  recordAt (date) {
-    return PlayerHistory
-      .query()
+  recordAt(date) {
+    return PlayerHistory.query()
       .where('playerId', this.id)
       .where('recordedOn', recordedOn => recordedOn <= date)
       .last()
   }
 
-  ovrAt (date) {
+  ovrAt(date) {
     return this.recordAt(date).ovr
   }
 
-  valueAt (date) {
+  valueAt(date) {
     return this.recordAt(date).value
   }
 }

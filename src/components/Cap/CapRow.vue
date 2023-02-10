@@ -1,8 +1,6 @@
 <script setup>
   import { Player } from '~/models'
 
-  const { team } = useTeam()
-
   const props = defineProps({
     matchId: { type: Number, default: null },
     record: { type: Object, default: null }
@@ -19,8 +17,12 @@
   const { executeMutation: createCap } = useMutation(gql`
     mutation createCap($matchId: ID!, $attributes: CapAttributes!) {
       addCap(matchId: $matchId, attributes: $attributes) {
-        cap { ...CapData }
-        errors { fullMessages }
+        cap {
+          ...CapData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${capFragment}
@@ -29,26 +31,36 @@
   const { executeMutation: updateCap } = useMutation(gql`
     mutation ($id: ID!, $attributes: CapAttributes!) {
       updateCap(id: $id, attributes: $attributes) {
-        cap { ...CapData }
-        errors { fullMessages }
+        cap {
+          ...CapData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${capFragment}
   `)
 
   const emit = defineEmits(['created', 'click:remove'])
-  async function onSubmit () {
+  async function onSubmit() {
     if (props.record) {
-      const { data: { updateCap: { errors, cap} } } =
-        await updateCap({ id: props.record.id, attributes })
+      const {
+        data: {
+          updateCap: { errors, cap }
+        }
+      } = await updateCap({ id: props.record.id, attributes })
       if (cap) {
         inEditMode.value = false
       } else {
         alert(errors.fullMessages[0])
       }
     } else {
-      const { data: { addCap: { errors, cap } } } =
-        await createCap({ matchId: props.matchId, attributes })
+      const {
+        data: {
+          addCap: { errors, cap }
+        }
+      } = await createCap({ matchId: props.matchId, attributes })
       if (cap) {
         emit('created')
       } else {
@@ -94,11 +106,7 @@
     </td>
     <td>
       <template v-if="inEditMode">
-        <v-btn
-          icon="mdi-content-save"
-          variant="text"
-          @click="onSubmit"
-        />
+        <v-btn icon="mdi-content-save" variant="text" @click="onSubmit" />
         &nbsp;
         <v-btn
           v-if="!!props.record"
@@ -114,11 +122,7 @@
         />
       </template>
       <template v-else>
-        <v-btn
-          icon="mdi-pencil"
-          variant="text"
-          @click="inEditMode = true"
-        />
+        <v-btn icon="mdi-pencil" variant="text" @click="inEditMode = true" />
         &nbsp;
         <remove-button
           v-if="!!props.record && props.record.start === 0"

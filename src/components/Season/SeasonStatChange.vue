@@ -6,11 +6,13 @@
   })
 
   const valueIncreased = computed(() => props.startValue <= props.endValue)
-  const color = computed(() => valueIncreased.value ? 'green' : 'red')
-  const icon = computed(() => `mdi-menu-${valueIncreased.value ? 'up' : 'down'}`)
+  const color = computed(() => (valueIncreased.value ? 'green' : 'red'))
+  const icon = computed(
+    () => `mdi-menu-${valueIncreased.value ? 'up' : 'down'}`
+  )
 
-  const percentage = computed(() =>
-    Math.abs((props.endValue - props.startValue) / props.startValue) * 100
+  const percentage = computed(
+    () => Math.abs((props.endValue - props.startValue) / props.startValue) * 100
   )
 </script>
 

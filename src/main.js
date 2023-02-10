@@ -18,20 +18,27 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach(async (to) => {
+router.beforeEach(async to => {
   const { token, sessionStore } = useSession()
   if (token.value) {
     // check if user is authenticated
     if (!sessionStore.userId) {
-      const { data: { data } } =
-        await axios.post(`${import.meta.env.VITE_API_URL}/graphql`, {
+      const {
+        data: { data }
+      } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/graphql`,
+        {
           query: gql`
             query fetchUser {
-              user { ...UserData }
+              user {
+                ...UserData
+              }
             }
             ${userFragment}
           `.loc.source.body
-        }, { headers: { authorization: `Bearer ${token.value}` } })
+        },
+        { headers: { authorization: `Bearer ${token.value}` } }
+      )
       if (data.user) {
         await useRepo(User).save(data.user)
         sessionStore.userId = parseInt(data.user.id)

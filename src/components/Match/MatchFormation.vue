@@ -20,14 +20,14 @@
   const firstSubstitutesRow = computed(() =>
     substitutes.value.slice(0, substitutesRowLength.value)
   )
-  const firstRowPadding = computed(() =>
-    substitutesRowLength.value - substitutes.value.length
+  const firstRowPadding = computed(
+    () => substitutesRowLength.value - substitutes.value.length
   )
   const numExtraSubstitutesRows = computed(() =>
     Math.floor(substitutes.value.length / substitutesRowLength.value)
   )
 
-  function substitutesRow (i) {
+  function substitutesRow(i) {
     return substitutes.value.slice(
       i * substitutesRowLength.value,
       (i + 1) * substitutesRowLength.value
@@ -36,10 +36,7 @@
 </script>
 
 <template>
-  <formation-grid
-    :cells="formationCells"
-    hide-empty-cells
-  >
+  <formation-grid :cells="formationCells" hide-empty-cells>
     <template #filled-pos="{ cell }">
       <div v-ripple class="pos-cell pa-2 elevation-5 rounded-lg w-100">
         <div class="player-pos font-weight-bold">{{ cell.pos }}</div>
@@ -62,11 +59,7 @@
       <div class="text-caption text-grey lighten-2">vs</div>
     </v-col>
   </v-row>
-  <v-row
-    align="stretch"
-    justify="space-around"
-    dense
-  >
+  <v-row align="stretch" justify="space-around" dense>
     <v-col
       v-for="cap in firstSubstitutesRow"
       :key="cap.id"
@@ -129,7 +122,7 @@
       </div>
     </v-col>
     <v-col
-      v-for="index in (5 - substitutesRow(row).length)"
+      v-for="index in 5 - substitutesRow(row).length"
       :key="`blank-${index}`"
       cols="2"
     />

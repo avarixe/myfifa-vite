@@ -4,7 +4,9 @@
   const { data } = await useQuery({
     query: gql`
       query fetchUser {
-        user { ...UserData }
+        user {
+          ...UserData
+        }
       }
       ${userFragment}
     `

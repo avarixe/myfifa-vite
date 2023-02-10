@@ -19,22 +19,35 @@
 
   const availablePlayers = computed(() => {
     const selectedIds = sortedCaps.value.map(cap => cap.playerId)
-    return activePlayers.value.filter(player => selectedIds.indexOf(player.id) < 0)
+    return activePlayers.value.filter(
+      player => selectedIds.indexOf(player.id) < 0
+    )
   })
 
   const { executeMutation: createSubstitution } = useMutation(gql`
-    mutation createSubstitution($matchId: ID!, $attributes: SubstitutionAttributes!) {
+    mutation createSubstitution(
+      $matchId: ID!
+      $attributes: SubstitutionAttributes!
+    ) {
       addSubstitution(matchId: $matchId, attributes: $attributes) {
-        substitution { ...SubstitutionData }
-        errors { fullMessages }
+        substitution {
+          ...SubstitutionData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${substitutionFragment}
   `)
 
   const emit = defineEmits(['submitted'])
-  async function onSubmit () {
-    const { data: { addSubstitution: { errors } } } = await createSubstitution({
+  async function onSubmit() {
+    const {
+      data: {
+        addSubstitution: { errors }
+      }
+    } = await createSubstitution({
       matchId: props.match.id,
       attributes: { ...attributes, minute: minute.value }
     })
@@ -47,31 +60,18 @@
 </script>
 
 <template>
-  <base-form
-    :submit="onSubmit"
-    @reset="attributes.injury = false"
-  >
+  <base-form :submit="onSubmit" @reset="attributes.injury = false">
     <template #default="{ valid, loading }">
       <div class="pa-2">
-        <div class="text-subtitle-2 pb-2">
-          Substitute Player
-        </div>
-        <v-text-field
-          v-model.number="minute"
-          label="Minute"
-          type="number"
-        />
+        <div class="text-subtitle-2 pb-2">Substitute Player</div>
+        <v-text-field v-model.number="minute" label="Minute" type="number" />
         <player-select
           v-model="attributes.replacementId"
           :players="availablePlayers"
           label="Replaced By"
           icon="mdi-subdirectory-arrow-right"
         />
-        <v-checkbox
-          v-model="attributes.injury"
-          label="Injury"
-          hide-details
-        />
+        <v-checkbox v-model="attributes.injury" label="Injury" hide-details />
         <div class="d-flex">
           <v-spacer />
           <v-btn

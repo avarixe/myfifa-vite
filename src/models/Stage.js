@@ -7,7 +7,7 @@ import TableRow from './TableRow'
 export default class Stage extends Model {
   static entity = 'Stage'
 
-  static fields () {
+  static fields() {
     return {
       // Primary/Foreign keys
       id: this.number(0),
@@ -26,7 +26,7 @@ export default class Stage extends Model {
     }
   }
 
-  static casts () {
+  static casts() {
     return {
       id: NumberCast,
       competitionId: NumberCast

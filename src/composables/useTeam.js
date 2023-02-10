@@ -8,14 +8,14 @@ export default () => {
   const teamRepo = useRepo(Team)
   const team = computed(() => teamRepo.find(teamId.value))
 
-  function seasonOn (date) {
+  function seasonOn(date) {
     const startDate = parseISO(team.value.startedOn)
     return differenceInYears(parseISO(date), startDate)
   }
 
   const currentSeason = computed(() => seasonOn(team.value.currentlyOn))
 
-  function seasonLabel (season) {
+  function seasonLabel(season) {
     if (!team.value) {
       return ''
     }

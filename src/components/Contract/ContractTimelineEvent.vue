@@ -16,13 +16,7 @@
     color="blue"
   >
     <template #heading>
-      <v-chip
-        v-if="!event.signedOn"
-        color="error"
-        small
-        label
-        outlined
-      >
+      <v-chip v-if="!event.signedOn" color="error" small label outlined>
         <v-icon left small>mdi-pencil-off</v-icon>
         UNSIGNED
       </v-chip>

@@ -4,7 +4,9 @@
   const { data } = await useQuery({
     query: gql`
       query fetchTeams {
-        teams { ...TeamData }
+        teams {
+          ...TeamData
+        }
       }
       ${teamFragment}
     `
@@ -21,7 +23,6 @@
     { value: 'startedOn', text: 'Start Date', class: 'text-center' },
     { value: 'currentlyOn', text: 'Current Date', class: 'text-center' }
   ]
-
 </script>
 
 <template>
@@ -32,20 +33,12 @@
     Team
   </v-btn>
 
-  <data-table
-    :headers="headers"
-    :items="teams"
-    item-key="id"
-    sort-desc
-  >
+  <data-table :headers="headers" :items="teams" item-key="id" sort-desc>
     <template #item="{ item: team }">
       <td>
-        <v-btn
-          variant="text"
-          color="primary"
-          :to="`/teams/${team.id}`"
-          v-text="team.name"
-        />
+        <v-btn variant="text" color="primary" :to="`/teams/${team.id}`">
+          {{ team.name }}
+        </v-btn>
       </td>
       <td class="text-center"><img :src="team.badgeUrl" width="50" /></td>
       <td class="text-center">{{ formatDate(team.startedOn) }}</td>

@@ -9,10 +9,14 @@
   const { data, team, seasonLabel } = await useTeamQuery({
     query: gql`
       query fetchCompetitionPage($teamId: ID!, $competitionId: ID!) {
-        team(id: $teamId) { ...TeamData }
+        team(id: $teamId) {
+          ...TeamData
+        }
         competition(id: $competitionId) {
           ...CompetitionData
-          stages { ...StageData }
+          stages {
+            ...StageData
+          }
         }
       }
       ${competitionFragment}
@@ -26,9 +30,13 @@
   })
   const competitionRepo = useRepo(Competition)
   competitionRepo.save(data.value?.competition)
-  const { competition, orderedRounds } = useCompetition(parseInt(props.competitionId))
+  const { competition, orderedRounds } = useCompetition(
+    parseInt(props.competitionId)
+  )
 
-  const tableStages = computed(() => competition.value.stages.filter(stage => stage.table))
+  const tableStages = computed(() =>
+    competition.value.stages.filter(stage => stage.table)
+  )
 
   const router = useRouter()
 
@@ -39,7 +47,9 @@
   <h1>{{ competition.name }}</h1>
 
   <div>
-    <v-btn :to="`/teams/${team.id}/competitions/${competition.id}/edit`">Edit</v-btn>
+    <v-btn :to="`/teams/${team.id}/competitions/${competition.id}/edit`"
+      >Edit</v-btn
+    >
     &nbsp;
     <v-btn>
       Add Stage
@@ -56,22 +66,18 @@
 
   <div class="mt-2">
     <div><b>Season:</b> {{ seasonLabel(competition.season) }}</div>
-    <div v-if="competition.champion"><b>Champion:</b> {{ competition.champion }}</div>
+    <div v-if="competition.champion">
+      <b>Champion:</b> {{ competition.champion }}
+    </div>
   </div>
 
   <v-expansion-panels v-model="expansionPanels" multiple>
-    <v-expansion-panel
-      v-if="tableStages.length > 0"
-      title="Group Stages"
-    >
+    <v-expansion-panel v-if="tableStages.length > 0" title="Group Stages">
       <v-expansion-panel-text>
         <stage-grid :stages="tableStages" />
       </v-expansion-panel-text>
     </v-expansion-panel>
-    <v-expansion-panel
-      v-if="orderedRounds.length > 0"
-      title="Knockout Stages"
-    >
+    <v-expansion-panel v-if="orderedRounds.length > 0" title="Knockout Stages">
       <v-expansion-panel-text>
         <stage-grid :stages="orderedRounds" />
       </v-expansion-panel-text>

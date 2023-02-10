@@ -4,17 +4,23 @@
     defaultItems: { type: Array, default: () => [] }
   })
 
+  defineEmits(['update:modelValue'])
+
   const items = ref([])
-  watch(() => props.defaultItems, defaultItems => {
-    items.value = defaultItems
-  }, { deep: true, immediate: true })
+  watch(
+    () => props.defaultItems,
+    defaultItems => {
+      items.value = defaultItems
+    },
+    { deep: true, immediate: true }
+  )
 
   const timeout = ref(null)
   onBeforeUnmount(() => {
     clearTimeout(timeout.value)
   })
 
-  async function onSearchInputUpdate () {
+  async function onSearchInputUpdate() {
     clearTimeout(timeout.value)
     if (items.value.includes(search.value)) {
       items.value = []
@@ -30,10 +36,10 @@
 
   const { data, executeQuery } = useQuery({
     query: gql`
-        query fetchTeamOptions($category: OptionCategory!, $search: String) {
-          options(category: $category, search: $search)
-        }
-      `,
+      query fetchTeamOptions($category: OptionCategory!, $search: String) {
+        options(category: $category, search: $search)
+      }
+    `,
     variables: {
       category: 'Team',
       search
@@ -43,7 +49,7 @@
 
   const loading = ref(false)
   const combobox = ref(null)
-  async function searchItems () {
+  async function searchItems() {
     try {
       loading.value = true
       await executeQuery()

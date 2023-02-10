@@ -32,7 +32,7 @@
     unsubbedPlayers.value.filter(cap => cap.playerId !== attributes.playerId)
   )
 
-  function resetAttributes () {
+  function resetAttributes() {
     attributes.ownGoal = false
     attributes.penalty = false
   }
@@ -40,18 +40,26 @@
   const { executeMutation: createGoal } = useMutation(gql`
     mutation createGoal($matchId: ID!, $attributes: GoalAttributes!) {
       addGoal(matchId: $matchId, attributes: $attributes) {
-        goal { ...GoalData }
-        errors { fullMessages }
+        goal {
+          ...GoalData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${goalFragment}
   `)
 
   const emit = defineEmits(['submitted'])
-  async function onSubmit () {
-    const { data: { addGoal: { errors } } } = await createGoal({
+  async function onSubmit() {
+    const {
+      data: {
+        addGoal: { errors }
+      }
+    } = await createGoal({
       matchId: props.match.id,
-      attributes:  { ...attributes, minute: minute.value }
+      attributes: { ...attributes, minute: minute.value }
     })
     if (errors) {
       alert(errors.fullMessages[0])
@@ -62,20 +70,11 @@
 </script>
 
 <template>
-  <base-form
-    :submit="onSubmit"
-    @reset="resetAttributes"
-  >
+  <base-form :submit="onSubmit" @reset="resetAttributes">
     <template #default="{ valid, loading }">
       <div class="pa-2">
-        <div class="text-subtitle-2 pb-2">
-          Add Goal
-        </div>
-        <v-text-field
-          v-model.number="minute"
-          label="Minute"
-          type="number"
-        />
+        <div class="text-subtitle-2 pb-2">Add Goal</div>
+        <v-text-field v-model.number="minute" label="Minute" type="number" />
         <cap-select
           v-model="attributes.assistId"
           :caps="assistOptions"
@@ -105,8 +104,9 @@
             color="primary"
             variant="text"
             :loading="loading"
-            v-text="'Save'"
-          />
+          >
+            Save
+          </v-btn>
         </div>
       </div>
     </template>

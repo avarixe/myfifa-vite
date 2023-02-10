@@ -8,7 +8,9 @@
           ...TeamData
           players {
             ...PlayerData
-            currentContract { ...ContractData }
+            currentContract {
+              ...ContractData
+            }
           }
         }
       }
@@ -33,7 +35,7 @@
     { text: 'Loaned', color: 'deep-orange', icon: 'transit-transfer' },
     { text: 'Pending', color: 'orange', icon: 'lock-clock' }
   ]
-  const search = ref('')
+  // const search = ref('')
 
   const playerRepo = useRepo(Player)
   const players = computed(() =>
@@ -83,16 +85,62 @@
 
   const headers = [
     { value: 'name', text: 'Name' },
-    { value: 'nationality', text: 'Nationality', class: 'text-center', cellClass: 'text-center' },
-    { value: 'status', text: 'Status', class: 'text-center', cellClass: 'text-center' },
-    { value: 'age', text: 'Age', class: 'text-center', cellClass: 'text-center' },
-    { value: 'pos', text: 'Pos', sortBy: 'posIdx', class: 'text-center', cellClass: 'text-center' },
+    {
+      value: 'nationality',
+      text: 'Nationality',
+      class: 'text-center',
+      cellClass: 'text-center'
+    },
+    {
+      value: 'status',
+      text: 'Status',
+      class: 'text-center',
+      cellClass: 'text-center'
+    },
+    {
+      value: 'age',
+      text: 'Age',
+      class: 'text-center',
+      cellClass: 'text-center'
+    },
+    {
+      value: 'pos',
+      text: 'Pos',
+      sortBy: 'posIdx',
+      class: 'text-center',
+      cellClass: 'text-center'
+    },
     { value: 'secPos', text: '2nd Pos' },
-    { value: 'kitNo', text: 'Kit No', class: 'text-center', cellClass: 'text-center' },
-    { value: 'ovr', text: 'OVR', class: 'text-center', cellClass: 'text-center' },
-    { value: 'value', text: 'Value', class: 'text-right', cellClass: 'text-right' },
-    { value: 'wage', text: 'Wage', class: 'text-right', cellClass: 'text-right' },
-    { value: 'endDate', text: 'Contract Ends', class: 'text-right', cellClass: 'text-right' }
+    {
+      value: 'kitNo',
+      text: 'Kit No',
+      class: 'text-center',
+      cellClass: 'text-center'
+    },
+    {
+      value: 'ovr',
+      text: 'OVR',
+      class: 'text-center',
+      cellClass: 'text-center'
+    },
+    {
+      value: 'value',
+      text: 'Value',
+      class: 'text-right',
+      cellClass: 'text-right'
+    },
+    {
+      value: 'wage',
+      text: 'Wage',
+      class: 'text-right',
+      cellClass: 'text-right'
+    },
+    {
+      value: 'endDate',
+      text: 'Contract Ends',
+      class: 'text-right',
+      cellClass: 'text-right'
+    }
   ]
 </script>
 
@@ -121,56 +169,34 @@
     </v-btn>
   </v-btn-toggle>
 
-  <data-table
-    :headers="headers"
-    :items="rows"
-    item-key="id"
-    sort-by="pos"
-  >
+  <data-table :headers="headers" :items="rows" item-key="id" sort-by="pos">
     <template #item-name="{ item: player }">
       <v-btn
         variant="text"
         color="primary"
         class="text-capitalize"
         :to="`/teams/${team.id}/players/${player.id}`"
-        v-text="player.name"
-      />
+      >
+        {{ player.name }}
+      </v-btn>
     </template>
     <template #item-nationality="{ item: player }">
-      <flag
-        :iso="player.flag"
-        :title="player.nationality"
-        class="mr-2"
-      />
+      <flag :iso="player.flag" :title="player.nationality" class="mr-2" />
     </template>
     <template #item-status="{ item: player }">
-      <v-icon :color="player.statusColor">
-        mdi-{{ player.statusIcon }}
-      </v-icon>
+      <v-icon :color="player.statusColor"> mdi-{{ player.statusIcon }} </v-icon>
     </template>
     <template #item-secPos="{ item: player }">
       {{ player.secPos.join(', ') }}
     </template>
     <template #item-kitNo="{ item: player }">
-      <player-attribute
-        :player="player"
-        attribute="kitNo"
-        label="Kit No"
-      />
+      <player-attribute :player="player" attribute="kitNo" label="Kit No" />
     </template>
     <template #item-ovr="{ item: player }">
-      <player-attribute
-        :player="player"
-        attribute="ovr"
-        label="OVR"
-      />
+      <player-attribute :player="player" attribute="ovr" label="OVR" />
     </template>
     <template #item-value="{ item: player }">
-      <player-attribute
-        :player="player"
-        attribute="value"
-        label="Value"
-      >
+      <player-attribute :player="player" attribute="value" label="Value">
         <template #display>
           {{ formatMoney(player.value, team.currency) }}
         </template>

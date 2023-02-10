@@ -4,6 +4,7 @@ import Pages from 'vite-plugin-pages'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { Vuetify3Resolver } from 'unplugin-vue-components/resolvers'
+import eslint from 'vite-plugin-eslint'
 import path from 'path'
 
 // https://vitejs.dev/config/
@@ -14,8 +15,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '~/': `${path.resolve(__dirname, 'src')}/`,
-    },
+      '~/': `${path.resolve(__dirname, 'src')}/`
+    }
   },
   plugins: [
     Vue(),
@@ -33,45 +34,22 @@ export default defineConfig({
         'vue-router',
         'pinia',
         {
-          '@urql/vue': [
-            'useQuery',
-            'useMutation',
-            'gql'
-          ],
-          'pinia-orm': [
-            'useRepo'
-          ],
-          'lodash.keyby': [
-            ['default', 'keyBy']
-          ],
-          'lodash.groupby': [
-            ['default', 'groupBy']
-          ],
-          'lodash.orderby': [
-            ['default', 'orderBy']
-          ],
-          'lodash.pick': [
-            ['default', 'pick']
-          ],
-          'date-fns': [
-            'format',
-            'parseISO'
-          ],
-          'vuetify': [
-            'useDisplay',
-            'useTheme'
-          ],
-          'axios': [
-            ['default', 'axios']
-          ]
+          '@urql/vue': ['useQuery', 'useMutation', 'gql'],
+          'pinia-orm': ['useRepo'],
+          'lodash.keyby': [['default', 'keyBy']],
+          'lodash.groupby': [['default', 'groupBy']],
+          'lodash.orderby': [['default', 'orderBy']],
+          'lodash.pick': [['default', 'pick']],
+          'date-fns': ['format', 'parseISO'],
+          vuetify: ['useDisplay', 'useTheme'],
+          axios: [['default', 'axios']]
         }
       ],
       vueTemplate: true
     }),
     Components({
-      resolvers: [
-        Vuetify3Resolver()
-      ]
-    })
+      resolvers: [Vuetify3Resolver()]
+    }),
+    eslint()
   ]
 })

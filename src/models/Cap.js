@@ -6,7 +6,7 @@ import Player from './Player'
 export default class Cap extends Model {
   static entity = 'Cap'
 
-  static fields () {
+  static fields() {
     return {
       // Primary/Foreign keys
       id: this.number(0),
@@ -26,7 +26,7 @@ export default class Cap extends Model {
     }
   }
 
-  static casts () {
+  static casts() {
     return {
       id: NumberCast,
       matchId: NumberCast,

@@ -1,0 +1,15 @@
+{
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2022
+  },
+  "extends": ["eslint:recommended", "plugin:vue/vue3-recommended", "prettier"],
+  "rules": {
+    "no-undef": "off",
+    "vue/multi-word-component-names": "off",
+    "vue/component-definition-name-casing": ["error", "kebab-case"]
+  }
+}

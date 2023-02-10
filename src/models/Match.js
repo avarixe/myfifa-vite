@@ -11,7 +11,7 @@ import Player from './Player'
 export default class Match extends Model {
   static entity = 'Match'
 
-  static fields () {
+  static fields() {
     return {
       // Primary/Foreign keys
       id: this.number(0),
@@ -43,20 +43,18 @@ export default class Match extends Model {
     }
   }
 
-  static casts () {
+  static casts() {
     return {
       id: NumberCast,
       teamId: NumberCast
     }
   }
 
-  get opponent () {
-    return this.home === this.team.name
-      ? this.away
-      : this.home
+  get opponent() {
+    return this.home === this.team.name ? this.away : this.home
   }
 
-  get resultColor () {
+  get resultColor() {
     switch (this.teamResult) {
       case 'win':
         return 'success'

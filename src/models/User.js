@@ -4,7 +4,7 @@ import { NumberCast } from 'pinia-orm/casts'
 export default class User extends Model {
   static entity = 'User'
 
-  static fields () {
+  static fields() {
     return {
       // Primary/Foreign keys
       id: this.number(0),
@@ -18,7 +18,7 @@ export default class User extends Model {
     }
   }
 
-  static casts () {
+  static casts() {
     return {
       id: NumberCast
     }

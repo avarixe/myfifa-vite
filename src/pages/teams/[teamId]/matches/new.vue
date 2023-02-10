@@ -6,7 +6,9 @@
           ...TeamData
           competitions {
             ...CompetitionData
-            stages { ...BaseStageData }
+            stages {
+              ...BaseStageData
+            }
           }
         }
       }

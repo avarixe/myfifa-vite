@@ -20,8 +20,12 @@
   const { executeMutation: createMatch } = useMutation(gql`
     mutation createMatch($teamId: ID!, $attributes: MatchAttributes!) {
       addMatch(teamId: $teamId, attributes: $attributes) {
-        match { ...MatchData }
-        errors { fullMessages }
+        match {
+          ...MatchData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${matchFragment}
@@ -30,8 +34,12 @@
   const { executeMutation: updateMatch } = useMutation(gql`
     mutation ($id: ID!, $attributes: MatchAttributes!) {
       updateMatch(id: $id, attributes: $attributes) {
-        match { ...MatchData }
-        errors { fullMessages }
+        match {
+          ...MatchData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${matchFragment}
@@ -39,19 +47,25 @@
 
   const loading = ref(false)
   const router = useRouter()
-  async function onSubmit () {
+  async function onSubmit() {
     loading.value = true
     if (props.record) {
-      const { data: { updateMatch: { errors, match} } } =
-        await updateMatch({ id: props.record.id, attributes })
+      const {
+        data: {
+          updateMatch: { errors, match }
+        }
+      } = await updateMatch({ id: props.record.id, attributes })
       if (match) {
         router.push(`/teams/${team.value.id}/matches/${match.id}`)
       } else {
         alert(errors.fullMessages[0])
       }
     } else {
-      const { data: { addMatch: { errors, match } } } =
-        await createMatch({ teamId: props.teamId, attributes })
+      const {
+        data: {
+          addMatch: { errors, match }
+        }
+      } = await createMatch({ teamId: props.teamId, attributes })
       if (match) {
         router.push(`/teams/${team.value.id}/matches/${match.id}`)
       } else {
@@ -94,7 +108,7 @@
     }
   })
 
-  function setTeamAs (side) {
+  function setTeamAs(side) {
     const otherSide = side === 'home' ? 'away' : 'home'
     attributes[side] = team.value.name
     if (attributes[otherSide] === team.value.name) {
@@ -105,10 +119,7 @@
 
 <template>
   <v-form @submit.prevent="onSubmit">
-    <date-field
-      v-model="attributes.playedOn"
-      label="Date Played"
-    />
+    <date-field v-model="attributes.playedOn" label="Date Played" />
     <v-autocomplete
       v-model="attributes.competition"
       label="Competition"
@@ -123,23 +134,22 @@
     <team-combobox
       v-model="attributes.home"
       label="Home Team"
-      :append-icon="`mdi-shield-${attributes.home === team.name ? 'star' : 'outline'}`"
+      :append-icon="`mdi-shield-${
+        attributes.home === team.name ? 'star' : 'outline'
+      }`"
       @click:append="setTeamAs('home')"
     />
     <team-combobox
       v-model="attributes.away"
       label="Away Team"
-      :append-icon="`mdi-shield-${attributes.away === team.name ? 'star' : 'outline'}`"
+      :append-icon="`mdi-shield-${
+        attributes.away === team.name ? 'star' : 'outline'
+      }`"
       @click:append="setTeamAs('away')"
     />
-    <v-checkbox
-      v-model="attributes.extraTime"
-      label="Extra Time Required"
-    />
-    <v-btn
-      type="submit"
-      :loading="loading"
-      v-text="props.record ? 'Update' : 'Create'"
-    />
+    <v-checkbox v-model="attributes.extraTime" label="Extra Time Required" />
+    <v-btn type="submit" :loading="loading">
+      {{ props.record ? 'Update' : 'Create' }}
+    </v-btn>
   </v-form>
 </template>

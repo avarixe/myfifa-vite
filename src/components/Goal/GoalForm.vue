@@ -31,21 +31,24 @@
   )
 
   const { team } = useTeam()
-  const teamGoal = computed(() =>
-    !attributes.home ^ props.match.home === team.value.name
+  const teamGoal = computed(
+    () => !attributes.home ^ (props.match.home === team.value.name)
   )
 
-  function onOpen () {
+  function onOpen() {
     if (props.record) {
-      Object.assign(attributes, pick(props.record, [
-        'home',
-        'playerId',
-        'playerName',
-        'assistedBy',
-        'assistId',
-        'ownGoal',
-        'penalty'
-      ]))
+      Object.assign(
+        attributes,
+        pick(props.record, [
+          'home',
+          'playerId',
+          'playerName',
+          'assistedBy',
+          'assistId',
+          'ownGoal',
+          'penalty'
+        ])
+      )
       minute.value = props.record.minute
     } else {
       attributes.ownGoal = false
@@ -64,7 +67,7 @@
     }
   })
 
-  function clearNames () {
+  function clearNames() {
     attributes.playerId = null
     attributes.playerName = null
     attributes.assistId = null
@@ -74,8 +77,12 @@
   const { executeMutation: createGoal } = useMutation(gql`
     mutation createGoal($matchId: ID!, $attributes: GoalAttributes!) {
       addGoal(matchId: $matchId, attributes: $attributes) {
-        goal { ...GoalData }
-        errors { fullMessages }
+        goal {
+          ...GoalData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${goalFragment}
@@ -84,16 +91,24 @@
   const { executeMutation: updateGoal } = useMutation(gql`
     mutation ($id: ID!, $attributes: GoalAttributes!) {
       updateGoal(id: $id, attributes: $attributes) {
-        goal { ...GoalData }
-        errors { fullMessages }
+        goal {
+          ...GoalData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${goalFragment}
   `)
 
-  async function onSubmit () {
+  async function onSubmit() {
     if (props.record) {
-      const { data: { updateGoal: { errors} } } = await updateGoal({
+      const {
+        data: {
+          updateGoal: { errors }
+        }
+      } = await updateGoal({
         id: props.record.id,
         attributes: { ...attributes, minute: minute.value }
       })
@@ -101,7 +116,11 @@
         alert(errors.fullMessages[0])
       }
     } else {
-      const { data: { addGoal: { errors } } } = await createGoal({
+      const {
+        data: {
+          addGoal: { errors }
+        }
+      } = await createGoal({
         matchId: props.match.id,
         attributes: { ...attributes, minute: minute.value }
       })
@@ -127,24 +146,12 @@
           hide-details
           @change="clearNames"
         >
-          <v-radio
-            :label="match.home"
-            :value="true"
-            color="teal"
-          />
-          <v-radio
-            :label="match.away"
-            :value="false"
-            color="pink"
-          />
+          <v-radio :label="match.home" :value="true" color="teal" />
+          <v-radio :label="match.away" :value="false" color="pink" />
         </v-radio-group>
       </v-col>
       <v-col cols="12">
-        <v-text-field
-          v-model.number="minute"
-          label="Minute"
-          type="number"
-        />
+        <v-text-field v-model.number="minute" label="Minute" type="number" />
       </v-col>
       <v-col cols="12">
         <cap-select

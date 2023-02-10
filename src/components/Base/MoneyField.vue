@@ -1,7 +1,7 @@
 <script setup>
   import { useCurrencyInput } from 'vue-currency-input'
 
-  const props = defineProps({
+  defineProps({
     modelValue: { type: [String, Number], default: null }
   })
 

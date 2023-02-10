@@ -11,8 +11,8 @@ export default match => {
   const unsubbedPlayers = computed(() =>
     sortedCaps.value.filter(cap =>
       minute.value
-          ? cap.start <= minute.value && minute.value <= cap.stop
-          : !cap.subbedOut
+        ? cap.start <= minute.value && minute.value <= cap.stop
+        : !cap.subbedOut
     )
   )
 

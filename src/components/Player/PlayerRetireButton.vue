@@ -6,16 +6,23 @@
   const { executeMutation: retirePlayer } = useMutation(gql`
     mutation ($id: ID!) {
       retirePlayer(id: $id) {
-        player { ...PlayerData }
-        errors { fullMessages }
+        player {
+          ...PlayerData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${playerFragment}
   `)
 
-  async function onConfirm () {
-    const { data: { retirePlayer: { errors } } } =
-      await retirePlayer({ id: props.player.id })
+  async function onConfirm() {
+    const {
+      data: {
+        retirePlayer: { errors }
+      }
+    } = await retirePlayer({ id: props.player.id })
     if (errors) {
       alert(errors.fullMessages[0])
     }

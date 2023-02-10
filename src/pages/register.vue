@@ -8,21 +8,29 @@
   })
 
   const { executeMutation: createUser } = useMutation(gql`
-      mutation createUser($attributes: UserRegistrationAttributes!) {
-        registerUser(attributes: $attributes) {
-          user { ...UserData }
-          errors { fullMessages }
+    mutation createUser($attributes: UserRegistrationAttributes!) {
+      registerUser(attributes: $attributes) {
+        user {
+          ...UserData
+        }
+        errors {
+          fullMessages
         }
       }
-      ${userFragment}
-    `)
+    }
+    ${userFragment}
+  `)
 
   const loading = ref(false)
   const router = useRouter()
   const broadcastStore = useBroadcastStore()
   async function onSubmit() {
     loading.value = true
-    const { data: { registerUser: { errors } } } = await createUser({ attributes })
+    const {
+      data: {
+        registerUser: { errors }
+      }
+    } = await createUser({ attributes })
     if (errors) {
       alert(errors.fullMessages[0])
     } else {
@@ -36,7 +44,10 @@
 </script>
 
 <template>
-  <div class="d-flex align-center justify-center" :style="{ minHeight: '90vh' }">
+  <div
+    class="d-flex align-center justify-center"
+    :style="{ minHeight: '90vh' }"
+  >
     <v-form @submit.prevent="onSubmit">
       <v-card>
         <v-card-title class="text-center">
@@ -45,7 +56,11 @@
         <v-card-text>
           <v-text-field v-model="attributes.fullName" label="Name" />
           <v-text-field v-model="attributes.username" label="Username" />
-          <v-text-field v-model="attributes.email" label="Email Address" type="email" />
+          <v-text-field
+            v-model="attributes.email"
+            label="Email Address"
+            type="email"
+          />
           <v-text-field
             v-model="attributes.password"
             label="Password"
@@ -64,18 +79,11 @@
           />
         </v-card-text>
         <v-card-actions>
-          <v-btn
-            type="submit"
-            color="primary"
-            text
-            :loading="loading"
-          >
+          <v-btn type="submit" color="primary" text :loading="loading">
             Create Account
           </v-btn>
           <v-spacer />
-          <v-btn to="/login" size="small">
-            Back to Login
-          </v-btn>
+          <v-btn to="/login" size="small"> Back to Login </v-btn>
         </v-card-actions>
       </v-card>
     </v-form>

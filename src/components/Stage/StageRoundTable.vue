@@ -5,7 +5,7 @@
   })
 
   const attributes = reactive({})
-  function resetAttributes () {
+  function resetAttributes() {
     attributes.name = props.stage.name
     attributes.fixturesAttributes = props.stage.fixtures.map(fixture => ({
       ...pick(fixture, ['id', 'homeTeam', 'awayTeam']),
@@ -19,27 +19,31 @@
   resetAttributes()
 
   const editing = ref(false)
-  function toggleEditing () {
+  function toggleEditing() {
     editing.value = !editing.value
     resetAttributes()
   }
 
-  const { previousRoundTeams } = useCompetition(parseInt(props.stage.competitionId))
+  const { previousRoundTeams } = useCompetition(
+    parseInt(props.stage.competitionId)
+  )
   const teamOptions = computed(() => previousRoundTeams(props.stage))
 
-  function addFixture () {
+  function addFixture() {
     attributes.fixturesAttributes.push({
       homeTeam: '',
       awayTeam: '',
-      legsAttributes: [{
-        homeScore: '',
-        awayScore: '',
-        _destroy: false
-      }],
+      legsAttributes: [
+        {
+          homeScore: '',
+          awayScore: '',
+          _destroy: false
+        }
+      ],
       _destroy: false
     })
   }
-  function removeFixture () {
+  function removeFixture() {
     for (let i = attributes.fixturesAttributes.length - 1; i >= 0; i--) {
       if (!attributes.fixturesAttributes[i]._destroy) {
         attributes.fixturesAttributes[i]._destroy = true
@@ -48,14 +52,14 @@
     }
   }
 
-  function addLeg (fixtureIndex) {
+  function addLeg(fixtureIndex) {
     attributes.fixturesAttributes[fixtureIndex].legsAttributes.push({
       homeScore: '',
       awayScore: '',
       _destroy: false
     })
   }
-  function removeLeg (fixtureIndex) {
+  function removeLeg(fixtureIndex) {
     const fixtureAttr = attributes.fixturesAttributes[fixtureIndex]
     for (let i = fixtureAttr.legsAttributes.length - 1; i >= 0; i--) {
       if (!fixtureAttr.legsAttributes[i]._destroy) {
@@ -68,15 +72,22 @@
   const { executeMutation: updateStage } = useMutation(gql`
     mutation ($id: ID!, $attributes: StageAttributes!) {
       updateStage(id: $id, attributes: $attributes) {
-        stage { ...StageData }
-        errors { fullMessages }
+        stage {
+          ...StageData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${stageFragment}
   `)
-  async function onSubmit () {
-    const { data: { updateStage: { errors, stage } } } =
-      await updateStage({ id: props.stage.id, attributes })
+  async function onSubmit() {
+    const {
+      data: {
+        updateStage: { errors, stage }
+      }
+    } = await updateStage({ id: props.stage.id, attributes })
     if (stage) {
       editing.value = false
     } else {
@@ -153,38 +164,32 @@
             :style="{ minWidth: '10em' }"
           >
             <template v-if="editing">
-              <v-hover v-slot="{ isHovering, props }">
+              <v-hover v-slot="{ isHovering, props: hoverProps }">
                 <input
                   v-model="leg.homeScore"
                   :class="`elevation-${isHovering ? 3 : 1} rounded`"
-                  v-bind="props"
+                  v-bind="hoverProps"
                 />
               </v-hover>
               -
-              <v-hover v-slot="{ isHovering, props }">
+              <v-hover v-slot="{ isHovering, props: hoverProps }">
                 <input
                   v-model="leg.awayScore"
                   :class="`elevation-${isHovering ? 3 : 1} rounded`"
-                  v-bind="props"
+                  v-bind="hoverProps"
                 />
               </v-hover>
             </template>
-            <template v-else>{{ leg.homeScore }} - {{ leg.awayScore }}</template>
+            <template v-else
+              >{{ leg.homeScore }} - {{ leg.awayScore }}</template
+            >
           </div>
           <template v-if="editing">
-            <v-btn
-              size="x-small"
-              class="my-1"
-              @click="addLeg(i)"
-            >
+            <v-btn size="x-small" class="my-1" @click="addLeg(i)">
               <v-icon>mdi-plus-circle</v-icon>
             </v-btn>
             &nbsp;
-            <v-btn
-              size="x-small"
-              class="my-1"
-              @click="removeLeg(i)"
-            >
+            <v-btn size="x-small" class="my-1" @click="removeLeg(i)">
               <v-icon>mdi-minus-circle</v-icon>
             </v-btn>
           </template>
@@ -216,7 +221,8 @@
 
 <style scoped lang="scss">
   .v-table#fixtures {
-    th, td {
+    th,
+    td {
       padding: 0 8px;
 
       :deep(.v-field input) {

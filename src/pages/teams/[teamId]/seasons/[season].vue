@@ -6,16 +6,34 @@
       query fetchSeason($teamId: ID!, $season: Int!) {
         team(id: $teamId) {
           ...TeamData
-          competitions { ...CompetitionData }
-          players { ...PlayerData }
-          competitionStats(season: $season) { ...CompetitionStatsData }
-          teamDevelopmentStats(season: $season) { ...TeamDevelopmentStatsData }
-          playerDevelopmentStats(season: $season) { ...PlayerDevelopmentStatsData }
+          competitions {
+            ...CompetitionData
+          }
+          players {
+            ...PlayerData
+          }
+          competitionStats(season: $season) {
+            ...CompetitionStatsData
+          }
+          teamDevelopmentStats(season: $season) {
+            ...TeamDevelopmentStatsData
+          }
+          playerDevelopmentStats(season: $season) {
+            ...PlayerDevelopmentStatsData
+          }
           transferActivity(season: $season) {
-            arrivals { ...ContractData }
-            departures { ...ContractData }
-            transfers { ...TransferData }
-            loans { ...LoanData }
+            arrivals {
+              ...ContractData
+            }
+            departures {
+              ...ContractData
+            }
+            transfers {
+              ...TransferData
+            }
+            loans {
+              ...LoanData
+            }
           }
         }
       }
@@ -51,14 +69,16 @@
       <v-btn
         :to="`/teams/${team.id}/seasons/${season - 1}`"
         :disabled="season === 0"
-        v-text="'Previous Season'"
-      />
+      >
+        Previous Season
+      </v-btn>
       &nbsp;
       <v-btn
         :to="`/teams/${team.id}/seasons/${season + 1}`"
         :disabled="season >= currentSeason"
-        v-text="'Next Season'"
-      />
+      >
+        Next Season
+      </v-btn>
     </v-col>
   </v-row>
 

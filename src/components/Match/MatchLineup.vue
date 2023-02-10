@@ -36,11 +36,7 @@
   <v-list dense>
     <template v-if="teamPlayed">
       <v-list-subheader>Players</v-list-subheader>
-      <v-list-item
-        v-for="cap in sortedCaps"
-        :key="cap.id"
-        v-ripple
-      >
+      <v-list-item v-for="cap in sortedCaps" :key="cap.id" v-ripple>
         <template #prepend>
           <span
             class="font-weight-black text-uppercase"
@@ -59,11 +55,7 @@
       </v-list-item>
     </template>
     <v-list-subheader>Teams</v-list-subheader>
-    <v-list-item
-      v-for="side in nonTeamSides"
-      :key="side"
-      v-ripple
-    >
+    <v-list-item v-for="side in nonTeamSides" :key="side" v-ripple>
       <template #prepend>
         <span
           class="font-weight-black text-uppercase"

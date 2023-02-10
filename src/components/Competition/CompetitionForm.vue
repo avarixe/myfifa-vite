@@ -19,10 +19,17 @@
   })
 
   const { executeMutation: createCompetition } = useMutation(gql`
-    mutation createCompetition($teamId: ID!, $attributes: CompetitionAttributes!) {
+    mutation createCompetition(
+      $teamId: ID!
+      $attributes: CompetitionAttributes!
+    ) {
       addCompetition(teamId: $teamId, attributes: $attributes) {
-        competition { ...CompetitionData }
-        errors { fullMessages }
+        competition {
+          ...CompetitionData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${competitionFragment}
@@ -31,8 +38,12 @@
   const { executeMutation: updateCompetition } = useMutation(gql`
     mutation ($id: ID!, $attributes: CompetitionAttributes!) {
       updateCompetition(id: $id, attributes: $attributes) {
-        competition { ...CompetitionData }
-        errors { fullMessages }
+        competition {
+          ...CompetitionData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${competitionFragment}
@@ -40,19 +51,25 @@
 
   const loading = ref(false)
   const router = useRouter()
-  async function onSubmit () {
+  async function onSubmit() {
     loading.value = true
     if (props.record) {
-      const { data: { updateCompetition: { errors, competition} } } =
-        await updateCompetition({ id: props.record.id, attributes })
+      const {
+        data: {
+          updateCompetition: { errors, competition }
+        }
+      } = await updateCompetition({ id: props.record.id, attributes })
       if (competition) {
         router.push(`/teams/${team.value.id}/competitions/${competition.id}`)
       } else {
         alert(errors.fullMessages[0])
       }
     } else {
-      const { data: { addCompetition: { errors, competition } } } =
-        await createCompetition({ teamId: props.teamId, attributes })
+      const {
+        data: {
+          addCompetition: { errors, competition }
+        }
+      } = await createCompetition({ teamId: props.teamId, attributes })
       if (competition) {
         router.push(`/teams/${team.value.id}/competitions/${competition.id}`)
       } else {
@@ -74,11 +91,7 @@
 
   const { championOptions } = useCompetition(props.record?.id)
 
-  const presetFormats = [
-    'League',
-    'Knockout',
-    'Group + Knockout'
-  ]
+  const presetFormats = ['League', 'Knockout', 'Group + Knockout']
 </script>
 
 <template>
@@ -123,10 +136,8 @@
         type="number"
       />
     </template>
-    <v-btn
-      type="submit"
-      :loading="loading"
-      v-text="props.record ? 'Update' : 'Create'"
-    />
+    <v-btn type="submit" :loading="loading">
+      {{ props.record ? 'Update' : 'Create' }}
+    </v-btn>
   </v-form>
 </template>

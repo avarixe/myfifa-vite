@@ -6,7 +6,7 @@ import Player from './Player'
 export default class Booking extends Model {
   static entity = 'Booking'
 
-  static fields () {
+  static fields() {
     return {
       // Primary/Foreign keys
       id: this.number(0),
@@ -28,7 +28,7 @@ export default class Booking extends Model {
     }
   }
 
-  static casts () {
+  static casts() {
     return {
       id: NumberCast,
       matchId: NumberCast,
@@ -36,7 +36,7 @@ export default class Booking extends Model {
     }
   }
 
-  get timelineType () {
+  get timelineType() {
     return 'Booking'
   }
 }

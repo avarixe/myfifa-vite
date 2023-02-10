@@ -5,30 +5,30 @@
   })
 
   const attributes = reactive({})
-  function resetAttributes () {
-    attributes.name = props.stage.name,
-    attributes.tableRowsAttributes = props.stage.tableRows.map(row => ({
-      ...pick(row, [
-        'id',
-        'name',
-        'wins',
-        'draws',
-        'losses',
-        'goalsFor',
-        'goalsAgainst'
-      ]),
-      _destroy: false
-    }))
+  function resetAttributes() {
+    ;(attributes.name = props.stage.name),
+      (attributes.tableRowsAttributes = props.stage.tableRows.map(row => ({
+        ...pick(row, [
+          'id',
+          'name',
+          'wins',
+          'draws',
+          'losses',
+          'goalsFor',
+          'goalsAgainst'
+        ]),
+        _destroy: false
+      })))
   }
   resetAttributes()
 
   const editing = ref(false)
-  function toggleEditing () {
+  function toggleEditing() {
     editing.value = !editing.value
     resetAttributes()
   }
 
-  function addRow () {
+  function addRow() {
     attributes.tableRowsAttributes.push({
       name: '',
       wins: 0,
@@ -39,7 +39,7 @@
       _destroy: false
     })
   }
-  function removeRow () {
+  function removeRow() {
     for (let i = attributes.tableRowsAttributes.length - 1; i >= 0; i--) {
       if (!attributes.tableRowsAttributes[i]._destroy) {
         attributes.tableRowsAttributes[i]._destroy = true
@@ -51,15 +51,22 @@
   const { executeMutation: updateStage } = useMutation(gql`
     mutation ($id: ID!, $attributes: StageAttributes!) {
       updateStage(id: $id, attributes: $attributes) {
-        stage { ...StageData }
-        errors { fullMessages }
+        stage {
+          ...StageData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${stageFragment}
   `)
-  async function onSubmit () {
-    const { data: { updateStage: { errors, stage } } } =
-      await updateStage({ id: props.stage.id, attributes })
+  async function onSubmit() {
+    const {
+      data: {
+        updateStage: { errors, stage }
+      }
+    } = await updateStage({ id: props.stage.id, attributes })
     if (stage) {
       editing.value = false
     } else {
@@ -136,22 +143,32 @@
           <template v-else>{{ row.name }}</template>
         </td>
         <td
-          v-for="stat in ['wins', 'draws', 'losses', 'goalsFor', 'goalsAgainst']"
+          v-for="stat in [
+            'wins',
+            'draws',
+            'losses',
+            'goalsFor',
+            'goalsAgainst'
+          ]"
           :key="stat"
           class="text-right"
         >
-          <v-hover v-if="editing" v-slot="{ isHovering, props }">
+          <v-hover v-if="editing" v-slot="{ isHovering, props: hoverProps }">
             <input
               v-model="row[stat]"
               :class="`elevation-${isHovering ? 3 : 1} rounded`"
               type="number"
-              v-bind="props"
+              v-bind="hoverProps"
             />
           </v-hover>
           <template v-else>{{ row[stat] }}</template>
         </td>
-        <td v-if="!editing" class="text-right">{{ stage.tableRows[i]?.goalDifference }}</td>
-        <td v-if="!editing" class="text-right">{{ stage.tableRows[i]?.points }}</td>
+        <td v-if="!editing" class="text-right">
+          {{ stage.tableRows[i]?.goalDifference }}
+        </td>
+        <td v-if="!editing" class="text-right">
+          {{ stage.tableRows[i]?.points }}
+        </td>
       </tr>
     </tbody>
     <tfoot v-if="editing">
@@ -173,10 +190,11 @@
       min-width: 15em;
     }
 
-    th, td {
+    th,
+    td {
       padding: 0 8px;
 
-      input[type="number"] {
+      input[type='number'] {
         width: 3em;
         text-align: right;
       }

@@ -19,7 +19,7 @@
 
 <template>
   <div :class="['flag', 'elevation-1', `size-${size}`]">
-    <img :src="imageUrl">
+    <img :src="imageUrl" />
   </div>
 </template>
 
@@ -59,7 +59,7 @@
       display: block;
       mix-blend-mode: overlay;
       box-sizing: border-box;
-      border: 1px solid rgba(0, 0, 0, .5);
+      border: 1px solid rgba(0, 0, 0, 0.5);
       mix-blend-mode: overlay;
       border-radius: 1px;
     }

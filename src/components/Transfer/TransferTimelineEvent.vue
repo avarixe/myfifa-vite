@@ -12,8 +12,10 @@
       ? `Transfer to ${props.event.destination}`
       : `Transfer from ${props.event.origin}`
   )
-  const icon = computed(() => `mdi-airplane-${transferOut.value ? 'takeoff' : 'landing'}`)
-  const color = computed(() => transferOut.value ? 'red' : 'green')
+  const icon = computed(
+    () => `mdi-airplane-${transferOut.value ? 'takeoff' : 'landing'}`
+  )
+  const color = computed(() => (transferOut.value ? 'red' : 'green'))
 </script>
 
 <template>
@@ -25,13 +27,7 @@
     :color="color"
   >
     <template #heading>
-      <v-chip
-        v-if="!event.signedOn"
-        color="error"
-        small
-        label
-        outlined
-      >
+      <v-chip v-if="!event.signedOn" color="error" small label outlined>
         <v-icon left small>mdi-pencil-off</v-icon>
         UNSIGNED
       </v-chip>

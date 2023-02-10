@@ -25,11 +25,8 @@
     :max-width="fullWidth ? '' : '500px'"
     activator="parent"
   >
-    <base-form
-      :submit="submit"
-      @submitted="dialog = false"
-    >
-      <template v-slot="{ loading, valid }">
+    <base-form :submit="submit" @submitted="dialog = false">
+      <template #default="{ loading, valid }">
         <v-card :style="{ maxHeight: '75vh' }">
           <v-toolbar dense>
             <slot name="header">
@@ -50,11 +47,7 @@
           <v-divider />
           <v-card-actions>
             <v-spacer />
-            <v-btn
-              size="large"
-              :disabled="loading"
-              @click="dialog = false"
-            >
+            <v-btn size="large" :disabled="loading" @click="dialog = false">
               Cancel
             </v-btn>
             <slot name="additional-actions" />

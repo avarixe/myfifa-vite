@@ -13,31 +13,46 @@
     awayScore: [isRequired('Away Score')]
   }
 
-  const title = computed(() => `${props.record ? 'Edit' : 'Record'} Penalty Shootout`)
+  const title = computed(
+    () => `${props.record ? 'Edit' : 'Record'} Penalty Shootout`
+  )
 
-  function onOpen () {
+  function onOpen() {
     if (props.record) {
       Object.assign(attributes, pick(props.record, ['homeScore', 'awayScore']))
     }
   }
 
   const { executeMutation: savePenaltyShootout } = useMutation(gql`
-    mutation savePenaltyShootout($matchId: ID!, $attributes: PenaltyShootoutAttributes!) {
-      updateMatch(id: $matchId, attributes: { penaltyShootoutAttributes: $attributes }) {
+    mutation savePenaltyShootout(
+      $matchId: ID!
+      $attributes: PenaltyShootoutAttributes!
+    ) {
+      updateMatch(
+        id: $matchId
+        attributes: { penaltyShootoutAttributes: $attributes }
+      ) {
         match {
           ...MatchData
-          penaltyShootout { ...PenaltyShootoutData }
+          penaltyShootout {
+            ...PenaltyShootoutData
+          }
         }
-        errors { fullMessages }
+        errors {
+          fullMessages
+        }
       }
     }
     ${matchFragment}
     ${penaltyShootoutFragment}
   `)
 
-  async function onSubmit () {
-    const { data: { updateMatch: { errors } } } =
-      await savePenaltyShootout({ matchId: props.match.id, attributes })
+  async function onSubmit() {
+    const {
+      data: {
+        updateMatch: { errors }
+      }
+    } = await savePenaltyShootout({ matchId: props.match.id, attributes })
     if (errors) {
       alert(errors.fullMessages[0])
     }

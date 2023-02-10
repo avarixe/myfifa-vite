@@ -4,7 +4,9 @@
       query loadTeamDashboard($teamId: ID!) {
         team(id: $teamId) {
           ...TeamData
-          lastMatch { ...MatchData }
+          lastMatch {
+            ...MatchData
+          }
           injuredPlayers {
             id
             name
@@ -34,7 +36,9 @@
               wage
             }
           }
-          competitions { ...CompetitionData }
+          competitions {
+            ...CompetitionData
+          }
         }
       }
       ${teamFragment}
@@ -43,12 +47,8 @@
     `
   })
 
-  const {
-    lastMatch,
-    injuredPlayers,
-    loanedPlayers,
-    expiringPlayers
-  } = data.value.team
+  const { lastMatch, injuredPlayers, loanedPlayers, expiringPlayers } =
+    data.value.team
 
   const router = useRouter()
 </script>
@@ -83,12 +83,17 @@
             {{ lastMatch.competition }}
             <span v-if="lastMatch.stage">· {{ lastMatch.stage }}</span>
           </div>
-          <div class="text-h6 mt-0 mb-3">{{ lastMatch.home }} v {{ lastMatch.away }}</div>
+          <div class="text-h6 mt-0 mb-3">
+            {{ lastMatch.home }} v {{ lastMatch.away }}
+          </div>
           <div class="text-h6 mb-0">{{ lastMatch.score }}</div>
           <div class="mt-0 mb-2">{{ formatDate(lastMatch.playedOn) }}</div>
         </v-card-text>
         <v-card-actions class="justify-center">
-          <v-btn :to="`/teams/${team.id}/matches/${lastMatch.id}`" color="primary">
+          <v-btn
+            :to="`/teams/${team.id}/matches/${lastMatch.id}`"
+            color="primary"
+          >
             Go To Match
           </v-btn>
         </v-card-actions>
@@ -110,22 +115,22 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="player in injuredPlayers"
-              :key="player.id"
-            >
+            <tr v-for="player in injuredPlayers" :key="player.id">
               <td>
                 <v-btn
                   :to="`/teams/${team.id}/players/${player.id}`"
                   variant="text"
                   color="primary"
                   class="text-capitalize"
-                  v-text="player.name"
-                />
+                >
+                  {{ player.name }}
+                </v-btn>
               </td>
               <td class="text-center">{{ player.pos }}</td>
               <td>{{ player.currentInjury.description }}</td>
-              <td class="text-right">{{ formatDate(player.currentInjury.endedOn) }}</td>
+              <td class="text-right">
+                {{ formatDate(player.currentInjury.endedOn) }}
+              </td>
             </tr>
           </tbody>
         </v-table>
@@ -149,7 +154,11 @@
             <tr
               v-for="player in loanedPlayers"
               :key="player.id"
-              :class="{ 'text-error': player.currentLoan.transferFee && player.currentLoan.transferFee < player.value }"
+              :class="{
+                'text-error':
+                  player.currentLoan.transferFee &&
+                  player.currentLoan.transferFee < player.value
+              }"
             >
               <td>
                 <v-btn
@@ -157,8 +166,9 @@
                   variant="text"
                   color="primary"
                   class="text-capitalize"
-                  v-text="player.name"
-                />
+                >
+                  {{ player.name }}
+                </v-btn>
               </td>
               <td class="text-center">{{ player.pos }}</td>
               <td class="text-right">
@@ -166,7 +176,9 @@
               </td>
               <td class="text-right">
                 <span v-if="player.currentLoan.transferFee">
-                  {{ formatMoney(player.currentLoan.transferFee, team.currency) }}
+                  {{
+                    formatMoney(player.currentLoan.transferFee, team.currency)
+                  }}
                 </span>
                 <span v-if="player.currentLoan.addonClause">
                   (+{{ player.currentLoan.addonClause }}%)
@@ -192,18 +204,16 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="player in expiringPlayers"
-              :key="player.id"
-            >
+            <tr v-for="player in expiringPlayers" :key="player.id">
               <td>
                 <v-btn
                   :to="`/teams/${team.id}/players/${player.id}`"
                   variant="text"
                   color="primary"
                   class="text-capitalize"
-                  v-text="player.name"
-                />
+                >
+                  {{ player.name }}
+                </v-btn>
               </td>
               <td class="text-center">{{ player.pos }}</td>
               <td class="text-right">

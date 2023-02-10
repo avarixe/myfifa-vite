@@ -1,6 +1,6 @@
 <script setup>
-  const props = defineProps({
-    displayValue: { default: null },
+  defineProps({
+    displayValue: { type: [String, Number], default: null },
     tooltip: { type: String, default: null }
   })
 
@@ -31,10 +31,7 @@
       :close-on-content-click="false"
     >
       <v-card>
-        <slot
-          name="form"
-          :close-menu="() => menu = false"
-        />
+        <slot name="form" :close-menu="() => (menu = false)" />
       </v-card>
     </v-menu>
   </v-badge>

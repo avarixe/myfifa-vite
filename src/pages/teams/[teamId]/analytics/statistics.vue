@@ -6,9 +6,15 @@
       query fetchPlayersPage($teamId: ID!) {
         team(id: $teamId) {
           ...TeamData
-          players { ...PlayerData }
-          playerPerformanceStats { ...PlayerPerformanceStatsData }
-          competitions { ...CompetitionData }
+          players {
+            ...PlayerData
+          }
+          playerPerformanceStats {
+            ...PlayerPerformanceStatsData
+          }
+          competitions {
+            ...CompetitionData
+          }
         }
       }
       ${teamFragment}
@@ -25,26 +31,34 @@
   const filterOptions = [
     { text: 'All', color: 'blue', icon: 'earth' },
     { text: 'Youth', color: 'cyan', icon: 'school' },
-    { text: 'Active', color: 'light-green', icon: 'account-check' },
-  ]
-
-  const metrics = [
-    'numMatches',
-    'numMinutes',
-    'numGoals',
-    'numAssists',
-    'numCleanSheets'
+    { text: 'Active', color: 'light-green', icon: 'account-check' }
   ]
 
   const headers = [
     { text: 'Name', value: 'name', width: 200, class: 'stick-left' },
     { text: 'Nationality', value: 'nationality', align: 'center', width: 120 },
-    { text: 'Pos', value: 'pos', align: 'center', width: 100, sortBy: 'posIdx' },
-    { text: 'Games Played', value: 'numMatches', align: 'end', class: 'text-right' },
+    {
+      text: 'Pos',
+      value: 'pos',
+      align: 'center',
+      width: 100,
+      sortBy: 'posIdx'
+    },
+    {
+      text: 'Games Played',
+      value: 'numMatches',
+      align: 'end',
+      class: 'text-right'
+    },
     { text: 'Minutes', value: 'numMinutes', align: 'end', class: 'text-right' },
     { text: 'Goals', value: 'numGoals', align: 'end', class: 'text-right' },
     { text: 'Assists', value: 'numAssists', align: 'end', class: 'text-right' },
-    { text: 'Clean Sheets', value: 'numCleanSheets', align: 'end', class: 'text-right' },
+    {
+      text: 'Clean Sheets',
+      value: 'numCleanSheets',
+      align: 'end',
+      class: 'text-right'
+    },
     { text: 'Rating', value: 'avgRating' }
   ]
 
@@ -54,61 +68,69 @@
   })
 
   const playerRepo = useRepo(Player)
-  const players = computed(() => playerRepo.where('teamId', team.value.id).get())
-  const rows = computed(() => players.value.filter(player => {
-    switch (filter.value) {
-      case 'All':
-        return true
-      case 'Youth':
-        return player.youth
-      case 'Active':
-        return player.status !== null && player.status !== 'Pending'
-    }
-  }).map(player => {
-    const playerStats = []
-    const matchStats = {
-      numMatches: 0,
-      numMinutes: 0,
-      numGoals: 0,
-      numAssists: 0,
-      numCleanSheets: 0,
-      avgRating: 0
-    }
-    let numRatedMinutes = 0
-
-    statsByPlayerId[player.id]?.forEach(data => {
-      if (
-        [null, data.season].includes(filters.season) &&
-        [null, data.competition].includes(filters.competition)
-      ) {
-        playerStats.push(data)
-        for (const metric in matchStats) {
-          if (metric === 'avgRating') {
-            if (data.avgRating > 0) {
-              numRatedMinutes += data.numMinutes
-              matchStats.avgRating += data.avgRating * data.numMinutes
-            }
-          } else {
-            matchStats[metric] += data[metric]
-          }
+  const players = computed(() =>
+    playerRepo.where('teamId', team.value.id).get()
+  )
+  const rows = computed(() =>
+    players.value
+      .filter(player => {
+        switch (filter.value) {
+          case 'All':
+            return true
+          case 'Youth':
+            return player.youth
+          case 'Active':
+            return player.status !== null && player.status !== 'Pending'
         }
-      }
+      })
+      .map(player => {
+        const playerStats = []
+        const matchStats = {
+          numMatches: 0,
+          numMinutes: 0,
+          numGoals: 0,
+          numAssists: 0,
+          numCleanSheets: 0,
+          avgRating: 0
+        }
+        let numRatedMinutes = 0
+
+        statsByPlayerId[player.id]?.forEach(data => {
+          if (
+            [null, data.season].includes(filters.season) &&
+            [null, data.competition].includes(filters.competition)
+          ) {
+            playerStats.push(data)
+            for (const metric in matchStats) {
+              if (metric === 'avgRating') {
+                if (data.avgRating > 0) {
+                  numRatedMinutes += data.numMinutes
+                  matchStats.avgRating += data.avgRating * data.numMinutes
+                }
+              } else {
+                matchStats[metric] += data[metric]
+              }
+            }
+          }
+        })
+        matchStats.avgRating /= numRatedMinutes || 1
+
+        return {
+          ...player,
+          ...matchStats,
+          posIdx: player.posIdx,
+          flag: player.flag,
+          playerStats: playerStats.sort((a, b) => a.season - b.season)
+        }
+      })
+  )
+
+  const seasonOptions = [...Array(currentSeason.value + 1).keys()].map(
+    season => ({
+      title: seasonLabel(season),
+      value: season
     })
-    matchStats.avgRating /= (numRatedMinutes || 1)
-
-    return {
-      ...player,
-      ...matchStats,
-      posIdx: player.posIdx,
-      flag: player.flag,
-      playerStats: playerStats.sort((a, b) => a.season - b.season)
-    }
-  }))
-
-  const seasonOptions = [...Array(currentSeason.value + 1).keys()].map(season => ({
-    title: seasonLabel(season),
-    value: season
-  }))
+  )
 
   const competitionRepo = useRepo(Competition)
   const competitionNames = computed(() => [
@@ -122,13 +144,18 @@
     )
   ])
 
-  function ratingColor (rating) {
+  function ratingColor(rating) {
     switch (Math.round(rating)) {
-      case 1: return 'red'
-      case 2: return 'orange'
-      case 3: return 'lime'
-      case 4: return 'light-green'
-      case 5: return 'green'
+      case 1:
+        return 'red'
+      case 2:
+        return 'orange'
+      case 3:
+        return 'lime'
+      case 4:
+        return 'light-green'
+      case 5:
+        return 'green'
     }
   }
 </script>
@@ -136,9 +163,7 @@
 <template>
   <h1>Player Statistics</h1>
 
-  <v-btn :to="`/teams/${team.id}/analytics/development`">
-    Development
-  </v-btn>
+  <v-btn :to="`/teams/${team.id}/analytics/development`"> Development </v-btn>
 
   <div class="d-flex mt-2">
     <v-btn-toggle v-model="filter" variant="outlined">
@@ -192,15 +217,12 @@
           variant="text"
           color="primary"
           class="text-capitalize"
-          v-text="item.name"
-        />
+        >
+          {{ item.name }}
+        </v-btn>
       </td>
       <td class="text-center">
-        <flag
-          :iso="item.flag"
-          :title="item.nationality"
-          class="mr-2"
-        />
+        <flag :iso="item.flag" :title="item.nationality" class="mr-2" />
       </td>
       <td class="text-center">{{ item.pos }}</td>
       <td class="text-right">{{ item.numMatches }}</td>

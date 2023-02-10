@@ -4,16 +4,23 @@
   const { executeMutation: updateTeam } = useMutation(gql`
     mutation ($id: ID!, $attributes: TeamAttributes!) {
       updateTeam(id: $id, attributes: $attributes) {
-        team { ...TeamData }
-        errors { fullMessages }
+        team {
+          ...TeamData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${teamFragment}
   `)
 
-  async function onDateChange (currentlyOn) {
-    const { data: { updateTeam: { errors } } } =
-      await updateTeam({ id: team.value.id, attributes: { currentlyOn } })
+  async function onDateChange(currentlyOn) {
+    const {
+      data: {
+        updateTeam: { errors }
+      }
+    } = await updateTeam({ id: team.value.id, attributes: { currentlyOn } })
     if (errors) {
       alert(errors.fullMessages[0])
     }
@@ -26,11 +33,27 @@
     { to: 'matches', icon: 'mdi-soccer-field', title: 'Matches' },
     { to: 'matches/new', icon: 'mdi-soccer', title: 'New Match' },
     { to: 'competitions', icon: 'mdi-trophy', title: 'Competitions' },
-    { to: 'competitions/new', icon: 'mdi-tournament', title: 'New Competition' },
-    { to: `seasons/${currentSeason.value}`, icon: 'mdi-calendar', title: 'Current Season' },
+    {
+      to: 'competitions/new',
+      icon: 'mdi-tournament',
+      title: 'New Competition'
+    },
+    {
+      to: `seasons/${currentSeason.value}`,
+      icon: 'mdi-calendar',
+      title: 'Current Season'
+    },
     { to: 'squads', icon: 'mdi-clipboard-text', title: 'Squads' },
-    { to: 'analytics/development', icon: 'mdi-trending-up', title: 'Development' },
-    { to: 'analytics/statistics', icon: 'mdi-google-analytics', title: 'Statistics' },
+    {
+      to: 'analytics/development',
+      icon: 'mdi-trending-up',
+      title: 'Development'
+    },
+    {
+      to: 'analytics/statistics',
+      icon: 'mdi-google-analytics',
+      title: 'Statistics'
+    }
   ]
 </script>
 

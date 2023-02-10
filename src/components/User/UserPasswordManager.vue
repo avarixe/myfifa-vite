@@ -1,5 +1,5 @@
 <script setup>
-  const props = defineProps({
+  defineProps({
     user: { type: Object, required: true }
   })
 
@@ -12,16 +12,21 @@
   const { executeMutation: changePassword } = useMutation(gql`
     mutation changePassword($attributes: UserPasswordChangeAttributes!) {
       changePassword(attributes: $attributes) {
-        errors { fullMessages }
+        errors {
+          fullMessages
+        }
       }
     }
   `)
 
   const loading = ref(false)
-  async function onSubmit () {
+  async function onSubmit() {
     loading.value = true
-    const { data: { updateUser: { errors } } } =
-      await changePassword({ attributes })
+    const {
+      data: {
+        updateUser: { errors }
+      }
+    } = await changePassword({ attributes })
     errors && alert(errors.fullMessages[0])
     loading.value = false
   }
@@ -58,13 +63,7 @@
         />
       </v-card-text>
       <v-card-actions>
-        <v-btn
-          type="submit"
-          color="primary"
-          :loading="loading"
-        >
-          Update
-        </v-btn>
+        <v-btn type="submit" color="primary" :loading="loading"> Update </v-btn>
       </v-card-actions>
     </v-card>
   </v-form>

@@ -55,7 +55,7 @@
     }
   ])
 
-  function badgeUrl (team) {
+  function badgeUrl(team) {
     return team.badgePath
       ? `${import.meta.env.VITE_API_URL.replace(/\/api/, '')}${team.badgePath}`
       : null
@@ -64,34 +64,19 @@
 
 <template>
   <v-container class="fill-height">
-    <v-row
-      align="center"
-      justify="center"
-    >
+    <v-row align="center" justify="center">
       <v-col cols="12">
         <v-card v-if="currentTeam">
           <div class="d-sm-flex flex-no-wrap text-center">
-            <v-avatar
-              class="ma-3"
-              size="250"
-              tile
-            >
+            <v-avatar class="ma-3" size="250" tile>
               <v-img
                 v-if="currentTeam.badgePath"
                 :src="badgeUrl(currentTeam)"
                 contain
               />
-              <v-tooltip
-                v-else
-                bottom
-              >
+              <v-tooltip v-else bottom>
                 <template #activator="{ on }">
-                  <v-icon
-                    size="100"
-                    v-on="on"
-                  >
-                    mdi-shield-off-outline
-                  </v-icon>
+                  <v-icon size="100" v-on="on"> mdi-shield-off-outline </v-icon>
                 </template>
                 <span>Edit Team to upload Badge</span>
               </v-tooltip>
@@ -115,11 +100,7 @@
               <v-divider class="mx-4" />
               <v-card-text>
                 <v-row dense>
-                  <v-col
-                    cols="12"
-                    lg="6"
-                    class="text-left"
-                  >
+                  <v-col cols="12" lg="6" class="text-left">
                     <div>
                       <span class="text-grey">Started Date: </span>
                       <b>{{ formatDate(currentTeam.startedOn) }}</b>
@@ -139,10 +120,7 @@
                     lg="6"
                     class="d-flex align-top"
                   >
-                    <div
-                      class="text-grey"
-                      :style="{ minWidth: '6em' }"
-                    >
+                    <div class="text-grey" :style="{ minWidth: '6em' }">
                       Last Match:
                     </div>
                     <div
@@ -151,7 +129,9 @@
                     >
                       <b>{{ lastMatch.home }} v {{ lastMatch.away }}</b>
                       <div>{{ lastMatch.competition }}</div>
-                      <div><i>{{ formatDate(lastMatch.playedOn) }}</i></div>
+                      <div>
+                        <i>{{ formatDate(lastMatch.playedOn) }}</i>
+                      </div>
                       <v-hover v-slot="{ isHovering, props }">
                         <v-btn
                           :to="`/teams/${currentTeam.id}/matches/${lastMatch.id}`"
@@ -174,11 +154,7 @@
                   :key="i"
                   v-slot="{ isHovering, props }"
                 >
-                  <v-btn
-                    :to="link.to"
-                    variant="text"
-                    v-bind="props"
-                  >
+                  <v-btn :to="link.to" variant="text" v-bind="props">
                     <v-icon :start="isHovering">{{ link.icon }}</v-icon>
                     <span v-show="isHovering">{{ link.text }}</span>
                   </v-btn>
@@ -195,19 +171,9 @@
         cols="3"
         sm="3"
       >
-        <v-card
-          class="text-center"
-          @click="teamIndex = i"
-        >
-          <v-avatar
-            class="ma-3"
-            tile
-          >
-            <v-img
-              v-if="team.badgePath"
-              :src="badgeUrl(team)"
-              contain
-            />
+        <v-card class="text-center" @click="teamIndex = i">
+          <v-avatar class="ma-3" tile>
+            <v-img v-if="team.badgePath" :src="badgeUrl(team)" contain />
             <div v-else>{{ team.name }}</div>
           </v-avatar>
         </v-card>

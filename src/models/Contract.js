@@ -5,7 +5,7 @@ import Player from './Player'
 export default class Contract extends Model {
   static entity = 'Contract'
 
-  static fields () {
+  static fields() {
     return {
       // Primary/Foreign keys
       id: this.number(0),
@@ -29,14 +29,14 @@ export default class Contract extends Model {
     }
   }
 
-  static casts () {
+  static casts() {
     return {
       id: NumberCast,
       playerId: NumberCast
     }
   }
 
-  get timelineType () {
+  get timelineType() {
     return 'Contract'
   }
 }

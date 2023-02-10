@@ -12,10 +12,7 @@
 
   const rulesFor = {
     name: [isRequired('Name')],
-    numTeams: [
-      isRequired('Number of Teams'),
-      isNumber('Number of Teams')
-    ],
+    numTeams: [isRequired('Number of Teams'), isNumber('Number of Teams')],
     numFixtures: [
       isRequired('Number of Fixtures'),
       isNumber('Number of Fixtures')
@@ -31,13 +28,17 @@
   const { executeMutation: createStage } = useMutation(gql`
     mutation createStage($competitionId: ID!, $attributes: StageAttributes!) {
       addStage(competitionId: $competitionId, attributes: $attributes) {
-        stage { ...StageData }
-        errors { fullMessages }
+        stage {
+          ...StageData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${stageFragment}
   `)
-  function onSubmit () {
+  function onSubmit() {
     createStage({ competitionId: props.competitionId, attributes })
   }
 </script>
@@ -62,19 +63,9 @@
         />
       </v-col>
       <v-col cols="12">
-        <v-radio-group
-          v-model="attributes.table"
-          inline
-          hide-details
-        >
-          <v-radio
-            label="Group"
-            :value="true"
-          />
-          <v-radio
-            label="Knockout"
-            :value="false"
-          />
+        <v-radio-group v-model="attributes.table" inline hide-details>
+          <v-radio label="Group" :value="true" />
+          <v-radio label="Knockout" :value="false" />
         </v-radio-group>
       </v-col>
       <v-col cols="12">
@@ -87,10 +78,7 @@
         />
       </v-col>
       <v-scroll-y-transition mode="out-in">
-        <v-col
-          v-if="!attributes.table"
-          cols="12"
-        >
+        <v-col v-if="!attributes.table" cols="12">
           <v-text-field
             v-model.number="attributes.numFixtures"
             label="Number of Fixtures"

@@ -5,7 +5,7 @@ import FixtureLeg from './FixtureLeg'
 export default class Fixture extends Model {
   static entity = 'Fixture'
 
-  static fields () {
+  static fields() {
     return {
       // Primary/Foreign keys
       id: this.number(0),
@@ -20,7 +20,7 @@ export default class Fixture extends Model {
     }
   }
 
-  static casts () {
+  static casts() {
     return {
       id: NumberCast,
       stageId: NumberCast

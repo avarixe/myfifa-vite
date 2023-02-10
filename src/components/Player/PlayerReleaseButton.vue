@@ -6,16 +6,23 @@
   const { executeMutation: releasePlayer } = useMutation(gql`
     mutation ($id: ID!) {
       releasePlayer(id: $id) {
-        player { ...PlayerData }
-        errors { fullMessages }
+        player {
+          ...PlayerData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${playerFragment}
   `)
 
-  async function onConfirm () {
-    const { data: { releasePlayer: { errors } } } =
-      await releasePlayer({ id: props.player.id })
+  async function onConfirm() {
+    const {
+      data: {
+        releasePlayer: { errors }
+      }
+    } = await releasePlayer({ id: props.player.id })
     if (errors) {
       alert(errors.fullMessages[0])
     }

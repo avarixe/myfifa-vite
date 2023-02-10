@@ -1,8 +1,6 @@
 <script setup>
   import { Player, Squad } from '~/models'
 
-  const { team } = useTeam()
-
   const props = defineProps({
     teamId: { type: Number, default: null },
     record: { type: Object, default: null }
@@ -12,9 +10,10 @@
 
   const attributes = reactive({
     name: props.record?.name,
-    squadPlayersAttributes: props.record?.squadPlayers?.map(squadPlayer =>
-      pick(squadPlayer, ['id', 'playerId', 'pos'])
-    ) || new Array(11).fill().map(() => ({ playerId: null, pos: null }))
+    squadPlayersAttributes:
+      props.record?.squadPlayers?.map(squadPlayer =>
+        pick(squadPlayer, ['id', 'playerId', 'pos'])
+      ) || new Array(11).fill().map(() => ({ playerId: null, pos: null }))
   })
 
   const formationCells = computed(() =>
@@ -26,7 +25,7 @@
     }, {})
   )
 
-  function resetCard () {
+  function resetCard() {
     attributes.squadPlayersAttributes = props.record?.squadPlayers?.map(
       squadPlayer => pick(squadPlayer, ['id', 'playerId', 'pos'])
     )
@@ -37,8 +36,12 @@
   const { executeMutation: createSquad } = useMutation(gql`
     mutation createSquad($teamId: ID!, $attributes: SquadAttributes!) {
       addSquad(teamId: $teamId, attributes: $attributes) {
-        squad { ...SquadData }
-        errors { fullMessages }
+        squad {
+          ...SquadData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${squadFragment}
@@ -47,18 +50,25 @@
   const { executeMutation: updateSquad } = useMutation(gql`
     mutation ($id: ID!, $attributes: SquadAttributes!) {
       updateSquad(id: $id, attributes: $attributes) {
-        squad { ...SquadData }
-        errors { fullMessages }
+        squad {
+          ...SquadData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${squadFragment}
   `)
 
   const emit = defineEmits(['created', 'click:remove'])
-  async function onSubmit () {
+  async function onSubmit() {
     if (props.record) {
-      const { data: { updateSquad: { errors, squad} } } =
-        await updateSquad({ id: props.record.id, attributes })
+      const {
+        data: {
+          updateSquad: { errors, squad }
+        }
+      } = await updateSquad({ id: props.record.id, attributes })
       if (squad) {
         selectedPlayerId.value = null
         inEditMode.value = false
@@ -66,8 +76,11 @@
         alert(errors.fullMessages[0])
       }
     } else {
-      const { data: { addSquad: { errors, squad } } } =
-        await createSquad({ teamId: props.teamId, attributes })
+      const {
+        data: {
+          addSquad: { errors, squad }
+        }
+      } = await createSquad({ teamId: props.teamId, attributes })
       if (squad) {
         useRepo(Squad).save(squad)
         emit('created')
@@ -87,28 +100,35 @@
   )
   const unselectedPlayers = computed(() =>
     players.value.filter(player =>
-      attributes.squadPlayersAttributes.every(attr => attr.playerId !== player.id)
+      attributes.squadPlayersAttributes.every(
+        attr => attr.playerId !== player.id
+      )
     )
   )
   const inactivePlayerIds = computed(() =>
-    players.value.filter(player => player.status !== 'Active').map(player => player.id)
+    players.value
+      .filter(player => player.status !== 'Active')
+      .map(player => player.id)
   )
 
   const selectedPlayerId = ref(null)
-  function selectPlayer (playerId) {
+  function selectPlayer(playerId) {
     if (inEditMode.value) {
-      selectedPlayerId.value = selectedPlayerId.value === playerId
-        ? null
-        : playerId
+      selectedPlayerId.value =
+        selectedPlayerId.value === playerId ? null : playerId
     }
   }
-  function selectPosition (pos) {
+  function selectPosition(pos) {
     if (inEditMode.value) {
       if (selectedPlayerId.value) {
-        const cell = attributes.squadPlayersAttributes.find(attr => attr.pos === pos)
-        const blankCell = attributes.squadPlayersAttributes.find(attr => attr.pos === null)
-        const prevCell = attributes.squadPlayersAttributes.find(attr =>
-          attr.playerId === selectedPlayerId.value
+        const cell = attributes.squadPlayersAttributes.find(
+          attr => attr.pos === pos
+        )
+        const blankCell = attributes.squadPlayersAttributes.find(
+          attr => attr.pos === null
+        )
+        const prevCell = attributes.squadPlayersAttributes.find(
+          attr => attr.playerId === selectedPlayerId.value
         )
 
         if (cell) {
@@ -127,7 +147,9 @@
           selectedPlayerId.value = null
         }
       } else {
-        const cell = attributes.squadPlayersAttributes.find(attr => attr.pos === pos)
+        const cell = attributes.squadPlayersAttributes.find(
+          attr => attr.pos === pos
+        )
         selectedPlayerId.value = cell?.playerId
       }
     }
@@ -149,10 +171,7 @@
     <v-card-text>
       <v-row dense>
         <v-layout>
-          <v-navigation-drawer
-            v-if="inEditMode"
-            permanent
-          >
+          <v-navigation-drawer v-if="inEditMode" permanent>
             <v-list density="compact">
               <v-list-item
                 v-for="player in unselectedPlayers"
@@ -160,12 +179,17 @@
                 :subtitle="player.pos"
                 :title="player.name"
                 :disabled="inactivePlayerIds.includes(player.id)"
-                :class="{ 'bg-yellow-lighten-4': selectedPlayerId && selectedPlayerId === player.id }"
+                :class="{
+                  'bg-yellow-lighten-4':
+                    selectedPlayerId && selectedPlayerId === player.id
+                }"
                 @click="selectPlayer(player.id)"
               />
             </v-list>
           </v-navigation-drawer>
-          <v-main :class="{ editing: inEditMode, selecting: !!selectedPlayerId }">
+          <v-main
+            :class="{ editing: inEditMode, selecting: !!selectedPlayerId }"
+          >
             <formation-grid
               :cells="formationCells"
               :hide-empty-cells="!inEditMode"
@@ -175,14 +199,17 @@
                   v-ripple
                   class="my-2 w-100 rounded pos-cell filled-pos"
                   :class="{
-                    'bg-yellow-lighten-4': selectedPlayerId && selectedPlayerId === cell.playerId,
+                    'bg-yellow-lighten-4':
+                      selectedPlayerId && selectedPlayerId === cell.playerId,
                     'red--text': inactivePlayerIds.includes(cell.playerId)
                   }"
                   @click="selectPosition(pos)"
                 >
                   <div class="font-weight-bold">{{ pos }}</div>
                   <div class="font-weight-light">
-                    {{ players.find(player => player.id === cell.playerId)?.name }}
+                    {{
+                      players.find(player => player.id === cell.playerId)?.name
+                    }}
                   </div>
                 </div>
               </template>
@@ -203,11 +230,7 @@
     </v-card-text>
     <v-card-actions>
       <template v-if="inEditMode">
-        <v-btn
-          icon="mdi-content-save"
-          variant="text"
-          @click="onSubmit"
-        />
+        <v-btn icon="mdi-content-save" variant="text" @click="onSubmit" />
         &nbsp;
         <v-btn
           v-if="!!props.record"
@@ -223,11 +246,7 @@
         />
       </template>
       <template v-else>
-        <v-btn
-          icon="mdi-pencil"
-          variant="text"
-          @click="inEditMode = true"
-        />
+        <v-btn icon="mdi-pencil" variant="text" @click="inEditMode = true" />
         &nbsp;
         <remove-button
           v-if="!!props.record"
@@ -249,8 +268,7 @@
     &:hover {
       transform: scale(1.1);
       box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%),
-                  0px 1px 1px 0px rgb(0 0 0 / 14%),
-                  0px 1px 3px 0px rgb(0 0 0 / 12%);
+        0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
     }
   }
 </style>

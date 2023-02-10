@@ -6,19 +6,13 @@
 
   const { team } = useTeam()
 
-  const statTotal = key => props.competitionStats.reduce(
-    (total, stats) => total + stats[key],
-    0
-  )
+  const statTotal = key =>
+    props.competitionStats.reduce((total, stats) => total + stats[key], 0)
 </script>
 
 <template>
   <v-container>
-    <v-row
-      class="text-center"
-      justify="space-around"
-      dense
-    >
+    <v-row class="text-center" justify="space-around" dense>
       <v-col cols="12" sm="6">
         <div class="text-h4">
           <season-stat-change

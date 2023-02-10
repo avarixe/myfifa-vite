@@ -4,19 +4,19 @@
     match: { type: Object, required: true }
   })
 
-  const numGoals = computed(() =>
-    props.match.goals
-      .filter(g => g.playerId === props.cap.playerId && !g.ownGoal)
-      .length
+  const numGoals = computed(
+    () =>
+      props.match.goals.filter(
+        g => g.playerId === props.cap.playerId && !g.ownGoal
+      ).length
   )
-  const numAssists = computed(() =>
-    props.match.goals
-      .filter(g => g.assistId === props.cap.playerId)
-      .length
+  const numAssists = computed(
+    () =>
+      props.match.goals.filter(g => g.assistId === props.cap.playerId).length
   )
   const booking = computed(() => {
-    const bookings = props.match.bookings.filter(booking =>
-      booking.playerId === props.cap.playerId
+    const bookings = props.match.bookings.filter(
+      booking => booking.playerId === props.cap.playerId
     )
 
     if (bookings.some(b => b.redCard)) {
@@ -27,9 +27,11 @@
       return null
     }
   })
-  const injured = computed(() => props.match.substitutions.some(s =>
-    s.playerId === props.cap.playerId && s.injury
-  ))
+  const injured = computed(() =>
+    props.match.substitutions.some(
+      s => s.playerId === props.cap.playerId && s.injury
+    )
+  )
 </script>
 
 <template>
@@ -43,11 +45,7 @@
       <template #badge>
         <div class="counter font-weight-black">{{ cap.start }}'</div>
       </template>
-      <v-icon
-        color="green"
-        size="small"
-        icon="mdi-subdirectory-arrow-right"
-      />
+      <v-icon color="green" size="small" icon="mdi-subdirectory-arrow-right" />
     </v-badge>
     <v-badge
       v-if="numGoals > 0"
@@ -58,11 +56,7 @@
       <template #badge>
         <div class="counter font-weight-black">{{ numGoals }}</div>
       </template>
-      <v-icon
-        color="blue"
-        size="small"
-        icon="mdi-soccer"
-      />
+      <v-icon color="blue" size="small" icon="mdi-soccer" />
     </v-badge>
     <v-badge
       v-if="numAssists > 0"
@@ -79,18 +73,8 @@
         icon="mdi-human-greeting"
       />
     </v-badge>
-    <v-icon
-      v-if="booking"
-      :color="booking"
-      size="small"
-      icon="mdi-book"
-    />
-    <v-icon
-      v-if="injured"
-      color="pink"
-      size="small"
-      icon="mdi-ambulance"
-    />
+    <v-icon v-if="booking" :color="booking" size="small" icon="mdi-book" />
+    <v-icon v-if="injured" color="pink" size="small" icon="mdi-ambulance" />
     <v-badge
       v-if="cap.subbedOut"
       location="bottom right"

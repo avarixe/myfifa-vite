@@ -23,26 +23,22 @@
     durationTimespan: [isRequired('Timespan')]
   }
 
-  const timespans = [
-    'Days',
-    'Weeks',
-    'Months',
-    'Years'
-  ]
+  const timespans = ['Days', 'Weeks', 'Months', 'Years']
 
   const durationOn = ref(false)
 
   const { team } = useTeam()
 
-  const title = computed(() => props.record ? 'Update Injury' : 'Record New Injury')
+  const title = computed(() =>
+    props.record ? 'Update Injury' : 'Record New Injury'
+  )
 
-  function onOpen () {
+  function onOpen() {
     if (props.record) {
-      Object.assign(attributes, pick(props.record, [
-        'startedOn',
-        'endedOn',
-        'description'
-      ]))
+      Object.assign(
+        attributes,
+        pick(props.record, ['startedOn', 'endedOn', 'description'])
+      )
       durationOn.value = false
     } else {
       attributes.startedOn = team.value.currentlyOn
@@ -65,8 +61,12 @@
   const { executeMutation: createInjury } = useMutation(gql`
     mutation createInjury($playerId: ID!, $attributes: InjuryAttributes!) {
       addInjury(playerId: $playerId, attributes: $attributes) {
-        injury { ...InjuryData }
-        errors { fullMessages }
+        injury {
+          ...InjuryData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${injuryFragment}
@@ -75,23 +75,33 @@
   const { executeMutation: updateInjury } = useMutation(gql`
     mutation ($id: ID!, $attributes: InjuryAttributes!) {
       updateInjury(id: $id, attributes: $attributes) {
-        injury { ...InjuryData }
-        errors { fullMessages }
+        injury {
+          ...InjuryData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${injuryFragment}
   `)
 
-  async function onSubmit () {
+  async function onSubmit() {
     if (props.record) {
-      const { data: { updateInjury: { errors } } } =
-        await updateInjury({ id: props.record.id, attributes })
+      const {
+        data: {
+          updateInjury: { errors }
+        }
+      } = await updateInjury({ id: props.record.id, attributes })
       if (errors) {
         alert(errors.fullMessages[0])
       }
     } else {
-      const { data: { addInjury: { errors } } } =
-        await createInjury({ playerId: props.player.id, attributes })
+      const {
+        data: {
+          addInjury: { errors }
+        }
+      } = await createInjury({ playerId: props.player.id, attributes })
       if (errors) {
         alert(errors.fullMessages[0])
       }
@@ -100,11 +110,7 @@
 </script>
 
 <template>
-  <dialog-form
-    :title="title"
-    :submit="onSubmit"
-    @open="onOpen"
-  >
+  <dialog-form :title="title" :submit="onSubmit" @open="onOpen">
     <template #form>
       <v-col cols="12">
         <date-field
@@ -135,10 +141,7 @@
           />
         </v-col>
       </template>
-      <v-col
-        v-else
-        cols="12"
-      >
+      <v-col v-else cols="12">
         <date-field
           v-model="attributes.endedOn"
           label="Recovery Date"

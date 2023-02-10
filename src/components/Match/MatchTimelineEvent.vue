@@ -24,10 +24,12 @@
     }
   })
 
-  const itemColor = computed(() => teamIsHome.value ? 'teal' : 'blue-grey')
+  const itemColor = computed(() => (teamIsHome.value ? 'teal' : 'blue-grey'))
 
   const { mdAndUp } = useDisplay()
-  const slotName = computed(() => teamIsHome.value && mdAndUp.value ? 'opposite' : 'default')
+  const slotName = computed(() =>
+    teamIsHome.value && mdAndUp.value ? 'opposite' : 'default'
+  )
 </script>
 
 <template>
@@ -35,7 +37,7 @@
     <template #icon>
       <small>{{ event.minute }}'</small>
     </template>
-    <template v-slot:[slotName]>
+    <template #[slotName]>
       <div
         v-if="!mdAndUp"
         :class="`font-weight-light text-caption text-truncate mx-1 text-${itemColor} my-0`"
@@ -56,7 +58,9 @@
         <remove-button
           :record="event"
           :store="event.timelineType"
-          :label="`${event.timelineType[0].toUpperCase()}${event.timelineType.slice(1)}`"
+          :label="`${event.timelineType[0].toUpperCase()}${event.timelineType.slice(
+            1
+          )}`"
           variant="text"
         />
       </div>

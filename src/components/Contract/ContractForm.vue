@@ -1,12 +1,11 @@
 <script setup>
   const { team } = useTeam()
 
-  const props = defineProps({
+  defineProps({
     player: { type: Object, required: true },
     record: { type: Object, default: null }
   })
 
-  const valid = ref(false)
   const attributes = reactive({
     startedOn: null,
     endedOn: null,
@@ -37,21 +36,26 @@
 
   const numSeasonsOn = ref(true)
 
-  const title = computed(() => props.record ? 'Edit Contract' : 'Sign New Contract')
+  const title = computed(() =>
+    props.record ? 'Edit Contract' : 'Sign New Contract'
+  )
 
-  function onOpen () {
+  function onOpen() {
     if (props.record) {
-      Object.assign(attributes, pick(props.record, [
-        'signedOn',
-        'startedOn',
-        'endedOn',
-        'wage',
-        'signingBonus',
-        'releaseClause',
-        'performanceBonus',
-        'bonusReq',
-        'bonusReqType'
-      ]))
+      Object.assign(
+        attributes,
+        pick(props.record, [
+          'signedOn',
+          'startedOn',
+          'endedOn',
+          'wage',
+          'signingBonus',
+          'releaseClause',
+          'performanceBonus',
+          'bonusReq',
+          'bonusReqType'
+        ])
+      )
       numSeasonsOn.value = false
     } else {
       attributes.startedOn = team.value.currentlyOn
@@ -75,8 +79,12 @@
   const { executeMutation: createContract } = useMutation(gql`
     mutation createContract($playerId: ID!, $attributes: ContractAttributes!) {
       addContract(playerId: $playerId, attributes: $attributes) {
-        contract { ...ContractData }
-        errors { fullMessages }
+        contract {
+          ...ContractData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${contractFragment}
@@ -85,23 +93,33 @@
   const { executeMutation: updateContract } = useMutation(gql`
     mutation ($id: ID!, $attributes: ContractAttributes!) {
       updateContract(id: $id, attributes: $attributes) {
-        contract { ...ContractData }
-        errors { fullMessages }
+        contract {
+          ...ContractData
+        }
+        errors {
+          fullMessages
+        }
       }
     }
     ${contractFragment}
   `)
 
-  async function onSubmit () {
+  async function onSubmit() {
     if (props.record) {
-      const { data: { updateContract: { errors} } } =
-        await updateContract({ id: props.record.id, attributes })
+      const {
+        data: {
+          updateContract: { errors }
+        }
+      } = await updateContract({ id: props.record.id, attributes })
       if (errors) {
         alert(errors.fullMessages[0])
       }
     } else {
-      const { data: { addContract: { errors } } } =
-        await createContract({ playerId: props.player.id, attributes })
+      const {
+        data: {
+          addContract: { errors }
+        }
+      } = await createContract({ playerId: props.player.id, attributes })
       if (errors) {
         alert(errors.fullMessages[0])
       }
@@ -110,11 +128,7 @@
 </script>
 
 <template>
-  <dialog-form
-    :title="title"
-    :submit="onSubmit"
-    @open="onOpen"
-  >
+  <dialog-form :title="title" :submit="onSubmit" @open="onOpen">
     <template #form>
       <v-col cols="12">
         <date-field
@@ -161,17 +175,10 @@
         />
       </v-col>
       <v-col cols="12">
-        <money-field
-          v-model="attributes.wage"
-          label="Wage"
-          required
-        />
+        <money-field v-model="attributes.wage" label="Wage" required />
       </v-col>
       <v-col cols="12">
-        <money-field
-          v-model="attributes.signingBonus"
-          label="Signing Bonus"
-        />
+        <money-field v-model="attributes.signingBonus" label="Signing Bonus" />
       </v-col>
       <v-col cols="12">
         <money-field
@@ -186,10 +193,7 @@
         />
       </v-col>
       <v-scroll-y-transition mode="out-in">
-        <v-row
-          v-if="attributes.performanceBonus"
-          dense
-        >
+        <v-row v-if="attributes.performanceBonus" dense>
           <v-col cols="6">
             <v-text-field
               v-model.number="attributes.bonusReq"

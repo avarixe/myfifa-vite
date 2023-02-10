@@ -10,9 +10,7 @@
   const capitalize = str => `${str[0].toUpperCase()}${str.slice(1)}`
   const { seasonLabel } = useTeam()
   const breadcrumbs = computed(() => {
-    const routeSteps = route.name === 'index'
-      ? ['']
-      : route.path.split('/')
+    const routeSteps = route.name === 'index' ? [''] : route.path.split('/')
     return routeSteps.map((step, i) => {
       const to = `${routeSteps.slice(0, i + 1).join('/')}`
       const prevStep = routeSteps[i - 1]
@@ -31,32 +29,40 @@
         case 'analytics':
           return { to, text: capitalize(step), disabled: true }
         case 'seasons':
-          return { to: to.replace(/seasons/, 'competitions'), text: capitalize(step) }
+          return {
+            to: to.replace(/seasons/, 'competitions'),
+            text: capitalize(step)
+          }
         case 'new':
           return {
             to,
             text: `New ${capitalize(prevStep).replace(/e?s$/, '')}`
           }
-        case 'edit':
+        case 'edit': {
           const twoStepsAgo = routeSteps[i - 2]
           return {
             to,
             text: `Edit ${capitalize(twoStepsAgo).replace(/e?s$/, '')}`
           }
+        }
         default:
           switch (prevStep) {
-            case 'teams':
+            case 'teams': {
               const team = teamRepo.find(parseInt(step))
               return { to, text: team?.name }
-            case 'players':
+            }
+            case 'players': {
               const player = playerRepo.find(parseInt(step))
               return { to, text: player?.name }
-            case 'matches':
+            }
+            case 'matches': {
               const match = matchRepo.find(parseInt(step))
               return { to, text: `${match?.home} v ${match?.away}` }
-            case 'competitions':
+            }
+            case 'competitions': {
               const competition = competitionRepo.find(parseInt(step))
               return { to, text: competition?.name }
+            }
             case 'seasons':
               return { to, text: seasonLabel(parseInt(step)) }
             default:

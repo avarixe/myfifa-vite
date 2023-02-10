@@ -13,7 +13,7 @@
   const menu = ref(false)
 
   const emit = defineEmits(['update:modelValue'])
-  function onCalendarUpdate (value) {
+  function onCalendarUpdate(value) {
     emit('update:modelValue', value)
     menu.value = false
   }

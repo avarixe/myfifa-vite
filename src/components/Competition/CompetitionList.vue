@@ -26,8 +26,9 @@
         color="primary"
         variant="text"
         class="text-h4"
-        v-text="seasonLabel(season)"
-      />
+      >
+        {{ seasonLabel(season) }}
+      </v-btn>
     </v-list-subheader>
     <v-list-item
       v-if="season === currentSeason"
@@ -35,10 +36,7 @@
       :to="`/teams/${team.id}/competitions/new`"
     >
       <template #prepend>
-        <v-icon
-          icon="mdi-plus-circle"
-          color="success"
-        />
+        <v-icon icon="mdi-plus-circle" color="success" />
       </template>
     </v-list-item>
     <v-list-item

@@ -6,8 +6,12 @@
       query fetchPlayersPage($teamId: ID!) {
         team(id: $teamId) {
           ...TeamData
-          players { ...PlayerData }
-          playerDevelopmentStats { ...PlayerDevelopmentStatsData }
+          players {
+            ...PlayerData
+          }
+          playerDevelopmentStats {
+            ...PlayerDevelopmentStatsData
+          }
         }
       }
       ${teamFragment}
@@ -23,7 +27,7 @@
   const filterOptions = [
     { text: 'All', color: 'blue', icon: 'earth' },
     { text: 'Youth', color: 'cyan', icon: 'school' },
-    { text: 'Active', color: 'light-green', icon: 'account-check' },
+    { text: 'Active', color: 'light-green', icon: 'account-check' }
   ]
 
   const metric = ref('OVR')
@@ -35,8 +39,21 @@
   const headers = computed(() => {
     const columns = [
       { text: 'Name', value: 'name', width: 200, class: 'stick-left' },
-      { text: 'Nationality', value: 'nationality', class: 'text-center', cellClass: 'text-center', width: 120 },
-      { text: 'Pos', value: 'pos', class: 'text-center', cellClass: 'text-center', width: 100, sortBy: 'posIdx' },
+      {
+        text: 'Nationality',
+        value: 'nationality',
+        class: 'text-center',
+        cellClass: 'text-center',
+        width: 120
+      },
+      {
+        text: 'Pos',
+        value: 'pos',
+        class: 'text-center',
+        cellClass: 'text-center',
+        width: 100,
+        sortBy: 'posIdx'
+      },
       {
         text: `Start ${metric.value}`,
         value: `start${metric.value.toLowerCase()}`,
@@ -68,37 +85,48 @@
   })
 
   const playerRepo = useRepo(Player)
-  const players = computed(() => playerRepo.where('teamId', team.value.id).get())
-  const rows = computed(() => players.value.filter(player => {
-    switch (filter.value) {
-      case 'All':
-        return true
-      case 'Youth':
-        return player.youth
-      case 'Active':
-        return player.status !== null && player.status !== 'Pending'
-    }
-  }).map(player => {
-    const playerWithStats = { ...player, posIdx: player.posIdx, flag: player.flag }
-
-    const stats = statsByPlayerId[player.id]
-    if (stats) {
-      const ovrDiff = {}
-      const valueDiff = {}
-      stats.forEach(stat => {
-        ovrDiff[stat.season] = stat.ovr[1] - stat.ovr[0]
-        valueDiff[stat.season] = (stat.value[1] - stat.value[0]) / stat.value[0] * 100
+  const players = computed(() =>
+    playerRepo.where('teamId', team.value.id).get()
+  )
+  const rows = computed(() =>
+    players.value
+      .filter(player => {
+        switch (filter.value) {
+          case 'All':
+            return true
+          case 'Youth':
+            return player.youth
+          case 'Active':
+            return player.status !== null && player.status !== 'Pending'
+        }
       })
-      playerWithStats.ovrDiff = ovrDiff
-      playerWithStats.startovr = stats[0].ovr[0]
-      playerWithStats.valueDiff = valueDiff
-      playerWithStats.startValue = stats[0].value[0]
-    }
+      .map(player => {
+        const playerWithStats = {
+          ...player,
+          posIdx: player.posIdx,
+          flag: player.flag
+        }
 
-    return playerWithStats
-  }))
+        const stats = statsByPlayerId[player.id]
+        if (stats) {
+          const ovrDiff = {}
+          const valueDiff = {}
+          stats.forEach(stat => {
+            ovrDiff[stat.season] = stat.ovr[1] - stat.ovr[0]
+            valueDiff[stat.season] =
+              ((stat.value[1] - stat.value[0]) / stat.value[0]) * 100
+          })
+          playerWithStats.ovrDiff = ovrDiff
+          playerWithStats.startovr = stats[0].ovr[0]
+          playerWithStats.valueDiff = valueDiff
+          playerWithStats.startValue = stats[0].value[0]
+        }
 
-  function ovrColor (ovrDiff) {
+        return playerWithStats
+      })
+  )
+
+  function ovrColor(ovrDiff) {
     switch (true) {
       case ovrDiff > 6:
         return 'text-green-darken-2'
@@ -117,7 +145,7 @@
     }
   }
 
-  function valueColor (valueDiff) {
+  function valueColor(valueDiff) {
     switch (true) {
       case valueDiff > 100:
         return 'text-green-darken-2'
@@ -140,9 +168,7 @@
 <template>
   <h1>Player Development</h1>
 
-  <v-btn :to="`/teams/${team.id}/analytics/statistics`">
-    Statistics
-  </v-btn>
+  <v-btn :to="`/teams/${team.id}/analytics/statistics`"> Statistics </v-btn>
 
   <div class="d-flex mt-2">
     <v-btn-toggle v-model="filter" variant="outlined">
@@ -173,11 +199,7 @@
         :value="option.text"
       >
         <v-icon>mdi-{{ option.icon }}</v-icon>
-        <v-tooltip
-          activator="parent"
-          :text="option.text"
-          location="bottom"
-        />
+        <v-tooltip activator="parent" :text="option.text" location="bottom" />
       </v-btn>
     </v-btn-toggle>
   </div>
@@ -197,19 +219,16 @@
           variant="text"
           color="primary"
           class="text-capitalize"
-          v-text="item.name"
-        />
+        >
+          {{ item.name }}
+        </v-btn>
       </td>
       <td class="text-center">
-        <flag
-          :iso="item.flag"
-          :title="item.nationality"
-          class="mr-2"
-        />
+        <flag :iso="item.flag" :title="item.nationality" class="mr-2" />
       </td>
       <td class="text-center">{{ item.pos }}</td>
       <template v-if="metric === 'OVR'">
-      <td class="text-right">{{ item.startovr }}</td>
+        <td class="text-right">{{ item.startovr }}</td>
         <td
           v-for="(_, season) in new Array(currentSeason + 1)"
           :key="season"

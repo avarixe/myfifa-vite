@@ -6,7 +6,7 @@ import Player from './Player'
 export default class Squad extends Model {
   static entity = 'Squad'
 
-  static fields () {
+  static fields() {
     return {
       // Primary/Foreign keys
       id: this.number(0),
@@ -21,7 +21,7 @@ export default class Squad extends Model {
     }
   }
 
-  static casts () {
+  static casts() {
     return {
       id: NumberCast,
       teamId: NumberCast
