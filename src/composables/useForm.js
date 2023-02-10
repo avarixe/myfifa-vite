@@ -10,7 +10,7 @@ export default ({
   const formIsValid = ref(false)
 
   function resetForm() {
-    key.value++
+    formKey.value++
     form.value.reset()
   }
 
