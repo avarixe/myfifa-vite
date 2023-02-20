@@ -3,10 +3,11 @@
     match: { type: Object, required: true }
   })
 
-  const attributes = reactive({
-    homeScore: props.match.penaltyShootout?.homeScore,
-    awayScore: props.match.penaltyShootout?.awayScore
-  })
+  const attributes = reactive({})
+  function onOpen() {
+    attributes.homeScore = props.match.penaltyShootout?.homeScore
+    attributes.awayScore = props.match.penaltyShootout?.awayScore
+  }
 
   const rulesFor = {
     homeScore: [isRequired('Home Score')],
@@ -14,14 +15,8 @@
   }
 
   const title = computed(
-    () => `${props.record ? 'Edit' : 'Record'} Penalty Shootout`
+    () => `${props.match.penaltyShootout ? 'Edit' : 'Record'} Penalty Shootout`
   )
-
-  function onOpen() {
-    if (props.record) {
-      Object.assign(attributes, pick(props.record, ['homeScore', 'awayScore']))
-    }
-  }
 
   const { executeMutation: savePenaltyShootout } = useMutation(gql`
     mutation savePenaltyShootout(
@@ -63,6 +58,7 @@
   <dialog-form
     title-icon="mdi-human"
     :title="title"
+    :validate-on-open="!!record"
     :submit="onSubmit"
     @open="onOpen"
   >

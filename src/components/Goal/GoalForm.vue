@@ -4,23 +4,25 @@
     record: { type: Object, default: null }
   })
 
-  const attributes = reactive({
-    home: true,
-    playerId: null,
-    playerName: '',
-    assistId: null,
-    assistedBy: '',
-    ownGoal: false,
-    penalty: false
-  })
+  const { minute, unsubbedPlayers } = useMatch(props.match)
+
+  const attributes = reactive({})
+  function onOpen() {
+    attributes.home = props.record?.home ?? true
+    attributes.playerId = props.record?.playerId
+    attributes.playerName = props.record?.playerName
+    attributes.assistId = props.record?.assistId
+    attributes.assistedBy = props.record?.assistedBy
+    attributes.ownGoal = props.record?.ownGoal ?? false
+    attributes.penalty = props.record?.penalty ?? false
+    minute.value = props.record?.minute
+  }
 
   const rulesFor = {
     playerName: [isRequired('Goal Scorer')]
   }
 
   const title = computed(() => `${props.record ? 'Edit' : 'Record'} Goal`)
-
-  const { minute, unsubbedPlayers } = useMatch(props.match)
 
   const scorerOptions = computed(() =>
     unsubbedPlayers.value.filter(cap => cap.playerId !== attributes.assistId)
@@ -34,27 +36,6 @@
   const teamGoal = computed(
     () => !attributes.home ^ (props.match.home === team.value.name)
   )
-
-  function onOpen() {
-    if (props.record) {
-      Object.assign(
-        attributes,
-        pick(props.record, [
-          'home',
-          'playerId',
-          'playerName',
-          'assistedBy',
-          'assistId',
-          'ownGoal',
-          'penalty'
-        ])
-      )
-      minute.value = props.record.minute
-    } else {
-      attributes.ownGoal = false
-      attributes.penalty = false
-    }
-  }
 
   watchEffect(() => {
     if (!attributes.assistId && teamGoal.value) {
@@ -135,6 +116,7 @@
   <dialog-form
     title-icon="mdi-soccer"
     :title="title"
+    :validate-on-open="!!record"
     :submit="onSubmit"
     @open="onOpen"
   >

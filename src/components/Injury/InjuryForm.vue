@@ -4,15 +4,21 @@
     record: { type: Object, default: null }
   })
 
-  const attributes = reactive({
-    startedOn: null,
-    endedOn: null,
-    duration: {
-      length: null,
-      timespan: null
-    },
-    description: ''
-  })
+  const { team } = useTeam()
+  const attributes = reactive({})
+  const durationOn = ref(false)
+  function onOpen() {
+    attributes.startedOn = props.record?.startedOn ?? team.value.currentlyOn
+    attributes.endedOn = props.record?.endedOn ?? team.value.currentlyOn
+    attributes.description = props.record?.description
+    durationOn.value = !props.record
+    if (durationOn.value) {
+      attributes.duration = {
+        length: null,
+        timespan: null
+      }
+    }
+  }
 
   const rulesFor = {
     description: [isRequired('Description')],
@@ -25,27 +31,9 @@
 
   const timespans = ['Days', 'Weeks', 'Months', 'Years']
 
-  const durationOn = ref(false)
-
-  const { team } = useTeam()
-
   const title = computed(() =>
     props.record ? 'Update Injury' : 'Record New Injury'
   )
-
-  function onOpen() {
-    if (props.record) {
-      Object.assign(
-        attributes,
-        pick(props.record, ['startedOn', 'endedOn', 'description'])
-      )
-      durationOn.value = false
-    } else {
-      attributes.startedOn = team.value.currentlyOn
-      attributes.endedOn = team.value.currentlyOn
-      durationOn.value = true
-    }
-  }
 
   watchEffect(() => {
     if (durationOn.value) {
@@ -110,7 +98,12 @@
 </script>
 
 <template>
-  <dialog-form :title="title" :submit="onSubmit" @open="onOpen">
+  <dialog-form
+    :title="title"
+    :validate-on-open="!!record"
+    :submit="onSubmit"
+    @open="onOpen"
+  >
     <template #form>
       <v-col cols="12">
         <date-field

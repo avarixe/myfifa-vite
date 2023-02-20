@@ -6,17 +6,23 @@
     record: { type: Object, default: null }
   })
 
-  const attributes = reactive({
-    startedOn: null,
-    endedOn: null,
-    numSeasons: null,
-    wage: null,
-    signingBonus: null,
-    releaseClause: null,
-    performanceBonus: null,
-    bonusReq: null,
-    bonusReqType: null
-  })
+  const attributes = reactive({})
+  const numSeasonsOn = ref(true)
+  function onOpen() {
+    attributes.signedOn = props.record?.signedOn
+    attributes.startedOn = props.record?.startedOn
+    attributes.endedOn = props.record?.endedOn
+    attributes.wage = props.record?.wage
+    attributes.signingBonus = props.record?.signingBonus
+    attributes.releaseClause = props.record?.releaseClause
+    attributes.performanceBonus = props.record?.performanceBonus
+    attributes.bonusReq = props.record?.bonusReq
+    attributes.bonusReqType = props.record?.bonusReqType
+    numSeasonsOn.value = !props.record
+    if (numSeasonsOn) {
+      attributes.numSeasons = props.record?.numSeasons
+    }
+  }
 
   const rulesFor = {
     numSeasons: [
@@ -34,34 +40,9 @@
     'Clean Sheets'
   ]
 
-  const numSeasonsOn = ref(true)
-
   const title = computed(() =>
     props.record ? 'Edit Contract' : 'Sign New Contract'
   )
-
-  function onOpen() {
-    if (props.record) {
-      Object.assign(
-        attributes,
-        pick(props.record, [
-          'signedOn',
-          'startedOn',
-          'endedOn',
-          'wage',
-          'signingBonus',
-          'releaseClause',
-          'performanceBonus',
-          'bonusReq',
-          'bonusReqType'
-        ])
-      )
-      numSeasonsOn.value = false
-    } else {
-      attributes.startedOn = team.value.currentlyOn
-      numSeasonsOn.value = true
-    }
-  }
 
   watchEffect(() => {
     if (!attributes.performanceBonus) {
@@ -128,7 +109,12 @@
 </script>
 
 <template>
-  <dialog-form :title="title" :submit="onSubmit" @open="onOpen">
+  <dialog-form
+    :title="title"
+    :validate-on-open="!!record"
+    :submit="onSubmit"
+    @open="onOpen"
+  >
     <template #form>
       <v-col cols="12">
         <date-field

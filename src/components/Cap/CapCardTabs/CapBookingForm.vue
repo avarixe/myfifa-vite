@@ -50,12 +50,19 @@
 
   const { form, formKey, formIsLoading, formIsValid, submitForm } = useForm({
     onSubmit,
-    onReset: () => { attributes.redCard = false }
+    onReset: () => {
+      attributes.redCard = false
+    }
   })
 </script>
 
 <template>
-  <v-form ref="form" :key="formKey" v-model="formIsValid" @submit.prevent="submitForm">
+  <v-form
+    ref="form"
+    :key="formKey"
+    v-model="formIsValid"
+    @submit.prevent="submitForm"
+  >
     <div class="pa-2">
       <div class="text-subtitle-2 pb-2">Book Player</div>
       <v-text-field

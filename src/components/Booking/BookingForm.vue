@@ -4,33 +4,23 @@
     record: { type: Object, default: null }
   })
 
-  const attributes = reactive({
-    home: true,
-    playerId: null,
-    playerName: '',
-    redCard: false
-  })
+  const { team } = useTeam()
+  const { minute, unsubbedPlayers } = useMatch(props.match)
+
+  const attributes = reactive({})
+  function onOpen() {
+    attributes.home = props.record?.home ?? true
+    attributes.playerId = props.record?.playerId
+    attributes.playerName = props.record?.playerName
+    attributes.redCard = props.record?.redCard ?? false
+    minute.value = props.record?.minute
+  }
 
   const rulesFor = {
     playerName: [isRequired('Player')]
   }
 
-  const { team } = useTeam()
-  const { minute, unsubbedPlayers } = useMatch(props.match)
-
   const title = computed(() => `${props.record ? 'Edit' : 'Record'} Booking`)
-
-  function onOpen() {
-    if (props.record) {
-      Object.assign(
-        attributes,
-        pick(props.record, ['home', 'playerId', 'playerName', 'redCard'])
-      )
-      minute.value = props.record.minute
-    } else {
-      attributes.redCard = false
-    }
-  }
 
   function clearNames() {
     attributes.playerId = null
@@ -98,6 +88,7 @@
   <dialog-form
     title-icon="mdi-book"
     :title="title"
+    :validate-on-open="!!record"
     :submit="onSubmit"
     @open="onOpen"
   >

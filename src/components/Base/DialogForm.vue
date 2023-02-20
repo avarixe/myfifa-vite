@@ -3,7 +3,8 @@
     submit: { type: Function, required: true },
     title: { type: String, default: '' },
     titleIcon: { type: String, default: '' },
-    fullWidth: { type: Boolean, default: false }
+    fullWidth: { type: Boolean, default: false },
+    validateOnOpen: { type: Boolean, default: false }
   })
 
   const dialog = ref(false)
@@ -18,7 +19,15 @@
 
   const { form, formKey, formIsLoading, formIsValid, submitForm } = useForm({
     onSubmit: props.submit,
-    onSuccess: () => { dialog.value = false }
+    onSuccess: () => {
+      dialog.value = false
+    }
+  })
+
+  watch(form, () => {
+    if (props.validateOnOpen) {
+      form.value?.validate()
+    }
   })
 </script>
 
@@ -41,7 +50,12 @@
       </v-toolbar>
       <v-divider />
       <v-card-text>
-        <v-form ref="form" :key="formKey" v-model="formIsValid">
+        <v-form
+          ref="form"
+          :key="formKey"
+          v-model="formIsValid"
+          @submit.prevent="submitForm"
+        >
           <v-container>
             <v-row dense>
               <slot name="form" />

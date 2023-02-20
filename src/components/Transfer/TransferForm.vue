@@ -4,6 +4,12 @@
     record: { type: Object, default: null }
   })
 
+  const { team } = useTeam()
+  const transferOut = computed(() =>
+    props.record
+      ? team.value.name === props.record.origin
+      : props.player.status?.length > 0
+  )
   const attributes = reactive({
     signedOn: null,
     movedOn: null,
@@ -12,36 +18,14 @@
     fee: null,
     addonClause: 0
   })
-
-  const rulesFor = {
-    origin: [isRequired('Origin')],
-    destination: [isRequired('Destination')],
-    addonClause: [isNumber('Add-On Clause'), inRange('Add-On Clause', [0, 25])]
-  }
-
-  const { team } = useTeam()
-  const transferOut = computed(() =>
-    props.record
-      ? team.value.name === props.record.origin
-      : props.player.status?.length > 0
-  )
-  // const transferColor = computed(() => transferOut.value ? 'red' : 'green')
-
   function onOpen() {
-    if (props.record) {
-      Object.assign(
-        attributes,
-        pick(props.record, [
-          'signedOn',
-          'movedOn',
-          'origin',
-          'destination',
-          'fee',
-          'addonClause'
-        ])
-      )
-    } else {
-      attributes.movedOn = team.value.currentlyOn
+    attributes.signedOn = props.record?.signedOn
+    attributes.movedOn = props.record?.movedOn ?? team.value.currentlyOn
+    attributes.origin = props.record?.origin
+    attributes.destination = props.record?.destination
+    attributes.fee = props.record?.fee
+    attributes.addonClause = props.record?.addonClause ?? 0
+    if (!props.record) {
       if (transferOut.value) {
         attributes.origin = team.value.name
       } else {
@@ -49,6 +33,14 @@
       }
     }
   }
+
+  const rulesFor = {
+    origin: [isRequired('Origin')],
+    destination: [isRequired('Destination')],
+    addonClause: [isNumber('Add-On Clause'), inRange('Add-On Clause', [0, 25])]
+  }
+
+  // const transferColor = computed(() => transferOut.value ? 'red' : 'green')
 
   watchEffect(() => {
     if (!attributes.addonClause) {
@@ -110,6 +102,7 @@
 <template>
   <dialog-form
     :title="`Transfer ${player.name}`"
+    :validate-on-open="!!record"
     :submit="onSubmit"
     @open="onOpen"
   >

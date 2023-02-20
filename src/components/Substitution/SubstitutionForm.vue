@@ -4,11 +4,13 @@
     record: { type: Object, default: null }
   })
 
-  const attributes = reactive({
-    playerId: null,
-    replacementId: null,
-    injury: false
-  })
+  const attributes = reactive({})
+  function onOpen() {
+    attributes.playerId = props.record?.playerId
+    attributes.replacementId = props.record?.replacementId
+    attributes.injury = props.record?.injury ?? false
+    minute.value = props.record?.minute
+  }
 
   const title = computed(
     () => `${props.record ? 'Edit' : 'Record'} Substitution`
@@ -35,18 +37,6 @@
         (props.record && cap.playerId === props.record.playerId)
     )
   )
-
-  function onOpen() {
-    if (props.record) {
-      Object.assign(
-        attributes,
-        pick(props.record, ['playerId', 'replacementId', 'injury'])
-      )
-      minute.value = props.record.minute
-    } else {
-      attributes.injury = false
-    }
-  }
 
   const { executeMutation: createSubstitution } = useMutation(gql`
     mutation createSubstitution(
@@ -112,6 +102,7 @@
   <dialog-form
     title-icon="mdi-repeat"
     :title="title"
+    :validate-on-open="!!record"
     :submit="onSubmit"
     @open="onOpen"
   >

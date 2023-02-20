@@ -6,6 +6,7 @@
     record: { type: Object, default: null }
   })
 
+  const { team, endOfCurrentSeason } = useTeam()
   const attributes = reactive({
     signedOn: null,
     startedOn: null,
@@ -16,6 +17,25 @@
     transferFee: null,
     addonClause: 0
   })
+  function onOpen() {
+    attributes.signedOn = props.record?.signedOn
+    attributes.startedOn = props.record?.startedOn ?? team.value.currentlyOn
+    attributes.endedOn =
+      props.record?.endedOn ??
+      format(subDays(parseISO(endOfCurrentSeason.value), 1), 'yyyy-MM-dd')
+    attributes.origin = props.record?.origin
+    attributes.destination = props.record?.destination
+    attributes.wagePercentage = props.record?.wagePercentage
+    attributes.transferFee = props.record?.transferFee
+    attributes.addonClause = props.record?.addonClause
+    if (!props.record) {
+      if (loanOut.value) {
+        attributes.origin = team.value.name
+      } else {
+        attributes.destination = team.value.name
+      }
+    }
+  }
 
   const rulesFor = {
     origin: [isRequired('Origin')],
@@ -27,7 +47,6 @@
     addonClause: [isNumber('Add-On Clause'), inRange('Add-On Clause', [0, 25])]
   }
 
-  const { team, endOfCurrentSeason } = useTeam()
   const loanOut = computed(() =>
     props.record
       ? team.value.name === props.record.origin
@@ -36,35 +55,6 @@
   const title = computed(() =>
     props.record ? 'Update Loan' : 'Record New Loan'
   )
-
-  function onOpen() {
-    if (props.record) {
-      Object.assign(
-        attributes,
-        pick(props.record, [
-          'signedOn',
-          'startedOn',
-          'endedOn',
-          'origin',
-          'destination',
-          'wagePercentage',
-          'transferFee',
-          'addonClause'
-        ])
-      )
-    } else {
-      attributes.startedOn = team.value.currentlyOn
-      attributes.endedOn = format(
-        subDays(parseISO(endOfCurrentSeason.value), 1),
-        'yyyy-MM-dd'
-      )
-      if (loanOut.value) {
-        attributes.origin = team.value.name
-      } else {
-        attributes.destination = team.value.name
-      }
-    }
-  }
 
   watchEffect(() => {
     if (!attributes.addonClause) {
@@ -124,7 +114,12 @@
 </script>
 
 <template>
-  <dialog-form :title="title" :submit="onSubmit" @open="onOpen">
+  <dialog-form
+    :title="title"
+    :validate-on-open="!!record"
+    :submit="onSubmit"
+    @open="onOpen"
+  >
     <template #form>
       <v-col cols="12">
         <date-field
