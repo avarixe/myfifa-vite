@@ -25,8 +25,8 @@
     }
   })
 
-  const { executeMutation: createStage } = useMutation(gql`
-    mutation createStage($competitionId: ID!, $attributes: StageAttributes!) {
+  const mutation = gql`
+    mutation ($competitionId: ID!, $attributes: StageAttributes!) {
       addStage(competitionId: $competitionId, attributes: $attributes) {
         stage {
           ...StageData
@@ -37,16 +37,17 @@
       }
     }
     ${stageFragment}
-  `)
-  function onSubmit() {
-    createStage({ competitionId: props.competitionId, attributes })
+  `
+  function variables() {
+    return { competitionId: props.competitionId, attributes }
   }
 </script>
 
 <template>
   <dialog-form
     title="New Stage"
-    :submit="onSubmit"
+    :mutation="mutation"
+    :variables="variables"
     @open="attributes.table = false"
   >
     <template #form>

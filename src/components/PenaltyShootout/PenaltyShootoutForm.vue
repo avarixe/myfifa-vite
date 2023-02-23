@@ -18,11 +18,8 @@
     () => `${props.match.penaltyShootout ? 'Edit' : 'Record'} Penalty Shootout`
   )
 
-  const { executeMutation: savePenaltyShootout } = useMutation(gql`
-    mutation savePenaltyShootout(
-      $matchId: ID!
-      $attributes: PenaltyShootoutAttributes!
-    ) {
+  const mutation = gql`
+    mutation ($matchId: ID!, $attributes: PenaltyShootoutAttributes!) {
       updateMatch(
         id: $matchId
         attributes: { penaltyShootoutAttributes: $attributes }
@@ -40,17 +37,9 @@
     }
     ${matchFragment}
     ${penaltyShootoutFragment}
-  `)
-
-  async function onSubmit() {
-    const {
-      data: {
-        updateMatch: { errors }
-      }
-    } = await savePenaltyShootout({ matchId: props.match.id, attributes })
-    if (errors) {
-      alert(errors.fullMessages[0])
-    }
+  `
+  function variables() {
+    return { matchId: props.match.id, attributes }
   }
 </script>
 
@@ -59,7 +48,8 @@
     title-icon="mdi-human"
     :title="title"
     :validate-on-open="!!record"
-    :submit="onSubmit"
+    :mutation="mutation"
+    :variables="variables"
     @open="onOpen"
   >
     <template #form>

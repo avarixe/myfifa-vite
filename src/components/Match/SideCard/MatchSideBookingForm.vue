@@ -15,37 +15,26 @@
     attributes.home = props.side === 'home'
   })
 
-  const { executeMutation: createBooking } = useMutation(gql`
-    mutation createBooking($matchId: ID!, $attributes: BookingAttributes!) {
-      addBooking(matchId: $matchId, attributes: $attributes) {
-        booking {
-          ...BookingData
-        }
-        errors {
-          fullMessages
-        }
-      }
-    }
-    ${bookingFragment}
-  `)
-
   const emit = defineEmits(['submitted'])
-  async function onSubmit() {
-    const {
-      data: {
-        addBooking: { errors }
-      }
-    } = await createBooking({ matchId: props.match.id, attributes })
-    if (errors) {
-      alert(errors.fullMessages[0])
-    } else {
-      emit('submitted')
-    }
-  }
-
   const { form, formKey, formIsLoading, formIsValid, submitForm } = useForm({
-    onSubmit,
-    onReset: () => {
+    mutation: gql`
+      mutation ($matchId: ID!, $attributes: BookingAttributes!) {
+        addBooking(matchId: $matchId, attributes: $attributes) {
+          booking {
+            ...BookingData
+          }
+          errors {
+            fullMessages
+          }
+        }
+      }
+      ${bookingFragment}
+    `,
+    variables: () => ({ matchId: props.match.id, attributes }),
+    onSubmit() {
+      emit('submitted')
+    },
+    onReset() {
       attributes.redCard = false
     }
   })

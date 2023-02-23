@@ -27,58 +27,43 @@
     attributes.playerName = null
   }
 
-  const { executeMutation: createBooking } = useMutation(gql`
-    mutation createBooking($matchId: ID!, $attributes: BookingAttributes!) {
-      addBooking(matchId: $matchId, attributes: $attributes) {
-        booking {
-          ...BookingData
+  const mutation = props.record
+    ? gql`
+        mutation ($id: ID!, $attributes: BookingAttributes!) {
+          updateBooking(id: $id, attributes: $attributes) {
+            booking {
+              ...BookingData
+            }
+            errors {
+              fullMessages
+            }
+          }
         }
-        errors {
-          fullMessages
+        ${bookingFragment}
+      `
+    : gql`
+        mutation ($matchId: ID!, $attributes: BookingAttributes!) {
+          addBooking(matchId: $matchId, attributes: $attributes) {
+            booking {
+              ...BookingData
+            }
+            errors {
+              fullMessages
+            }
+          }
         }
-      }
-    }
-    ${bookingFragment}
-  `)
-
-  const { executeMutation: updateBooking } = useMutation(gql`
-    mutation ($id: ID!, $attributes: BookingAttributes!) {
-      updateBooking(id: $id, attributes: $attributes) {
-        booking {
-          ...BookingData
-        }
-        errors {
-          fullMessages
-        }
-      }
-    }
-    ${bookingFragment}
-  `)
-
-  async function onSubmit() {
+        ${bookingFragment}
+      `
+  function variables() {
     if (props.record) {
-      const {
-        data: {
-          updateBooking: { errors }
-        }
-      } = await updateBooking({
+      return {
         id: props.record.id,
         attributes: { ...attributes, minute: minute.value }
-      })
-      if (errors) {
-        alert(errors.fullMessages[0])
       }
     } else {
-      const {
-        data: {
-          addBooking: { errors }
-        }
-      } = await createBooking({
+      return {
         matchId: props.match.id,
         attributes: { ...attributes, minute: minute.value }
-      })
-      if (errors) {
-        alert(errors.fullMessages[0])
       }
     }
   }
@@ -89,7 +74,8 @@
     title-icon="mdi-book"
     :title="title"
     :validate-on-open="!!record"
-    :submit="onSubmit"
+    :mutation="mutation"
+    :variables="variables"
     @open="onOpen"
   >
     <template #form>

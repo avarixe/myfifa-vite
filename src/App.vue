@@ -31,6 +31,7 @@
     <v-main>
       <v-container>
         <app-breadcrumbs v-if="token" />
+        <app-broadcaster />
         <suspense v-if="token || inPublicPage">
           <router-view />
         </suspense>

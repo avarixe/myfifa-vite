@@ -57,54 +57,37 @@
     }
   })
 
-  const { executeMutation: createContract } = useMutation(gql`
-    mutation createContract($playerId: ID!, $attributes: ContractAttributes!) {
-      addContract(playerId: $playerId, attributes: $attributes) {
-        contract {
-          ...ContractData
+  const mutation = props.record
+    ? gql`
+        mutation ($id: ID!, $attributes: ContractAttributes!) {
+          updateContract(id: $id, attributes: $attributes) {
+            contract {
+              ...ContractData
+            }
+            errors {
+              fullMessages
+            }
+          }
         }
-        errors {
-          fullMessages
+        ${contractFragment}
+      `
+    : gql`
+        mutation ($playerId: ID!, $attributes: ContractAttributes!) {
+          addContract(playerId: $playerId, attributes: $attributes) {
+            contract {
+              ...ContractData
+            }
+            errors {
+              fullMessages
+            }
+          }
         }
-      }
-    }
-    ${contractFragment}
-  `)
-
-  const { executeMutation: updateContract } = useMutation(gql`
-    mutation ($id: ID!, $attributes: ContractAttributes!) {
-      updateContract(id: $id, attributes: $attributes) {
-        contract {
-          ...ContractData
-        }
-        errors {
-          fullMessages
-        }
-      }
-    }
-    ${contractFragment}
-  `)
-
-  async function onSubmit() {
-    if (props.record) {
-      const {
-        data: {
-          updateContract: { errors }
-        }
-      } = await updateContract({ id: props.record.id, attributes })
-      if (errors) {
-        alert(errors.fullMessages[0])
-      }
-    } else {
-      const {
-        data: {
-          addContract: { errors }
-        }
-      } = await createContract({ playerId: props.player.id, attributes })
-      if (errors) {
-        alert(errors.fullMessages[0])
-      }
-    }
+        ${contractFragment}
+      `
+  function variables() {
+    return props.record
+      ? { id: props.record.id, attributes }
+      : { playerId: props.player.id, attributes }
   }
 </script>
 
@@ -112,7 +95,8 @@
   <dialog-form
     :title="title"
     :validate-on-open="!!record"
-    :submit="onSubmit"
+    :mutation="mutation"
+    :variables="variables"
     @open="onOpen"
   >
     <template #form>

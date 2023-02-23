@@ -1,4 +1,6 @@
 export default ({
+  mutation,
+  variables = () => ({}),
   onSubmit = () => {},
   onSuccess = () => {},
   onReset = () => {},
@@ -14,14 +16,22 @@ export default ({
     form.value.reset()
   }
 
+  const { executeMutation } = useMutation(mutation)
+
   const broadcastStore = useBroadcastStore()
   async function submitForm() {
     if (form.value.validate()) {
       try {
         formIsLoading.value = true
         broadcastStore.clear()
-        await onSubmit()
-        onSuccess()
+        const { data } = await executeMutation(variables())
+        const mutationResponse = Object.values(data)[0]
+        if (mutationResponse.errors) {
+          broadcastStore.error(mutationResponse.errors.fullMessages[0])
+        } else {
+          await onSubmit(data)
+          onSuccess()
+        }
         if (resetAfterSubmit) {
           resetForm()
           onReset()

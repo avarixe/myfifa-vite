@@ -48,54 +48,37 @@
     }
   })
 
-  const { executeMutation: createTransfer } = useMutation(gql`
-    mutation createTransfer($playerId: ID!, $attributes: TransferAttributes!) {
-      addTransfer(playerId: $playerId, attributes: $attributes) {
-        transfer {
-          ...TransferData
+  const mutation = prop.record
+    ? gql`
+        mutation ($id: ID!, $attributes: TransferAttributes!) {
+          updateTransfer(id: $id, attributes: $attributes) {
+            transfer {
+              ...TransferData
+            }
+            errors {
+              fullMessages
+            }
+          }
         }
-        errors {
-          fullMessages
+        ${transferFragment}
+      `
+    : gql`
+        mutation ($playerId: ID!, $attributes: TransferAttributes!) {
+          addTransfer(playerId: $playerId, attributes: $attributes) {
+            transfer {
+              ...TransferData
+            }
+            errors {
+              fullMessages
+            }
+          }
         }
-      }
-    }
-    ${transferFragment}
-  `)
-
-  const { executeMutation: updateTransfer } = useMutation(gql`
-    mutation ($id: ID!, $attributes: TransferAttributes!) {
-      updateTransfer(id: $id, attributes: $attributes) {
-        transfer {
-          ...TransferData
-        }
-        errors {
-          fullMessages
-        }
-      }
-    }
-    ${transferFragment}
-  `)
-
-  async function onSubmit() {
-    if (props.record) {
-      const {
-        data: {
-          updateTransfer: { errors }
-        }
-      } = await updateTransfer({ id: props.record.id, attributes })
-      if (errors) {
-        alert(errors.fullMessages[0])
-      }
-    } else {
-      const {
-        data: {
-          addTransfer: { errors }
-        }
-      } = await createTransfer({ playerId: props.playerId, attributes })
-      if (errors) {
-        alert(errors.fullMessages[0])
-      }
-    }
+        ${transferFragment}
+      `
+  function variables() {
+    return props.record
+      ? { id: props.record.id, attributes }
+      : { playerId: props.playerId, attributes }
   }
 </script>
 
@@ -103,7 +86,8 @@
   <dialog-form
     :title="`Transfer ${player.name}`"
     :validate-on-open="!!record"
-    :submit="onSubmit"
+    :mutation="mutation"
+    :variables="variables"
     @open="onOpen"
   >
     <template #form>

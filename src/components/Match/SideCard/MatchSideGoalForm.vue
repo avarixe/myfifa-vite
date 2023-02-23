@@ -21,42 +21,29 @@
     }
   })
 
-  const { executeMutation: createGoal } = useMutation(gql`
-    mutation createGoal($matchId: ID!, $attributes: GoalAttributes!) {
-      addGoal(matchId: $matchId, attributes: $attributes) {
-        goal {
-          ...GoalData
-        }
-        errors {
-          fullMessages
-        }
-      }
-    }
-    ${goalFragment}
-  `)
-
   const emit = defineEmits(['submitted'])
-  async function onSubmit() {
-    const {
-      data: {
-        addGoal: { errors }
-      }
-    } = await createGoal({ matchId: props.match.id, attributes })
-    if (errors) {
-      alert(errors.fullMessages[0])
-    } else {
-      emit('submitted')
-    }
-  }
-
-  function onReset() {
-    attributes.ownGoal = false
-    attributes.penalty = false
-  }
-
   const { form, formKey, formIsLoading, formIsValid, submitForm } = useForm({
-    onSubmit,
-    onReset
+    mutation: gql`
+      mutation ($matchId: ID!, $attributes: GoalAttributes!) {
+        addGoal(matchId: $matchId, attributes: $attributes) {
+          goal {
+            ...GoalData
+          }
+          errors {
+            fullMessages
+          }
+        }
+      }
+      ${goalFragment}
+    `,
+    variables: () => ({ matchId: props.match.id, attributes }),
+    onSubmit() {
+      emit('submitted')
+    },
+    onReset() {
+      attributes.ownGoal = false
+      attributes.penalty = false
+    }
   })
 </script>
 

@@ -32,45 +32,32 @@
     unsubbedPlayers.value.filter(cap => cap.playerId !== attributes.playerId)
   )
 
-  const { executeMutation: createGoal } = useMutation(gql`
-    mutation createGoal($matchId: ID!, $attributes: GoalAttributes!) {
-      addGoal(matchId: $matchId, attributes: $attributes) {
-        goal {
-          ...GoalData
-        }
-        errors {
-          fullMessages
-        }
-      }
-    }
-    ${goalFragment}
-  `)
-
   const emit = defineEmits(['submitted'])
-  async function onSubmit() {
-    const {
-      data: {
-        addGoal: { errors }
+  const { form, formKey, formIsLoading, formIsValid, submitForm } = useForm({
+    mutation: gql`
+      mutation ($matchId: ID!, $attributes: GoalAttributes!) {
+        addGoal(matchId: $matchId, attributes: $attributes) {
+          goal {
+            ...GoalData
+          }
+          errors {
+            fullMessages
+          }
+        }
       }
-    } = await createGoal({
+      ${goalFragment}
+    `,
+    variables: () => ({
       matchId: props.match.id,
       attributes: { ...attributes, minute: minute.value }
-    })
-    if (errors) {
-      alert(errors.fullMessages[0])
-    } else {
+    }),
+    onSubmit() {
       emit('submitted')
+    },
+    onReset() {
+      attributes.ownGoal = false
+      attributes.penalty = false
     }
-  }
-
-  function onReset() {
-    attributes.ownGoal = false
-    attributes.penalty = false
-  }
-
-  const { form, formKey, formIsLoading, formIsValid, submitForm } = useForm({
-    onSubmit,
-    onReset
   })
 </script>
 

@@ -55,58 +55,43 @@
     attributes.assistedBy = null
   }
 
-  const { executeMutation: createGoal } = useMutation(gql`
-    mutation createGoal($matchId: ID!, $attributes: GoalAttributes!) {
-      addGoal(matchId: $matchId, attributes: $attributes) {
-        goal {
-          ...GoalData
+  const mutation = props.record
+    ? gql`
+        mutation ($id: ID!, $attributes: GoalAttributes!) {
+          updateGoal(id: $id, attributes: $attributes) {
+            goal {
+              ...GoalData
+            }
+            errors {
+              fullMessages
+            }
+          }
         }
-        errors {
-          fullMessages
+        ${goalFragment}
+      `
+    : gql`
+        mutation ($matchId: ID!, $attributes: GoalAttributes!) {
+          addGoal(matchId: $matchId, attributes: $attributes) {
+            goal {
+              ...GoalData
+            }
+            errors {
+              fullMessages
+            }
+          }
         }
-      }
-    }
-    ${goalFragment}
-  `)
-
-  const { executeMutation: updateGoal } = useMutation(gql`
-    mutation ($id: ID!, $attributes: GoalAttributes!) {
-      updateGoal(id: $id, attributes: $attributes) {
-        goal {
-          ...GoalData
-        }
-        errors {
-          fullMessages
-        }
-      }
-    }
-    ${goalFragment}
-  `)
-
-  async function onSubmit() {
+        ${goalFragment}
+      `
+  function variables() {
     if (props.record) {
-      const {
-        data: {
-          updateGoal: { errors }
-        }
-      } = await updateGoal({
+      return {
         id: props.record.id,
         attributes: { ...attributes, minute: minute.value }
-      })
-      if (errors) {
-        alert(errors.fullMessages[0])
       }
     } else {
-      const {
-        data: {
-          addGoal: { errors }
-        }
-      } = await createGoal({
+      return {
         matchId: props.match.id,
         attributes: { ...attributes, minute: minute.value }
-      })
-      if (errors) {
-        alert(errors.fullMessages[0])
       }
     }
   }
@@ -117,7 +102,8 @@
     title-icon="mdi-soccer"
     :title="title"
     :validate-on-open="!!record"
-    :submit="onSubmit"
+    :mutation="mutation"
+    :variables="variables"
     @open="onOpen"
   >
     <template #form>
