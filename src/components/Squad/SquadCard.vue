@@ -33,62 +33,48 @@
     inEditMode.value = false
   }
 
-  const { executeMutation: createSquad } = useMutation(gql`
-    mutation createSquad($teamId: ID!, $attributes: SquadAttributes!) {
-      addSquad(teamId: $teamId, attributes: $attributes) {
-        squad {
-          ...SquadData
+  const mutation = props.record
+    ? gql`
+        mutation ($id: ID!, $attributes: SquadAttributes!) {
+          updateSquad(id: $id, attributes: $attributes) {
+            squad {
+              ...SquadData
+            }
+          }
         }
-        errors {
-          fullMessages
+        ${squadFragment}
+      `
+    : gql`
+        mutation createSquad($teamId: ID!, $attributes: SquadAttributes!) {
+          addSquad(teamId: $teamId, attributes: $attributes) {
+            squad {
+              ...SquadData
+            }
+          }
         }
-      }
-    }
-    ${squadFragment}
-  `)
-
-  const { executeMutation: updateSquad } = useMutation(gql`
-    mutation ($id: ID!, $attributes: SquadAttributes!) {
-      updateSquad(id: $id, attributes: $attributes) {
-        squad {
-          ...SquadData
-        }
-        errors {
-          fullMessages
-        }
-      }
-    }
-    ${squadFragment}
-  `)
+        ${squadFragment}
+      `
+  function variables() {
+    return props.record
+      ? { id: props.record.id, attributes }
+      : { teamId: props.teamId, attributes }
+  }
 
   const emit = defineEmits(['created', 'click:remove'])
-  async function onSubmit() {
-    if (props.record) {
-      const {
-        data: {
-          updateSquad: { errors, squad }
-        }
-      } = await updateSquad({ id: props.record.id, attributes })
-      if (squad) {
+  const { submitForm } = useForm({
+    mutation,
+    variables,
+    onSuccess(data) {
+      if (props.record) {
         selectedPlayerId.value = null
         inEditMode.value = false
       } else {
-        alert(errors.fullMessages[0])
-      }
-    } else {
-      const {
-        data: {
-          addSquad: { errors, squad }
-        }
-      } = await createSquad({ teamId: props.teamId, attributes })
-      if (squad) {
+        const squad = Object.values(data)[0].squad
         useRepo(Squad).save(squad)
         emit('created')
-      } else {
-        alert(errors.fullMessages[0])
       }
     }
-  }
+  })
 
   const playerRepo = useRepo(Player)
   const players = computed(() =>
@@ -230,7 +216,7 @@
     </v-card-text>
     <v-card-actions>
       <template v-if="inEditMode">
-        <v-btn icon="mdi-content-save" variant="text" @click="onSubmit" />
+        <v-btn icon="mdi-content-save" variant="text" @click="submitForm" />
         &nbsp;
         <v-btn
           v-if="!!props.record"

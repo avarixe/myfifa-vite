@@ -53,9 +53,6 @@
             injury {
               ...InjuryData
             }
-            errors {
-              fullMessages
-            }
           }
         }
         ${injuryFragment}
@@ -65,9 +62,6 @@
           addInjury(playerId: $playerId, attributes: $attributes) {
             injury {
               ...InjuryData
-            }
-            errors {
-              fullMessages
             }
           }
         }

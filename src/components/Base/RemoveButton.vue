@@ -12,36 +12,38 @@
     1
   )}`
 
-  const { executeMutation: removeRecord } = useMutation(gql`
-    mutation remove${props.store}($id: ID!) {
-      remove${props.store}(id: $id) {
-        ${storeCamelCase} { ...${props.store}Data }
-        errors { fullMessages }
-      }
-    }
-    ${fragments[`${storeCamelCase}Fragment`]}
-  `)
-
   const emit = defineEmits(['removed'])
+  const { submitForm, formIsLoading } = useForm({
+    mutation: gql`
+      mutation remove${props.store}($id: ID!) {
+        remove${props.store}(id: $id) {
+          ${storeCamelCase} { ...${props.store}Data }
+        }
+      }
+      ${fragments[`${storeCamelCase}Fragment`]}
+    `,
+    variables: () => ({ id: props.record.id }),
+    onSuccess() {
+      emit('removed')
+    }
+  })
+
   async function onClick() {
     if (confirm(`Remove ${props.label}?`)) {
-      const {
-        data: {
-          [`remove${props.store}`]: { errors, [storeCamelCase]: record }
-        }
-      } = await removeRecord({ id: props.record.id })
-      if (record) {
-        emit('removed')
-      } else {
-        alert(errors.fullMessages[0])
-      }
+      submitForm()
     }
   }
 </script>
 
 <template>
-  <v-btn v-if="icon" :icon="icon" variant="text" @click="onClick" />
-  <v-btn v-else @click="onClick">
+  <v-btn
+    v-if="icon"
+    :icon="icon"
+    :loading="formIsLoading"
+    variant="text"
+    @click="onClick"
+  />
+  <v-btn v-else :loading="formIsLoading" @click="onClick">
     <slot>Remove</slot>
   </v-btn>
 </template>

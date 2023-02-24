@@ -3,63 +3,31 @@
     cap: { type: Object, required: true }
   })
 
-  const pos = ref(props.cap.pos)
-  const playerId = ref(props.cap.playerId)
-
+  const attributes = reactive({})
   watchEffect(() => {
-    pos.value = props.cap.pos
-    playerId.value = props.cap.playerId
+    attributes.pos = props.cap.pos
+    attributes.playerId = props.cap.playerId
   })
 
   const { activePlayers } = useActivePlayers()
 
-  const { executeMutation: updateCap } = useMutation(gql`
-    mutation ($id: ID!, $attributes: CapAttributes!) {
-      updateCap(id: $id, attributes: $attributes) {
-        cap {
-          ...CapData
-        }
-        errors {
-          fullMessages
-        }
-      }
-    }
-    ${capFragment}
-  `)
-
   const emit = defineEmits(['submitted'])
-
-  async function onPositionChange() {
-    const {
-      data: {
-        updateCap: { errors }
+  const { submitForm } = useForm({
+    mutation: gql`
+      mutation ($id: ID!, $attributes: CapAttributes!) {
+        updateCap(id: $id, attributes: $attributes) {
+          cap {
+            ...CapData
+          }
+        }
       }
-    } = await updateCap({
-      id: props.cap.id,
-      attributes: { pos: pos.value }
-    })
-    if (errors) {
-      alert(errors.fullMessages[0])
-    } else {
+      ${capFragment}
+    `,
+    variables: () => ({ id: props.cap.id, attributes }),
+    onSuccess() {
       emit('submitted')
     }
-  }
-
-  async function onPlayerChange() {
-    const {
-      data: {
-        updateCap: { errors }
-      }
-    } = await updateCap({
-      id: props.cap.id,
-      attributes: { playerId: playerId.value }
-    })
-    if (errors) {
-      alert(errors.fullMessages[0])
-    } else {
-      emit('submitted')
-    }
-  }
+  })
 </script>
 
 <template>
@@ -70,7 +38,7 @@
       label="Position"
       prepend-icon="mdi-run"
       :items="Object.keys(matchPositions)"
-      @update:model-value="onPositionChange"
+      @update:model-value="submitForm"
     />
     <player-select
       v-model="playerId"
@@ -78,7 +46,7 @@
       item-value="id"
       prepend-icon="mdi-account"
       :disabled="cap.start > 0"
-      @update:model-value="onPlayerChange"
+      @update:model-value="submitForm"
     />
   </div>
 </template>

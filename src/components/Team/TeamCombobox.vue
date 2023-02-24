@@ -24,7 +24,7 @@
     clearTimeout(timeout.value)
     if (items.value.includes(search.value)) {
       items.value = []
-    } else if (search.value.length >= 3) {
+    } else if (search.value?.length >= 3) {
       timeout.value = setTimeout(() => searchItems(), 300)
     } else {
       items.value = props.defaultItems

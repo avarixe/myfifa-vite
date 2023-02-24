@@ -45,9 +45,6 @@
             substitution {
               ...SubstitutionData
             }
-            errors {
-              fullMessages
-            }
           }
         }
         ${substitutionFragment}
@@ -57,9 +54,6 @@
           addSubstitution(matchId: $matchId, attributes: $attributes) {
             substitution {
               ...SubstitutionData
-            }
-            errors {
-              fullMessages
             }
           }
         }

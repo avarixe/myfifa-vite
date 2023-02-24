@@ -64,9 +64,6 @@
             contract {
               ...ContractData
             }
-            errors {
-              fullMessages
-            }
           }
         }
         ${contractFragment}
@@ -76,9 +73,6 @@
           addContract(playerId: $playerId, attributes: $attributes) {
             contract {
               ...ContractData
-            }
-            errors {
-              fullMessages
             }
           }
         }

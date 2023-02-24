@@ -29,15 +29,12 @@
           goal {
             ...GoalData
           }
-          errors {
-            fullMessages
-          }
         }
       }
       ${goalFragment}
     `,
     variables: () => ({ matchId: props.match.id, attributes }),
-    onSubmit() {
+    onSuccess() {
       emit('submitted')
     },
     onReset() {

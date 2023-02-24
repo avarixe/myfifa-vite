@@ -30,9 +30,6 @@
             ...PenaltyShootoutData
           }
         }
-        errors {
-          fullMessages
-        }
       }
     }
     ${matchFragment}

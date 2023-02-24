@@ -4,45 +4,35 @@
   const username = ref('')
   const password = ref('')
 
-  const { executeMutation: grantAccessToken } = useMutation(gql`
-    mutation grantAccessToken($username: String!, $password: String!) {
-      grantAccessToken(username: $username, password: $password) {
-        token
-        expiresAt
-        user {
-          ...UserData
-        }
-        errors {
-          fullMessages
-        }
-      }
-    }
-    ${userFragment}
-  `)
-
-  const loading = ref(false)
   const { sessionStore } = useSession()
   const router = useRouter()
-  async function onSubmit() {
-    loading.value = true
-    const {
-      data: {
-        grantAccessToken: { token, user, errors }
+  const { form, formIsLoading, submitForm } = useForm({
+    mutation: gql`
+      mutation grantAccessToken($username: String!, $password: String!) {
+        grantAccessToken(username: $username, password: $password) {
+          token
+          expiresAt
+          user {
+            ...UserData
+          }
+        }
       }
-    } = await grantAccessToken({
+      ${userFragment}
+    `,
+    variables: () => ({
       username: username.value,
       password: password.value
-    })
-    if (token) {
+    }),
+    onSuccess(data) {
+      const {
+        grantAccessToken: { token, user }
+      } = data
       useRepo(User).save(user)
       sessionStore.token = token
       sessionStore.userId = parseInt(user.id)
       router.push(sessionStore.redirectUrl || '/')
-    } else {
-      alert(errors.fullMessages[0])
     }
-    loading.value = false
-  }
+  })
 
   const showPassword = ref(false)
 </script>
@@ -52,7 +42,7 @@
     class="d-flex align-center justify-center"
     :style="{ minHeight: '90vh' }"
   >
-    <v-form @submit.prevent="onSubmit">
+    <v-form ref="form" @submit.prevent="submitForm">
       <v-card>
         <v-card-title class="text-center">
           <app-entry-header />
@@ -73,7 +63,9 @@
           />
         </v-card-text>
         <v-card-actions>
-          <v-btn type="submit" color="primary" :loading="loading">Log In</v-btn>
+          <v-btn type="submit" color="primary" :loading="formIsLoading">
+            Log In
+          </v-btn>
           <v-btn to="/register">Register</v-btn>
         </v-card-actions>
       </v-card>

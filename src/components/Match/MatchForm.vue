@@ -17,63 +17,42 @@
     extraTime: props.record?.extraTime || false
   })
 
-  const { executeMutation: createMatch } = useMutation(gql`
-    mutation createMatch($teamId: ID!, $attributes: MatchAttributes!) {
-      addMatch(teamId: $teamId, attributes: $attributes) {
-        match {
-          ...MatchData
+  const mutation = props.record
+    ? gql`
+        mutation ($id: ID!, $attributes: MatchAttributes!) {
+          updateMatch(id: $id, attributes: $attributes) {
+            match {
+              ...MatchData
+            }
+          }
         }
-        errors {
-          fullMessages
+        ${matchFragment}
+      `
+    : gql`
+        mutation createMatch($teamId: ID!, $attributes: MatchAttributes!) {
+          addMatch(teamId: $teamId, attributes: $attributes) {
+            match {
+              ...MatchData
+            }
+          }
         }
-      }
-    }
-    ${matchFragment}
-  `)
-
-  const { executeMutation: updateMatch } = useMutation(gql`
-    mutation ($id: ID!, $attributes: MatchAttributes!) {
-      updateMatch(id: $id, attributes: $attributes) {
-        match {
-          ...MatchData
-        }
-        errors {
-          fullMessages
-        }
-      }
-    }
-    ${matchFragment}
-  `)
-
-  const loading = ref(false)
-  const router = useRouter()
-  async function onSubmit() {
-    loading.value = true
-    if (props.record) {
-      const {
-        data: {
-          updateMatch: { errors, match }
-        }
-      } = await updateMatch({ id: props.record.id, attributes })
-      if (match) {
-        router.push(`/teams/${team.value.id}/matches/${match.id}`)
-      } else {
-        alert(errors.fullMessages[0])
-      }
-    } else {
-      const {
-        data: {
-          addMatch: { errors, match }
-        }
-      } = await createMatch({ teamId: props.teamId, attributes })
-      if (match) {
-        router.push(`/teams/${team.value.id}/matches/${match.id}`)
-      } else {
-        alert(errors.fullMessages[0])
-      }
-    }
-    loading.value = false
+        ${matchFragment}
+      `
+  function variables() {
+    return props.record
+      ? { id: props.record.id, attributes }
+      : { teamId: props.teamId, attributes }
   }
+
+  const router = useRouter()
+  const { form, formIsLoading, submitForm } = useForm({
+    mutation,
+    variables,
+    onSuccess(data) {
+      const match = Object.values(data)[0].match
+      router.push(`/teams/${team.value.id}/matches/${match.id}`)
+    }
+  })
 
   const competitionRepo = useRepo(Competition)
   const competitionOptions = computed(() => {
@@ -118,7 +97,7 @@
 </script>
 
 <template>
-  <v-form @submit.prevent="onSubmit">
+  <v-form ref="form" @submit.prevent="submitForm">
     <date-field v-model="attributes.playedOn" label="Date Played" />
     <v-autocomplete
       v-model="attributes.competition"
@@ -148,7 +127,7 @@
       @click:append="setTeamAs('away')"
     />
     <v-checkbox v-model="attributes.extraTime" label="Extra Time Required" />
-    <v-btn type="submit" :loading="loading">
+    <v-btn type="submit" :loading="formIsLoading">
       {{ props.record ? 'Update' : 'Create' }}
     </v-btn>
   </v-form>

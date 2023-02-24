@@ -55,9 +55,6 @@
             transfer {
               ...TransferData
             }
-            errors {
-              fullMessages
-            }
           }
         }
         ${transferFragment}
@@ -67,9 +64,6 @@
           addTransfer(playerId: $playerId, attributes: $attributes) {
             transfer {
               ...TransferData
-            }
-            errors {
-              fullMessages
             }
           }
         }

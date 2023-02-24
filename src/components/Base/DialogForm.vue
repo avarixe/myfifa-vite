@@ -1,8 +1,7 @@
 <script setup>
   const props = defineProps({
-    mutation: { type: String, required: true },
+    mutation: { type: Object, required: true },
     variables: { type: Function, required: true },
-    submit: { type: Function, default: () => {} },
     title: { type: String, default: '' },
     titleIcon: { type: String, default: '' },
     fullWidth: { type: Boolean, default: false },
@@ -19,13 +18,21 @@
     }
   })
 
-  const { form, formKey, formIsLoading, formIsValid, submitForm } = useForm({
+  const {
+    form,
+    formKey,
+    formIsLoading,
+    formIsValid,
+    formError,
+    submitForm,
+    dismissError
+  } = useForm({
     mutation: props.mutation,
     variables: props.variables,
-    onSubmit: props.submit,
     onSuccess() {
       dialog.value = false
-    }
+    },
+    broadcastErrors: false
   })
 
   watch(form, () => {
@@ -44,13 +51,23 @@
     activator="parent"
   >
     <v-card :style="{ maxHeight: '75vh' }">
-      <v-toolbar dense>
+      <v-toolbar dense :extended="formError.length > 0">
         <slot name="header">
           <v-toolbar-title>
             <v-icon v-if="titleIcon" start>{{ titleIcon }}</v-icon>
             {{ title }}
           </v-toolbar-title>
         </slot>
+        <template v-if="formError.length > 0" #extension>
+          <v-alert
+            type="error"
+            :text="formError"
+            :rounded="0"
+            density="compact"
+            closable
+            @update:model-value="dismissError"
+          />
+        </template>
       </v-toolbar>
       <v-divider />
       <v-card-text>

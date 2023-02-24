@@ -1,30 +1,19 @@
 <script setup>
   const { team, currentSeason, seasonLabel } = useTeam()
 
-  const { executeMutation: updateTeam } = useMutation(gql`
-    mutation ($id: ID!, $attributes: TeamAttributes!) {
-      updateTeam(id: $id, attributes: $attributes) {
-        team {
-          ...TeamData
-        }
-        errors {
-          fullMessages
+  const { submitForm: onDateChange } = useForm({
+    mutation: gql`
+      mutation ($id: ID!, $attributes: TeamAttributes!) {
+        updateTeam(id: $id, attributes: $attributes) {
+          team {
+            ...TeamData
+          }
         }
       }
-    }
-    ${teamFragment}
-  `)
-
-  async function onDateChange(currentlyOn) {
-    const {
-      data: {
-        updateTeam: { errors }
-      }
-    } = await updateTeam({ id: team.value.id, attributes: { currentlyOn } })
-    if (errors) {
-      alert(errors.fullMessages[0])
-    }
-  }
+      ${teamFragment}
+    `,
+    variables: () => ({ id: team.value.id, attributes: { currentlyOn } })
+  })
 
   const items = [
     { to: '', icon: 'mdi-view-dashboard', title: 'Dashboard', cols: 12 },

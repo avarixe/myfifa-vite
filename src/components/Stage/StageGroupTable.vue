@@ -48,31 +48,22 @@
     }
   }
 
-  const { executeMutation: updateStage } = useMutation(gql`
-    mutation ($id: ID!, $attributes: StageAttributes!) {
-      updateStage(id: $id, attributes: $attributes) {
-        stage {
-          ...StageData
-        }
-        errors {
-          fullMessages
+  const { submitForm } = useForm({
+    mutation: gql`
+      mutation ($id: ID!, $attributes: StageAttributes!) {
+        updateStage(id: $id, attributes: $attributes) {
+          stage {
+            ...StageData
+          }
         }
       }
-    }
-    ${stageFragment}
-  `)
-  async function onSubmit() {
-    const {
-      data: {
-        updateStage: { errors, stage }
-      }
-    } = await updateStage({ id: props.stage.id, attributes })
-    if (stage) {
+      ${stageFragment}
+    `,
+    variables: () => ({ id: props.stage.id, attributes }),
+    onSuccess() {
       editing.value = false
-    } else {
-      alert(errors.fullMessages[0])
     }
-  }
+  })
 </script>
 
 <template>
@@ -98,7 +89,7 @@
       icon="mdi-content-save"
       variant="text"
       small
-      @click="onSubmit"
+      @click="submitForm"
     />
     <remove-button
       v-else

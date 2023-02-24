@@ -62,9 +62,6 @@
             goal {
               ...GoalData
             }
-            errors {
-              fullMessages
-            }
           }
         }
         ${goalFragment}
@@ -74,9 +71,6 @@
           addGoal(matchId: $matchId, attributes: $attributes) {
             goal {
               ...GoalData
-            }
-            errors {
-              fullMessages
             }
           }
         }

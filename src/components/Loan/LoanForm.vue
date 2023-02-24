@@ -69,9 +69,6 @@
             loan {
               ...LoanData
             }
-            errors {
-              fullMessages
-            }
           }
         }
         ${loanFragment}
@@ -81,9 +78,6 @@
           addLoan(playerId: $playerId, attributes: $attributes) {
             loan {
               ...LoanData
-            }
-            errors {
-              fullMessages
             }
           }
         }

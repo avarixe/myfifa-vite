@@ -19,33 +19,22 @@
     hoverRating.value = props.cap.rating
   })
 
-  const { executeMutation: updateCap } = useMutation(gql`
-    mutation ($id: ID!, $attributes: CapAttributes!) {
-      updateCap(id: $id, attributes: $attributes) {
-        cap {
-          ...CapData
-        }
-        errors {
-          fullMessages
+  const { submitForm: onInput } = useForm({
+    mutation: gql`
+      mutation ($id: ID!, $attributes: CapAttributes!) {
+        updateCap(id: $id, attributes: $attributes) {
+          cap {
+            ...CapData
+          }
         }
       }
-    }
-    ${capFragment}
-  `)
-
-  async function onInput() {
-    const {
-      data: {
-        updateCap: { errors }
-      }
-    } = await updateCap({
+      ${capFragment}
+    `,
+    variables: () => ({
       id: props.cap.id,
       attributes: { rating: rating.value }
     })
-    if (errors) {
-      alert(errors.fullMessages[0])
-    }
-  }
+  })
 
   function clearRating() {
     rating.value = null

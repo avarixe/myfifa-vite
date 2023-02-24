@@ -1,31 +1,22 @@
 <script setup>
-  const { executeMutation: revokeAccessToken } = useMutation(gql`
-    mutation revokeAccessToken($token: String!) {
-      revokeAccessToken(token: $token) {
-        errors {
-          fullMessages
-        }
-      }
-    }
-  `)
-
   const { token, clearSession } = useSession()
   const router = useRouter()
-  async function logout() {
-    const {
-      data: {
-        revokeAccessToken: { errors }
+  const { submitForm: logout, formIsLoading } = useForm({
+    mutation: gql`
+      mutation revokeAccessToken($token: String!) {
+        revokeAccessToken(token: $token) {
+          confirmation
+        }
       }
-    } = await revokeAccessToken({ token: token.value })
-    if (errors) {
-      alert(errors.fullMessages[0])
-    } else {
+    `,
+    variables: () => ({ token: token.value }),
+    onSuccess() {
       clearSession()
       router.push('/login')
     }
-  }
+  })
 </script>
 
 <template>
-  <v-btn icon="mdi-exit-to-app" @click="logout" />
+  <v-btn icon="mdi-exit-to-app" :loading="formIsLoading" @click="logout" />
 </template>

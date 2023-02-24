@@ -12,63 +12,58 @@
   const squads = computed(() => squadRepo.where('teamId', team.value.id).get())
 
   const menu = ref(false)
-  const loading = ref(false)
   const squadName = ref(null)
   const starters = computed(() => props.match.caps.filter(c => c.start === 0))
 
-  const { executeMutation: storeLineup } = useMutation(gql`
-    mutation storeMatchLineupToSquad($matchId: ID!, $squadId: ID!) {
-      storeMatchLineupToSquad(matchId: $matchId, squadId: $squadId) {
-        squad {
-          ...SquadData
+  const squadId = ref(null)
+  watch(squadId, () => {
+    if (squadId.value) {
+      storeLineup()
+    }
+  })
+
+  const { submitForm: storeLineup, formIsLoading } = useForm({
+    mutation: gql`
+      mutation storeMatchLineupToSquad($matchId: ID!, $squadId: ID!) {
+        storeMatchLineupToSquad(matchId: $matchId, squadId: $squadId) {
+          squad {
+            ...SquadData
+          }
         }
       }
-    }
-    ${squadFragment}
-  `)
-
-  const { executeMutation: createSquad } = useMutation(gql`
-    mutation createSquad($teamId: ID!, $attributes: SquadAttributes!) {
-      addSquad(teamId: $teamId, attributes: $attributes) {
-        squad {
-          ...SquadData
-        }
-        errors {
-          fullMessages
-        }
-      }
-    }
-    ${squadFragment}
-  `)
-
-  async function onSelect(squadId) {
-    loading.value = true
-    if (squadId) {
-      await storeLineup({ matchId: props.match.id, squadId })
+      ${squadFragment}
+    `,
+    variables: () => ({ matchId: props.match.id, squadId: squadId.value }),
+    onSuccess() {
       menu.value = false
-    } else {
-      const {
-        data: {
-          addSquad: { errors }
-        }
-      } = await createSquad({
-        teamId: team.value.id,
-        attributes: {
-          name: squadName.value,
-          squadPlayersAttributes: starters.value.map(cap =>
-            pick(cap, ['playerId', 'pos'])
-          )
-        }
-      })
-      if (errors) {
-        alert(errors.fullMessages[0])
-      } else {
-        squadName.value = null
-        menu.value = false
-      }
     }
-    loading.value = false
-  }
+  })
+
+  const { submitForm: createSquad } = useForm({
+    mutation: gql`
+      mutation createSquad($teamId: ID!, $attributes: SquadAttributes!) {
+        addSquad(teamId: $teamId, attributes: $attributes) {
+          squad {
+            ...SquadData
+          }
+        }
+      }
+      ${squadFragment}
+    `,
+    variables: () => ({
+      teamId: team.value.id,
+      attributes: {
+        name: squadName.value,
+        squadPlayersAttributes: starters.value.map(cap =>
+          pick(cap, ['playerId', 'pos'])
+        )
+      }
+    }),
+    onSuccess() {
+      squadName.value = null
+      menu.value = false
+    }
+  })
 </script>
 
 <template>
@@ -84,17 +79,17 @@
         <v-text-field
           v-model="squadName"
           label="New Squad"
-          :loading="loading"
-          :disabled="loading"
+          :loading="formIsLoading"
+          :disabled="formIsLoading"
           hint="Press Enter to Save"
-          @keypress.enter.prevent="onSelect(null)"
+          @keypress.enter.prevent="createSquad"
         />
       </v-list-item>
       <v-list-item
         v-for="squad in squads"
         :key="squad.id"
         :title="squad.name"
-        @click="onSelect(squad.id)"
+        @click="squadId = squad.id"
       />
     </v-list>
   </v-menu>

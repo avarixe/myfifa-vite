@@ -3,30 +3,19 @@
     player: { type: Object, required: true }
   })
 
-  const { executeMutation: retirePlayer } = useMutation(gql`
-    mutation ($id: ID!) {
-      retirePlayer(id: $id) {
-        player {
-          ...PlayerData
-        }
-        errors {
-          fullMessages
+  const { submitForm: onConfirm } = useForm({
+    mutation: gql`
+      mutation ($id: ID!) {
+        retirePlayer(id: $id) {
+          player {
+            ...PlayerData
+          }
         }
       }
-    }
-    ${playerFragment}
-  `)
-
-  async function onConfirm() {
-    const {
-      data: {
-        retirePlayer: { errors }
-      }
-    } = await retirePlayer({ id: props.player.id })
-    if (errors) {
-      alert(errors.fullMessages[0])
-    }
-  }
+      ${playerFragment}
+    `,
+    variables: () => ({ id: props.player.id })
+  })
 </script>
 
 <template>

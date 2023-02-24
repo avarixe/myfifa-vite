@@ -18,66 +18,45 @@
     numAdvancesFromGroup: null
   })
 
-  const { executeMutation: createCompetition } = useMutation(gql`
-    mutation createCompetition(
-      $teamId: ID!
-      $attributes: CompetitionAttributes!
-    ) {
-      addCompetition(teamId: $teamId, attributes: $attributes) {
-        competition {
-          ...CompetitionData
+  const mutation = props.record
+    ? gql`
+        mutation ($id: ID!, $attributes: CompetitionAttributes!) {
+          updateCompetition(id: $id, attributes: $attributes) {
+            competition {
+              ...CompetitionData
+            }
+          }
         }
-        errors {
-          fullMessages
+        ${competitionFragment}
+      `
+    : gql`
+        mutation createCompetition(
+          $teamId: ID!
+          $attributes: CompetitionAttributes!
+        ) {
+          addCompetition(teamId: $teamId, attributes: $attributes) {
+            competition {
+              ...CompetitionData
+            }
+          }
         }
-      }
-    }
-    ${competitionFragment}
-  `)
-
-  const { executeMutation: updateCompetition } = useMutation(gql`
-    mutation ($id: ID!, $attributes: CompetitionAttributes!) {
-      updateCompetition(id: $id, attributes: $attributes) {
-        competition {
-          ...CompetitionData
-        }
-        errors {
-          fullMessages
-        }
-      }
-    }
-    ${competitionFragment}
-  `)
-
-  const loading = ref(false)
-  const router = useRouter()
-  async function onSubmit() {
-    loading.value = true
-    if (props.record) {
-      const {
-        data: {
-          updateCompetition: { errors, competition }
-        }
-      } = await updateCompetition({ id: props.record.id, attributes })
-      if (competition) {
-        router.push(`/teams/${team.value.id}/competitions/${competition.id}`)
-      } else {
-        alert(errors.fullMessages[0])
-      }
-    } else {
-      const {
-        data: {
-          addCompetition: { errors, competition }
-        }
-      } = await createCompetition({ teamId: props.teamId, attributes })
-      if (competition) {
-        router.push(`/teams/${team.value.id}/competitions/${competition.id}`)
-      } else {
-        alert(errors.fullMessages[0])
-      }
-    }
-    loading.value = false
+        ${competitionFragment}
+      `
+  function variables() {
+    return props.record
+      ? { id: props.record.id, attributes }
+      : { teamId: props.teamId, attributes }
   }
+
+  const router = useRouter()
+  const { form, formIsLoading, submitForm } = useForm({
+    mutation,
+    variables,
+    onSuccess(data) {
+      const competition = Object.values(data)[0].competition
+      router.push(`/teams/${team.value.id}/competitions/${competition.id}`)
+    }
+  })
 
   const competitionRepo = useRepo(Competition)
   const competitionOptions = computed(() => {
@@ -95,7 +74,7 @@
 </script>
 
 <template>
-  <v-form @submit.prevent="onSubmit">
+  <v-form ref="form" @submit.prevent="submitForm">
     <v-text-field
       :model-value="seasonLabel(attributes.season)"
       label="Season"
@@ -136,7 +115,7 @@
         type="number"
       />
     </template>
-    <v-btn type="submit" :loading="loading">
+    <v-btn type="submit" :loading="formIsLoading">
       {{ props.record ? 'Update' : 'Create' }}
     </v-btn>
   </v-form>

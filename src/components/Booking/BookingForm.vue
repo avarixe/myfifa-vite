@@ -34,9 +34,6 @@
             booking {
               ...BookingData
             }
-            errors {
-              fullMessages
-            }
           }
         }
         ${bookingFragment}
@@ -46,9 +43,6 @@
           addBooking(matchId: $matchId, attributes: $attributes) {
             booking {
               ...BookingData
-            }
-            errors {
-              fullMessages
             }
           }
         }

@@ -10,24 +10,23 @@
   const squadRepo = useRepo(Squad)
   const squads = computed(() => squadRepo.where('teamId', team.value.id).get())
 
-  const { executeMutation: applySquad } = useMutation(gql`
-    mutation applySquadToMatch($matchId: ID!, $squadId: ID!) {
-      applySquadToMatch(matchId: $matchId, squadId: $squadId) {
-        match {
-          ...MatchData
-          caps {
-            ...CapData
+  const { submitForm: onClick } = useForm({
+    mutation: gql`
+      mutation applySquadToMatch($matchId: ID!, $squadId: ID!) {
+        applySquadToMatch(matchId: $matchId, squadId: $squadId) {
+          match {
+            ...MatchData
+            caps {
+              ...CapData
+            }
           }
         }
       }
-    }
-    ${matchFragment}
-    ${capFragment}
-  `)
-
-  function onClick(squadId) {
-    applySquad({ matchId: props.match.id, squadId })
-  }
+      ${matchFragment}
+      ${capFragment}
+    `,
+    variables: () => ({ matchId: props.match.id, squadId })
+  })
 </script>
 
 <template>

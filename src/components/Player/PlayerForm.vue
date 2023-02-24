@@ -18,67 +18,46 @@
     youth: props.record?.youth || false
   })
 
-  const { executeMutation: createPlayer } = useMutation(gql`
-    mutation createPlayer($teamId: ID!, $attributes: PlayerAttributes!) {
-      addPlayer(teamId: $teamId, attributes: $attributes) {
-        player {
-          ...PlayerData
+  const mutation = prop.record
+    ? gql`
+        mutation ($id: ID!, $attributes: PlayerAttributes!) {
+          updatePlayer(id: $id, attributes: $attributes) {
+            player {
+              ...PlayerData
+            }
+          }
         }
-        errors {
-          fullMessages
+        ${playerFragment}
+      `
+    : gql`
+        mutation createPlayer($teamId: ID!, $attributes: PlayerAttributes!) {
+          addPlayer(teamId: $teamId, attributes: $attributes) {
+            player {
+              ...PlayerData
+            }
+          }
         }
-      }
-    }
-    ${playerFragment}
-  `)
-
-  const { executeMutation: updatePlayer } = useMutation(gql`
-    mutation ($id: ID!, $attributes: PlayerAttributes!) {
-      updatePlayer(id: $id, attributes: $attributes) {
-        player {
-          ...PlayerData
-        }
-        errors {
-          fullMessages
-        }
-      }
-    }
-    ${playerFragment}
-  `)
-
-  const loading = ref(false)
-  const router = useRouter()
-  async function onSubmit() {
-    loading.value = true
-    if (props.record) {
-      const {
-        data: {
-          updatePlayer: { errors, player }
-        }
-      } = await updatePlayer({ id: props.record.id, attributes })
-      if (player) {
-        router.push(`/teams/${team.value.id}/players/${player.id}`)
-      } else {
-        alert(errors.fullMessages[0])
-      }
-    } else {
-      const {
-        data: {
-          addPlayer: { errors, player }
-        }
-      } = await createPlayer({ teamId: props.teamId, attributes })
-      if (player) {
-        router.push(`/teams/${team.value.id}/players/${player.id}`)
-      } else {
-        alert(errors.fullMessages[0])
-      }
-    }
-    loading.value = false
+        ${playerFragment}
+      `
+  function variables() {
+    return props.record
+      ? { id: props.record.id, attributes }
+      : { teamId: props.teamId, attributes }
   }
+
+  const router = useRouter()
+  const { form, formIsLoading, submitForm } = useForm({
+    mutation,
+    variables,
+    onSuccess(data) {
+      const player = Object.values(data)[0].player
+      router.push(`/teams/${team.value.id}/players/${player.id}`)
+    }
+  })
 </script>
 
 <template>
-  <v-form @submit.prevent="onSubmit">
+  <v-form ref="form" @submit.prevent="submitForm">
     <v-text-field v-model="attributes.name" label="Name" />
     <v-autocomplete
       v-model="attributes.pos"
@@ -133,7 +112,7 @@
       max="50"
     />
     <v-checkbox v-model="attributes.youth" label="Youth Player" />
-    <v-btn type="submit" :loading="loading">
+    <v-btn type="submit" :loading="formIsLoading">
       {{ props.record ? 'Update' : 'Create' }}
     </v-btn>
   </v-form>

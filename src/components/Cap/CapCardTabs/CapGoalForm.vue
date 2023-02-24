@@ -40,9 +40,6 @@
           goal {
             ...GoalData
           }
-          errors {
-            fullMessages
-          }
         }
       }
       ${goalFragment}
@@ -51,7 +48,7 @@
       matchId: props.match.id,
       attributes: { ...attributes, minute: minute.value }
     }),
-    onSubmit() {
+    onSuccess() {
       emit('submitted')
     },
     onReset() {

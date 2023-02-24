@@ -31,9 +31,6 @@
         stage {
           ...StageData
         }
-        errors {
-          fullMessages
-        }
       }
     }
     ${stageFragment}

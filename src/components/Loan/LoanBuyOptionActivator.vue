@@ -6,26 +6,18 @@
 
   const { team } = useTeam()
 
-  const { executeMutation: updateLoan } = useMutation(gql`
-    mutation ($id: ID!) {
-      updateLoan(id: $id) {
-        loan {
-          ...LoanData
-        }
-        errors {
-          fullMessages
+  const { submitForm: onConfirm } = useForm({
+    mutation: gql`
+      mutation ($id: ID!, $attributes: LoanAttributes!) {
+        updateLoan(id: $id, attributes: $attributes) {
+          loan {
+            ...LoanData
+          }
         }
       }
-    }
-    ${loanFragment}
-  `)
-
-  async function onConfirm() {
-    const {
-      data: {
-        updateLoan: { errors }
-      }
-    } = await updateLoan({
+      ${loanFragment}
+    `,
+    variables: () => ({
       id: props.loan.id,
       attributes: {
         ...pick(props.loan, [
@@ -39,10 +31,7 @@
         activatedBuyOption: true
       }
     })
-    if (errors) {
-      alert(errors.fullMessages[0])
-    }
-  }
+  })
 </script>
 
 <template>

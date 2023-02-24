@@ -3,30 +3,19 @@
     player: { type: Object, required: true }
   })
 
-  const { executeMutation: releasePlayer } = useMutation(gql`
-    mutation ($id: ID!) {
-      releasePlayer(id: $id) {
-        player {
-          ...PlayerData
-        }
-        errors {
-          fullMessages
+  const { submitForm: onConfirm } = useForm({
+    mutation: gql`
+      mutation ($id: ID!) {
+        releasePlayer(id: $id) {
+          player {
+            ...PlayerData
+          }
         }
       }
-    }
-    ${playerFragment}
-  `)
-
-  async function onConfirm() {
-    const {
-      data: {
-        releasePlayer: { errors }
-      }
-    } = await releasePlayer({ id: props.player.id })
-    if (errors) {
-      alert(errors.fullMessages[0])
-    }
-  }
+      ${playerFragment}
+    `,
+    variables: { id: props.player.id }
+  })
 </script>
 
 <template>

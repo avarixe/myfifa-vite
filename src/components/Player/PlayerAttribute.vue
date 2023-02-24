@@ -10,32 +10,26 @@
     modelValue.value = props.player[props.attribute]
   })
 
-  const { executeMutation: updatePlayer } = useMutation(gql`
-    mutation ($id: ID!, $attributes: PlayerAttributes!) {
-      updatePlayer(id: $id, attributes: $attributes) {
-        player {
-          ...PlayerData
-        }
-        errors {
-          fullMessages
+  const { submitForm } = useForm({
+    mutation: gql`
+      mutation ($id: ID!, $attributes: PlayerAttributes!) {
+        updatePlayer(id: $id, attributes: $attributes) {
+          player {
+            ...PlayerData
+          }
         }
       }
-    }
-    ${playerFragment}
-  `)
+      ${playerFragment}
+    `,
+    variables: () => ({
+      id: props.player.id,
+      attributes: { [props.attribute]: modelValue.value }
+    })
+  })
+
   async function updateAttribute() {
     if (modelValue.value !== props.player[props.attribute]) {
-      const {
-        data: {
-          updatePlayer: { errors }
-        }
-      } = await updatePlayer({
-        id: props.player.id,
-        attributes: { [props.attribute]: modelValue.value }
-      })
-      if (errors) {
-        alert(errors.fullMessages[0])
-      }
+      submitForm()
     }
   }
 </script>
