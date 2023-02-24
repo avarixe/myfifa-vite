@@ -38,61 +38,43 @@
     )
   )
 
-  const { executeMutation: createSubstitution } = useMutation(gql`
-    mutation createSubstitution(
-      $matchId: ID!
-      $attributes: SubstitutionAttributes!
-    ) {
-      addSubstitution(matchId: $matchId, attributes: $attributes) {
-        substitution {
-          ...SubstitutionData
+  const mutation = props.record
+    ? gql`
+        mutation ($id: ID!, $attributes: SubstitutionAttributes!) {
+          updateSubstitution(id: $id, attributes: $attributes) {
+            substitution {
+              ...SubstitutionData
+            }
+            errors {
+              fullMessages
+            }
+          }
         }
-        errors {
-          fullMessages
+        ${substitutionFragment}
+      `
+    : gql`
+        mutation ($matchId: ID!, $attributes: SubstitutionAttributes!) {
+          addSubstitution(matchId: $matchId, attributes: $attributes) {
+            substitution {
+              ...SubstitutionData
+            }
+            errors {
+              fullMessages
+            }
+          }
         }
-      }
-    }
-    ${substitutionFragment}
-  `)
-
-  const { executeMutation: updateSubstitution } = useMutation(gql`
-    mutation ($id: ID!, $attributes: SubstitutionAttributes!) {
-      updateSubstitution(id: $id, attributes: $attributes) {
-        substitution {
-          ...SubstitutionData
-        }
-        errors {
-          fullMessages
-        }
-      }
-    }
-    ${substitutionFragment}
-  `)
-
-  async function onSubmit() {
+        ${substitutionFragment}
+      `
+  function variables() {
     if (props.record) {
-      const {
-        data: {
-          updateSubstitution: { errors }
-        }
-      } = await updateSubstitution({
+      return {
         id: props.record.id,
         attributes: { ...attributes, minute: minute.value }
-      })
-      if (errors) {
-        alert(errors.fullMessages[0])
       }
     } else {
-      const {
-        data: {
-          addSubstitution: { errors }
-        }
-      } = await createSubstitution({
+      return {
         matchId: props.match.id,
         attributes: { ...attributes, minute: minute.value }
-      })
-      if (errors) {
-        alert(errors.fullMessages[0])
       }
     }
   }
@@ -103,7 +85,8 @@
     title-icon="mdi-repeat"
     :title="title"
     :validate-on-open="!!record"
-    :submit="onSubmit"
+    :mutation="mutation"
+    :variables="variables"
     @open="onOpen"
   >
     <template #form>

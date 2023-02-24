@@ -46,54 +46,38 @@
     }
   })
 
-  const { executeMutation: createInjury } = useMutation(gql`
-    mutation createInjury($playerId: ID!, $attributes: InjuryAttributes!) {
-      addInjury(playerId: $playerId, attributes: $attributes) {
-        injury {
-          ...InjuryData
+  const mutation = props.record
+    ? gql`
+        mutation ($id: ID!, $attributes: InjuryAttributes!) {
+          updateInjury(id: $id, attributes: $attributes) {
+            injury {
+              ...InjuryData
+            }
+            errors {
+              fullMessages
+            }
+          }
         }
-        errors {
-          fullMessages
+        ${injuryFragment}
+      `
+    : gql`
+        mutation ($playerId: ID!, $attributes: InjuryAttributes!) {
+          addInjury(playerId: $playerId, attributes: $attributes) {
+            injury {
+              ...InjuryData
+            }
+            errors {
+              fullMessages
+            }
+          }
         }
-      }
-    }
-    ${injuryFragment}
-  `)
+        ${injuryFragment}
+      `
 
-  const { executeMutation: updateInjury } = useMutation(gql`
-    mutation ($id: ID!, $attributes: InjuryAttributes!) {
-      updateInjury(id: $id, attributes: $attributes) {
-        injury {
-          ...InjuryData
-        }
-        errors {
-          fullMessages
-        }
-      }
-    }
-    ${injuryFragment}
-  `)
-
-  async function onSubmit() {
-    if (props.record) {
-      const {
-        data: {
-          updateInjury: { errors }
-        }
-      } = await updateInjury({ id: props.record.id, attributes })
-      if (errors) {
-        alert(errors.fullMessages[0])
-      }
-    } else {
-      const {
-        data: {
-          addInjury: { errors }
-        }
-      } = await createInjury({ playerId: props.player.id, attributes })
-      if (errors) {
-        alert(errors.fullMessages[0])
-      }
-    }
+  function variables() {
+    return props.record
+      ? { id: props.record.id, attributes }
+      : { playerId: props.player.id, attributes }
   }
 </script>
 
@@ -101,7 +85,8 @@
   <dialog-form
     :title="title"
     :validate-on-open="!!record"
-    :submit="onSubmit"
+    :mutation="mutation"
+    :variables="variables"
     @open="onOpen"
   >
     <template #form>

@@ -1,6 +1,8 @@
 <script setup>
   const props = defineProps({
-    submit: { type: Function, required: true },
+    mutation: { type: String, required: true },
+    variables: { type: Function, required: true },
+    submit: { type: Function, default: () => {} },
     title: { type: String, default: '' },
     titleIcon: { type: String, default: '' },
     fullWidth: { type: Boolean, default: false },
@@ -18,8 +20,10 @@
   })
 
   const { form, formKey, formIsLoading, formIsValid, submitForm } = useForm({
+    mutation: props.mutation,
+    variables: props.variables,
     onSubmit: props.submit,
-    onSuccess: () => {
+    onSuccess() {
       dialog.value = false
     }
   })

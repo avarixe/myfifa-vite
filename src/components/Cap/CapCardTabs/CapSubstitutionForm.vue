@@ -24,43 +24,29 @@
     )
   })
 
-  const { executeMutation: createSubstitution } = useMutation(gql`
-    mutation createSubstitution(
-      $matchId: ID!
-      $attributes: SubstitutionAttributes!
-    ) {
-      addSubstitution(matchId: $matchId, attributes: $attributes) {
-        substitution {
-          ...SubstitutionData
-        }
-        errors {
-          fullMessages
-        }
-      }
-    }
-    ${substitutionFragment}
-  `)
-
   const emit = defineEmits(['submitted'])
-  async function onSubmit() {
-    const {
-      data: {
-        addSubstitution: { errors }
+  const { form, formKey, formIsLoading, formIsValid, submitForm } = useForm({
+    mutation: gql`
+      mutation ($matchId: ID!, $attributes: SubstitutionAttributes!) {
+        addSubstitution(matchId: $matchId, attributes: $attributes) {
+          substitution {
+            ...SubstitutionData
+          }
+          errors {
+            fullMessages
+          }
+        }
       }
-    } = await createSubstitution({
+      ${substitutionFragment}
+    `,
+    variables: () => ({
       matchId: props.match.id,
       attributes: { ...attributes, minute: minute.value }
-    })
-    if (errors) {
-      alert(errors.fullMessages[0])
-    } else {
+    }),
+    onSubmit() {
       emit('submitted')
-    }
-  }
-
-  const { form, formKey, formIsLoading, formIsValid, submitForm } = useForm({
-    onSubmit,
-    onReset: () => {
+    },
+    onReset() {
       attributes.injury = false
     }
   })

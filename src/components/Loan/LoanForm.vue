@@ -62,54 +62,37 @@
     }
   })
 
-  const { executeMutation: createLoan } = useMutation(gql`
-    mutation createLoan($playerId: ID!, $attributes: LoanAttributes!) {
-      addLoan(playerId: $playerId, attributes: $attributes) {
-        loan {
-          ...LoanData
+  const mutation = props.record
+    ? gql`
+        mutation ($id: ID!, $attributes: LoanAttributes!) {
+          updateLoan(id: $id, attributes: $attributes) {
+            loan {
+              ...LoanData
+            }
+            errors {
+              fullMessages
+            }
+          }
         }
-        errors {
-          fullMessages
+        ${loanFragment}
+      `
+    : gql`
+        mutation ($playerId: ID!, $attributes: LoanAttributes!) {
+          addLoan(playerId: $playerId, attributes: $attributes) {
+            loan {
+              ...LoanData
+            }
+            errors {
+              fullMessages
+            }
+          }
         }
-      }
-    }
-    ${loanFragment}
-  `)
-
-  const { executeMutation: updateLoan } = useMutation(gql`
-    mutation ($id: ID!, $attributes: LoanAttributes!) {
-      updateLoan(id: $id, attributes: $attributes) {
-        loan {
-          ...LoanData
-        }
-        errors {
-          fullMessages
-        }
-      }
-    }
-    ${loanFragment}
-  `)
-
-  async function onSubmit() {
-    if (props.record) {
-      const {
-        data: {
-          updateLoan: { errors }
-        }
-      } = await updateLoan({ id: props.record.id, attributes })
-      if (errors) {
-        alert(errors.fullMessages[0])
-      }
-    } else {
-      const {
-        data: {
-          addLoan: { errors }
-        }
-      } = await createLoan({ playerId: props.player.id, attributes })
-      if (errors) {
-        alert(errors.fullMessages[0])
-      }
-    }
+        ${loanFragment}
+      `
+  function variables() {
+    return props.record
+      ? { id: props.record.id, attributes }
+      : { playerId: props.player.id, attributes }
   }
 </script>
 
@@ -117,7 +100,8 @@
   <dialog-form
     :title="title"
     :validate-on-open="!!record"
-    :submit="onSubmit"
+    :mutation="mutation"
+    :variables="variables"
     @open="onOpen"
   >
     <template #form>
