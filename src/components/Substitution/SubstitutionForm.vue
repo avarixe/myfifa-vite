@@ -22,7 +22,7 @@
   const availablePlayers = computed(() => {
     const selectedIds = sortedCaps.value.map(cap => cap.playerId)
     return activePlayers.value.filter(player => {
-      if (selectedIds.indexOf(player.id) < 0) {
+      if (!selectedIds.includes(player.id)) {
         return true
       } else if (props.record) {
         return player.id === props.record.replacementId
@@ -37,6 +37,12 @@
         (props.record && cap.playerId === props.record.playerId)
     )
   )
+
+  watch(minute, () => {
+    if (attributes.playerId && sortedCaps.value.every(cap => cap.playerId !== attributes.playerId)) {
+      attributes.playerId = null
+    }
+  })
 
   const mutation = props.record
     ? gql`

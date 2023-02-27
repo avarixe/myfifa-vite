@@ -22,6 +22,12 @@
 
   const title = computed(() => `${props.record ? 'Edit' : 'Record'} Booking`)
 
+  watch(minute, () => {
+    if (attributes.playerId && unsubbedPlayers.value.every(cap => cap.playerId !== attributes.playerId)) {
+      attributes.playerId = null
+    }
+  })
+
   function clearNames() {
     attributes.playerId = null
     attributes.playerName = null

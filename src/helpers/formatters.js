@@ -9,3 +9,7 @@ export function formatMoney(amount, currency = '$', emptyString = '') {
     ? `${currency}${parseInt(amount).toLocaleString()}`
     : emptyString || 'N/A'
 }
+
+export function capitalize(str) {
+  return `${str[0].toUpperCase()}${str.slice(1)}`
+}

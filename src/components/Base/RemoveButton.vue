@@ -8,19 +8,17 @@
     icon: { type: String, default: null }
   })
 
-  const storeCamelCase = `${props.store[0].toLowerCase()}${props.store.slice(
-    1
-  )}`
+  const recordType = `${props.store[0].toLowerCase()}${props.store.slice(1)}`
 
   const emit = defineEmits(['removed'])
   const { submitForm, formIsLoading } = useForm({
     mutation: gql`
-      mutation remove${props.store}($id: ID!) {
+      mutation ($id: ID!) {
         remove${props.store}(id: $id) {
-          ${storeCamelCase} { ...${props.store}Data }
+          ${recordType} { ...${props.store}Data }
         }
       }
-      ${fragments[`${storeCamelCase}Fragment`]}
+      ${fragments[`${recordType}Fragment`]}
     `,
     variables: () => ({ id: props.record.id }),
     onSuccess() {

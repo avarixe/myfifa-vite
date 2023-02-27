@@ -48,6 +48,15 @@
     }
   })
 
+  watch(minute, () => {
+    if (attributes.playerId && scorerOptions.value.every(cap => cap.playerId !== attributes.playerId)) {
+      attributes.playerId = null
+    }
+    if (attributes.assistId && assistOptions.value.every(cap => cap.playerId !== attributes.assistId)) {
+      attributes.assistId = null
+    }
+  })
+
   function clearNames() {
     attributes.playerId = null
     attributes.playerName = null

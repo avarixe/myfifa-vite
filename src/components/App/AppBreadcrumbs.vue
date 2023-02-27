@@ -7,7 +7,6 @@
   const competitionRepo = useRepo(Competition)
 
   const route = useRoute()
-  const capitalize = str => `${str[0].toUpperCase()}${str.slice(1)}`
   const { seasonLabel } = useTeam()
   const breadcrumbs = computed(() => {
     const routeSteps = route.name === 'index' ? [''] : route.path.split('/')

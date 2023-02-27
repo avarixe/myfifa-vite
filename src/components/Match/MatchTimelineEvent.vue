@@ -58,9 +58,7 @@
         <remove-button
           :record="event"
           :store="event.timelineType"
-          :label="`${event.timelineType[0].toUpperCase()}${event.timelineType.slice(
-            1
-          )}`"
+          :label="capitalize(event.timelineType)"
           variant="text"
         />
       </div>
