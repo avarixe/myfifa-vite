@@ -1,6 +1,4 @@
 <script setup>
-  import { Player, Contract } from '~/models'
-
   const { team, data } = await useTeamQuery({
     query: gql`
       query fetchPlayersPage($teamId: ID!) {

@@ -1,6 +1,4 @@
 <script setup>
-  import { User } from '~/models'
-
   const { data } = await useQuery({
     query: gql`
       query fetchUser {

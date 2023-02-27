@@ -1,6 +1,4 @@
 <script setup>
-  import { Match } from '~/models'
-
   const props = defineProps({
     teamId: { type: String, required: true },
     matchId: { type: String, required: true }

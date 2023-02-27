@@ -1,6 +1,4 @@
 <script setup>
-  import { Match } from '~/models'
-
   const route = useRoute()
   const teamId = computed(() => parseInt(route.params.teamId))
   const matchId = computed(() => parseInt(route.params.matchId))

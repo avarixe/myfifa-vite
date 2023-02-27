@@ -1,5 +1,3 @@
-import { User } from '~/models'
-
 export default () => {
   const sessionStore = useSessionStore()
 

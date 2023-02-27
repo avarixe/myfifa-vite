@@ -1,5 +1,3 @@
-import { Competition, Stage, TableRow, Fixture } from '~/models'
-
 export default competitionId => {
   const competitionRepo = useRepo(Competition)
   const competition = computed(() =>

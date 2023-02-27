@@ -1,6 +1,4 @@
 <script setup>
-  import { Competition } from '~/models'
-
   const { team, currentSeason, seasonLabel } = useTeam()
 
   const props = defineProps({

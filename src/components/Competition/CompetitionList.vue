@@ -1,6 +1,4 @@
 <script setup>
-  import { Competition } from '~/models'
-
   const props = defineProps({
     season: { type: Number, required: true }
   })

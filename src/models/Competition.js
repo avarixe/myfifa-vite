@@ -3,7 +3,7 @@ import { NumberCast } from 'pinia-orm/casts'
 import Stage from './Stage'
 import Team from './Team'
 
-class Competition extends Model {
+export default class Competition extends Model {
   static entity = 'Competition'
 
   static fields() {
@@ -54,5 +54,3 @@ class Competition extends Model {
     }
   }
 }
-
-export default Competition

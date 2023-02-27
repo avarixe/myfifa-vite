@@ -1,6 +1,5 @@
 <script setup>
   import ApexChart from 'vue3-apexcharts'
-  import { Contract } from '~/models'
 
   const props = defineProps({
     player: { type: Object, required: true }

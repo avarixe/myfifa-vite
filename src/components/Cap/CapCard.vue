@@ -1,6 +1,4 @@
 <script setup>
-  import { Player } from '~/models'
-
   const props = defineProps({
     cap: { type: Object, required: true },
     match: { type: Object, required: true }

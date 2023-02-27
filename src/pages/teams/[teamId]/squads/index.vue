@@ -1,6 +1,4 @@
 <script setup>
-  import { Squad } from '~/models'
-
   const { team } = await useTeamQuery({
     query: gql`
       query fetchSquadsPage($teamId: ID!) {

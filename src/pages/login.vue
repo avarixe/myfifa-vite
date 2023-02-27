@@ -1,6 +1,4 @@
 <script setup>
-  import { User } from '~/models'
-
   const username = ref('')
   const password = ref('')
 

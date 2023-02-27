@@ -27,6 +27,7 @@ export default defineConfig({
         './src/constants',
         './src/fragments',
         './src/helpers',
+        './src/models',
         './src/store'
       ],
       imports: [

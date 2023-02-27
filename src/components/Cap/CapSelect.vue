@@ -1,6 +1,4 @@
 <script setup>
-  import { Player } from '~/models'
-
   const props = defineProps({
     caps: { type: Array, default: () => [] }
   })

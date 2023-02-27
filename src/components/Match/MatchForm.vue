@@ -1,6 +1,4 @@
 <script setup>
-  import { Competition, Stage } from '~/models'
-
   const { team, seasonOn } = useTeam()
 
   const props = defineProps({

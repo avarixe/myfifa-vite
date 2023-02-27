@@ -1,6 +1,4 @@
 <script setup>
-  import { Match } from '~/models'
-
   const { team, currentSeason, seasonLabel } = await useTeamQuery({
     query: gql`
       query fetchMatchesPage($teamId: ID!) {

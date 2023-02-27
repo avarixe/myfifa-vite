@@ -1,5 +1,4 @@
 import { addYears, differenceInYears, format, parseISO } from 'date-fns'
-import { Team } from '~/models'
 
 export default () => {
   const route = useRoute()

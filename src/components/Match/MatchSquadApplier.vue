@@ -1,6 +1,4 @@
 <script setup>
-  import { Squad } from '~/models'
-
   const props = defineProps({
     match: { type: Object, required: true }
   })

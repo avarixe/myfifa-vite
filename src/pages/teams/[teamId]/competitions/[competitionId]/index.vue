@@ -1,6 +1,4 @@
 <script setup>
-  import { Competition } from '~/models'
-
   const props = defineProps({
     teamId: { type: String, required: true },
     competitionId: { type: String, required: true }

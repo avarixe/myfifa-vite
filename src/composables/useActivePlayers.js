@@ -1,6 +1,5 @@
 import orderBy from 'lodash.orderby'
 import { useRepo } from 'pinia-orm'
-import { Player } from '~/models'
 
 export default () => {
   const { teamId } = useTeam()

@@ -1,6 +1,4 @@
 <script setup>
-  import { Player } from '~/models'
-
   const props = defineProps({
     teamId: { type: String, required: true },
     playerId: { type: String, required: true }

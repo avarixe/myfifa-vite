@@ -1,6 +1,5 @@
 <script setup>
   import { addYears } from 'date-fns'
-  import { Player } from '~/models'
 
   const props = defineProps({
     transferActivity: { type: Object, required: true },

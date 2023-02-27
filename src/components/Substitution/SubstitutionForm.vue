@@ -39,7 +39,10 @@
   )
 
   watch(minute, () => {
-    if (attributes.playerId && sortedCaps.value.every(cap => cap.playerId !== attributes.playerId)) {
+    if (
+      attributes.playerId &&
+      sortedCaps.value.every(cap => cap.playerId !== attributes.playerId)
+    ) {
       attributes.playerId = null
     }
   })

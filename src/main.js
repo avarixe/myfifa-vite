@@ -7,7 +7,6 @@ import * as directives from 'vuetify/directives'
 import 'vuetify/styles'
 
 import App from './App.vue'
-import { User } from '~/models'
 
 import Datepicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
