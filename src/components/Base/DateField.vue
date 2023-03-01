@@ -32,6 +32,7 @@
         inline
         auto-apply
         model-type="yyyy-MM-dd"
+        week-start="0"
         :dark="theme.global.current.value.dark"
         :enable-time-picker="false"
         :model-value="modelValue"

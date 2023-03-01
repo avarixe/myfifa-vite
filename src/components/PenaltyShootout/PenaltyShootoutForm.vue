@@ -44,7 +44,7 @@
   <dialog-form
     title-icon="mdi-human"
     :title="title"
-    :validate-on-open="!!record"
+    :validate-on-open="!!match.penaltyShootout"
     :mutation="mutation"
     :variables="variables"
     @open="onOpen"

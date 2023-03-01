@@ -34,14 +34,14 @@
   <div class="pa-2">
     <div class="text-subtitle-2 pb-2">Edit Position and Player</div>
     <v-select
-      v-model="pos"
+      v-model="attributes.pos"
       label="Position"
       prepend-icon="mdi-run"
       :items="Object.keys(matchPositions)"
       @update:model-value="submitForm"
     />
     <player-select
-      v-model="playerId"
+      v-model="attributes.playerId"
       :players="activePlayers"
       item-value="id"
       prepend-icon="mdi-account"
