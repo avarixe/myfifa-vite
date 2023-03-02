@@ -78,7 +78,7 @@
       label="Season"
       disabled
     />
-    <v-autocomplete
+    <v-combobox
       v-model="attributes.name"
       label="Name"
       :items="competitionOptions"
@@ -97,18 +97,18 @@
     />
     <v-text-field
       v-if="attributes.presetFormat"
-      v-model="attributes.numTeams"
+      v-model.number="attributes.numTeams"
       label="Number of Teams"
       type="number"
     />
     <template v-if="attributes.presetFormat === 'Group + Knockout'">
       <v-text-field
-        v-model="attributes.numTeamsPerGroup"
+        v-model.number="attributes.numTeamsPerGroup"
         label="Teams per Group"
         type="number"
       />
       <v-text-field
-        v-model="attributes.numAdvancesFromGroup"
+        v-model.number="attributes.numAdvancesFromGroup"
         label="Teams Advance per Group"
         type="number"
       />

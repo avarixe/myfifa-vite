@@ -1,7 +1,8 @@
 <script setup>
   const { team, currentSeason, seasonLabel } = useTeam()
 
-  const { submitForm: onDateChange } = useForm({
+  const currentlyOn = ref(team.currentlyOn)
+  const { submitForm } = useForm({
     mutation: gql`
       mutation ($id: ID!, $attributes: TeamAttributes!) {
         updateTeam(id: $id, attributes: $attributes) {
@@ -12,8 +13,16 @@
       }
       ${teamFragment}
     `,
-    variables: () => ({ id: team.value.id, attributes: { currentlyOn } })
+    variables: () => ({
+      id: team.value.id,
+      attributes: { currentlyOn: currentlyOn.value }
+    })
   })
+  function onDateChange (date) {
+    currentlyOn.value = date
+    submitForm()
+  }
+
 
   const items = [
     { to: '', icon: 'mdi-view-dashboard', title: 'Dashboard', cols: 12 },

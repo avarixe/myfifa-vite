@@ -48,7 +48,7 @@
     }
   })
 
-  const mutation = prop.record
+  const mutation = props.record
     ? gql`
         mutation ($id: ID!, $attributes: TransferAttributes!) {
           updateTransfer(id: $id, attributes: $attributes) {
