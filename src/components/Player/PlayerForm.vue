@@ -18,7 +18,7 @@
     youth: props.record?.youth || false
   })
 
-  const mutation = prop.record
+  const mutation = props.record
     ? gql`
         mutation ($id: ID!, $attributes: PlayerAttributes!) {
           updatePlayer(id: $id, attributes: $attributes) {
