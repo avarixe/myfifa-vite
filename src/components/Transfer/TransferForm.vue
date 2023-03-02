@@ -72,7 +72,7 @@
   function variables() {
     return props.record
       ? { id: props.record.id, attributes }
-      : { playerId: props.playerId, attributes }
+      : { playerId: props.player.id, attributes }
   }
 </script>
 
@@ -101,7 +101,6 @@
           prepend-icon="mdi-calendar-today"
           :min="attributes.signedOn"
           :prefill="team.currentlyOn"
-          required
         />
       </v-col>
       <v-col cols="12">
@@ -109,7 +108,7 @@
           v-model="attributes.origin"
           label="Origin"
           prepend-icon="mdi-airplane-takeoff"
-          :rules="transerOut ? [] : rulesFor.origin"
+          :rules="transferOut ? [] : rulesFor.origin"
           :disabled="transferOut"
         />
       </v-col>

@@ -90,7 +90,7 @@
       closable-chips
     />
     <v-text-field
-      v-model="attributes.ovr"
+      v-model.number="attributes.ovr"
       label="OVR Rating"
       type="number"
       min="1"
@@ -98,14 +98,14 @@
     />
     <money-field v-model="attributes.value" label="Value" />
     <v-text-field
-      v-model="attributes.kitNo"
+      v-model.number="attributes.kitNo"
       label="Kit Number"
       type="number"
       min="1"
       max="99"
     />
     <v-text-field
-      v-model="attributes.age"
+      v-model.number="attributes.age"
       label="Age"
       type="number"
       min="16"
