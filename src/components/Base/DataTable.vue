@@ -2,12 +2,30 @@
   const props = defineProps({
     headers: { type: Array, default: () => [] },
     items: { type: Array, default: () => [] },
-    itemKey: { type: String, required: true },
-    itemsPerPage: { type: Number, default: 10 },
-    itemsPerPageOptions: { type: Array, default: () => [10, 20, 50, -1] },
-    sortBy: { type: String, default: null },
-    sortDesc: { type: Boolean, default: false },
-    mustSort: { type: Boolean, default: false }
+    options: { type: Object, default: () => ({}) },
+    itemKey: { type: String, default: props => props.options.itemKey ?? 'id' },
+    loading: { type: Boolean, default: false },
+    // Pagination
+    itemsPerPage: {
+      type: Number,
+      default: props => props.options.itemsPerPage ?? 10
+    },
+    itemsPerPageOptions: {
+      type: Array,
+      default: props => props.options.itemsPerPageOptions ?? [10, 20, 50, -1]
+    },
+    // Sorting
+    sortBy: { type: String, default: props => props.options.sortBy },
+    sortDesc: {
+      type: Boolean,
+      default: props => props.options.sortDesc ?? false
+    },
+    mustSort: {
+      type: Boolean,
+      default: props => props.options.mustSort ?? false
+    },
+    // Server Side processing
+    serverSideLength: { type: Number, default: null }
   })
 
   // Sorting
@@ -16,15 +34,19 @@
   const sortIndex = computed(() =>
     props.headers.findIndex(h => h.value === sortBy.value)
   )
-  function changeSortColumn(value) {
-    if (sortBy.value === value) {
+  function changeSortColumn(header) {
+    if (header.sortable === false) {
+      return
+    }
+
+    if (sortBy.value === header.value) {
       if (sortDesc.value && !props.mustSort) {
         sortBy.value = null
       } else {
         sortDesc.value = !sortDesc.value
       }
     } else {
-      sortBy.value = value
+      sortBy.value = header.value
       sortDesc.value = false
     }
   }
@@ -50,22 +72,43 @@
   const page = ref(0)
   const itemsPerPage = ref(props.itemsPerPage)
   const showAll = computed(() => itemsPerPage.value <= 0)
+  const total = computed(() => props.serverSideLength ?? props.items.length)
   const pageCount = computed(() =>
-    showAll.value ? 1 : Math.ceil(props.items.length / itemsPerPage.value)
+    showAll.value ? 1 : Math.ceil(total.value / itemsPerPage.value)
   )
   const pageStart = computed(() =>
     showAll.value ? 1 : page.value * itemsPerPage.value + 1
   )
   const pageStop = computed(() => {
     if (showAll.value) {
-      return props.items.length
+      return total.value
     } else {
       const index = pageStart.value + itemsPerPage.value - 1
-      return index > props.items.length ? props.items.length : index
+      return index > total.value ? total.value : index
     }
   })
-  const pageItems = computed(() =>
-    sortedItems.value.slice(pageStart.value - 1, pageStop.value)
+  const pageItems = computed(() => {
+    if (props.serverSideLength) {
+      return props.items
+    } else {
+      return sortedItems.value.slice(pageStart.value - 1, pageStop.value)
+    }
+  })
+
+  // Server Side Processing
+  const options = computed(() => ({
+    page: page.value,
+    itemsPerPage: itemsPerPage.value,
+    sortBy: sortBy.value,
+    sortDesc: sortDesc.value
+  }))
+  const emit = defineEmits('update:options')
+  watch(
+    options,
+    () => {
+      emit('update:options', { ...props.options, ...options.value })
+    },
+    { deep: true }
   )
 </script>
 
@@ -79,29 +122,39 @@
             :key="header.value"
             :class="header.class"
             :style="header.style"
-            @click="
-              header.sortable !== false ? changeSortColumn(header.value) : null
-            "
           >
             <slot :name="`header-${header.value}`" :header="header">
               <v-hover v-slot="{ isHovering, props: hoverProps }">
-                <span :style="{ cursor: 'pointer' }" v-bind="hoverProps">
+                <v-btn
+                  v-bind="hoverProps"
+                  variant="plain"
+                  size="small"
+                  class="px-0"
+                  :style="{ textTransform: 'inherit' }"
+                  @click="changeSortColumn(header)"
+                >
                   {{ header.text }}
-                  <v-icon v-if="sortBy === header.value">
+                  <v-icon v-if="sortBy === header.value" end>
                     mdi-chevron-{{ sortDesc ? 'down' : 'up' }}
                   </v-icon>
                   <v-icon
                     v-else-if="header.sortable !== false"
-                    class="text-disabled"
+                    class="text-medium-emphasis"
+                    end
                     :style="{ visibility: isHovering ? 'inherit' : 'hidden' }"
                   >
                     mdi-chevron-up
                   </v-icon>
-                </span>
+                </v-btn>
               </v-hover>
             </slot>
           </th>
         </slot>
+      </tr>
+      <tr v-if="loading">
+        <td :colspan="headers.length" :style="{ height: 'auto', padding: 0 }">
+          <v-progress-linear indeterminate color="primary" />
+        </td>
       </tr>
     </thead>
     <tbody>
@@ -119,6 +172,13 @@
           </td>
         </slot>
       </tr>
+      <tr v-if="pageItems.length === 0">
+        <td
+          :colspan="headers.length"
+          class="text-center text-caption text-disabled"
+          v-text="'No Records Found'"
+        />
+      </tr>
     </tbody>
     <slot name="foot">
       <tfoot>
@@ -133,7 +193,7 @@
               >
                 {{ showAll ? 'All' : itemsPerPage }}
                 <v-menu activator="parent">
-                  <v-list dense>
+                  <v-list density="compact">
                     <v-list-item
                       v-for="option in itemsPerPageOptions"
                       :key="option"
@@ -143,8 +203,8 @@
                   </v-list>
                 </v-menu>
               </v-btn>
-              <span class="text-caption">
-                {{ pageStart }} - {{ pageStop }} of {{ props.items.length }}
+              <span class="text-caption pl-2">
+                {{ pageStart }} - {{ pageStop }} of {{ total }}
               </span>
 
               <v-spacer />
