@@ -17,7 +17,7 @@
   const { team } = useTeam()
 
   const teamIsHome = computed(() => {
-    if (props.event.type === 'substitution') {
+    if (props.event.constructor.entity === 'Substitution') {
       return team.value.name === props.match.home
     } else {
       return props.event.home
