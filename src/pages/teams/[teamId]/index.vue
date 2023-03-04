@@ -132,6 +132,11 @@
                 {{ formatDate(player.currentInjury.endedOn) }}
               </td>
             </tr>
+            <tr v-if="injuredPlayers.length === 0">
+              <td colspan="4" class="text-caption text-center text-disabled">
+                No Injured Players
+              </td>
+            </tr>
           </tbody>
         </v-table>
       </v-card>
@@ -185,6 +190,11 @@
                 </span>
               </td>
             </tr>
+            <tr v-if="loanedPlayers.length === 0">
+              <td colspan="4" class="text-caption text-center text-disabled">
+                No Loaned Players
+              </td>
+            </tr>
           </tbody>
         </v-table>
       </v-card>
@@ -192,7 +202,7 @@
       <v-card class="mt-4">
         <v-card-title>
           <v-icon start color="blue" icon="mdi-file-document-remove" />
-          Expired Contracts
+          Expiring Contracts
         </v-card-title>
         <v-table>
           <thead>
@@ -221,6 +231,11 @@
               </td>
               <td class="text-right">
                 {{ formatMoney(player.currentContract.wage, team.currency) }}
+              </td>
+            </tr>
+            <tr v-if="expiringPlayers.length === 0">
+              <td colspan="4" class="text-caption text-center text-disabled">
+                No Expiring Contracts
               </td>
             </tr>
           </tbody>

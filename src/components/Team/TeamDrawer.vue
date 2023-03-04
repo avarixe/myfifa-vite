@@ -18,11 +18,10 @@
       attributes: { currentlyOn: currentlyOn.value }
     })
   })
-  function onDateChange (date) {
+  function onDateChange(date) {
     currentlyOn.value = date
     submitForm()
   }
-
 
   const items = [
     { to: '', icon: 'mdi-view-dashboard', title: 'Dashboard', cols: 12 },
