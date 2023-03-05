@@ -78,9 +78,13 @@
 </script>
 
 <template>
-  <h1>{{ match.home }} v {{ match.away }}</h1>
+  <div class="text-caption">{{ formatDate(match.playedOn) }}</div>
+  <div class="text-h6 font-weight-bold">
+    {{ match.competition }} {{ match.stage }}
+  </div>
+  <div class="text-h4">{{ match.home }} v {{ match.away }}</div>
 
-  <div>
+  <div class="my-2">
     <v-btn
       :to="`/teams/${team.id}/matches/${previousMatch?.id}`"
       :disabled="!previousMatch"
@@ -106,9 +110,6 @@
   <div class="mt-4 text-center">
     <v-row dense justify="space-between" align="center">
       <v-col cols="12">
-        <div class="text-h4">{{ match.competition }}</div>
-        <div v-if="match.stage" class="text-h5">{{ match.stage }}</div>
-        <div class="subheading">{{ formatDate(match.playedOn) }}</div>
       </v-col>
       <v-col cols="6">
         <div class="font-weight-light text-h6 text-sm-h4">{{ match.home }}</div>
