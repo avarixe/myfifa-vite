@@ -159,9 +159,9 @@
 </script>
 
 <template>
-  <h1>Player Statistics</h1>
+  <div class="text-h4 mb-2">Player Statistics</div>
 
-  <v-btn :to="`/teams/${team.id}/analytics/development`"> Development </v-btn>
+  <v-btn :to="`/teams/${team.id}/players/development`"> Development </v-btn>
 
   <div class="d-flex mt-2">
     <v-btn-toggle v-model="filter" variant="outlined">

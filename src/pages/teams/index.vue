@@ -24,9 +24,9 @@
 </script>
 
 <template>
-  <h1>Teams</h1>
+  <div class="text-h4">Teams</div>
 
-  <v-btn to="/teams/new">
+  <v-btn to="/teams/new" class="my-2">
     <v-icon start>mdi-plus</v-icon>
     Team
   </v-btn>

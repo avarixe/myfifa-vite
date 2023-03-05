@@ -18,7 +18,7 @@
 </script>
 
 <template>
-  <h1>Competitions</h1>
+  <div class="text-h4 mb-2">Competitions</div>
 
   <v-timeline :side="smAndDown ? 'end' : null">
     <v-timeline-item

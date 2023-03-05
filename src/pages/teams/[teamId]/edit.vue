@@ -12,7 +12,7 @@
 </script>
 
 <template>
-  <h1>Edit Team</h1>
+  <div class="text-h4 mb-2">Edit Team</div>
 
   <team-form :record="team" />
 </template>

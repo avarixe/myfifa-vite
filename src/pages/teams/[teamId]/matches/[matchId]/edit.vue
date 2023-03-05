@@ -36,7 +36,7 @@
 </script>
 
 <template>
-  <h1>Edit Match</h1>
+  <div class="text-h4">Edit Match</div>
 
   <match-form :record="match" />
 </template>

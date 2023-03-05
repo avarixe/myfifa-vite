@@ -143,31 +143,43 @@
 </script>
 
 <template>
-  <h1>Players</h1>
+  <div class="text-h4">Players</div>
 
-  <v-btn :to="`/teams/${team.id}/players/new`">
-    <v-icon start>mdi-plus</v-icon>
-    Player
-  </v-btn>
-  &nbsp;
-  <v-btn-toggle v-model="filter" variant="outlined">
-    <v-btn
-      v-for="option in filterOptions"
-      :key="option.text"
-      icon
-      :color="option.color"
-      :value="option.text"
-    >
-      <v-icon>mdi-{{ option.icon }}</v-icon>
-      <v-tooltip
-        activator="parent"
-        :text="`${option.text} Players`"
-        location="bottom"
-      />
+  <div class="my-2">
+    <v-btn :to="`/teams/${team.id}/players/new`">
+      <v-icon start>mdi-plus</v-icon>
+      Player
     </v-btn>
-  </v-btn-toggle>
+    &nbsp;
+    <v-btn :to="`/teams/${team.id}/players/development`">
+      Development
+    </v-btn>
+    &nbsp;
+    <v-btn :to="`/teams/${team.id}/players/statistics`">
+      Statistics
+    </v-btn>
+  </div>
 
-  <data-table :headers="headers" :items="rows" item-key="id" sort-by="pos">
+  <div class="my-2">
+    <v-btn-toggle v-model="filter" variant="outlined">
+      <v-btn
+        v-for="option in filterOptions"
+        :key="option.text"
+        icon
+        :color="option.color"
+        :value="option.text"
+      >
+        <v-icon>mdi-{{ option.icon }}</v-icon>
+        <v-tooltip
+          activator="parent"
+          :text="`${option.text} Players`"
+          location="bottom"
+        />
+      </v-btn>
+    </v-btn-toggle>
+  </div>
+
+  <data-table :headers="headers" :items="rows" sort-by="pos">
     <template #item-name="{ item: player }">
       <v-btn
         variant="text"

@@ -31,9 +31,9 @@
 </script>
 
 <template>
-  <h1>Squads</h1>
+  <div class="text-h4">Squads</div>
 
-  <v-row>
+  <v-row class="mt-2">
     <v-col cols="12">
       <v-btn @click="startNewSquad">
         <v-icon start>mdi-plus</v-icon>

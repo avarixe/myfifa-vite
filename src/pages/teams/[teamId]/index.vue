@@ -54,9 +54,9 @@
 </script>
 
 <template>
-  <h1>{{ team.name }}</h1>
+  <div class="text-h4">{{ team.name }}</div>
 
-  <div>
+  <div class="mt-2">
     <v-btn :to="`/teams/${team.id}/edit`">Edit</v-btn>
     &nbsp;
     <remove-button

@@ -16,7 +16,7 @@
 </script>
 
 <template>
-  <h1>New Competition</h1>
+  <div class="text-h4 mb-2">New Competition</div>
 
   <competition-form :team-id="teamId" />
 </template>

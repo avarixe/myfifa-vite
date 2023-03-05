@@ -12,7 +12,7 @@
 </script>
 
 <template>
-  <h1>New Player</h1>
+  <div class="text-h4 mb-2">New Player</div>
 
   <player-form :team-id="teamId" />
 </template>

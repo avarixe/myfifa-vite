@@ -42,12 +42,12 @@
     },
     { to: 'squads', icon: 'mdi-clipboard-text', title: 'Squads' },
     {
-      to: 'analytics/development',
+      to: 'players/development',
       icon: 'mdi-trending-up',
       title: 'Development'
     },
     {
-      to: 'analytics/statistics',
+      to: 'players/statistics',
       icon: 'mdi-google-analytics',
       title: 'Statistics'
     }

@@ -62,9 +62,9 @@
 </script>
 
 <template>
-  <h1>{{ seasonLabel(season) }} Season</h1>
+  <div class="text-h4">{{ seasonLabel(season) }} Season</div>
 
-  <v-row>
+  <v-row class="mt-2">
     <v-col cols="12">
       <v-btn
         :to="`/teams/${team.id}/seasons/${season - 1}`"

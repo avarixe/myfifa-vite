@@ -36,7 +36,7 @@
 </script>
 
 <template>
-  <h1>Edit Competition</h1>
+  <div class="text-h4 mb-2">Edit Competition</div>
 
   <competition-form :record="competition" />
 </template>

@@ -23,8 +23,6 @@
         case 'development':
         case 'statistics':
           return { to, text: capitalize(step) }
-        case 'analytics':
-          return { to, text: capitalize(step), disabled: true }
         case 'seasons':
           return {
             to: to.replace(/seasons/, 'competitions'),

@@ -42,12 +42,25 @@
 </script>
 
 <template>
-  <h1>{{ competition.name }}</h1>
+  <v-btn
+    :to="`/teams/${team.id}/seasons/${competition.season}`"
+    variant="text"
+    color="primary"
+    class="pa-0"
+  >
+    {{ seasonLabel(competition.season) }}
+  </v-btn>
+  <div class="text-h4">{{ competition.name }}</div>
+  <div v-if="competition.champion" class="text-body-1">
+    <v-icon start color="warning">mdi-trophy</v-icon>
+    {{ competition.champion }}
+    <v-icon end color="warning">mdi-trophy</v-icon>
+  </div>
 
-  <div>
-    <v-btn :to="`/teams/${team.id}/competitions/${competition.id}/edit`"
-      >Edit</v-btn
-    >
+  <div class="my-2">
+    <v-btn :to="`/teams/${team.id}/competitions/${competition.id}/edit`">
+      Edit
+    </v-btn>
     &nbsp;
     <v-btn>
       Add Stage
@@ -60,13 +73,6 @@
       :label="competition.name"
       @removed="router.push(`/teams/${team.id}/competitions`)"
     />
-  </div>
-
-  <div class="mt-2">
-    <div><b>Season:</b> {{ seasonLabel(competition.season) }}</div>
-    <div v-if="competition.champion">
-      <b>Champion:</b> {{ competition.champion }}
-    </div>
   </div>
 
   <v-expansion-panels v-model="expansionPanels" multiple>

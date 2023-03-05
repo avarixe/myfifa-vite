@@ -93,9 +93,9 @@
 </script>
 
 <template>
-  <h1>{{ player.name }}</h1>
+  <div class="text-h4">{{ player.name }}</div>
 
-  <div>
+  <div class="my-2">
     <v-btn :to="`/teams/${team.id}/players/${player.id}/edit`">Edit</v-btn>
     &nbsp;
     <remove-button

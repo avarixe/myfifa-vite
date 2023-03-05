@@ -164,9 +164,9 @@
 </script>
 
 <template>
-  <h1>Player Development</h1>
+  <div class="text-h4 mb-2">Player Development</div>
 
-  <v-btn :to="`/teams/${team.id}/analytics/statistics`"> Statistics </v-btn>
+  <v-btn :to="`/teams/${team.id}/players/statistics`"> Statistics </v-btn>
 
   <div class="d-flex mt-2">
     <v-btn-toggle v-model="filter" variant="outlined">

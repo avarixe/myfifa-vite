@@ -28,7 +28,7 @@
 </script>
 
 <template>
-  <h1>Edit Player</h1>
+  <div class="text-h4 mb-2">Edit Player</div>
 
   <player-form :record="player" />
 </template>
