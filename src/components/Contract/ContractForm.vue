@@ -86,7 +86,7 @@
 </script>
 
 <template>
-  <dialog-form
+  <menu-form
     :title="title"
     :validate-on-open="!!record"
     :mutation="mutation"
@@ -178,5 +178,5 @@
         </v-row>
       </v-scroll-y-transition>
     </template>
-  </dialog-form>
+  </menu-form>
 </template>

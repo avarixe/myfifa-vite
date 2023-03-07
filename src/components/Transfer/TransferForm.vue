@@ -77,7 +77,7 @@
 </script>
 
 <template>
-  <dialog-form
+  <menu-form
     :title="`Transfer ${player.name}`"
     :validate-on-open="!!record"
     :mutation="mutation"
@@ -133,5 +133,5 @@
         />
       </v-col>
     </template>
-  </dialog-form>
+  </menu-form>
 </template>

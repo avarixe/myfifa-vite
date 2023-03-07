@@ -84,7 +84,7 @@
 </script>
 
 <template>
-  <dialog-form
+  <menu-form
     title-icon="mdi-repeat"
     :title="title"
     :validate-on-open="!!record"
@@ -116,5 +116,5 @@
         <v-checkbox v-model="attributes.injury" label="Injury" hide-details />
       </v-col>
     </template>
-  </dialog-form>
+  </menu-form>
 </template>

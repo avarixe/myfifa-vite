@@ -41,7 +41,7 @@
 </script>
 
 <template>
-  <dialog-form
+  <menu-form
     title-icon="mdi-human"
     :title="title"
     :validate-on-open="!!match.penaltyShootout"
@@ -69,5 +69,5 @@
         />
       </v-col>
     </template>
-  </dialog-form>
+  </menu-form>
 </template>

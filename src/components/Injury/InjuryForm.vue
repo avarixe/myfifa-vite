@@ -76,7 +76,7 @@
 </script>
 
 <template>
-  <dialog-form
+  <menu-form
     :title="title"
     :validate-on-open="!!record"
     :mutation="mutation"
@@ -138,5 +138,5 @@
         />
       </v-col>
     </template>
-  </dialog-form>
+  </menu-form>
 </template>

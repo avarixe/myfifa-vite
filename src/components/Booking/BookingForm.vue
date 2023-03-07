@@ -73,7 +73,7 @@
 </script>
 
 <template>
-  <dialog-form
+  <menu-form
     title-icon="mdi-book"
     :title="title"
     :validate-on-open="!!record"
@@ -123,5 +123,5 @@
         </v-radio-group>
       </v-col>
     </template>
-  </dialog-form>
+  </menu-form>
 </template>
