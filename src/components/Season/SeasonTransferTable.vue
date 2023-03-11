@@ -36,7 +36,7 @@
         const player = playerRepo.find(parseInt(arrival.playerId))
 
         return {
-          ...pick(player, ['name', 'pos']),
+          ..._pick(player, ['name', 'pos']),
           id: `arrival-${i}`,
           playerId: arrival.playerId,
           date: arrival.startedOn,
@@ -55,7 +55,7 @@
       const player = playerRepo.find(parseInt(departure.playerId))
 
       return {
-        ...pick(player, ['name', 'pos']),
+        ..._pick(player, ['name', 'pos']),
         id: `departure-${i}`,
         playerId: departure.playerId,
         date: departure.endedOn,
@@ -77,8 +77,8 @@
       const transferOut = team.value.name === transfer.origin
 
       return {
-        ...pick(player, ['name', 'pos']),
-        ...pick(transfer, ['playerId', 'addonClause']),
+        ..._pick(player, ['name', 'pos']),
+        ..._pick(transfer, ['playerId', 'addonClause']),
         id: `transfer-${i}`,
         date: transfer.movedOn,
         icon: `mdi-airplane-${transferOut ? 'takeoff' : 'landing'}`,
@@ -107,7 +107,7 @@
       const player = playerRepo.find(parseInt(loan.playerId))
       const loanOut = team.value.name === loan.origin
       const row = {
-        ...pick(player, ['name', 'pos']),
+        ..._pick(player, ['name', 'pos']),
         posIdx: player.posIdx,
         playerId: loan.playerId,
         fromTo: loanOut ? loan.destination : loan.origin

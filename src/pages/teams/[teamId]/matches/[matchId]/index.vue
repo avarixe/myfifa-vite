@@ -109,8 +109,6 @@
 
   <div class="mt-4 text-center">
     <v-row dense justify="space-between" align="center">
-      <v-col cols="12">
-      </v-col>
       <v-col cols="6">
         <div class="font-weight-light text-h6 text-sm-h4">{{ match.home }}</div>
         <div :class="`font-weight-bold text-h4 text-${match.resultColor}`">

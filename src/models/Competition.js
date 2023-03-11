@@ -1,9 +1,7 @@
 import { Model } from 'pinia-orm'
 import { NumberCast } from 'pinia-orm/casts'
-import Stage from './Stage'
-import Team from './Team'
 
-export default class Competition extends Model {
+export class Competition extends Model {
   static entity = 'Competition'
 
   static fields() {

@@ -8,9 +8,9 @@
   function resetAttributes() {
     attributes.name = props.stage.name
     attributes.fixturesAttributes = props.stage.fixtures.map(fixture => ({
-      ...pick(fixture, ['id', 'homeTeam', 'awayTeam']),
+      ..._pick(fixture, ['id', 'homeTeam', 'awayTeam']),
       legsAttributes: fixture.legs.map(leg => ({
-        ...pick(leg, ['id', 'homeScore', 'awayScore']),
+        ..._pick(leg, ['id', 'homeScore', 'awayScore']),
         _destroy: false
       })),
       _destroy: false

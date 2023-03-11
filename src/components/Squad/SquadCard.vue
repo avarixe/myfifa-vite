@@ -10,7 +10,7 @@
     name: props.record?.name,
     squadPlayersAttributes:
       props.record?.squadPlayers?.map(squadPlayer =>
-        pick(squadPlayer, ['id', 'playerId', 'pos'])
+        _pick(squadPlayer, ['id', 'playerId', 'pos'])
       ) || new Array(11).fill().map(() => ({ playerId: null, pos: null }))
   })
 
@@ -25,7 +25,7 @@
 
   function resetCard() {
     attributes.squadPlayersAttributes = props.record?.squadPlayers?.map(
-      squadPlayer => pick(squadPlayer, ['id', 'playerId', 'pos'])
+      squadPlayer => _pick(squadPlayer, ['id', 'playerId', 'pos'])
     )
     selectedPlayerId.value = null
     inEditMode.value = false
@@ -76,7 +76,7 @@
 
   const playerRepo = useRepo(Player)
   const players = computed(() =>
-    orderBy(
+    _orderBy(
       playerRepo.where('status', status => !!status).get(),
       ['posIdx', 'ovr'],
       ['asc', 'desc']

@@ -87,7 +87,7 @@
           flat
           class="text-center w-100"
         >
-          <v-card-text>
+          <v-card-text class="pa-3">
             <v-icon>{{ item.icon }}</v-icon>
             <div class="text-caption mt-1">{{ item.title }}</div>
           </v-card-text>

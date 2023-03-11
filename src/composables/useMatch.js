@@ -1,10 +1,7 @@
-import orderBy from 'lodash.orderby'
-import { matchPositions } from '~/constants'
-
 export default match => {
   const matchPositionList = Object.keys(matchPositions)
   const sortedCaps = computed(() =>
-    orderBy(match.caps, c => matchPositionList.indexOf(c.pos), 'start')
+    _orderBy(match.caps, c => matchPositionList.indexOf(c.pos), 'start')
   )
 
   const minute = ref(null)

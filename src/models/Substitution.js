@@ -1,8 +1,7 @@
 import { Model } from 'pinia-orm'
 import { NumberCast } from 'pinia-orm/casts'
-import Player from './Player'
 
-export default class Substitution extends Model {
+export class Substitution extends Model {
   static entity = 'Substitution'
 
   static fields() {

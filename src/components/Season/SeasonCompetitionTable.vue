@@ -53,7 +53,7 @@
       } = results.value[competition.name] || {}
 
       return {
-        ...pick(competition, ['id', 'name', 'statusIcon', 'statusColor']),
+        ..._pick(competition, ['id', 'name', 'statusIcon', 'statusColor']),
         matchesPlayed: wins + draws + losses,
         wins,
         draws,

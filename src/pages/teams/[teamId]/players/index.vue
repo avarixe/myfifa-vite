@@ -57,7 +57,7 @@
 
   const currentContractsByPlayerId = computed(() => {
     const playerIds = players.value.map(player => player.id)
-    return keyBy(
+    return _keyBy(
       contractRepo
         .where('playerId', id => playerIds.includes(id))
         .where('startedOn', date => date <= team.value.currentlyOn)
@@ -151,13 +151,9 @@
       Player
     </v-btn>
     &nbsp;
-    <v-btn :to="`/teams/${team.id}/players/development`">
-      Development
-    </v-btn>
+    <v-btn :to="`/teams/${team.id}/players/development`">Development</v-btn>
     &nbsp;
-    <v-btn :to="`/teams/${team.id}/players/statistics`">
-      Statistics
-    </v-btn>
+    <v-btn :to="`/teams/${team.id}/players/statistics`">Statistics</v-btn>
   </div>
 
   <div class="my-2">

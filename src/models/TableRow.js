@@ -1,8 +1,7 @@
 import { Model } from 'pinia-orm'
 import { NumberCast } from 'pinia-orm/casts'
-import Stage from './Stage'
 
-export default class TableRow extends Model {
+export class TableRow extends Model {
   static entity = 'TableRow'
 
   static fields() {

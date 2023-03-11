@@ -16,7 +16,7 @@
   })
 
   const events = computed(() =>
-    orderBy(
+    _orderBy(
       [
         ...props.player.contracts,
         ...props.player.injuries,

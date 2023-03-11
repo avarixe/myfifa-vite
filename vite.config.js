@@ -37,10 +37,10 @@ export default defineConfig({
         {
           '@urql/vue': ['useQuery', 'useMutation', 'gql'],
           'pinia-orm': ['useRepo'],
-          'lodash.keyby': [['default', 'keyBy']],
-          'lodash.groupby': [['default', 'groupBy']],
-          'lodash.orderby': [['default', 'orderBy']],
-          'lodash.pick': [['default', 'pick']],
+          'lodash.keyby': [['default', '_keyBy']],
+          'lodash.groupby': [['default', '_groupBy']],
+          'lodash.orderby': [['default', '_orderBy']],
+          'lodash.pick': [['default', '_pick']],
           'date-fns': ['format', 'parseISO'],
           vuetify: ['useDisplay', 'useTheme'],
           axios: [['default', 'axios']]

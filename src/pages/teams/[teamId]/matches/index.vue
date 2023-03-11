@@ -1,5 +1,10 @@
 <script setup>
-  const { team, currentSeason, seasonLabel, data: queryData } = await useTeamQuery({
+  const {
+    team,
+    currentSeason,
+    seasonLabel,
+    data: queryData
+  } = await useTeamQuery({
     query: gql`
       query fetchMatchesPage($teamId: ID!) {
         team(id: $teamId) {
@@ -36,10 +41,16 @@
 
   const { data, executeQuery } = useQuery({
     query: gql`
-      query ($teamId: ID!, $pagination: PaginationAttributes, $filters: MatchFilterAttributes) {
+      query (
+        $teamId: ID!
+        $pagination: PaginationAttributes
+        $filters: MatchFilterAttributes
+      ) {
         team(id: $teamId) {
           matchSet(pagination: $pagination, filters: $filters) {
-            matches { ...MatchData }
+            matches {
+              ...MatchData
+            }
             total
           }
         }
@@ -62,7 +73,9 @@
     try {
       loading.value = true
       await executeQuery()
-      const { team: { matchSet } } = data.value
+      const {
+        team: { matchSet }
+      } = data.value
       matchRepo.save(matchSet.matches)
       const matchIds = matchSet.matches.map(match => parseInt(match.id))
       matches.value = matchRepo
@@ -110,7 +123,10 @@
 
   const matchStages = computed(() => {
     const stageNames = queryData.value.team.competitions.reduce(
-      (names, comp) => [...names, ...comp.stages.filter(stage => !stage.table).map(stage => stage.name)],
+      (names, comp) => [
+        ...names,
+        ...comp.stages.filter(stage => !stage.table).map(stage => stage.name)
+      ],
       []
     )
     return [...new Set(stageNames)].filter(stage => !!stage).sort()

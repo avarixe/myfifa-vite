@@ -1,6 +1,6 @@
 <script setup>
-  import mapKeys from 'lodash.mapkeys'
-  import camelCase from 'lodash.camelcase'
+  import _mapKeys from 'lodash.mapkeys'
+  import _camelCase from 'lodash.camelcase'
   import * as models from '~/models'
 
   const props = defineProps({
@@ -64,7 +64,7 @@
 
     Object.keys(insertBuffer).forEach(async type => {
       const data = insertBuffer[type].map(record =>
-        mapKeys(record, (_v, k) => camelCase(k))
+        _mapKeys(record, (_v, k) => _camelCase(k))
       )
       await useRepo(models[type]).save(data)
       delete insertBuffer[type]

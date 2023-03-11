@@ -19,7 +19,7 @@
   })
 
   const { playerDevelopmentStats } = data.value.team
-  const statsByPlayerId = groupBy(playerDevelopmentStats, 'playerId')
+  const statsByPlayerId = _groupBy(playerDevelopmentStats, 'playerId')
 
   const filter = ref('Active')
   const filterOptions = [

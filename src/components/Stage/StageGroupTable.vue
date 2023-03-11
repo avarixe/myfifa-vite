@@ -8,7 +8,7 @@
   function resetAttributes() {
     ;(attributes.name = props.stage.name),
       (attributes.tableRowsAttributes = props.stage.tableRows.map(row => ({
-        ...pick(row, [
+        ..._pick(row, [
           'id',
           'name',
           'wins',

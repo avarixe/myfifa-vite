@@ -1,11 +1,7 @@
 import { Model } from 'pinia-orm'
 import { NumberCast } from 'pinia-orm/casts'
-import Player from './Player'
-import Match from './Match'
-import Squad from './Squad'
-import Competition from './Competition'
 
-export default class Team extends Model {
+export class Team extends Model {
   static entity = 'Team'
 
   static fields() {

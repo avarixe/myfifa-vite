@@ -1,5 +1,3 @@
-import { gql } from '@urql/core'
-
 export const matchFragment = gql`
   fragment MatchData on Match {
     id

@@ -1,8 +1,7 @@
 import { Model } from 'pinia-orm'
 import { NumberCast } from 'pinia-orm/casts'
-import FixtureLeg from './FixtureLeg'
 
-export default class Fixture extends Model {
+export class Fixture extends Model {
   static entity = 'Fixture'
 
   static fields() {

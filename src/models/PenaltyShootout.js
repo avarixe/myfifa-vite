@@ -1,7 +1,7 @@
 import { Model } from 'pinia-orm'
 import { NumberCast } from 'pinia-orm/casts'
 
-export default class PenaltyShootout extends Model {
+export class PenaltyShootout extends Model {
   static entity = 'PenaltyShootout'
 
   static fields() {

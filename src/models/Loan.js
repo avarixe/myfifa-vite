@@ -1,7 +1,7 @@
 import { Model } from 'pinia-orm'
 import { NumberCast } from 'pinia-orm/casts'
 
-export default class Loan extends Model {
+export class Loan extends Model {
   static entity = 'Loan'
 
   static fields() {

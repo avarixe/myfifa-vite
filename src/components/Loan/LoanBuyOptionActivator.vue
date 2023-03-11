@@ -20,7 +20,7 @@
     variables: () => ({
       id: props.loan.id,
       attributes: {
-        ...pick(props.loan, [
+        ..._pick(props.loan, [
           'signedOn',
           'startedOn',
           'wage',

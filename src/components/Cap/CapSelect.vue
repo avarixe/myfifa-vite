@@ -16,7 +16,7 @@
   const playerRepo = useRepo(Player)
   const matchPositionList = Object.keys(matchPositions)
   const players = computed(() =>
-    orderBy(
+    _orderBy(
       playerRepo
         .where(
           'id',

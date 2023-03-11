@@ -1,7 +1,7 @@
 import { Model } from 'pinia-orm'
 import { NumberCast } from 'pinia-orm/casts'
 
-export default class Injury extends Model {
+export class Injury extends Model {
   static entity = 'Injury'
 
   static fields() {

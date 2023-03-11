@@ -1,18 +1,7 @@
 import { Model } from 'pinia-orm'
 import { NumberCast } from 'pinia-orm/casts'
-import PlayerHistory from './PlayerHistory'
-import Injury from './Injury'
-import Loan from './Loan'
-import Contract from './Contract'
-import Transfer from './Transfer'
-import Cap from './Cap'
-import Match from './Match'
-import Goal from './Goal'
-import Booking from './Booking'
-import Team from './Team'
-import { positions, nationalities } from '~/constants'
 
-export default class Player extends Model {
+export class Player extends Model {
   static entity = 'Player'
 
   static fields() {

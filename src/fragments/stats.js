@@ -1,5 +1,3 @@
-import { gql } from '@urql/core'
-
 export const competitionStatsFragment = gql`
   fragment CompetitionStatsData on CompetitionStats {
     season

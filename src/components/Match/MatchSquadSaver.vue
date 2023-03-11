@@ -52,7 +52,7 @@
       attributes: {
         name: squadName.value,
         squadPlayersAttributes: starters.value.map(cap =>
-          pick(cap, ['playerId', 'pos'])
+          _pick(cap, ['playerId', 'pos'])
         )
       }
     }),

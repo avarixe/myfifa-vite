@@ -1,5 +1,3 @@
-import { gql } from '@urql/core'
-
 export const contractFragment = gql`
   fragment ContractData on Contract {
     id

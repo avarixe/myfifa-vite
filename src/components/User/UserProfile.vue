@@ -4,7 +4,7 @@
   })
 
   const attributes = reactive(
-    pick(props.user, ['fullName', 'username', 'email'])
+    _pick(props.user, ['fullName', 'username', 'email'])
   )
 
   const { form, formIsLoading, submitForm } = useForm({

@@ -1,5 +1,3 @@
-import useTeam from './useTeam'
-
 export default async ({ query, variables }) => {
   const { teamId, teamRepo, team, currentSeason, seasonLabel } = useTeam()
 

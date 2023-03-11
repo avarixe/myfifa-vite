@@ -14,7 +14,7 @@
   })
 
   const events = computed(() =>
-    orderBy(
+    _orderBy(
       [
         ...props.match.bookings,
         ...props.match.substitutions,
