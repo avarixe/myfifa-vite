@@ -135,6 +135,13 @@
           </span>
         </div>
       </v-col>
+      <v-col
+        v-if="match.extraTime"
+        cols="12"
+        :class="`text-center text-${match.resultColor}`"
+      >
+        AET
+      </v-col>
     </v-row>
   </div>
 

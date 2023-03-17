@@ -108,11 +108,17 @@
       :event="match.penaltyShootout"
     />
     <v-timeline-item
-      v-else-if="events.length === 0"
       dot-color="grey"
       icon="mdi-timer"
     >
-      <div class="mt-2">No Match Events</div>
+      <div class="mt-2">End of Match</div>
+      <match-extra-time-switch
+        :match="match"
+        label="After Extra Time"
+        color="primary"
+        density="compact"
+        hide-details
+      />
     </v-timeline-item>
   </v-timeline>
 </template>

@@ -33,7 +33,7 @@
       :close-on-content-click="false"
       activator="parent"
     >
-      <v-sheet>
+      <v-sheet width="260px">
         <date-picker
           inline
           auto-apply

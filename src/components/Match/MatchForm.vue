@@ -124,7 +124,6 @@
       }`"
       @click:append="setTeamAs('away')"
     />
-    <v-checkbox v-model="attributes.extraTime" label="Extra Time Required" />
     <v-btn type="submit" :loading="formIsLoading">
       {{ props.record ? 'Update' : 'Create' }}
     </v-btn>

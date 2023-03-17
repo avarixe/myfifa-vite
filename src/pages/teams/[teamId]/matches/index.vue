@@ -200,7 +200,10 @@
     <template #item="{ item: match }">
       <td :style="{ textAlign: 'center' }">
         <div>{{ match.home }} v {{ match.away }}</div>
-        <div :class="`text-${match.resultColor}`">{{ match.score }}</div>
+        <div :class="`text-${match.resultColor}`">
+          {{ match.score }}
+          <span v-if="match.extraTime" class="text-caption">aet.</span>
+        </div>
       </td>
       <td>
         <div>{{ match.competition }}</div>
