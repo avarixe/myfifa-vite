@@ -15,6 +15,7 @@ export class Cap extends Model {
       pos: this.string(''),
       start: this.number(0),
       stop: this.number(90),
+      ovr: this.number(3),
       rating: this.number(0),
       subbedOut: this.boolean(false),
 

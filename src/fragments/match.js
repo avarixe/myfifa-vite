@@ -24,6 +24,7 @@ export const baseCapFragment = gql`
     pos
     start
     stop
+    ovr
     rating
     subbedOut
   }

@@ -138,6 +138,14 @@
       }
     }
   }
+
+  const ovrData = computed(() =>
+    attributes.squadPlayersAttributes.map(attr => ({
+      type: matchPositions[attr.pos],
+      value: playerRepo.find(parseInt(attr.playerId)).ovr,
+      weight: 1
+    }))
+  )
 </script>
 
 <template>
@@ -153,6 +161,8 @@
       />
     </v-card-title>
     <v-card-text>
+      <formation-ovr :data="ovrData" />
+
       <v-row dense>
         <v-layout>
           <v-navigation-drawer v-if="inEditMode" permanent>

@@ -36,14 +36,14 @@ export const matchPositions = {
   LAM: 'MID',
   CAM: 'MID',
   RAM: 'MID',
-  LW: 'ATT',
-  RF: 'ATT',
-  CF: 'ATT',
-  LF: 'ATT',
-  LS: 'ATT',
-  ST: 'ATT',
-  RS: 'ATT',
-  RW: 'ATT'
+  LW: 'FWD',
+  RF: 'FWD',
+  CF: 'FWD',
+  LF: 'FWD',
+  LS: 'FWD',
+  ST: 'FWD',
+  RS: 'FWD',
+  RW: 'FWD'
 }
 
 export const nationalities = {

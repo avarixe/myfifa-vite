@@ -74,6 +74,14 @@
     showFormation.value = !mobile.value
   })
 
+  const ovrData = computed(() =>
+    match.value.caps.map(cap => ({
+      type: matchPositions[cap.pos],
+      value: cap.ovr,
+      weight: cap.stop - cap.start
+    }))
+  )
+
   const router = useRouter()
 </script>
 
@@ -157,6 +165,7 @@
       </v-btn>
     </div>
 
+    <formation-ovr :data="ovrData" />
     <match-formation v-if="showFormation" :match="match" />
     <match-lineup v-else :match="match" />
   </section>
