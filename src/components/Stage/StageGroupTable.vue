@@ -1,6 +1,7 @@
 <script setup>
   const props = defineProps({
     stage: { type: Object, required: true },
+    readonly: { type: Boolean, default: false },
     isNamed: { type: Boolean, default: true }
   })
 
@@ -78,26 +79,28 @@
     />
     <v-spacer v-else />
 
-    <v-btn
-      :icon="`mdi-${editing ? 'close' : 'pencil'}`"
-      variant="text"
-      small
-      @click="toggleEditing"
-    />
-    <v-btn
-      v-if="editing"
-      icon="mdi-content-save"
-      variant="text"
-      small
-      @click="submitForm"
-    />
-    <remove-button
-      v-else
-      :record="stage"
-      store="Stage"
-      :label="stage.name"
-      icon="mdi-delete"
-    />
+    <template v-if="!readonly">
+      <v-btn
+        :icon="`mdi-${editing ? 'close' : 'pencil'}`"
+        variant="text"
+        small
+        @click="toggleEditing"
+      />
+      <v-btn
+        v-if="editing"
+        icon="mdi-content-save"
+        variant="text"
+        small
+        @click="submitForm"
+      />
+      <remove-button
+        v-else
+        :record="stage"
+        store="Stage"
+        :label="stage.name"
+        icon="mdi-delete"
+      />
+    </template>
   </div>
   <v-table id="rows" density="compact">
     <thead>

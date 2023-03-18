@@ -1,7 +1,13 @@
 <script setup>
   const route = useRoute()
   const teamId = computed(() => parseInt(route.params.teamId))
-  const matchId = computed(() => parseInt(route.params.matchId))
+
+  const matchId = ref(route.params.matchId)
+  watch(route, () => {
+    if (route.params.matchId) {
+      matchId.value = route.params.matchId
+    }
+  })
 
   const { data, team } = await useTeamQuery({
     query: gql`
@@ -54,19 +60,23 @@
   })
 
   const matchRepo = useRepo(Match)
-  watchEffect(() => {
-    matchRepo.save(data.value.match)
-  })
-
   const match = computed(() =>
     matchRepo
       .withAll()
       .with('caps', query => query.with('player'))
       .find(parseInt(matchId.value))
   )
+  const readonly = ref(false)
 
-  const nextMatch = computed(() => data.value.match.nextMatch)
-  const previousMatch = computed(() => data.value.match.previousMatch)
+  watchEffect(() => {
+    if (data.value) {
+      matchRepo.save(data.value.match)
+    }
+    readonly.value = match.value.playedOn < team.value?.currentlyOn
+  })
+
+  const nextMatch = computed(() => data.value?.match?.nextMatch)
+  const previousMatch = computed(() => data.value?.match?.previousMatch)
 
   const { mobile } = useDisplay()
   const showFormation = ref(!mobile.value)
@@ -93,26 +103,37 @@
   <div class="text-h4">{{ match.home }} v {{ match.away }}</div>
 
   <div class="my-2">
+    <div>
+      <v-switch
+        v-model="readonly"
+        label="Readonly Mode"
+        color="primary"
+        hide-details
+        class="d-inline-block"
+      />
+    </div>
     <v-btn
-      :to="`/teams/${team.id}/matches/${previousMatch?.id}`"
+      :to="`/teams/${team?.id}/matches/${previousMatch?.id}`"
       :disabled="!previousMatch"
     >
       Previous
     </v-btn>
     &nbsp;
-    <v-btn v-if="nextMatch" :to="`/teams/${team.id}/matches/${nextMatch?.id}`">
+    <v-btn v-if="nextMatch" :to="`/teams/${team?.id}/matches/${nextMatch?.id}`">
       Next
     </v-btn>
-    <v-btn v-else :to="`/teams/${team.id}/matches/new`"> New </v-btn>
+    <v-btn v-else :to="`/teams/${team?.id}/matches/new`"> New </v-btn>
     &nbsp;
-    <v-btn :to="`/teams/${team.id}/matches/${match.id}/edit`">Edit</v-btn>
-    &nbsp;
-    <remove-button
-      :record="match"
-      store="Match"
-      label="Match"
-      @removed="router.push(`/teams/${team.id}/matches`)"
-    />
+    <template v-if="!readonly">
+      <v-btn :to="`/teams/${team?.id}/matches/${match.id}/edit`">Edit</v-btn>
+      &nbsp;
+      <remove-button
+        :record="match"
+        store="Match"
+        label="Match"
+        @removed="router.push(`/teams/${team?.id}/matches`)"
+      />
+    </template>
   </div>
 
   <div class="mt-4 text-center">
@@ -156,7 +177,7 @@
       <v-btn icon="mdi-format-list-bulleted" :value="false" />
     </v-btn-toggle>
 
-    <div class="my-2">
+    <div v-if="!readonly" class="my-2">
       <v-btn>
         <v-icon start>mdi-download</v-icon>
         Apply Squad
@@ -173,8 +194,8 @@
     </div>
 
     <formation-ovr :data="ovrData" />
-    <match-formation v-if="showFormation" :match="match" />
-    <match-lineup v-else :match="match" />
+    <match-formation v-if="showFormation" :match="match" :readonly="readonly" />
+    <match-lineup v-else :match="match" :readonly="readonly" />
   </section>
 
   <section id="timeline" class="mt-4">
@@ -183,6 +204,6 @@
       Timeline
     </div>
 
-    <match-timeline :match="match" />
+    <match-timeline :match="match" :readonly="readonly" />
   </section>
 </template>

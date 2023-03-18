@@ -10,7 +10,8 @@
   }
 
   const props = defineProps({
-    match: { type: Object, required: true }
+    match: { type: Object, required: true },
+    readonly: { type: Boolean, default: false }
   })
 
   const events = computed(() =>
@@ -40,7 +41,7 @@
       </template>
       <div class="text-h4 text-blue-grey">{{ match.away }}</div>
     </v-timeline-item>
-    <v-timeline-item icon="mdi-plus" dot-color="primary">
+    <v-timeline-item v-if="!readonly" icon="mdi-plus" dot-color="primary">
       <template #opposite>
         <v-row v-if="mdAndUp" dense>
           <v-col>
@@ -100,19 +101,19 @@
         :is="eventComponent[event.timelineType]"
         :event="event"
         :match="match"
+        :readonly="readonly"
       />
     </template>
     <penalty-shootout-timeline-event
       v-if="match.penaltyShootout"
       :match="match"
       :event="match.penaltyShootout"
+      :readonly="readonly"
     />
-    <v-timeline-item
-      dot-color="grey"
-      icon="mdi-timer"
-    >
+    <v-timeline-item dot-color="grey" icon="mdi-timer">
       <div class="mt-2">End of Match</div>
       <match-extra-time-switch
+        v-if="!readonly"
         :match="match"
         label="After Extra Time"
         color="primary"

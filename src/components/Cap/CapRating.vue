@@ -1,6 +1,7 @@
 <script setup>
   const props = defineProps({
-    cap: { type: Object, required: true }
+    cap: { type: Object, required: true },
+    readonly: { type: Boolean, default: false }
   })
 
   const rating = ref(props.cap.rating)
@@ -52,7 +53,7 @@
     <v-icon size="x-small">mdi-star-four-points</v-icon>
     {{ cap.rating || 'N/A' }}
 
-    <v-menu open-on-hover location="center" activator="parent">
+    <v-menu v-if="!readonly" open-on-hover location="center" activator="parent">
       <v-card
         class="d-flex align-center px-2 py-1"
         :style="{ overflowX: 'hidden' }"

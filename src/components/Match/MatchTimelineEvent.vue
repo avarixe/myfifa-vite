@@ -11,7 +11,8 @@
 
   const props = defineProps({
     match: { type: Object, required: true },
-    event: { type: Object, required: true }
+    event: { type: Object, required: true },
+    readonly: { type: Boolean, default: false }
   })
 
   const { team } = useTeam()
@@ -46,7 +47,7 @@
 
       <slot />
 
-      <div>
+      <div v-if="!readonly">
         <v-btn variant="text" color="warning">
           Edit
           <component

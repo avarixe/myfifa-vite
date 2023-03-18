@@ -34,7 +34,7 @@
 
   const { team } = useTeam()
   const teamGoal = computed(
-    () => !attributes.home ^ (props.match.home === team.value.name)
+    () => !attributes.home ^ (props.match.home === team.value?.name)
   )
 
   watchEffect(() => {

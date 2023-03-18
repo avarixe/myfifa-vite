@@ -1,6 +1,7 @@
 <script setup>
   const props = defineProps({
-    match: { type: Object, required: true }
+    match: { type: Object, required: true },
+    readonly: { type: Boolean, default: false }
   })
 
   const { team } = useTeam()
@@ -48,25 +49,27 @@
         <cap-events :cap="cap" :match="match" />
 
         <template #append>
-          <cap-rating :cap="cap" />
+          <cap-rating :cap="cap" :readonly="readonly" />
         </template>
 
-        <cap-card :cap="cap" :match="match" />
+        <cap-card v-if="!readonly" :cap="cap" :match="match" />
       </v-list-item>
     </template>
-    <v-list-subheader>Teams</v-list-subheader>
-    <v-list-item v-for="side in nonTeamSides" :key="side" v-ripple>
-      <template #prepend>
-        <span
-          class="font-weight-black text-uppercase"
-          :style="{ width: '40px' }"
-          v-text="teamPlayed ? 'vs' : side"
-        />
-      </template>
-      <v-list-item-title>{{ match[side] }}</v-list-item-title>
+    <template v-if="!readonly">
+      <v-list-subheader>Teams</v-list-subheader>
+      <v-list-item v-for="side in nonTeamSides" :key="side" v-ripple>
+        <template #prepend>
+          <span
+            class="font-weight-black text-uppercase"
+            :style="{ width: '40px' }"
+            v-text="teamPlayed ? 'vs' : side"
+          />
+        </template>
+        <v-list-item-title>{{ match[side] }}</v-list-item-title>
 
-      <match-side-card :match="match" :side="side" />
-    </v-list-item>
+        <match-side-card :match="match" :side="side" />
+      </v-list-item>
+    </template>
   </v-list>
 </template>
 

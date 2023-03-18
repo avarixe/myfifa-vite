@@ -1,6 +1,7 @@
 <script setup>
   defineProps({
-    stages: { type: Array, default: () => [] }
+    stages: { type: Array, default: () => [] },
+    readonly: { type: Boolean, default: false }
   })
 </script>
 
@@ -16,9 +17,15 @@
       <stage-group-table
         v-if="stage.table"
         :stage="stage"
+        :readonly="readonly"
         :is-named="stages.length > 1"
       />
-      <stage-round-table v-else :stage="stage" :is-named="stages.length > 1" />
+      <stage-round-table
+        v-else
+        :stage="stage"
+        :readonly="readonly"
+        :is-named="stages.length > 1"
+      />
     </v-col>
   </v-row>
 </template>

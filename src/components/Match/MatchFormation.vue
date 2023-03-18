@@ -1,6 +1,7 @@
 <script setup>
   const props = defineProps({
-    match: { type: Object, required: true }
+    match: { type: Object, required: true },
+    readonly: { type: Boolean, default: false }
   })
 
   const { team } = useTeam()
@@ -38,15 +39,22 @@
 <template>
   <formation-grid :cells="formationCells" hide-empty-cells>
     <template #filled-pos="{ cell }">
-      <div v-ripple class="pos-cell pa-2 elevation-5 rounded-lg w-100">
+      <div
+        v-ripple
+        :class="`pos-cell pa-2 elevation-${readonly ? 0 : 5} rounded-lg w-100`"
+      >
         <div class="player-pos font-weight-bold">{{ cell.pos }}</div>
         <scroll-text
           :text="cell.player.name"
           :style="{ fontSize: '0.8em', lineHeight: 1.5 }"
         />
-        <cap-rating :cap="cell" />
+        <cap-rating :cap="cell" :readonly="readonly" />
         <cap-events :cap="cell" :match="match" />
-        <cap-card v-if="!cell.subbedOut" :cap="cell" :match="match" />
+        <cap-card
+          v-if="!cell.subbedOut && !readonly"
+          :cap="cell"
+          :match="match"
+        />
       </div>
     </template>
   </formation-grid>
@@ -55,7 +63,7 @@
     <v-col cols="10" class="px-0">
       <div class="text-caption text-grey lighten-2">Substitutes</div>
     </v-col>
-    <v-col cols="2" class="px-0">
+    <v-col v-if="!readonly" cols="2" class="px-0">
       <div class="text-caption text-grey lighten-2">vs</div>
     </v-col>
   </v-row>
@@ -66,7 +74,10 @@
       cols="2"
       class="text-center"
     >
-      <div v-ripple class="pos-cell pa-2 elevation-5 rounded-lg w-100">
+      <div
+        v-ripple
+        :class="`pos-cell pa-2 elevation-${readonly ? 0 : 5} rounded-lg w-100`"
+      >
         <div class="player-pos font-weight-bold">{{ cap.pos }}</div>
         <scroll-text
           :text="cap.player.name"
@@ -74,7 +85,11 @@
         />
         <cap-rating :cap="cap" />
         <cap-events :cap="cap" :match="match" />
-        <cap-card v-if="!cap.subbedOut" :cap="cap" :match="match" />
+        <cap-card
+          v-if="!cap.subbedOut && !readonly"
+          :cap="cap"
+          :match="match"
+        />
       </div>
     </v-col>
     <template v-if="substitutes.length < substitutesRowLength">
@@ -84,15 +99,15 @@
         cols="2"
       />
     </template>
-    <v-col cols="2" class="text-center">
+    <v-col v-if="!readonly" cols="2" class="text-center">
       <div v-ripple class="pos-cell pa-2 elevation-5 rounded-lg w-100">
         <div class="match-side-label font-weight-bold">TEAM</div>
         <div class="match-side-team">
-          {{ match[match.home === team.name ? 'away' : 'home'] }}
+          {{ match[match.home === team?.name ? 'away' : 'home'] }}
         </div>
         <match-side-card
           :match="match"
-          :side="match.home === team.name ? 'away' : 'home'"
+          :side="match.home === team?.name ? 'away' : 'home'"
         />
       </div>
     </v-col>
@@ -110,15 +125,22 @@
       cols="2"
       class="text-center"
     >
-      <div v-ripple class="pos-cell pa-2 elevation-5 rounded-lg w-100">
+      <div
+        v-ripple
+        :class="`pos-cell pa-2 elevation-${readonly ? 0 : 5} rounded-lg w-100`"
+      >
         <div class="player-pos font-weight-bold">{{ cap.pos }}</div>
         <scroll-text
           :text="cap.player.name"
           :style="{ fontSize: '0.8em', lineHeight: 1.5 }"
         />
-        <cap-rating :cap="cap" />
+        <cap-rating :cap="cap" :readon="readonly" />
         <cap-events :cap="cap" :match="match" />
-        <cap-card v-if="!cap.subbedOut" :cap="cap" :match="match" />
+        <cap-card
+          v-if="!cap.subbedOut && !readonly"
+          :cap="cap"
+          :match="match"
+        />
       </div>
     </v-col>
     <v-col
