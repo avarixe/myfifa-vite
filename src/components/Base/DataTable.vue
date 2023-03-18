@@ -25,7 +25,7 @@
       default: props => props.options.mustSort ?? false
     },
     // Server Side processing
-    serverSideLength: { type: Number, default: null }
+    serverItemsLength: { type: Number, default: null }
   })
 
   // Sorting
@@ -72,7 +72,7 @@
   const page = ref(0)
   const itemsPerPage = ref(props.itemsPerPage)
   const showAll = computed(() => itemsPerPage.value <= 0)
-  const total = computed(() => props.serverSideLength ?? props.items.length)
+  const total = computed(() => props.serverItemsLength ?? props.items.length)
   const pageCount = computed(() =>
     showAll.value ? 1 : Math.ceil(total.value / itemsPerPage.value)
   )
@@ -88,7 +88,7 @@
     }
   })
   const pageItems = computed(() => {
-    if (props.serverSideLength) {
+    if (props.serverItemsLength) {
       return props.items
     } else {
       return sortedItems.value.slice(pageStart.value - 1, pageStop.value)

@@ -44,6 +44,14 @@
   watchEffect(() => {
     readonly.value = !!competition.value.champion
   })
+
+  const matchesFilters = computed(() => ({
+    season: competition.value.season,
+    competition: competition.value.name,
+    stage: null,
+    team: null,
+    result: ['win', 'draw', 'loss']
+  }))
 </script>
 
 <template>
@@ -91,16 +99,32 @@
     </template>
   </div>
 
-  <v-expansion-panels v-model="expansionPanels" multiple>
-    <v-expansion-panel v-if="tableStages.length > 0" title="Group Stages">
-      <v-expansion-panel-text>
-        <stage-grid :stages="tableStages" :readonly="readonly" />
-      </v-expansion-panel-text>
-    </v-expansion-panel>
-    <v-expansion-panel v-if="orderedRounds.length > 0" title="Knockout Stages">
-      <v-expansion-panel-text>
-        <stage-grid :stages="orderedRounds" :readonly="readonly" />
-      </v-expansion-panel-text>
-    </v-expansion-panel>
-  </v-expansion-panels>
+  <section id="matches" class="mt-4">
+    <div class="text-h4 mb-2 text-primary font-weight-light">
+      <v-icon start large>mdi-table</v-icon>
+      Stages
+    </div>
+
+    <v-expansion-panels v-model="expansionPanels" multiple>
+      <v-expansion-panel v-if="tableStages.length > 0" title="Group Stages">
+        <v-expansion-panel-text>
+          <stage-grid :stages="tableStages" :readonly="readonly" />
+        </v-expansion-panel-text>
+      </v-expansion-panel>
+      <v-expansion-panel v-if="orderedRounds.length > 0" title="Knockout Stages">
+        <v-expansion-panel-text>
+          <stage-grid :stages="orderedRounds" :readonly="readonly" />
+        </v-expansion-panel-text>
+      </v-expansion-panel>
+    </v-expansion-panels>
+  </section>
+
+  <section id="matches" class="mt-4">
+    <div class="text-h4 mb-2 text-primary font-weight-light">
+      <v-icon start large>mdi-soccer-field</v-icon>
+      Matches
+    </div>
+
+    <matches-table :filters="matchesFilters" />
+  </section>
 </template>
