@@ -23,10 +23,45 @@ export default competitionId => {
   const fixtureRepo = useRepo(Fixture)
   function stageFixtureTeams(stage) {
     const names = fixtureRepo
+      .with('legs')
       .where('stageId', stage.id)
       .get()
-      .map(fixture => [fixture.homeTeam, fixture.awayTeam])
+      .map(fixture => {
+        const scoreDiff = fixtureScoreDiff(fixture)
+        if (scoreDiff > 0) {
+          return [fixture.homeTeam]
+        } else if (scoreDiff < 0) {
+          return [fixture.awayTeam]
+        } else {
+          return [fixture.homeTeam, fixture.awayTeam]
+        }
+      })
     return [...new Set(names.flat())].sort()
+  }
+
+  function fixtureScoreDiff(fixture) {
+    let homeScore = 0
+    let awayScore = 0
+
+    const scoreRegex = /^(\d+)(?: \((\d+)\))?$/
+    fixture.legs.forEach(leg => {
+      if (!leg.homeScore || !leg.awayScore) {
+        return
+      }
+
+      const [, homeLegScore, homePenScore] = scoreRegex.exec(leg.homeScore)
+      const [, awayLegScore, awayPenScore] = scoreRegex.exec(leg.awayScore)
+
+      if (homePenScore && awayPenScore) {
+        homeScore = parseInt(homePenScore)
+        awayScore = parseInt(awayPenScore)
+      } else {
+        homeScore += parseInt(homeLegScore)
+        awayScore += parseInt(awayLegScore)
+      }
+    })
+
+    return homeScore - awayScore
   }
 
   const stageRepo = useRepo(Stage)
@@ -45,8 +80,6 @@ export default competitionId => {
     const stageIndex = orderedRounds.value.findIndex(
       round => round.id === stage.id
     )
-    console.log(stageIndex)
-    console.log(orderedRounds.value)
     if (stageIndex > 0) {
       return stageFixtureTeams(orderedRounds.value[stageIndex - 1])
     } else {

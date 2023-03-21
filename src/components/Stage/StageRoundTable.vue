@@ -100,12 +100,8 @@
         return
       }
 
-      const [, homeLegScore, homePenScore] = scoreRegex.exec(
-        leg.homeScore.toString()
-      )
-      const [, awayLegScore, awayPenScore] = scoreRegex.exec(
-        leg.awayScore.toString()
-      )
+      const [, homeLegScore, homePenScore] = scoreRegex.exec(leg.homeScore)
+      const [, awayLegScore, awayPenScore] = scoreRegex.exec(leg.awayScore)
 
       if (homePenScore && awayPenScore) {
         homeScore = parseInt(homePenScore)
