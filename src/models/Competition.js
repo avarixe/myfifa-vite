@@ -14,10 +14,6 @@ export class Competition extends Model {
       season: this.number(0),
       name: this.string(''),
       champion: this.string(null),
-      presetFormat: this.attr(null),
-      numTeams: this.number(null),
-      numTeamsPerGroup: this.number(null),
-      numAdvancesFromGroup: this.number(null),
 
       // Associations
       team: this.belongsTo(Team, 'teamId'),

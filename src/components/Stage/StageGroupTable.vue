@@ -65,6 +65,9 @@
       editing.value = false
     }
   })
+
+  const route = useRoute()
+  const { teamColor } = useCompetition(parseInt(route.params.competitionId))
 </script>
 
 <template>
@@ -120,7 +123,7 @@
       <tr
         v-for="(row, i) in attributes.tableRowsAttributes"
         :key="`row-${i}`"
-        :class="{ 'd-none': row._destroy }"
+        :class="{ 'd-none': row._destroy, [teamColor(row.name)]: true }"
       >
         <td class="text-center" :style="{ width: '40px' }">
           <small class="text-disabled">{{ i + 1 }}</small>
@@ -131,8 +134,8 @@
             v-model="row.name"
             density="compact"
             single-line
-            variant="outlined"
             hide-details
+            :style="{ minWidth: '12em' }"
           />
           <template v-else>{{ row.name }}</template>
         </td>
@@ -167,7 +170,7 @@
     </tbody>
     <tfoot v-if="editing">
       <tr>
-        <td colspan="6">
+        <td colspan="7">
           <v-btn size="x-small" @click="addRow">Add Row</v-btn>
           <v-btn size="x-small" @click="removeRow">Remove Row</v-btn>
         </td>
@@ -181,7 +184,6 @@
     :deep(.v-field input) {
       padding: 0 8px;
       min-height: auto;
-      min-width: 15em;
     }
 
     th,

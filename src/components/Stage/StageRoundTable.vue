@@ -1,6 +1,7 @@
 <script setup>
   const props = defineProps({
     stage: { type: Object, required: true },
+    readonly: { type: Boolean, default: false },
     isNamed: { type: Boolean, default: true }
   })
 
@@ -85,6 +86,38 @@
       editing.value = false
     }
   })
+
+  const route = useRoute()
+  const { teamColor } = useCompetition(parseInt(route.params.competitionId))
+
+  function scoreDiff(fixture) {
+    let homeScore = 0
+    let awayScore = 0
+
+    const scoreRegex = /^(\d+)(?: \((\d+)\))?$/
+    fixture.legsAttributes.forEach(leg => {
+      if (!leg.homeScore || !leg.awayScore) {
+        return
+      }
+
+      const [, homeLegScore, homePenScore] = scoreRegex.exec(
+        leg.homeScore.toString()
+      )
+      const [, awayLegScore, awayPenScore] = scoreRegex.exec(
+        leg.awayScore.toString()
+      )
+
+      if (homePenScore && awayPenScore) {
+        homeScore = parseInt(homePenScore)
+        awayScore = parseInt(awayPenScore)
+      } else {
+        homeScore += parseInt(homeLegScore)
+        awayScore += parseInt(awayLegScore)
+      }
+    })
+
+    return homeScore - awayScore
+  }
 </script>
 
 <template>
@@ -137,15 +170,21 @@
         :key="`fixture-${i}`"
         :class="{ 'd-none': fixture._destroy }"
       >
-        <td class="text-right">
+        <td
+          :class="{
+            'text-right': true,
+            'font-weight-black': scoreDiff(fixture) > 0,
+            [teamColor(fixture.homeTeam)]: true
+          }"
+        >
           <team-combobox
             v-if="editing"
             v-model="fixture.homeTeam"
             :default-items="teamOptions"
             density="compact"
             single-line
-            variant="outlined"
             hide-details
+            :style="{ minWidth: '12em' }"
           />
           <template v-else>{{ fixture.homeTeam }}</template>
         </td>
@@ -173,9 +212,23 @@
                 />
               </v-hover>
             </template>
-            <template v-else
-              >{{ leg.homeScore }} - {{ leg.awayScore }}</template
-            >
+            <template v-else>
+              <span
+                :class="{
+                  'font-weight-black': scoreDiff(fixture) > 0,
+                  [teamColor(fixture.homeTeam)]: true
+                }"
+                v-text="leg.homeScore"
+              />
+              -
+              <span
+                :class="{
+                  'font-weight-black': scoreDiff(fixture) < 0,
+                  [teamColor(fixture.awayTeam)]: true
+                }"
+                v-text="leg.awayScore"
+              />
+            </template>
           </div>
           <template v-if="editing">
             <v-btn size="x-small" class="my-1" @click="addLeg(i)">
@@ -187,15 +240,21 @@
             </v-btn>
           </template>
         </td>
-        <td class="text-left">
+        <td
+          :class="{
+            'text-left': true,
+            'font-weight-black': scoreDiff(fixture) < 0,
+            [teamColor(fixture.awayTeam)]: true
+          }"
+        >
           <team-combobox
             v-if="editing"
             v-model="fixture.awayTeam"
             :default-items="teamOptions"
             density="compact"
             single-line
-            variant="outlined"
             hide-details
+            :style="{ minWidth: '12em' }"
           />
           <template v-else>{{ fixture.awayTeam }}</template>
         </td>
@@ -221,7 +280,6 @@
       :deep(.v-field input) {
         padding: 0 8px;
         min-height: auto;
-        min-width: 15em;
       }
 
       input {

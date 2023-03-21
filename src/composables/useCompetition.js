@@ -2,6 +2,7 @@ export default competitionId => {
   const competitionRepo = useRepo(Competition)
   const competition = computed(() =>
     competitionRepo
+      .with('team')
       .with('stages', query => {
         query.with('tableRows')
       })
@@ -67,10 +68,21 @@ export default competitionId => {
     }
   })
 
+  function teamColor(name) {
+    if (name === competition.value.team.name) {
+      return 'text-info'
+    } else if (name && name === competition.value.champion) {
+      return 'text-warning'
+    } else {
+      return ''
+    }
+  }
+
   return {
     competition,
     orderedRounds,
     previousRoundTeams,
-    championOptions
+    championOptions,
+    teamColor
   }
 }
