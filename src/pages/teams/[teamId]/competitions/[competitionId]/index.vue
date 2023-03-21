@@ -111,7 +111,10 @@
           <stage-grid :stages="tableStages" :readonly="readonly" />
         </v-expansion-panel-text>
       </v-expansion-panel>
-      <v-expansion-panel v-if="orderedRounds.length > 0" title="Knockout Stages">
+      <v-expansion-panel
+        v-if="orderedRounds.length > 0"
+        title="Knockout Stages"
+      >
         <v-expansion-panel-text>
           <stage-grid :stages="orderedRounds" :readonly="readonly" />
         </v-expansion-panel-text>

@@ -96,6 +96,7 @@
   )
 
   const selectedPlayerId = ref(null)
+  const selectedPlayer = computed(() => playerRepo.find(selectedPlayerId.value))
   function selectPlayer(playerId) {
     if (inEditMode.value) {
       selectedPlayerId.value =
@@ -146,6 +147,11 @@
       weight: 1
     }))
   )
+
+  const drawer = ref(false)
+  watchEffect(() => {
+    drawer.value = inEditMode.value
+  })
 </script>
 
 <template>
@@ -165,7 +171,7 @@
 
       <v-row dense>
         <v-layout>
-          <v-navigation-drawer v-if="inEditMode" permanent>
+          <v-navigation-drawer v-if="inEditMode" v-model="drawer">
             <v-list density="compact">
               <v-list-item
                 v-for="player in unselectedPlayers"
@@ -184,6 +190,15 @@
           <v-main
             :class="{ editing: inEditMode, selecting: !!selectedPlayerId }"
           >
+            <div class="d-flex d-lg-none justify-space-between mb-2">
+              <v-btn v-if="inEditMode" variant="text" @click="drawer = true">
+                <v-icon start>mdi-menu</v-icon>
+                Available Players
+              </v-btn>
+              <div v-if="!!selectedPlayerId" class="text-button text-disabled">
+                Currently Selected: {{ selectedPlayer.name }}
+              </div>
+            </div>
             <formation-grid
               :cells="formationCells"
               :hide-empty-cells="!inEditMode"
