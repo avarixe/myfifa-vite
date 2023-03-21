@@ -48,10 +48,10 @@ router.beforeEach(async to => {
       }
     }
 
-    if (['login', 'register'].includes(to.name)) {
+    if (['login', 'register'].includes(to.name.toString())) {
       return sessionStore.redirectUrl || '/'
     }
-  } else if (!['login', 'register'].includes(to.name)) {
+  } else if (!['login', 'register'].includes(to.name.toString())) {
     sessionStore.redirectUrl = to
     return '/login'
   }

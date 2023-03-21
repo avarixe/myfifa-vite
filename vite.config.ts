@@ -46,6 +46,7 @@ export default defineConfig({
           axios: [['default', 'axios']]
         }
       ],
+      dts: true,
       vueTemplate: true
     }),
     Components({

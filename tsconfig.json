@@ -1,8 +1,20 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "esModuleInterop": true
+    "module": "esnext",
+    "moduleResolution": "node",
+    "target": "esnext",
+    "esModuleInterop": true,
+    "types": [
+      "node",
+      "vite/client",
+      "vue/ref-macros",
+      "vite-plugin-pages/client"
+    ]
   },
   "exclude": ["node_modules"],
-  "types": ["node"],
+  "paths": {
+    "~/*": [
+      "src/*"
+    ]
+  },
 }
