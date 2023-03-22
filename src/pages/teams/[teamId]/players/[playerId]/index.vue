@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const props = defineProps({
     teamId: { type: String, required: true },
     playerId: { type: String, required: true }

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const props = defineProps({
     teamId: { type: Number, default: null },
     record: { type: Object, default: null }

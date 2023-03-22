@@ -43,11 +43,11 @@ export class Match extends Model {
     }
   }
 
-  get opponent() {
+  get opponent(): string {
     return this.home === this.team.name ? this.away : this.home
   }
 
-  get resultColor() {
+  get resultColor(): string {
     switch (this.teamResult) {
       case 'win':
         return 'success'

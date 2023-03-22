@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const { team, currentSeason, seasonLabel } = useTeam()
 
   const props = defineProps({

@@ -1,7 +1,7 @@
-<script setup>
+<script setup lang="ts">
   import _mapKeys from 'lodash.mapkeys'
   import _camelCase from 'lodash.camelcase'
-  import * as models from '~/models'
+  import * as models from '../../models'
 
   const props = defineProps({
     team: { type: Object, required: true }

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const props = defineProps({
     mutation: { type: Object, required: true },
     variables: { type: Function, required: true },

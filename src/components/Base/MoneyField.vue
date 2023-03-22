@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   import { useCurrencyInput } from 'vue-currency-input'
 
   defineProps({

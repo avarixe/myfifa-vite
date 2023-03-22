@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   import { differenceInYears } from 'date-fns'
 
   const { data } = await useQuery({

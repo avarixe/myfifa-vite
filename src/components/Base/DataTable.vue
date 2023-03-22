@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const props = defineProps({
     headers: { type: Array, default: () => [] },
     items: { type: Array, default: () => [] },

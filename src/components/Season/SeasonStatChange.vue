@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const props = defineProps({
     formatter: { type: Function, default: x => x },
     startValue: { type: [String, Number], default: null },

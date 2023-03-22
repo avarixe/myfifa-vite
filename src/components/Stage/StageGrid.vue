@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   defineProps({
     stages: { type: Array, default: () => [] },
     readonly: { type: Boolean, default: false }

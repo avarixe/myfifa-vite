@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const { data, team, currentSeason } = await useTeamQuery({
     query: gql`
       query loadTeamDashboard($teamId: ID!) {

@@ -1,6 +1,6 @@
-<script setup>
+<script setup lang="ts">
   const route = useRoute()
-  const teamId = computed(() => parseInt(route.params.teamId))
+  const teamId = computed(() => parseInt(route.params.teamId.toString()))
 
   const matchId = ref(route.params.matchId)
   watch(route, () => {

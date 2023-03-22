@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   import BookingForm from '~/components/Booking/BookingForm.vue'
   import GoalForm from '~/components/Goal/GoalForm.vue'
   import SubstitutionForm from '~/components/Substitution/SubstitutionForm.vue'

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const libs = [
     { icon: 'mdi-vuejs', name: 'Vue.js' },
     { icon: 'mdi-vuetify', name: 'Vuetify' },

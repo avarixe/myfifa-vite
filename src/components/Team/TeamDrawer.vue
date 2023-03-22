@@ -1,7 +1,7 @@
-<script setup>
+<script setup lang="ts">
   const { team, currentSeason, seasonLabel } = useTeam()
 
-  const currentlyOn = ref(team.currentlyOn)
+  const currentlyOn = ref(team.value.currentlyOn)
   const { submitForm } = useForm({
     mutation: gql`
       mutation ($id: ID!, $attributes: TeamAttributes!) {

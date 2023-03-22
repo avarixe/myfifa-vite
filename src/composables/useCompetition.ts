@@ -40,10 +40,10 @@ export default competitionId => {
   }
 
   function fixtureScoreDiff(fixture): number {
-    let homeScore: number = 0
-    let awayScore: number = 0
+    let homeScore = 0
+    let awayScore = 0
 
-    const scoreRegex: RegExp = /^(\d+)(?: \((\d+)\))?$/
+    const scoreRegex = /^(\d+)(?: \((\d+)\))?$/
     fixture.legs.forEach(leg => {
       if (!leg.homeScore || !leg.awayScore) {
         return

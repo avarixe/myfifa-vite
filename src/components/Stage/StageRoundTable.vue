@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const props = defineProps({
     stage: { type: Object, required: true },
     readonly: { type: Boolean, default: false },
@@ -88,7 +88,9 @@
   })
 
   const route = useRoute()
-  const { teamColor } = useCompetition(parseInt(route.params.competitionId))
+  const { teamColor } = useCompetition(
+    parseInt(route.params.competitionId.toString())
+  )
 
   function scoreDiff(fixture) {
     let homeScore = 0

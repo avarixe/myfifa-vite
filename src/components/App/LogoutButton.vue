@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const { token, clearSession } = useSession()
   const router = useRouter()
   const { submitForm: logout, formIsLoading } = useForm({

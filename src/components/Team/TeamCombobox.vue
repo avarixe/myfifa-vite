@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const props = defineProps({
     modelValue: { type: String, default: null },
     defaultItems: { type: Array, default: () => [] }

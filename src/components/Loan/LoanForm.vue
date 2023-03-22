@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   import { subDays } from 'date-fns'
 
   const props = defineProps({

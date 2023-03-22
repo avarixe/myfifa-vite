@@ -108,7 +108,6 @@ declare module '@vue/runtime-core' {
     VCardTitle: typeof import('vuetify/components')['VCardTitle']
     VCheckbox: typeof import('vuetify/components')['VCheckbox']
     VCol: typeof import('vuetify/components')['VCol']
-    VCombobox: typeof import('vuetify/components')['VCombobox']
     VContainer: typeof import('vuetify/components')['VContainer']
     VDialog: typeof import('vuetify/components')['VDialog']
     VDivider: typeof import('vuetify/components')['VDivider']

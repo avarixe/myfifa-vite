@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   import { addYears } from 'date-fns'
 
   const props = defineProps({

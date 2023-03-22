@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const props = defineProps({
     modelValue: { type: String, default: null },
     prefill: { type: String, default: null }

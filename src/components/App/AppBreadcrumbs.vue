@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const teamRepo = useRepo(Team)
   const playerRepo = useRepo(Player)
   const matchRepo = useRepo(Match)

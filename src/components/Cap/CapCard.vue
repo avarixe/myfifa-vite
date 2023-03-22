@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const props = defineProps({
     cap: { type: Object, required: true },
     match: { type: Object, required: true }

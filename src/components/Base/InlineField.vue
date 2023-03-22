@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   defineProps({
     displayValue: { type: [String, Number], default: null },
     tooltip: { type: String, default: null }

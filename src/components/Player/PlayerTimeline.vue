@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   import ContractTimelineEvent from '~/components/Contract/ContractTimelineEvent.vue'
   import InjuryTimelineEvent from '~/components/Injury/InjuryTimelineEvent.vue'
   import LoanTimelineEvent from '~/components/Loan/LoanTimelineEvent.vue'
