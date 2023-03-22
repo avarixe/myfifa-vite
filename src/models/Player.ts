@@ -1,5 +1,5 @@
 import { Model } from 'pinia-orm'
-import { NumberCast } from 'pinia-orm/casts'
+import { NumberCast } from 'pinia-orm/dist/casts'
 
 export class Player extends Model {
   static entity = 'Player'
@@ -46,11 +46,11 @@ export class Player extends Model {
     }
   }
 
-  get isActive() {
+  get isActive(): boolean {
     return this.status && this.status.length > 0
   }
 
-  get statusColor() {
+  get statusColor(): string {
     switch (this.status) {
       case 'Active':
         return 'light-green'
@@ -65,7 +65,7 @@ export class Player extends Model {
     }
   }
 
-  get statusIcon() {
+  get statusIcon(): string {
     switch (this.status) {
       case 'Active':
         return 'account-check'
@@ -80,26 +80,11 @@ export class Player extends Model {
     }
   }
 
-  get posIdx() {
+  get posIdx(): number {
     return positions.indexOf(this.pos)
   }
 
-  get flag() {
+  get flag(): string {
     return nationalities[this.nationality]
-  }
-
-  recordAt(date) {
-    return PlayerHistory.query()
-      .where('playerId', this.id)
-      .where('recordedOn', recordedOn => recordedOn <= date)
-      .last()
-  }
-
-  ovrAt(date) {
-    return this.recordAt(date).ovr
-  }
-
-  valueAt(date) {
-    return this.recordAt(date).value
   }
 }

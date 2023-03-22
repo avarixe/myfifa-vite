@@ -1,5 +1,5 @@
 import { Model } from 'pinia-orm'
-import { NumberCast } from 'pinia-orm/casts'
+import { NumberCast } from 'pinia-orm/dist/casts'
 
 export class SquadPlayer extends Model {
   static entity = 'SquadPlayer'
@@ -27,7 +27,7 @@ export class SquadPlayer extends Model {
     }
   }
 
-  get positionType() {
+  get positionType(): string {
     return matchPositions[this.pos]
   }
 }

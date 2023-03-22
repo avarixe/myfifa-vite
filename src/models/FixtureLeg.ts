@@ -1,5 +1,5 @@
 import { Model } from 'pinia-orm'
-import { NumberCast } from 'pinia-orm/casts'
+import { NumberCast } from 'pinia-orm/dist/casts'
 
 export class FixtureLeg extends Model {
   static entity = 'FixtureLeg'
@@ -23,7 +23,7 @@ export class FixtureLeg extends Model {
     }
   }
 
-  get score() {
+  get score(): string {
     return `${this.homeScore || ''} - ${this.awayScore || ''}`
   }
 }

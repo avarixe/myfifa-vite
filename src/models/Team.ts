@@ -1,5 +1,5 @@
 import { Model } from 'pinia-orm'
-import { NumberCast } from 'pinia-orm/casts'
+import { NumberCast } from 'pinia-orm/dist/casts'
 
 export class Team extends Model {
   static entity = 'Team'
@@ -34,7 +34,7 @@ export class Team extends Model {
     }
   }
 
-  get badgeUrl() {
+  get badgeUrl(): string {
     return this.badgePath
       ? `${import.meta.env.VITE_API_URL.replace(/\/api/, '')}${this.badgePath}`
       : null

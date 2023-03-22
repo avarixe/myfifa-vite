@@ -1,5 +1,5 @@
 import { Model } from 'pinia-orm'
-import { NumberCast } from 'pinia-orm/casts'
+import { NumberCast } from 'pinia-orm/dist/casts'
 
 export class Competition extends Model {
   static entity = 'Competition'
@@ -28,7 +28,7 @@ export class Competition extends Model {
     }
   }
 
-  get statusIcon() {
+  get statusIcon(): string {
     if (this.champion === this.team.name) {
       return 'mdi-trophy'
     } else if (this.champion) {
@@ -38,7 +38,7 @@ export class Competition extends Model {
     }
   }
 
-  get statusColor() {
+  get statusColor(): string {
     if (this.champion === this.team.name) {
       return 'amber'
     } else if (this.champion) {

@@ -1,29 +1,28 @@
 import { Model } from 'pinia-orm'
-import { NumberCast } from 'pinia-orm/casts'
+import { NumberCast } from 'pinia-orm/dist/casts'
 
-export class Substitution extends Model {
-  static entity = 'Substitution'
+export class Booking extends Model {
+  static entity = 'Booking'
 
   static fields() {
     return {
       // Primary/Foreign keys
       id: this.number(0),
       matchId: this.number(0),
-      playerId: this.number(0),
-      replacementId: this.number(0),
+      playerId: this.number(null),
 
       // Database fields
       playerName: this.string(''),
-      replacedBy: this.string(''),
       minute: this.number(0),
-      injury: this.boolean(false),
+      redCard: this.boolean(false),
       createdAt: this.string(''),
 
       // Calculated fields
       home: this.boolean(true),
 
       // Associations
-      replacement: this.belongsTo(Player, 'replacementId', 'id')
+      match: this.belongsTo(Match, 'matchId'),
+      player: this.belongsTo(Player, 'playerId')
     }
   }
 
@@ -31,12 +30,11 @@ export class Substitution extends Model {
     return {
       id: NumberCast,
       matchId: NumberCast,
-      playerId: NumberCast,
-      replacementId: NumberCast
+      playerId: NumberCast
     }
   }
 
-  get timelineType() {
-    return 'Substitution'
+  get timelineType(): string {
+    return 'Booking'
   }
 }

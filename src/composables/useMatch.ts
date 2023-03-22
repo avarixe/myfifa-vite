@@ -1,5 +1,5 @@
 export default match => {
-  const matchPositionList = Object.keys(matchPositions)
+  const matchPositionList: string[] = Object.keys(matchPositions)
   const sortedCaps = computed(() =>
     _orderBy(match.caps, c => matchPositionList.indexOf(c.pos), 'start')
   )

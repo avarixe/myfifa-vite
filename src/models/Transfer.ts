@@ -1,5 +1,5 @@
 import { Model } from 'pinia-orm'
-import { NumberCast } from 'pinia-orm/casts'
+import { NumberCast } from 'pinia-orm/dist/casts'
 
 export class Transfer extends Model {
   static entity = 'Transfer'
@@ -32,11 +32,11 @@ export class Transfer extends Model {
     }
   }
 
-  get timelineType() {
+  get timelineType(): string {
     return 'Transfer'
   }
 
-  get startedOn() {
+  get startedOn(): string {
     return this.movedOn
   }
 }

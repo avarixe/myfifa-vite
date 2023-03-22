@@ -1,5 +1,5 @@
 import { Model } from 'pinia-orm'
-import { NumberCast } from 'pinia-orm/casts'
+import { NumberCast } from 'pinia-orm/dist/casts'
 
 export class Goal extends Model {
   static entity = 'Goal'
@@ -36,7 +36,7 @@ export class Goal extends Model {
     }
   }
 
-  get timelineType() {
+  get timelineType(): string {
     return 'Goal'
   }
 }

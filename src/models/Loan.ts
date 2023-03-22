@@ -1,8 +1,8 @@
 import { Model } from 'pinia-orm'
-import { NumberCast } from 'pinia-orm/casts'
+import { NumberCast } from 'pinia-orm/dist/casts'
 
-export class Injury extends Model {
-  static entity = 'Injury'
+export class Loan extends Model {
+  static entity = 'Loan'
 
   static fields() {
     return {
@@ -12,8 +12,13 @@ export class Injury extends Model {
 
       // Database fields
       startedOn: this.string(''),
+      signedOn: this.string(''),
       endedOn: this.string(''),
-      description: this.string(''),
+      origin: this.string(''),
+      destination: this.string(''),
+      wagePercentage: this.number(null),
+      transferFee: this.number(null),
+      addonClause: this.number(null),
       createdAt: this.string('')
     }
   }
@@ -25,7 +30,7 @@ export class Injury extends Model {
     }
   }
 
-  get timelineType() {
-    return 'Injury'
+  get timelineType(): string {
+    return 'Loan'
   }
 }
