@@ -75,8 +75,8 @@ declare global {
   const mapWritableState: typeof import('pinia')['mapWritableState']
   const markRaw: typeof import('vue')['markRaw']
   const matchFragment: typeof import('./src/fragments/match')['matchFragment']
-  const matchPositions: typeof import('./src/constants/index.js')['matchPositions']
-  const nationalities: typeof import('./src/constants/index.js')['nationalities']
+  const matchPositions: typeof import('./src/constants/index')['matchPositions']
+  const nationalities: typeof import('./src/constants/index')['nationalities']
   const nextTick: typeof import('vue')['nextTick']
   const onActivated: typeof import('vue')['onActivated']
   const onBeforeMount: typeof import('vue')['onBeforeMount']
@@ -97,7 +97,7 @@ declare global {
   const playerFragment: typeof import('./src/fragments/player')['playerFragment']
   const playerHistoryFragment: typeof import('./src/fragments/player')['playerHistoryFragment']
   const playerPerformanceStatsFragment: typeof import('./src/fragments/stats')['playerPerformanceStatsFragment']
-  const positions: typeof import('./src/constants/index.js')['positions']
+  const positions: typeof import('./src/constants/index')['positions']
   const provide: typeof import('vue')['provide']
   const reactive: typeof import('vue')['reactive']
   const readonly: typeof import('vue')['readonly']
@@ -124,7 +124,7 @@ declare global {
   const unref: typeof import('vue')['unref']
   const useActivePlayers: typeof import('./src/composables/useActivePlayers')['default']
   const useAttrs: typeof import('vue')['useAttrs']
-  const useBroadcastStore: typeof import('./src/store/broadcast.js')['useBroadcastStore']
+  const useBroadcastStore: typeof import('./src/store/broadcast')['useBroadcastStore']
   const useCompetition: typeof import('./src/composables/useCompetition')['default']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
@@ -138,7 +138,7 @@ declare global {
   const useRouter: typeof import('vue-router')['useRouter']
   const useServerSideProcessing: typeof import('./src/composables/useServerSideProcessing')['default']
   const useSession: typeof import('./src/composables/useSession')['default']
-  const useSessionStore: typeof import('./src/store/session.js')['useSessionStore']
+  const useSessionStore: typeof import('./src/store/session')['useSessionStore']
   const useSlots: typeof import('vue')['useSlots']
   const useTeam: typeof import('./src/composables/useTeam')['default']
   const useTeamQuery: typeof import('./src/composables/useTeamQuery')['default']
@@ -227,8 +227,8 @@ declare module '@vue/runtime-core' {
     readonly mapWritableState: UnwrapRef<typeof import('pinia')['mapWritableState']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
     readonly matchFragment: UnwrapRef<typeof import('./src/fragments/match')['matchFragment']>
-    readonly matchPositions: UnwrapRef<typeof import('./src/constants/index.js')['matchPositions']>
-    readonly nationalities: UnwrapRef<typeof import('./src/constants/index.js')['nationalities']>
+    readonly matchPositions: UnwrapRef<typeof import('./src/constants/index')['matchPositions']>
+    readonly nationalities: UnwrapRef<typeof import('./src/constants/index')['nationalities']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
     readonly onActivated: UnwrapRef<typeof import('vue')['onActivated']>
     readonly onBeforeMount: UnwrapRef<typeof import('vue')['onBeforeMount']>
@@ -249,7 +249,7 @@ declare module '@vue/runtime-core' {
     readonly playerFragment: UnwrapRef<typeof import('./src/fragments/player')['playerFragment']>
     readonly playerHistoryFragment: UnwrapRef<typeof import('./src/fragments/player')['playerHistoryFragment']>
     readonly playerPerformanceStatsFragment: UnwrapRef<typeof import('./src/fragments/stats')['playerPerformanceStatsFragment']>
-    readonly positions: UnwrapRef<typeof import('./src/constants/index.js')['positions']>
+    readonly positions: UnwrapRef<typeof import('./src/constants/index')['positions']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly reactive: UnwrapRef<typeof import('vue')['reactive']>
     readonly readonly: UnwrapRef<typeof import('vue')['readonly']>
@@ -276,7 +276,7 @@ declare module '@vue/runtime-core' {
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly useActivePlayers: UnwrapRef<typeof import('./src/composables/useActivePlayers')['default']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
-    readonly useBroadcastStore: UnwrapRef<typeof import('./src/store/broadcast.js')['useBroadcastStore']>
+    readonly useBroadcastStore: UnwrapRef<typeof import('./src/store/broadcast')['useBroadcastStore']>
     readonly useCompetition: UnwrapRef<typeof import('./src/composables/useCompetition')['default']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
@@ -290,7 +290,7 @@ declare module '@vue/runtime-core' {
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useServerSideProcessing: UnwrapRef<typeof import('./src/composables/useServerSideProcessing')['default']>
     readonly useSession: UnwrapRef<typeof import('./src/composables/useSession')['default']>
-    readonly useSessionStore: UnwrapRef<typeof import('./src/store/session.js')['useSessionStore']>
+    readonly useSessionStore: UnwrapRef<typeof import('./src/store/session')['useSessionStore']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useTeam: UnwrapRef<typeof import('./src/composables/useTeam')['default']>
     readonly useTeamQuery: UnwrapRef<typeof import('./src/composables/useTeamQuery')['default']>

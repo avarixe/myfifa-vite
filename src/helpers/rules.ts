@@ -1,12 +1,12 @@
-export function isRequired(label) {
+export function isRequired(label: string): (v: any) => string | true {
   return v => !!v || v === 0 || `${label || 'Field'} is required`
 }
 
-export function isNumber(label) {
+export function isNumber(label: string): (v: any) => string | true {
   return v => !v || /^\d+$/.test(v) || `${label || 'Field'} is not a number`
 }
 
-export function inRange(label, [min, max]) {
+export function inRange(label: string, [min, max]: number[]): (v: any) => string | true {
   return v =>
     !v ||
     (!isNaN(v) && min <= parseFloat(v) && parseFloat(v) <= max) ||

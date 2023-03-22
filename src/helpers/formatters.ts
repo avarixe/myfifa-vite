@@ -1,13 +1,13 @@
-export function formatDate(date, dateFormat = 'MMM dd, yyyy') {
+export function formatDate(date: string, dateFormat = 'MMM dd, yyyy') {
   return date ? format(parseISO(date), dateFormat) : null
 }
 
-export function formatMoney(amount, currency = '$', emptyString = '') {
+export function formatMoney(amount: number | string, currency = '$', emptyString = '') {
   return amount
-    ? `${currency}${parseInt(amount).toLocaleString()}`
+    ? `${currency}${parseInt(amount.toString()).toLocaleString()}`
     : emptyString || 'N/A'
 }
 
-export function capitalize(str) {
+export function capitalize(str: string): string {
   return `${str[0].toUpperCase()}${str.slice(1)}`
 }
