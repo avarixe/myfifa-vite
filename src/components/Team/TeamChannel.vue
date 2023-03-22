@@ -40,7 +40,7 @@
   const timeout = ref(null)
 
   function addToBuffer({ type, data, destroyed }) {
-    let buffer = destroyed ? deleteBuffer : insertBuffer
+    const buffer = destroyed ? deleteBuffer : insertBuffer
 
     if (type in buffer) {
       buffer[type].push(data)

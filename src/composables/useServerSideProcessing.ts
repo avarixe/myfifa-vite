@@ -1,7 +1,7 @@
 export default ({
   url,
   options = ref({ page: 0, itemsPerPage: 10 }),
-  onFetch = () => {},
+  onFetch = (_) => {},
   formatOptions = options => ({
     page: options.page + 1,
     page_length: options.itemsPerPage,

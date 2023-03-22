@@ -21,7 +21,7 @@ export default competitionId => {
   )
 
   const fixtureRepo = useRepo(Fixture)
-  function stageFixtureTeams(stage) {
+  function stageFixtureTeams(stage): string[] {
     const names = fixtureRepo
       .with('legs')
       .where('stageId', stage.id)
@@ -39,11 +39,11 @@ export default competitionId => {
     return [...new Set(names.flat())].sort()
   }
 
-  function fixtureScoreDiff(fixture) {
-    let homeScore = 0
-    let awayScore = 0
+  function fixtureScoreDiff(fixture): number {
+    let homeScore: number = 0
+    let awayScore: number = 0
 
-    const scoreRegex = /^(\d+)(?: \((\d+)\))?$/
+    const scoreRegex: RegExp = /^(\d+)(?: \((\d+)\))?$/
     fixture.legs.forEach(leg => {
       if (!leg.homeScore || !leg.awayScore) {
         return
@@ -76,7 +76,7 @@ export default competitionId => {
       .get()
   )
 
-  function previousRoundTeams(stage) {
+  function previousRoundTeams(stage): string[] {
     const stageIndex = orderedRounds.value.findIndex(
       round => round.id === stage.id
     )
@@ -101,7 +101,7 @@ export default competitionId => {
     }
   })
 
-  function teamColor(name) {
+  function teamColor(name: string): string {
     if (name === competition.value.team.name) {
       return 'text-info'
     } else if (name && name === competition.value.champion) {

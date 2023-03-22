@@ -35,7 +35,7 @@ declare global {
   const baseStageFragment: typeof import('./src/fragments/competition')['baseStageFragment']
   const bookingFragment: typeof import('./src/fragments/match')['bookingFragment']
   const capFragment: typeof import('./src/fragments/match')['capFragment']
-  const capitalize: typeof import('./src/helpers/formatters.js')['capitalize']
+  const capitalize: typeof import('./src/helpers/formatters')['capitalize']
   const competitionFragment: typeof import('./src/fragments/competition')['competitionFragment']
   const competitionStatsFragment: typeof import('./src/fragments/stats')['competitionStatsFragment']
   const computed: typeof import('vue')['computed']
@@ -50,23 +50,23 @@ declare global {
   const fixtureFragment: typeof import('./src/fragments/competition')['fixtureFragment']
   const fixtureLegFragment: typeof import('./src/fragments/competition')['fixtureLegFragment']
   const format: typeof import('date-fns')['format']
-  const formatDate: typeof import('./src/helpers/formatters.js')['formatDate']
-  const formatMoney: typeof import('./src/helpers/formatters.js')['formatMoney']
+  const formatDate: typeof import('./src/helpers/formatters')['formatDate']
+  const formatMoney: typeof import('./src/helpers/formatters')['formatMoney']
   const getActivePinia: typeof import('pinia')['getActivePinia']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const goalFragment: typeof import('./src/fragments/match')['goalFragment']
   const gql: typeof import('@urql/vue')['gql']
   const h: typeof import('vue')['h']
-  const inRange: typeof import('./src/helpers/rules.js')['inRange']
+  const inRange: typeof import('./src/helpers/rules')['inRange']
   const inject: typeof import('vue')['inject']
   const injuryFragment: typeof import('./src/fragments/player')['injuryFragment']
-  const isNumber: typeof import('./src/helpers/rules.js')['isNumber']
+  const isNumber: typeof import('./src/helpers/rules')['isNumber']
   const isProxy: typeof import('vue')['isProxy']
   const isReactive: typeof import('vue')['isReactive']
   const isReadonly: typeof import('vue')['isReadonly']
   const isRef: typeof import('vue')['isRef']
-  const isRequired: typeof import('./src/helpers/rules.js')['isRequired']
+  const isRequired: typeof import('./src/helpers/rules')['isRequired']
   const loanFragment: typeof import('./src/fragments/player')['loanFragment']
   const mapActions: typeof import('pinia')['mapActions']
   const mapGetters: typeof import('pinia')['mapGetters']
@@ -122,26 +122,26 @@ declare global {
   const transferFragment: typeof import('./src/fragments/player')['transferFragment']
   const triggerRef: typeof import('vue')['triggerRef']
   const unref: typeof import('vue')['unref']
-  const useActivePlayers: typeof import('./src/composables/useActivePlayers.js')['default']
+  const useActivePlayers: typeof import('./src/composables/useActivePlayers')['default']
   const useAttrs: typeof import('vue')['useAttrs']
   const useBroadcastStore: typeof import('./src/store/broadcast.js')['useBroadcastStore']
-  const useCompetition: typeof import('./src/composables/useCompetition.js')['default']
+  const useCompetition: typeof import('./src/composables/useCompetition')['default']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const useDisplay: typeof import('vuetify')['useDisplay']
-  const useForm: typeof import('./src/composables/useForm.js')['default']
-  const useMatch: typeof import('./src/composables/useMatch.js')['default']
+  const useForm: typeof import('./src/composables/useForm')['default']
+  const useMatch: typeof import('./src/composables/useMatch')['default']
   const useMutation: typeof import('@urql/vue')['useMutation']
   const useQuery: typeof import('@urql/vue')['useQuery']
   const useRepo: typeof import('pinia-orm')['useRepo']
   const useRoute: typeof import('vue-router')['useRoute']
   const useRouter: typeof import('vue-router')['useRouter']
-  const useServerSideProcessing: typeof import('./src/composables/useServerSideProcessing.js')['default']
-  const useSession: typeof import('./src/composables/useSession.js')['default']
+  const useServerSideProcessing: typeof import('./src/composables/useServerSideProcessing')['default']
+  const useSession: typeof import('./src/composables/useSession')['default']
   const useSessionStore: typeof import('./src/store/session.js')['useSessionStore']
   const useSlots: typeof import('vue')['useSlots']
-  const useTeam: typeof import('./src/composables/useTeam.js')['default']
-  const useTeamQuery: typeof import('./src/composables/useTeamQuery.js')['default']
+  const useTeam: typeof import('./src/composables/useTeam')['default']
+  const useTeamQuery: typeof import('./src/composables/useTeamQuery')['default']
   const useTheme: typeof import('vuetify')['useTheme']
   const userFragment: typeof import('./src/fragments/user')['userFragment']
   const watch: typeof import('vue')['watch']
@@ -187,7 +187,7 @@ declare module '@vue/runtime-core' {
     readonly baseStageFragment: UnwrapRef<typeof import('./src/fragments/competition')['baseStageFragment']>
     readonly bookingFragment: UnwrapRef<typeof import('./src/fragments/match')['bookingFragment']>
     readonly capFragment: UnwrapRef<typeof import('./src/fragments/match')['capFragment']>
-    readonly capitalize: UnwrapRef<typeof import('./src/helpers/formatters.js')['capitalize']>
+    readonly capitalize: UnwrapRef<typeof import('./src/helpers/formatters')['capitalize']>
     readonly competitionFragment: UnwrapRef<typeof import('./src/fragments/competition')['competitionFragment']>
     readonly competitionStatsFragment: UnwrapRef<typeof import('./src/fragments/stats')['competitionStatsFragment']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
@@ -202,23 +202,23 @@ declare module '@vue/runtime-core' {
     readonly fixtureFragment: UnwrapRef<typeof import('./src/fragments/competition')['fixtureFragment']>
     readonly fixtureLegFragment: UnwrapRef<typeof import('./src/fragments/competition')['fixtureLegFragment']>
     readonly format: UnwrapRef<typeof import('date-fns')['format']>
-    readonly formatDate: UnwrapRef<typeof import('./src/helpers/formatters.js')['formatDate']>
-    readonly formatMoney: UnwrapRef<typeof import('./src/helpers/formatters.js')['formatMoney']>
+    readonly formatDate: UnwrapRef<typeof import('./src/helpers/formatters')['formatDate']>
+    readonly formatMoney: UnwrapRef<typeof import('./src/helpers/formatters')['formatMoney']>
     readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly goalFragment: UnwrapRef<typeof import('./src/fragments/match')['goalFragment']>
     readonly gql: UnwrapRef<typeof import('@urql/vue')['gql']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
-    readonly inRange: UnwrapRef<typeof import('./src/helpers/rules.js')['inRange']>
+    readonly inRange: UnwrapRef<typeof import('./src/helpers/rules')['inRange']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly injuryFragment: UnwrapRef<typeof import('./src/fragments/player')['injuryFragment']>
-    readonly isNumber: UnwrapRef<typeof import('./src/helpers/rules.js')['isNumber']>
+    readonly isNumber: UnwrapRef<typeof import('./src/helpers/rules')['isNumber']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
-    readonly isRequired: UnwrapRef<typeof import('./src/helpers/rules.js')['isRequired']>
+    readonly isRequired: UnwrapRef<typeof import('./src/helpers/rules')['isRequired']>
     readonly loanFragment: UnwrapRef<typeof import('./src/fragments/player')['loanFragment']>
     readonly mapActions: UnwrapRef<typeof import('pinia')['mapActions']>
     readonly mapGetters: UnwrapRef<typeof import('pinia')['mapGetters']>
@@ -274,26 +274,26 @@ declare module '@vue/runtime-core' {
     readonly transferFragment: UnwrapRef<typeof import('./src/fragments/player')['transferFragment']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
-    readonly useActivePlayers: UnwrapRef<typeof import('./src/composables/useActivePlayers.js')['default']>
+    readonly useActivePlayers: UnwrapRef<typeof import('./src/composables/useActivePlayers')['default']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useBroadcastStore: UnwrapRef<typeof import('./src/store/broadcast.js')['useBroadcastStore']>
-    readonly useCompetition: UnwrapRef<typeof import('./src/composables/useCompetition.js')['default']>
+    readonly useCompetition: UnwrapRef<typeof import('./src/composables/useCompetition')['default']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useDisplay: UnwrapRef<typeof import('vuetify')['useDisplay']>
-    readonly useForm: UnwrapRef<typeof import('./src/composables/useForm.js')['default']>
-    readonly useMatch: UnwrapRef<typeof import('./src/composables/useMatch.js')['default']>
+    readonly useForm: UnwrapRef<typeof import('./src/composables/useForm')['default']>
+    readonly useMatch: UnwrapRef<typeof import('./src/composables/useMatch')['default']>
     readonly useMutation: UnwrapRef<typeof import('@urql/vue')['useMutation']>
     readonly useQuery: UnwrapRef<typeof import('@urql/vue')['useQuery']>
     readonly useRepo: UnwrapRef<typeof import('pinia-orm')['useRepo']>
     readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
-    readonly useServerSideProcessing: UnwrapRef<typeof import('./src/composables/useServerSideProcessing.js')['default']>
-    readonly useSession: UnwrapRef<typeof import('./src/composables/useSession.js')['default']>
+    readonly useServerSideProcessing: UnwrapRef<typeof import('./src/composables/useServerSideProcessing')['default']>
+    readonly useSession: UnwrapRef<typeof import('./src/composables/useSession')['default']>
     readonly useSessionStore: UnwrapRef<typeof import('./src/store/session.js')['useSessionStore']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
-    readonly useTeam: UnwrapRef<typeof import('./src/composables/useTeam.js')['default']>
-    readonly useTeamQuery: UnwrapRef<typeof import('./src/composables/useTeamQuery.js')['default']>
+    readonly useTeam: UnwrapRef<typeof import('./src/composables/useTeam')['default']>
+    readonly useTeamQuery: UnwrapRef<typeof import('./src/composables/useTeamQuery')['default']>
     readonly useTheme: UnwrapRef<typeof import('vuetify')['useTheme']>
     readonly userFragment: UnwrapRef<typeof import('./src/fragments/user')['userFragment']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>

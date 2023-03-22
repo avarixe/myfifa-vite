@@ -1,7 +1,9 @@
 export default ({
   mutation,
   variables = () => ({}),
-  onSuccess = () => {},
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+  onSuccess = (_) => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onReset = () => {},
   resetAfterSubmit = true,
   broadcastErrors = true

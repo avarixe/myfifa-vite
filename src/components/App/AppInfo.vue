@@ -1,7 +1,4 @@
 <script setup>
-  // eslint-disable-next-line no-unused-vars
-  import logo from '~/assets/logo.png'
-
   const libs = [
     { icon: 'mdi-vuejs', name: 'Vue.js' },
     { icon: 'mdi-vuetify', name: 'Vuetify' },
