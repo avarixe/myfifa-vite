@@ -107,7 +107,7 @@
 </script>
 
 <template>
-  <menu-form
+  <dialog-form
     title-icon="mdi-soccer"
     :title="title"
     :validate-on-open="!!record"
@@ -191,5 +191,5 @@
         />
       </v-col>
     </template>
-  </menu-form>
+  </dialog-form>
 </template>

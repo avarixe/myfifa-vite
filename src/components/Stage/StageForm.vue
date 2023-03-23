@@ -41,7 +41,7 @@
 </script>
 
 <template>
-  <menu-form
+  <dialog-form
     title="New Stage"
     :mutation="mutation"
     :variables="variables"
@@ -87,5 +87,5 @@
         </v-col>
       </v-scroll-y-transition>
     </template>
-  </menu-form>
+  </dialog-form>
 </template>

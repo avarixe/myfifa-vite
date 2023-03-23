@@ -27,25 +27,17 @@
     :append-icon="prefill ? 'mdi-calendar-arrow-left' : null"
     @click:append="emit('update:modelValue', prefill)"
   >
-    <v-menu
-      v-model="menu"
-      persistent
-      :close-on-content-click="false"
-      activator="parent"
-    >
-      <v-sheet width="260px">
-        <date-picker
-          inline
-          auto-apply
-          model-type="yyyy-MM-dd"
-          week-start="0"
-          :dark="theme.global.current.value.dark"
-          :enable-time-picker="false"
-          :model-value="modelValue"
-          @update:model-value="onCalendarUpdate"
-        />
-        <v-btn block @click="menu = false">Close</v-btn>
-      </v-sheet>
+    <v-menu v-model="menu" activator="parent">
+      <date-picker
+        inline
+        auto-apply
+        model-type="yyyy-MM-dd"
+        week-start="0"
+        :dark="theme.global.current.value.dark"
+        :enable-time-picker="false"
+        :model-value="modelValue"
+        @update:model-value="onCalendarUpdate"
+      />
     </v-menu>
   </v-text-field>
 </template>

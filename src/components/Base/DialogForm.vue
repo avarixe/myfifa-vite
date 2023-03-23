@@ -7,12 +7,14 @@
     validateOnOpen: { type: Boolean, default: false }
   })
 
-  const menu = ref(false)
+  const dialog = ref(false)
   const emit = defineEmits(['open', 'close'])
   watchEffect(() => {
-    if (menu.value) {
+    if (dialog.value) {
+      document.documentElement.style.overflow = 'hidden'
       emit('open')
     } else {
+      document.documentElement.style.overflow = null
       emit('close')
     }
   })
@@ -29,7 +31,7 @@
     mutation: props.mutation,
     variables: props.variables,
     onSuccess() {
-      menu.value = false
+      dialog.value = false
     },
     broadcastErrors: false
   })
@@ -42,10 +44,11 @@
 </script>
 
 <template>
-  <v-menu
-    v-model="menu"
-    :close-on-content-click="false"
+  <v-dialog
+    v-model="dialog"
     persistent
+    scrollable
+    max-width="500px"
     activator="parent"
   >
     <v-form
@@ -54,7 +57,7 @@
       v-model="formIsValid"
       @submit.prevent="submitForm"
     >
-      <v-card width="400px">
+      <v-card :style="{ maxHeight: '75vh' }">
         <v-toolbar dense :extended="formError.length > 0">
           <slot name="header">
             <v-toolbar-title>
@@ -74,7 +77,7 @@
           </template>
         </v-toolbar>
         <v-divider />
-        <v-card-text :style="{ maxHeight: '50vh', overflowY: 'auto' }">
+        <v-card-text>
           <v-container>
             <v-row dense>
               <slot name="form" />
@@ -84,7 +87,7 @@
         <v-divider />
         <v-card-actions>
           <v-spacer />
-          <v-btn size="large" :disabled="formIsLoading" @click="menu = false">
+          <v-btn size="large" :disabled="formIsLoading" @click="dialog = false">
             Cancel
           </v-btn>
           <slot name="additional-actions" />
@@ -100,5 +103,5 @@
         </v-card-actions>
       </v-card>
     </v-form>
-  </v-menu>
+  </v-dialog>
 </template>
