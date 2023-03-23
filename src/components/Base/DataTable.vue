@@ -25,7 +25,8 @@
       default: props => props.options.mustSort ?? false
     },
     // Server Side processing
-    serverItemsLength: { type: Number, default: null }
+    serverItemsLength: { type: Number, default: null },
+    showPaginationOptions: { type: Boolean, default: true }
   })
 
   // Sorting
@@ -113,7 +114,7 @@
 </script>
 
 <template>
-  <v-table>
+  <v-table class="rounded">
     <thead>
       <tr>
         <slot name="headers">
@@ -180,63 +181,58 @@
         />
       </tr>
     </tbody>
-    <slot name="foot">
-      <tfoot>
-        <tr>
-          <td class="py-1" :colspan="headers.length">
-            <div class="d-flex align-center">
-              <v-btn
-                round
-                variant="text"
-                append-icon="mdi-menu-down"
-                class="border-b"
-              >
-                {{ showAll ? 'All' : itemsPerPage }}
-                <v-menu activator="parent">
-                  <v-list density="compact">
-                    <v-list-item
-                      v-for="option in itemsPerPageOptions"
-                      :key="option"
-                      :title="option > 0 ? option : 'All'"
-                      @click="itemsPerPage = option"
-                    />
-                  </v-list>
-                </v-menu>
-              </v-btn>
-              <span class="text-caption pl-2">
-                {{ pageStart }} - {{ pageStop }} of {{ total }}
-              </span>
+    <slot name="tfoot" />
+    <template v-if="showPaginationOptions" #bottom>
+      <div class="d-flex align-center px-4">
+        <v-btn
+          round
+          variant="text"
+          append-icon="mdi-menu-down"
+          class="border-b"
+        >
+          {{ showAll ? 'All' : itemsPerPage }}
+          <v-menu activator="parent">
+            <v-list density="compact">
+              <v-list-item
+                v-for="option in itemsPerPageOptions"
+                :key="option"
+                :title="option > 0 ? option : 'All'"
+                @click="itemsPerPage = option"
+              />
+            </v-list>
+          </v-menu>
+        </v-btn>
+        <span class="text-caption pl-2">
+          {{ pageStart }} - {{ pageStop }} of {{ total }}
+        </span>
 
-              <v-spacer />
+        <v-spacer />
 
-              <v-btn
-                icon="mdi-page-first"
-                variant="text"
-                :disabled="page === 0"
-                @click="page = 0"
-              />
-              <v-btn
-                icon="mdi-chevron-left"
-                variant="text"
-                :disabled="page === 0"
-                @click="page--"
-              />
-              <v-btn
-                icon="mdi-chevron-right"
-                variant="text"
-                :disabled="page === pageCount - 1"
-                @click="page++"
-              />
-              <v-btn
-                icon="mdi-page-last"
-                variant="text"
-                :disabled="page === pageCount - 1"
-                @click="page = pageCount - 1"
-              />
-            </div>
-          </td>
-        </tr>
-      </tfoot>
-    </slot>
+        <v-btn
+          icon="mdi-page-first"
+          variant="text"
+          :disabled="page === 0"
+          @click="page = 0"
+        />
+        <v-btn
+          icon="mdi-chevron-left"
+          variant="text"
+          :disabled="page === 0"
+          @click="page--"
+        />
+        <v-btn
+          icon="mdi-chevron-right"
+          variant="text"
+          :disabled="page === pageCount - 1"
+          @click="page++"
+        />
+        <v-btn
+          icon="mdi-page-last"
+          variant="text"
+          :disabled="page === pageCount - 1"
+          @click="page = pageCount - 1"
+        />
+      </div>
+    </template>
   </v-table>
 </template>

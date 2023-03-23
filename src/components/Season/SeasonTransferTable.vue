@@ -204,6 +204,7 @@
     :items="rows"
     item-key="id"
     :items-per-page="-1"
+    :show-pagination-options="false"
     sort-by="date"
     class="mt-2"
   >
@@ -247,7 +248,7 @@
         {{ formatMoney(Math.abs(item.netValue), team.currency, ' ') }}
       </td>
     </template>
-    <template #foot>
+    <template #tfoot>
       <tfoot class="font-weight-bold">
         <tr v-if="rows.length">
           <td class="stick-left">

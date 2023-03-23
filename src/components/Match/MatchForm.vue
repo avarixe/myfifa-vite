@@ -108,22 +108,28 @@
       label="Stage"
       :items="stageOptions"
     />
-    <team-combobox
-      v-model="attributes.home"
-      label="Home Team"
-      :append-icon="`mdi-shield-${
-        attributes.home === team.name ? 'star' : 'outline'
-      }`"
-      @click:append="setTeamAs('home')"
-    />
-    <team-combobox
-      v-model="attributes.away"
-      label="Away Team"
-      :append-icon="`mdi-shield-${
-        attributes.away === team.name ? 'star' : 'outline'
-      }`"
-      @click:append="setTeamAs('away')"
-    />
+    <v-row dense>
+      <v-col cols="12" md="6">
+        <team-combobox
+          v-model="attributes.home"
+          label="Home Team"
+          :prepend-inner-icon="`mdi-shield-${
+            attributes.home === team.name ? 'star' : 'outline'
+          }`"
+          @click:prepend-inner="setTeamAs('home')"
+        />
+      </v-col>
+      <v-col cols="12" md="6">
+        <team-combobox
+          v-model="attributes.away"
+          label="Away Team"
+          :prepend-inner-icon="`mdi-shield-${
+            attributes.away === team.name ? 'star' : 'outline'
+          }`"
+          @click:prepend-inner="setTeamAs('away')"
+        />
+      </v-col>
+    </v-row>
     <v-btn type="submit" :loading="formIsLoading">
       {{ props.record ? 'Update' : 'Create' }}
     </v-btn>

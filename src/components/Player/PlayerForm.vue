@@ -59,58 +59,74 @@
 <template>
   <v-form ref="form" @submit.prevent="submitForm">
     <v-text-field v-model="attributes.name" label="Name" />
-    <v-autocomplete
-      v-model="attributes.pos"
-      label="Position"
-      :items="positions"
-    />
-    <v-autocomplete
-      v-model="attributes.nationality"
-      label="Nationality"
-      :items="Object.keys(nationalities)"
-    >
-      <template #selection="{ item }">
-        <flag :iso="nationalities[item.raw]" class="mt-1 mr-2" />
-        <span class="text-body-1">{{ item.raw }}</span>
-      </template>
-      <template #item="{ item, props: itemProps }">
-        <v-list-item v-bind="itemProps">
-          <template #prepend>
-            <flag :iso="nationalities[item.raw]" class="mr-2" />
+    <v-row dense>
+      <v-col cols="12" md="6" class="py-0">
+        <v-autocomplete
+          v-model="attributes.pos"
+          label="Position"
+          :items="positions"
+        />
+      </v-col>
+      <v-col cols="12" md="6" class="py-0">
+        <v-autocomplete
+          v-model="attributes.secPos"
+          label="Secondary Position(s)"
+          :items="positions"
+          multiple
+          chips
+          closable-chips
+        />
+      </v-col>
+      <v-col cols="12" md="6" class="py-0">
+        <v-text-field
+          v-model.number="attributes.age"
+          label="Age"
+          type="number"
+          min="16"
+          max="50"
+        />
+      </v-col>
+      <v-col cols="12" md="6" class="py-0">
+        <v-autocomplete
+          v-model="attributes.nationality"
+          label="Nationality"
+          :items="Object.keys(nationalities)"
+        >
+          <template #selection="{ item }">
+            <flag :iso="nationalities[item.raw]" class="mt-1 mr-2" />
+            <span class="text-body-1">{{ item.raw }}</span>
           </template>
-        </v-list-item>
-      </template>
-    </v-autocomplete>
-    <v-autocomplete
-      v-model="attributes.secPos"
-      label="Secondary Position(s)"
-      :items="positions"
-      multiple
-      chips
-      closable-chips
-    />
-    <v-text-field
-      v-model.number="attributes.ovr"
-      label="OVR Rating"
-      type="number"
-      min="1"
-      max="99"
-    />
-    <money-field v-model="attributes.value" label="Value" />
-    <v-text-field
-      v-model.number="attributes.kitNo"
-      label="Kit Number"
-      type="number"
-      min="1"
-      max="99"
-    />
-    <v-text-field
-      v-model.number="attributes.age"
-      label="Age"
-      type="number"
-      min="16"
-      max="50"
-    />
+          <template #item="{ item, props: itemProps }">
+            <v-list-item v-bind="itemProps">
+              <template #prepend>
+                <flag :iso="nationalities[item.raw]" class="mr-2" />
+              </template>
+            </v-list-item>
+          </template>
+        </v-autocomplete>
+      </v-col>
+      <v-col cols="12" md="6" class="py-0">
+        <v-text-field
+          v-model.number="attributes.ovr"
+          label="OVR Rating"
+          type="number"
+          min="1"
+          max="99"
+        />
+      </v-col>
+      <v-col cols="12" md="6" class="py-0">
+        <money-field v-model="attributes.value" label="Value" />
+      </v-col>
+      <v-col cols="12" md="6" class="py-0">
+        <v-text-field
+          v-model.number="attributes.kitNo"
+          label="Kit Number"
+          type="number"
+          min="1"
+          max="99"
+        />
+      </v-col>
+    </v-row>
     <v-checkbox v-model="attributes.youth" label="Youth Player" />
     <v-btn type="submit" :loading="formIsLoading">
       {{ props.record ? 'Update' : 'Create' }}

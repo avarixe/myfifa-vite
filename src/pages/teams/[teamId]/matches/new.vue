@@ -20,7 +20,7 @@
 </script>
 
 <template>
-  <div class="text-h4">New Match</div>
+  <div class="text-h4 mb-2">New Match</div>
 
   <match-form :team-id="teamId" />
 </template>

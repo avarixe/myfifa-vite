@@ -72,6 +72,7 @@
     :items="rows"
     item-key="id"
     :items-per-page="-1"
+    :show-pagination-options="false"
     class="mt-2"
   >
     <template #item="{ item }">
