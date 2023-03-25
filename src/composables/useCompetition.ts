@@ -65,7 +65,7 @@ export default competitionId => {
   }
 
   const stageRepo = useRepo(Stage)
-  const orderedRounds = computed(() =>
+  const orderedRounds: Ref<StageRecord[]> = computed(() =>
     stageRepo
       .with('fixtures', query => {
         query.with('legs')

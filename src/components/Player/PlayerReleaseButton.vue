@@ -1,7 +1,5 @@
 <script setup lang="ts">
-  const props = defineProps({
-    player: { type: Object, required: true }
-  })
+  const props = defineProps<{ player: PlayerRecord }>()
 
   const { submitForm: onConfirm } = useForm({
     mutation: gql`
@@ -14,7 +12,7 @@
       }
       ${playerFragment}
     `,
-    variables: { id: props.player.id }
+    variables: () => ({ id: props.player.id })
   })
 </script>
 

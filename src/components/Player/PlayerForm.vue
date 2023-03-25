@@ -49,7 +49,7 @@
   const { form, formIsLoading, submitForm } = useForm({
     mutation,
     variables,
-    onSuccess(data) {
+    onSuccess(data: { player: { id: number } }[]) {
       const player = Object.values(data)[0].player
       router.push(`/teams/${team.value.id}/players/${player.id}`)
     }

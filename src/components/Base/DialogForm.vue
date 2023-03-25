@@ -1,11 +1,18 @@
 <script setup lang="ts">
-  const props = defineProps({
-    mutation: { type: Object, required: true },
-    variables: { type: Function, required: true },
-    title: { type: String, default: '' },
-    titleIcon: { type: String, default: '' },
-    validateOnOpen: { type: Boolean, default: false }
-  })
+  const props = withDefaults(
+    defineProps<{
+      mutation: object
+      variables: () => object
+      title: string
+      titleIcon?: string
+      validateOnOpen: boolean
+    }>(),
+    {
+      title: '',
+      titleIcon: null,
+      validateOnOpen: false
+    }
+  )
 
   const dialog = ref(false)
   const emit = defineEmits(['open', 'close'])

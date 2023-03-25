@@ -7,7 +7,14 @@
   const { team } = useTeam()
   const { minute, unsubbedPlayers } = useMatch(props.match)
 
-  const attributes = reactive({})
+  interface BookingAttributes {
+    home?: boolean
+    playerId?: number
+    playerName?: string
+    redCard?: boolean
+  }
+
+  const attributes: BookingAttributes = reactive({})
   function onOpen() {
     attributes.home = props.record?.home ?? true
     attributes.playerId = props.record?.playerId
@@ -98,7 +105,7 @@
       </v-col>
       <v-col cols="12">
         <cap-select
-          v-if="!attributes.home ^ (match.home === team.name)"
+          v-if="!attributes.home !== (match.home === team.name)"
           v-model="attributes.playerId"
           label="Player"
           prepend-icon="mdi-account"

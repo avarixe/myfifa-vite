@@ -1,8 +1,18 @@
 <script setup lang="ts">
-  const props = defineProps({
-    season: { type: Number, required: true },
-    competitionStats: { type: Array, required: true }
-  })
+  interface CompetitionStats {
+    name: string
+    competition: string
+    wins: number
+    draws: number
+    losses: number
+    goalsFor: number
+    goalsAgainst: number
+  }
+
+  const props = defineProps<{
+    season: number
+    competitionStats: CompetitionStats[]
+  }>()
 
   const headers = [
     {

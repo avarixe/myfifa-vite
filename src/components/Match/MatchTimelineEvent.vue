@@ -9,11 +9,14 @@
     Substitution: SubstitutionForm
   }
 
-  const props = defineProps({
-    match: { type: Object, required: true },
-    event: { type: Object, required: true },
-    readonly: { type: Boolean, default: false }
-  })
+  const props = withDefaults(
+    defineProps<{
+      match: MatchRecord
+      event: MatchEvent
+      readonly: boolean
+    }>(),
+    { readonly: false }
+  )
 
   const { team } = useTeam()
 

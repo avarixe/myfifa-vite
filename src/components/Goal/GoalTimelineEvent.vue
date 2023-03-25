@@ -1,9 +1,12 @@
 <script setup lang="ts">
-  defineProps({
-    match: { type: Object, required: true },
-    event: { type: Object, required: true },
-    readonly: { type: Boolean, default: false }
-  })
+  withDefaults(
+    defineProps<{
+      match: MatchRecord
+      event: GoalRecord
+      readonly: boolean
+    }>(),
+    { readonly: false }
+  )
 </script>
 
 <template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  defineProps({
-    stages: { type: Array, default: () => [] },
-    readonly: { type: Boolean, default: false }
+  withDefaults(defineProps<{ stages: StageRecord[]; readonly: boolean }>(), {
+    stages: () => [],
+    readonly: false
   })
 </script>
 
@@ -12,7 +12,7 @@
       :key="stage.id"
       cols="12"
       :lg="stages.length === 1 ? 12 : 6"
-      :xl="stages.length === 1 ? 12 : stages === 2 ? 6 : 4"
+      :xl="stages.length === 1 ? 12 : stages.length === 2 ? 6 : 4"
     >
       <stage-group-table
         v-if="stage.table"

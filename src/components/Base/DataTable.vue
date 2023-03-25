@@ -1,32 +1,61 @@
 <script setup lang="ts">
-  const props = defineProps({
-    headers: { type: Array, default: () => [] },
-    items: { type: Array, default: () => [] },
-    options: { type: Object, default: () => ({}) },
-    itemKey: { type: String, default: props => props.options.itemKey ?? 'id' },
-    loading: { type: Boolean, default: false },
+  interface Header {
+    text: string
+    value: string
+    sortBy?: string
+    width?: number
+    class?: string
+    style?: string
+    sortable?: boolean
+    cellClass?: string
+    cellStyle?: string
+  }
+
+  interface TableOptions {
+    itemKey?: string
+    itemsPerPage?: number
+    itemsPerPageOptions?: number[]
+    sortBy?: string
+    sortDesc?: boolean
+    mustSort?: boolean
+  }
+
+  interface Props {
+    headers: Header[]
+    items: object[]
+    options: TableOptions
+    itemKey: string
+    loading: boolean
     // Pagination
-    itemsPerPage: {
-      type: Number,
-      default: props => props.options.itemsPerPage ?? 10
-    },
-    itemsPerPageOptions: {
-      type: Array,
-      default: props => props.options.itemsPerPageOptions ?? [10, 20, 50, -1]
-    },
+    itemsPerPage: number
+    itemsPerPageOptions: number[]
     // Sorting
-    sortBy: { type: String, default: props => props.options.sortBy },
-    sortDesc: {
-      type: Boolean,
-      default: props => props.options.sortDesc ?? false
-    },
-    mustSort: {
-      type: Boolean,
-      default: props => props.options.mustSort ?? false
-    },
+    sortBy?: string
+    sortDesc: boolean
+    mustSort: boolean
     // Server Side processing
-    serverItemsLength: { type: Number, default: null },
-    showPaginationOptions: { type: Boolean, default: true }
+    serverItemsLength?: number
+    showPaginationOptions: boolean
+  }
+
+  const props = withDefaults(defineProps<Props>(), {
+    headers: () => [],
+    items: () => [],
+    options: () => ({}),
+    itemKey: props => props.options.itemKey ?? 'id',
+    loading: false,
+    itemsPerPage: props => props.options.itemsPerPage ?? 10,
+    itemsPerPageOptions: props =>
+      props.options.itemsPerPageOptions ?? [10, 20, 50, -1],
+    sortBy: props => props.options.sortBy,
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    sortDesc: props => props.options.sortDesc ?? false,
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    mustSort: props => props.options.mustSort ?? false,
+    serverItemsLength: null,
+    showPaginationOptions: false
   })
 
   // Sorting
@@ -55,9 +84,9 @@
     const sortHeader = props.headers[sortIndex.value]
     const attr = sortHeader.sortBy || sortBy.value
     if (sortDesc.value) {
-      return (b[attr] > a[attr]) - (a[attr] > b[attr])
+      return +(b[attr] > a[attr]) - +(a[attr] > b[attr])
     } else {
-      return (a[attr] > b[attr]) - (b[attr] > a[attr])
+      return +(a[attr] > b[attr]) - +(b[attr] > a[attr])
     }
   }
   const sortedItems = computed(() => {
@@ -88,7 +117,8 @@
       return index > total.value ? total.value : index
     }
   })
-  const pageItems = computed(() => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const pageItems: Ref<any[]> = computed(() => {
     if (props.serverItemsLength) {
       return props.items
     } else {
@@ -103,7 +133,7 @@
     sortBy: sortBy.value,
     sortDesc: sortDesc.value
   }))
-  const emit = defineEmits('update:options')
+  const emit = defineEmits(['update:options'])
   watch(
     options,
     () => {

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-  const props = defineProps({
-    caps: { type: Array, default: () => [] }
+  const props = withDefaults(defineProps<{ caps: CapRecord[] }>(), {
+    caps: () => []
   })
 
   const playerPositions = computed(() =>
     props.caps.reduce(
-      (obj, cap) => ({
+      (obj: object, cap) => ({
         ...obj,
         [cap.playerId]: cap.pos
       }),

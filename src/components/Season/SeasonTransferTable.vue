@@ -11,7 +11,21 @@
 
   const playerRepo = useRepo(Player)
 
-  const arrivals = computed(() =>
+  interface TransferTableRow {
+    playerId: number
+    name: string
+    pos: string
+    date: string
+    iconColor: string
+    icon: string
+    fromTo: string
+    value: number
+    fee: number
+    netValue: number
+    addonClause: number
+  }
+
+  const arrivals: Ref<TransferTableRow[]> = computed(() =>
     props.transferActivity.arrivals
       .filter(arrival => {
         return (
@@ -50,7 +64,7 @@
       })
   )
 
-  const departures = computed(() =>
+  const departures: Ref<TransferTableRow[]> = computed(() =>
     props.transferActivity.departures.map((departure, i) => {
       const player = playerRepo.find(parseInt(departure.playerId))
 
@@ -69,7 +83,7 @@
     })
   )
 
-  const transfers = computed(() =>
+  const transfers: Ref<TransferTableRow[]> = computed(() =>
     props.transferActivity.transfers.map((transfer, i) => {
       const player = playerRepo.find(parseInt(transfer.playerId))
       const playerValues =
@@ -94,15 +108,15 @@
     })
   )
 
-  const seasonStart = computed(() => {
+  const seasonStart: Ref<string> = computed(() => {
     const date = parseISO(team.value.startedOn)
     return format(addYears(date, props.season), 'yyyy-MM-dd')
   })
-  const seasonEnd = computed(() => {
+  const seasonEnd: Ref<string> = computed(() => {
     const date = parseISO(seasonStart.value)
     return format(addYears(date, 1), 'yyyy-MM-dd')
   })
-  const loans = computed(() =>
+  const loans: Ref<TransferTableRow[]> = computed(() =>
     props.transferActivity.loans.reduce((loans, loan) => {
       const player = playerRepo.find(parseInt(loan.playerId))
       const loanOut = team.value.name === loan.origin
@@ -141,13 +155,16 @@
     }, [])
   )
 
-  const rows = computed(() =>
+  const rows: Ref<TransferTableRow[]> = computed(() =>
     [
       ...arrivals.value,
       ...departures.value,
       ...transfers.value,
       ...loans.value
-    ].sort((a, b) => a.date - b.date)
+    ].sort(
+      (a, b) =>
+        parseInt(a.date.replace(/-/g, '')) - parseInt(b.date.replace(/-/g, ''))
+    )
   )
 
   const totals = computed(() =>
@@ -164,12 +181,12 @@
     )
   )
 
-  const numYouthPlayers = computed(
+  const numYouthPlayers: Ref<number> = computed(
     () =>
       arrivals.value.filter(arrival => arrival.fromTo === 'Youth Academy')
         .length
   )
-  const numTransfersIn = computed(
+  const numTransfersIn: Ref<number> = computed(
     () =>
       transfers.value.filter(transfer => transfer.iconColor === 'green').length
   )
@@ -208,7 +225,7 @@
     sort-by="date"
     class="mt-2"
   >
-    <template #item="{ item }">
+    <template #item="{ item }: { item: TransferTableRow }">
       <td class="stick-left">
         <v-btn
           :to="`/teams/${team.id}/players/${item.playerId}`"

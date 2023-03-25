@@ -30,6 +30,7 @@ declare module '@vue/runtime-core' {
     DarkModeToggle: typeof import('./src/components/App/DarkModeToggle.vue')['default']
     DataTable: typeof import('./src/components/Base/DataTable.vue')['default']
     DateField: typeof import('./src/components/Base/DateField.vue')['default']
+    DialogForm: typeof import('./src/components/Base/DialogForm.vue')['default']
     Flag: typeof import('./src/components/Base/Flag.vue')['default']
     FormationGrid: typeof import('./src/components/Base/FormationGrid.vue')['default']
     FormationOvr: typeof import('./src/components/Base/FormationOvr.vue')['default']

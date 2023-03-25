@@ -1,4 +1,4 @@
-export default async ({ query, variables }) => {
+export default async ({ query, variables = null }) => {
   const { teamId, teamRepo, team, currentSeason, seasonLabel } = useTeam()
 
   const { data } = await useQuery({

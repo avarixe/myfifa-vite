@@ -8,6 +8,8 @@
   const { inputRef, formattedValue } = useCurrencyInput({
     currency: 'USD',
     locale: 'en',
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     currencyDisplay: 'hidden',
     precision: 0,
     hideGroupingSeparatorOnFocus: false,

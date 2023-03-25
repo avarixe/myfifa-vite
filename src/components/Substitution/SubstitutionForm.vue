@@ -4,7 +4,13 @@
     record: { type: Object, default: null }
   })
 
-  const attributes = reactive({})
+  interface SubstitutionAttributes {
+    playerId?: number
+    replacementId?: number
+    injury?: boolean
+  }
+
+  const attributes: SubstitutionAttributes = reactive({})
   function onOpen() {
     attributes.playerId = props.record?.playerId
     attributes.replacementId = props.record?.replacementId

@@ -6,7 +6,20 @@
     record: { type: Object, default: null }
   })
 
-  const attributes = reactive({})
+  interface ContractAttributes {
+    signedOn?: string
+    startedOn?: string
+    endedOn?: string
+    wage?: number
+    signingBonus?: number
+    releaseClause?: number
+    performanceBonus?: number
+    bonusReq?: number
+    bonusReqType?: string
+    numSeasons?: number
+  }
+
+  const attributes: ContractAttributes = reactive({})
   const numSeasonsOn = ref(true)
   function onOpen() {
     attributes.signedOn = props.record?.signedOn
@@ -131,8 +144,7 @@
           label="End Date"
           prepend-icon="mdi-calendar"
           :append-outer-icon="record ? null : 'mdi-pound'"
-          :min="attributes.startedOn"
-          :max="maxEndDate"
+          :min-date="attributes.startedOn"
           required
           start-with-year
           @click:append-outer="numSeasonsOn = true"

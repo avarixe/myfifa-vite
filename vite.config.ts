@@ -44,6 +44,21 @@ export default defineConfig({
           'date-fns': ['format', 'parseISO'],
           vuetify: ['useDisplay', 'useTheme'],
           axios: [['default', 'axios']]
+        },
+        {
+          from: './src/types',
+          imports: [
+            'BookingRecord',
+            'CapRecord',
+            'CapAttributes',
+            'GoalRecord',
+            'MatchRecord',
+            'MatchEvent',
+            'PlayerRecord',
+            'StageAttributes',
+            'StageRecord'
+          ],
+          type: true
         }
       ],
       dts: true,

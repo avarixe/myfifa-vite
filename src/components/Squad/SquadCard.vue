@@ -11,7 +11,7 @@
     squadPlayersAttributes:
       props.record?.squadPlayers?.map(squadPlayer =>
         _pick(squadPlayer, ['id', 'playerId', 'pos'])
-      ) || new Array(11).fill().map(() => ({ playerId: null, pos: null }))
+      ) || new Array(11).fill(0).map(() => ({ playerId: null, pos: null }))
   })
 
   const formationCells = computed(() =>
@@ -62,7 +62,7 @@
   const { submitForm } = useForm({
     mutation,
     variables,
-    onSuccess(data) {
+    onSuccess(data: { squad: object }[]) {
       if (props.record) {
         selectedPlayerId.value = null
         inEditMode.value = false

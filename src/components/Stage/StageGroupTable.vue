@@ -5,7 +5,7 @@
     isNamed: { type: Boolean, default: true }
   })
 
-  const attributes = reactive({})
+  const attributes: StageAttributes = reactive({})
   function resetAttributes() {
     ;(attributes.name = props.stage.name),
       (attributes.tableRowsAttributes = props.stage.tableRows.map(row => ({

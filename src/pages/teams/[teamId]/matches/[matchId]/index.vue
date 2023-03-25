@@ -2,10 +2,10 @@
   const route = useRoute()
   const teamId = computed(() => parseInt(route.params.teamId.toString()))
 
-  const matchId = ref(route.params.matchId)
+  const matchId = ref(parseInt(route.params.matchId.toString()))
   watch(route, () => {
     if (route.params.matchId) {
-      matchId.value = route.params.matchId
+      matchId.value = parseInt(route.params.matchId.toString())
     }
   })
 
@@ -64,7 +64,7 @@
     matchRepo
       .withAll()
       .with('caps', query => query.with('player'))
-      .find(parseInt(matchId.value))
+      .find(matchId.value)
   )
   const readonly = ref(false)
 

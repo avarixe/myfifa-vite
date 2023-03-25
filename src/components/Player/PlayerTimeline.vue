@@ -11,9 +11,7 @@
     Transfer: TransferTimelineEvent
   }
 
-  const props = defineProps({
-    player: { type: Object, required: true }
-  })
+  const props = defineProps<{ player: PlayerRecord }>()
 
   const events = computed(() =>
     _orderBy(

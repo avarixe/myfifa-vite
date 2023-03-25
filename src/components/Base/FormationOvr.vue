@@ -1,6 +1,12 @@
 <script setup lang="ts">
-  const props = defineProps({
-    data: { type: Array, default: () => [] }
+  interface OvrData {
+    type: string
+    value: number
+    weight: number
+  }
+
+  const props = withDefaults(defineProps<{ data: OvrData[] }>(), {
+    data: () => []
   })
 
   const stat = {

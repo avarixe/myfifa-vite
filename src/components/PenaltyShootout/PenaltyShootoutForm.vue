@@ -3,7 +3,12 @@
     match: { type: Object, required: true }
   })
 
-  const attributes = reactive({})
+  interface PenaltyShootoutAttributes {
+    homeScore?: number
+    awayScore?: number
+  }
+
+  const attributes: PenaltyShootoutAttributes = reactive({})
   function onOpen() {
     attributes.homeScore = props.match.penaltyShootout?.homeScore
     attributes.awayScore = props.match.penaltyShootout?.awayScore

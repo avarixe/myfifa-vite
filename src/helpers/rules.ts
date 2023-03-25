@@ -6,7 +6,10 @@ export function isNumber(label: string): (v) => string | true {
   return v => !v || /^\d+$/.test(v) || `${label || 'Field'} is not a number`
 }
 
-export function inRange(label: string, [min, max]: number[]): (v) => string | true {
+export function inRange(
+  label: string,
+  [min, max]: number[]
+): (v) => string | true {
   return v =>
     !v ||
     (!isNaN(v) && min <= parseFloat(v) && parseFloat(v) <= max) ||
