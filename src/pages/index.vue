@@ -74,7 +74,7 @@
                 :src="badgeUrl(currentTeam)"
                 contain
               />
-              <v-icon size="100">
+              <v-icon v-else size="100">
                 mdi-shield-off-outline
                 <v-tooltip bottom activator="parent">
                   Edit Team to upload Badge
