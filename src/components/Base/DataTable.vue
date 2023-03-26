@@ -55,7 +55,7 @@
     // @ts-ignore
     mustSort: props => props.options.mustSort ?? false,
     serverItemsLength: null,
-    showPaginationOptions: false
+    showPaginationOptions: true
   })
 
   // Sorting
