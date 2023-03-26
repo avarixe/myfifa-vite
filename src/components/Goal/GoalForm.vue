@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const props = defineProps({
     match: { type: Object, required: true },
     record: { type: Object, default: null }
@@ -6,7 +6,17 @@
 
   const { minute, unsubbedPlayers } = useMatch(props.match)
 
-  const attributes = reactive({})
+  interface GoalAttributes {
+    home?: boolean
+    playerId?: number
+    playerName?: string
+    assistId?: number
+    assistedBy?: string
+    ownGoal?: boolean
+    penalty?: boolean
+  }
+
+  const attributes: GoalAttributes = reactive({})
   function onOpen() {
     attributes.home = props.record?.home ?? true
     attributes.playerId = props.record?.playerId
@@ -34,7 +44,7 @@
 
   const { team } = useTeam()
   const teamGoal = computed(
-    () => !attributes.home ^ (props.match.home === team.value?.name)
+    () => !attributes.home !== (props.match.home === team.value?.name)
   )
 
   watchEffect(() => {

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   import BookingTimelineEvent from '~/components/Booking/BookingTimelineEvent.vue'
   import GoalTimelineEvent from '~/components/Goal/GoalTimelineEvent.vue'
   import SubstitutionTimelineEvent from '~/components/Substitution/SubstitutionTimelineEvent.vue'

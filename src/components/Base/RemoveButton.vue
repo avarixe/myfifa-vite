@@ -1,5 +1,5 @@
-<script setup>
-  import * as fragments from '~/fragments'
+<script setup lang="ts">
+  import * as fragments from '../../fragments'
 
   const props = defineProps({
     record: { type: Object, required: true },

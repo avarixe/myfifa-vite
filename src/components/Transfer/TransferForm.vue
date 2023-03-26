@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const props = defineProps({
     player: { type: Object, required: true },
     record: { type: Object, default: null }
@@ -10,14 +10,17 @@
       ? team.value.name === props.record.origin
       : props.player.status?.length > 0
   )
-  const attributes = reactive({
-    signedOn: null,
-    movedOn: null,
-    origin: '',
-    destination: '',
-    fee: null,
-    addonClause: 0
-  })
+
+  interface TransferAttributes {
+    signedOn?: string
+    movedOn?: string
+    origin?: string
+    destination?: string
+    fee?: number
+    addonClause?: number
+  }
+
+  const attributes: TransferAttributes = reactive({})
   function onOpen() {
     attributes.signedOn = props.record?.signedOn
     attributes.movedOn = props.record?.movedOn ?? team.value.currentlyOn

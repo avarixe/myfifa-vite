@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const { team, data } = await useTeamQuery({
     query: gql`
       query fetchPlayersPage($teamId: ID!) {

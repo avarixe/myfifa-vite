@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   import ContractForm from '~/components/Contract/ContractForm.vue'
   import InjuryForm from '~/components/Injury/InjuryForm.vue'
   import LoanForm from '~/components/Loan/LoanForm.vue'

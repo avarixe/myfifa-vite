@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const props = defineProps({
     cap: { type: Object, required: true },
     readonly: { type: Boolean, default: false }
@@ -65,14 +65,14 @@
           :color="color[rating] || 'grey'"
           @input="onInput"
         >
-          <template #item="{ index, onClick }">
+          <template #item="{ index, props: itemProps }">
             <v-icon
               :color="color[hoverRating] || 'grey'"
               :icon="`mdi-star-four-points${
                 hoverRating > index ? '' : '-outline'
               }`"
               @mouseenter.prevent="hoverRating = index + 1"
-              @click="onClick"
+              @click="itemProps.onClick"
             />
           </template>
         </v-rating>

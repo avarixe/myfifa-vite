@@ -1,11 +1,11 @@
-<script setup>
+<script setup lang="ts">
   const props = defineProps({
     stage: { type: Object, required: true },
     readonly: { type: Boolean, default: false },
     isNamed: { type: Boolean, default: true }
   })
 
-  const attributes = reactive({})
+  const attributes: StageAttributes = reactive({})
   function resetAttributes() {
     ;(attributes.name = props.stage.name),
       (attributes.tableRowsAttributes = props.stage.tableRows.map(row => ({
@@ -67,7 +67,9 @@
   })
 
   const route = useRoute()
-  const { teamColor } = useCompetition(parseInt(route.params.competitionId))
+  const { teamColor } = useCompetition(
+    parseInt(route.params.competitionId.toString())
+  )
 </script>
 
 <template>

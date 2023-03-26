@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const broadcastStore = useBroadcastStore()
 
   const snackbar = ref(false)

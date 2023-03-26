@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const props = defineProps({
     player: { type: Object, required: true },
     loan: { type: Object, required: true }

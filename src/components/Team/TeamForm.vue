@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const props = defineProps({
     record: { type: Object, default: null }
   })
@@ -39,7 +39,7 @@
   const { form, formIsLoading, submitForm } = useForm({
     mutation,
     variables,
-    onSuccess(data) {
+    onSuccess(data: { team: { id: number } }[]) {
       const team = Object.values(data)[0].team
       router.push(`/teams/${team.id}`)
     }

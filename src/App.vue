@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   import { createClient, provideClient } from '@urql/vue'
 
   const { token, currentUser } = useSession()
@@ -16,7 +16,7 @@
 
   const route = useRoute()
   const inPublicPage = computed(() =>
-    ['login', 'register'].includes(route.name)
+    ['login', 'register'].includes(route.name.toString())
   )
 
   const theme = useTheme()

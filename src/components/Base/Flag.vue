@@ -1,10 +1,10 @@
-<script setup>
+<script setup lang="ts">
   const props = defineProps({
     iso: { type: String, required: true },
     size: {
       type: String,
       default: 'm',
-      validator: v => ['s', 'm', 'l', 'xl'].indexOf(v) >= 0
+      validator: (v: string) => ['s', 'm', 'l', 'xl'].indexOf(v) >= 0
     }
   })
 

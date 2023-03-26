@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   import { subDays } from 'date-fns'
 
   const props = defineProps({
@@ -6,17 +6,19 @@
     record: { type: Object, default: null }
   })
 
+  interface LoanAttributes {
+    signedOn?: string
+    startedOn?: string
+    endedOn?: string
+    origin?: string
+    destination?: string
+    wagePercentage?: number
+    transferFee?: number
+    addonClause?: number
+  }
+
   const { team, endOfCurrentSeason } = useTeam()
-  const attributes = reactive({
-    signedOn: null,
-    startedOn: null,
-    endedOn: null,
-    origin: null,
-    destination: null,
-    wagePercentage: null,
-    transferFee: null,
-    addonClause: 0
-  })
+  const attributes: LoanAttributes = reactive({})
   function onOpen() {
     attributes.signedOn = props.record?.signedOn
     attributes.startedOn = props.record?.startedOn ?? team.value.currentlyOn

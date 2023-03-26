@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   defineProps({
     cells: { type: Object, required: true },
     hideEmptyCells: { type: Boolean, default: false }

@@ -1,7 +1,7 @@
-<script setup>
+<script setup lang="ts">
   import _mapKeys from 'lodash.mapkeys'
   import _camelCase from 'lodash.camelcase'
-  import * as models from '~/models'
+  import * as models from '../../models'
 
   const props = defineProps({
     team: { type: Object, required: true }
@@ -40,7 +40,7 @@
   const timeout = ref(null)
 
   function addToBuffer({ type, data, destroyed }) {
-    let buffer = destroyed ? deleteBuffer : insertBuffer
+    const buffer = destroyed ? deleteBuffer : insertBuffer
 
     if (type in buffer) {
       buffer[type].push(data)

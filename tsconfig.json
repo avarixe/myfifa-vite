@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "node",
+    "target": "esnext",
+    "esModuleInterop": true,
+    "types": [
+      "node",
+      "vite/client",
+      "vue/ref-macros",
+      "vite-plugin-pages/client"
+    ],
+    "skipLibCheck": true
+  },
+  "exclude": ["node_modules"]
+}

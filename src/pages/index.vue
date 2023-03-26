@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   import { differenceInYears } from 'date-fns'
 
   const { data } = await useQuery({
@@ -74,12 +74,12 @@
                 :src="badgeUrl(currentTeam)"
                 contain
               />
-              <v-tooltip v-else bottom>
-                <template #activator="{ on }">
-                  <v-icon size="100" v-on="on"> mdi-shield-off-outline </v-icon>
-                </template>
-                <span>Edit Team to upload Badge</span>
-              </v-tooltip>
+              <v-icon v-else size="100">
+                mdi-shield-off-outline
+                <v-tooltip bottom activator="parent">
+                  Edit Team to upload Badge
+                </v-tooltip>
+              </v-icon>
             </v-avatar>
             <div class="w-100">
               <v-card-title class="d-flex align-center">

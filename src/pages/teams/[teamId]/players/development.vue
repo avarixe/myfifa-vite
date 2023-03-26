@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const { data, team, seasonLabel, currentSeason } = await useTeamQuery({
     query: gql`
       query fetchPlayersPage($teamId: ID!) {
@@ -102,7 +102,11 @@
         const playerWithStats = {
           ...player,
           posIdx: player.posIdx,
-          flag: player.flag
+          flag: player.flag,
+          ovrDiff: {},
+          startOvr: 0,
+          valueDiff: {},
+          startValue: 0
         }
 
         const stats = statsByPlayerId[player.id]
@@ -115,7 +119,7 @@
               ((stat.value[1] - stat.value[0]) / stat.value[0]) * 100
           })
           playerWithStats.ovrDiff = ovrDiff
-          playerWithStats.startovr = stats[0].ovr[0]
+          playerWithStats.startOvr = stats[0].ovr[0]
           playerWithStats.valueDiff = valueDiff
           playerWithStats.startValue = stats[0].value[0]
         }
@@ -226,7 +230,7 @@
       </td>
       <td class="text-center">{{ item.pos }}</td>
       <template v-if="metric === 'OVR'">
-        <td class="text-right">{{ item.startovr }}</td>
+        <td class="text-right">{{ item.startOvr }}</td>
         <td
           v-for="(_, season) in new Array(currentSeason + 1)"
           :key="season"

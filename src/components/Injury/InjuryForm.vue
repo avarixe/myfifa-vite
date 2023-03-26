@@ -1,11 +1,21 @@
-<script setup>
+<script setup lang="ts">
   const props = defineProps({
     player: { type: Object, required: true },
     record: { type: Object, default: null }
   })
 
+  interface InjuryAttributes {
+    startedOn?: string
+    endedOn?: string
+    description?: string
+    duration?: {
+      length: number
+      timespan: string
+    }
+  }
+
+  const attributes: InjuryAttributes = reactive({})
   const { team } = useTeam()
-  const attributes = reactive({})
   const durationOn = ref(false)
   function onOpen() {
     attributes.startedOn = props.record?.startedOn ?? team.value.currentlyOn

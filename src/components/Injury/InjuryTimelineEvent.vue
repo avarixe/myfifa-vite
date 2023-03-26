@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   import { formatDistance } from 'date-fns'
 
   const { team } = useTeam()

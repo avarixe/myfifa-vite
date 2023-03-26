@@ -1,9 +1,7 @@
-<script setup>
-  const props = defineProps({
-    cap: { type: Object, required: true }
-  })
+<script setup lang="ts">
+  const props = defineProps<{ cap: CapRecord }>()
 
-  const attributes = reactive({})
+  const attributes: CapAttributes = reactive({})
   watchEffect(() => {
     attributes.pos = props.cap.pos
     attributes.playerId = props.cap.playerId

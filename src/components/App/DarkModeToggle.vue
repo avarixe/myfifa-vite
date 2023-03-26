@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const { currentUser } = useSession()
 
   const { submitForm: toggleMode, formIsLoading } = useForm({

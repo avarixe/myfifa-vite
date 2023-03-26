@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const { currentSeason } = await useTeamQuery({
     query: gql`
       query fetchCompetitionsPage($teamId: ID!) {

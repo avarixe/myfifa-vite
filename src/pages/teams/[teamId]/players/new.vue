@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const { teamId } = await useTeamQuery({
     query: gql`
       query fetchTeam($teamId: ID!) {

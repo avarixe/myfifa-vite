@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const username = ref('')
   const password = ref('')
 

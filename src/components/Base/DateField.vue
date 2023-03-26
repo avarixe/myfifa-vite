@@ -1,8 +1,10 @@
-<script setup>
-  const props = defineProps({
-    modelValue: { type: String, default: null },
-    prefill: { type: String, default: null }
-  })
+<script setup lang="ts">
+  const props = defineProps<{
+    modelValue?: string
+    prefill?: string
+    minDate?: string
+    maxDate?: string
+  }>()
 
   const humanizedValue = computed(() => {
     return formatDate(props.modelValue, 'MMM d, yyyy')
@@ -33,6 +35,8 @@
         auto-apply
         model-type="yyyy-MM-dd"
         week-start="0"
+        :min-date="minDate"
+        :max-date="maxDate"
         :dark="theme.global.current.value.dark"
         :enable-time-picker="false"
         :model-value="modelValue"

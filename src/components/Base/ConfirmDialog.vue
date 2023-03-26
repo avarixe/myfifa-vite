@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   defineProps({
     confirmText: { type: String, required: true },
     confirmColor: { type: String, default: 'primary' }

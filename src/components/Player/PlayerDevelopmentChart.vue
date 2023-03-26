@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   import ApexChart from 'vue3-apexcharts'
 
   const props = defineProps({

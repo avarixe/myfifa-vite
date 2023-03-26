@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   defineProps({
     match: { type: Object, required: true },
     event: { type: Object, required: true },

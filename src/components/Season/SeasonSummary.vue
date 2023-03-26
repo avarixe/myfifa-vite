@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const props = defineProps({
     competitionStats: { type: Array, required: true },
     teamDevelopmentStats: { type: Object, required: true }

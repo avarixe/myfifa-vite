@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const { team, seasonOn } = useTeam()
 
   const props = defineProps({
@@ -46,7 +46,7 @@
   const { form, formIsLoading, submitForm } = useForm({
     mutation,
     variables,
-    onSuccess(data) {
+    onSuccess(data: { match: { id: number } }[]) {
       const match = Object.values(data)[0].match
       router.push(`/teams/${team.value.id}/matches/${match.id}`)
     }

@@ -1,9 +1,16 @@
-<script setup>
-  const props = defineProps({
-    formatter: { type: Function, default: x => x },
-    startValue: { type: [String, Number], default: null },
-    endValue: { type: [String, Number], default: null }
-  })
+<script setup lang="ts">
+  const props = withDefaults(
+    defineProps<{
+      formatter: (any) => number | string
+      startValue?: number
+      endValue?: number
+    }>(),
+    {
+      formatter: x => x,
+      startValue: null,
+      endValue: null
+    }
+  )
 
   const valueIncreased = computed(() => props.startValue <= props.endValue)
   const color = computed(() => (valueIncreased.value ? 'green' : 'red'))
