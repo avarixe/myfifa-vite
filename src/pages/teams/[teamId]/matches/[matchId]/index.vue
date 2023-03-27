@@ -68,12 +68,12 @@
   )
   const readonly = ref(false)
 
-  watchEffect(() => {
+  watch(data, () => {
     if (data.value) {
       matchRepo.save(data.value.match)
     }
     readonly.value = match.value.playedOn < team.value?.currentlyOn
-  })
+  }, { immediate: true })
 
   const nextMatch = computed(() => data.value?.match?.nextMatch)
   const previousMatch = computed(() => data.value?.match?.previousMatch)
