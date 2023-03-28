@@ -1,3 +1,5 @@
+/// <reference types="vitest" />
+
 import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import Pages from 'vite-plugin-pages'
@@ -68,5 +70,16 @@ export default defineConfig({
       resolvers: [Vuetify3Resolver()]
     }),
     eslint()
-  ]
+  ],
+  test: {
+    globals: true,
+    environment: 'happy-dom',
+    setupFiles: 'vuetify.config.js',
+    deps: {
+      inline: ['vuetify']
+    },
+    coverage: {
+      provider: 'istanbul'
+    }
+  }
 })
