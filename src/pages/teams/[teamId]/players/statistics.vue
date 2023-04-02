@@ -33,7 +33,13 @@
   ]
 
   const headers = [
-    { text: 'Name', value: 'name', width: 200, class: 'stick-left' },
+    {
+      text: 'Name',
+      value: 'name',
+      width: 200,
+      class: 'sticky',
+      cellClass: 'sticky'
+    },
     { text: 'Nationality', value: 'nationality', align: 'center', width: 120 },
     {
       text: 'Pos',
@@ -207,17 +213,22 @@
     sort-by="pos"
     class="mt-4"
   >
+    <template #header-nationality>
+      <v-icon>mdi-flag</v-icon>
+    </template>
     <template #item="{ item }">
-      <td class="stick-left">
-        <v-btn
-          :to="`/teams/${team.id}/players/${item.id}`"
-          size="small"
-          variant="text"
-          color="primary"
-          class="text-capitalize"
-        >
-          {{ item.name }}
-        </v-btn>
+      <td class="sticky">
+        <v-sheet class="mx-n4 px-4 my-n2 py-2">
+          <v-btn
+            :to="`/teams/${team.id}/players/${item.id}`"
+            size="small"
+            variant="text"
+            color="primary"
+            class="text-capitalize"
+          >
+            {{ item.name }}
+          </v-btn>
+        </v-sheet>
       </td>
       <td class="text-center">
         <flag :iso="item.flag" :title="item.nationality" class="mr-2" />

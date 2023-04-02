@@ -18,8 +18,8 @@
     {
       text: 'Competition',
       value: 'name',
-      class: 'stick-left',
-      cellClass: 'stick-left'
+      class: 'sticky',
+      cellClass: 'sticky'
     },
     { text: 'Status', value: 'status', class: 'text-center' },
     { text: 'GP', value: 'matchesPlayed', class: 'text-right' },
@@ -86,16 +86,18 @@
     class="mt-2"
   >
     <template #item="{ item }">
-      <td class="stick-left">
-        <v-btn
-          :to="`/teams/${team.id}/competitions/${item.id}`"
-          size="small"
-          variant="text"
-          color="primary"
-          class="text-capitalize"
-        >
-          {{ item.name }}
-        </v-btn>
+      <td class="sticky">
+        <v-sheet class="mx-n4 px-4 my-n2 py-2">
+          <v-btn
+            :to="`/teams/${team.id}/competitions/${item.id}`"
+            size="small"
+            variant="text"
+            color="primary"
+            class="text-capitalize"
+          >
+            {{ item.name }}
+          </v-btn>
+        </v-sheet>
       </td>
       <td class="text-center">
         <v-icon

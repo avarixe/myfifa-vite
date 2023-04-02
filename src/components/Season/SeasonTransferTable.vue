@@ -192,7 +192,7 @@
   )
 
   const headers = [
-    { text: 'Player', value: 'name', class: 'stick-left', width: 200 },
+    { text: 'Player', value: 'name', class: 'sticky', width: 200 },
     {
       text: 'Pos',
       value: 'pos',
@@ -226,16 +226,18 @@
     class="mt-2"
   >
     <template #item="{ item }: { item: TransferTableRow }">
-      <td class="stick-left">
-        <v-btn
-          :to="`/teams/${team.id}/players/${item.playerId}`"
-          size="small"
-          variant="text"
-          color="primary"
-          class="text-capitalize"
-        >
-          {{ item.name }}
-        </v-btn>
+      <td class="sticky">
+        <v-sheet class="mx-n4 px-4 my-n2 py-2">
+          <v-btn
+            :to="`/teams/${team.id}/players/${item.playerId}`"
+            size="small"
+            variant="text"
+            color="primary"
+            class="text-capitalize"
+          >
+            {{ item.name }}
+          </v-btn>
+        </v-sheet>
       </td>
       <td class="text-center">{{ item.pos }}</td>
       <td class="text-center">{{ formatDate(item.date) }}</td>
@@ -268,8 +270,10 @@
     <template #tfoot>
       <tfoot class="font-weight-bold">
         <tr v-if="rows.length">
-          <td class="stick-left">
-            <span class="pl-3">Summary</span>
+          <td class="sticky">
+            <v-sheet class="mx-n4 px-4 my-n2 py-2">
+              <span class="pl-3">Summary</span>
+            </v-sheet>
           </td>
           <td colspan="2" />
           <td colspan="2" class="py-2">

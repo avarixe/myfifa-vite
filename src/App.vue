@@ -45,4 +45,10 @@
   html {
     overflow-y: auto;
   }
+
+  .sticky {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+  }
 </style>
