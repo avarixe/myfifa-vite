@@ -154,7 +154,7 @@
             :class="header.class"
             :style="header.style"
           >
-            <slot :name="`header-${header.value}`" :header="header">
+            <v-sheet class="mx-n4 px-4 my-n2 py-2">
               <v-hover v-slot="{ isHovering, props: hoverProps }">
                 <v-btn
                   v-bind="hoverProps"
@@ -164,7 +164,9 @@
                   :style="{ textTransform: 'inherit' }"
                   @click="changeSortColumn(header)"
                 >
-                  {{ header.text }}
+                  <slot :name="`header-${header.value}`" :header="header">
+                    {{ header.text }}
+                  </slot>
                   <v-icon v-if="sortBy === header.value" end>
                     mdi-chevron-{{ sortDesc ? 'down' : 'up' }}
                   </v-icon>
@@ -178,7 +180,7 @@
                   </v-icon>
                 </v-btn>
               </v-hover>
-            </slot>
+            </v-sheet>
           </th>
         </slot>
       </tr>
@@ -197,9 +199,11 @@
             :class="header.cellClass"
             :style="header.cellStyle"
           >
-            <slot :name="`item-${header.value}`" :item="item">
-              {{ item[header.value] }}
-            </slot>
+            <v-sheet class="mx-n4 px-4 my-n2 py-2">
+              <slot :name="`item-${header.value}`" :item="item">
+                {{ item[header.value] }}
+              </slot>
+            </v-sheet>
           </td>
         </slot>
       </tr>

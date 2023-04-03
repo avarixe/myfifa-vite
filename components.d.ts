@@ -129,6 +129,7 @@ declare module '@vue/runtime-core' {
     VRating: typeof import('vuetify/components')['VRating']
     VRow: typeof import('vuetify/components')['VRow']
     VSelect: typeof import('vuetify/components')['VSelect']
+    VSheet: typeof import('vuetify/components')['VSheet']
     VSnackbar: typeof import('vuetify/components')['VSnackbar']
     VSpacer: typeof import('vuetify/components')['VSpacer']
     VSwitch: typeof import('vuetify/components')['VSwitch']

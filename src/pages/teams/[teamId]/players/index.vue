@@ -82,7 +82,12 @@
   })
 
   const headers = [
-    { value: 'name', text: 'Name' },
+    {
+      value: 'name',
+      text: 'Name',
+      class: 'sticky',
+      cellClass: 'sticky'
+    },
     {
       value: 'nationality',
       text: 'Nationality',
@@ -176,6 +181,9 @@
   </div>
 
   <data-table :headers="headers" :items="rows" sort-by="pos">
+    <template #header-nationality>
+      <v-icon>mdi-flag</v-icon>
+    </template>
     <template #item-name="{ item: player }">
       <v-btn
         variant="text"
