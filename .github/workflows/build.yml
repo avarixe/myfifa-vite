@@ -13,6 +13,6 @@ jobs:
       - name: ESLint
         run: yarn lint
       - name: Prettier
-        run: yarn format
+        run: yarn format:check
       - name: Vue TSC
         run: yarn lint:tsc
