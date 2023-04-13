@@ -49,8 +49,10 @@ export default competitionId => {
         return
       }
 
-      const [, homeLegScore, homePenScore] = scoreRegex.exec(leg.homeScore)
-      const [, awayLegScore, awayPenScore] = scoreRegex.exec(leg.awayScore)
+      const [, homeLegScore, homePenScore] =
+        scoreRegex.exec(leg.homeScore) || []
+      const [, awayLegScore, awayPenScore] =
+        scoreRegex.exec(leg.awayScore) || []
 
       if (homePenScore && awayPenScore) {
         homeScore = parseInt(homePenScore)

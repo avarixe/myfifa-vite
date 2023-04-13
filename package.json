@@ -8,9 +8,11 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "lint": "eslint --ext .js,.ts,.vue --ignore-path .gitignore --fix src",
+    "lint": "eslint --ext .js,.ts,.vue --ignore-path .gitignore src",
+    "lint:fix": "eslint --ext .js,.ts,.vue --ignore-path .gitignore --fix src",
     "lint:tsc": "vue-tsc --noEmit",
-    "format": "prettier .  --write"
+    "format": "prettier .  --write",
+    "format:check": "prettier .  --check"
   },
   "dependencies": {
     "@urql/vue": "^1.0.2",
