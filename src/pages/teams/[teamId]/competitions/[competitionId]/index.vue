@@ -42,7 +42,7 @@
 
   const readonly = ref(false)
   watchEffect(() => {
-    readonly.value = !!competition.value.champion
+    readonly.value = !!competition.value?.champion
   })
 
   const matchesFilters = computed(() => ({

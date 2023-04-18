@@ -23,16 +23,16 @@
   interface Props {
     headers: Header[]
     items: object[]
-    options: TableOptions
-    itemKey: string
-    loading: boolean
+    options?: TableOptions
+    itemKey?: string
+    loading?: boolean
     // Pagination
-    itemsPerPage: number
-    itemsPerPageOptions: number[]
+    itemsPerPage?: number
+    itemsPerPageOptions?: number[]
     // Sorting
     sortBy?: string
-    sortDesc: boolean
-    mustSort: boolean
+    sortDesc?: boolean
+    mustSort?: boolean
     // Server Side processing
     serverItemsLength?: number
     showPaginationOptions: boolean
