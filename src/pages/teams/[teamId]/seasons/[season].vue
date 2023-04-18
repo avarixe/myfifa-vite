@@ -1,6 +1,6 @@
 <script setup lang="ts">
   const route = useRoute()
-  const season = computed(() => parseInt(route.params.season.toString()))
+  const season = computed(() => parseInt(route.params.season?.toString()))
   const { data, team, seasonLabel, currentSeason } = await useTeamQuery({
     query: gql`
       query fetchSeason($teamId: ID!, $season: Int!) {
