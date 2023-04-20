@@ -7,7 +7,7 @@ export class User extends Model {
   static fields() {
     return {
       // Primary/Foreign keys
-      id: this.number(0),
+      id: this.attr(0),
 
       // Database fields
       fullName: this.string(''),

@@ -7,8 +7,8 @@ export class Stage extends Model {
   static fields() {
     return {
       // Primary/Foreign keys
-      id: this.number(0),
-      competitionId: this.number(0),
+      id: this.attr(0),
+      competitionId: this.attr(0),
 
       // Database fields
       name: this.string(''),

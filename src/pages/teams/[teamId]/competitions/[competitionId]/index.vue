@@ -101,7 +101,7 @@
 
   <section id="matches" class="mt-4">
     <div class="text-h4 mb-2 text-primary font-weight-light">
-      <v-icon start large>mdi-table</v-icon>
+      <v-icon start>mdi-table</v-icon>
       Stages
     </div>
 
@@ -124,7 +124,7 @@
 
   <section id="matches" class="mt-4">
     <div class="text-h4 mb-2 text-primary font-weight-light">
-      <v-icon start large>mdi-soccer-field</v-icon>
+      <v-icon start>mdi-soccer-field</v-icon>
       Matches
     </div>
 

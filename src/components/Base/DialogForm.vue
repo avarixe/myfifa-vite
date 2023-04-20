@@ -16,7 +16,7 @@
 
   const dialog = ref(false)
   const emit = defineEmits(['open', 'close'])
-  watchEffect(() => {
+  watch(dialog, () => {
     if (dialog.value) {
       document.documentElement.style.overflow = 'hidden'
       emit('open')

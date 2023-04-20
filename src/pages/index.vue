@@ -68,15 +68,14 @@
       <v-col cols="12">
         <v-card v-if="currentTeam">
           <div class="d-sm-flex flex-no-wrap text-center">
-            <v-avatar class="ma-3" size="250" tile>
+            <v-avatar class="ma-3" size="250" rounded="0">
               <v-img
                 v-if="currentTeam.badgePath"
                 :src="badgeUrl(currentTeam)"
-                contain
               />
               <v-icon v-else size="100">
                 mdi-shield-off-outline
-                <v-tooltip bottom activator="parent">
+                <v-tooltip location="bottom" activator="parent">
                   Edit Team to upload Badge
                 </v-tooltip>
               </v-icon>
@@ -172,8 +171,8 @@
         sm="3"
       >
         <v-card class="text-center" @click="teamIndex = i">
-          <v-avatar class="ma-3" tile>
-            <v-img v-if="team.badgePath" :src="badgeUrl(team)" contain />
+          <v-avatar class="ma-3" rounded="0">
+            <v-img v-if="team.badgePath" :src="badgeUrl(team)" />
             <div v-else>{{ team.name }}</div>
           </v-avatar>
         </v-card>

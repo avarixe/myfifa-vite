@@ -34,7 +34,7 @@
 </script>
 
 <template>
-  <v-list dense>
+  <v-list density="compact">
     <template v-if="teamPlayed">
       <v-list-subheader>Players</v-list-subheader>
       <v-list-item v-for="cap in sortedCaps" :key="cap.id" v-ripple>

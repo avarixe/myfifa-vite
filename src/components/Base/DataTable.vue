@@ -233,11 +233,7 @@
     <slot name="tfoot" />
     <template v-if="showPaginationOptions" #bottom>
       <div class="d-flex align-center px-4">
-        <v-btn
-          variant="text"
-          append-icon="mdi-menu-down"
-          class="border-b"
-        >
+        <v-btn variant="text" append-icon="mdi-menu-down" class="border-b">
           {{ showAll ? 'All' : itemsPerPage }}
           <v-menu activator="parent">
             <v-list density="compact">

@@ -7,9 +7,9 @@ export class Booking extends Model {
   static fields() {
     return {
       // Primary/Foreign keys
-      id: this.number(0),
-      matchId: this.number(0),
-      playerId: this.number(null),
+      id: this.attr(0),
+      matchId: this.attr(0),
+      playerId: this.attr(null),
 
       // Database fields
       playerName: this.string(''),

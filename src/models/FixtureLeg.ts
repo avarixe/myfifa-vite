@@ -7,8 +7,8 @@ export class FixtureLeg extends Model {
   static fields() {
     return {
       // Primary/Foreign keys
-      id: this.number(0),
-      fixtureId: this.number(0),
+      id: this.attr(0),
+      fixtureId: this.attr(0),
 
       // Database fields
       homeScore: this.string(''),

@@ -61,7 +61,6 @@
         <v-rating
           v-model="rating"
           hover
-          :background-color="color[rating] || 'grey'"
           :color="color[rating] || 'grey'"
           @input="onInput"
         >

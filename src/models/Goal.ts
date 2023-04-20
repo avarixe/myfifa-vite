@@ -7,10 +7,10 @@ export class Goal extends Model {
   static fields() {
     return {
       // Primary/Foreign keys
-      id: this.number(0),
-      matchId: this.number(0),
-      playerId: this.number(null),
-      assistId: this.number(null),
+      id: this.attr(0),
+      matchId: this.attr(0),
+      playerId: this.attr(null),
+      assistId: this.attr(null),
 
       // Database fields
       playerName: this.string(''),

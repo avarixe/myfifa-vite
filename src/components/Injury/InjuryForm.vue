@@ -45,7 +45,7 @@
     props.record ? 'Update Injury' : 'Record New Injury'
   )
 
-  watchEffect(() => {
+  watch(durationOn, () => {
     if (durationOn.value) {
       attributes.duration = {
         length: null,
@@ -117,9 +117,9 @@
             v-model="attributes.duration.timespan"
             :items="timespans"
             label="Timespan"
-            append-outer-icon="mdi-calendar"
+            append-icon="mdi-calendar"
             :rules="rulesFor.durationTimespan"
-            @click:append-outer="durationOn = false"
+            @click:append="durationOn = false"
           />
         </v-col>
       </template>
@@ -128,11 +128,11 @@
           v-model="attributes.endedOn"
           label="Recovery Date"
           prepend-icon="mdi-calendar"
-          :append-outer-icon="record ? null : 'mdi-ruler'"
+          :append-icon="record ? null : 'mdi-ruler'"
           :min="attributes.startedOn"
           :prefill="team.currentlyOn"
           required
-          @click:append-outer="durationOn = true"
+          @click:append="durationOn = true"
         />
       </v-col>
       <v-col cols="12">

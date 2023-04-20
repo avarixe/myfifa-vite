@@ -225,7 +225,9 @@
     sort-by="date"
     class="mt-2"
   >
-    <template #item="{ item, rowColor }: { item: TransferTableRow, rowColor: string }">
+    <template
+      #item="{ item, rowColor }: { item: TransferTableRow, rowColor: string }"
+    >
       <td class="sticky">
         <v-sheet :class="`mx-n4 px-4 ${rowColor}`">
           <v-btn
