@@ -225,9 +225,9 @@
     sort-by="date"
     class="mt-2"
   >
-    <template #item="{ item }: { item: TransferTableRow }">
+    <template #item="{ item, rowColor }: { item: TransferTableRow, rowColor: string }">
       <td class="sticky">
-        <v-sheet class="mx-n4 px-4 my-n2 py-2">
+        <v-sheet :class="`mx-n4 px-4 ${rowColor}`">
           <v-btn
             :to="`/teams/${team.id}/players/${item.playerId}`"
             size="small"

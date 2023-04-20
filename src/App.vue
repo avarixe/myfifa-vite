@@ -1,9 +1,15 @@
 <script setup lang="ts">
-  import { createClient, provideClient } from '@urql/vue'
+  import {
+    createClient,
+    provideClient,
+    cacheExchange,
+    fetchExchange
+  } from '@urql/vue'
 
   const { token, currentUser } = useSession()
   const client = createClient({
     url: `${import.meta.env.VITE_API_URL}/graphql`,
+    exchanges: [cacheExchange, fetchExchange],
     requestPolicy: 'network-only',
     fetchOptions: () => ({
       headers: { authorization: token.value ? `Bearer ${token.value}` : '' }

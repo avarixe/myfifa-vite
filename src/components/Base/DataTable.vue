@@ -35,7 +35,7 @@
     mustSort?: boolean
     // Server Side processing
     serverItemsLength?: number
-    showPaginationOptions: boolean
+    showPaginationOptions?: boolean
   }
 
   const props = withDefaults(defineProps<Props>(), {
@@ -141,6 +141,11 @@
     },
     { deep: true }
   )
+
+  const { currentUser } = useSession()
+  const rowHoverColor = computed(
+    () => `bg-grey-${currentUser.value.darkMode ? 'darken' : 'lighten'}-3`
+  )
 </script>
 
 <template>
@@ -154,7 +159,7 @@
             :class="header.class"
             :style="header.style"
           >
-            <v-sheet class="mx-n4 px-4 my-n2 py-2">
+            <v-sheet class="mx-n4 px-4">
               <v-hover v-slot="{ isHovering, props: hoverProps }">
                 <v-btn
                   v-bind="hoverProps"
@@ -191,22 +196,32 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="item in pageItems" :key="item[itemKey]">
-        <slot name="item" :item="item">
-          <td
-            v-for="(header, j) in headers"
-            :key="j"
-            :class="header.cellClass"
-            :style="header.cellStyle"
-          >
-            <v-sheet class="mx-n4 px-4 my-n2 py-2">
-              <slot :name="`item-${header.value}`" :item="item">
-                {{ item[header.value] }}
-              </slot>
-            </v-sheet>
-          </td>
-        </slot>
-      </tr>
+      <v-hover v-for="item in pageItems" :key="item[itemKey]">
+        <template #default="{ isHovering, props: hoverProps }">
+          <tr v-bind="hoverProps" :class="isHovering ? rowHoverColor : ''">
+            <slot
+              name="item"
+              :item="item"
+              :row-color="isHovering ? rowHoverColor : ''"
+            >
+              <td
+                v-for="(header, j) in headers"
+                :key="j"
+                :class="header.cellClass"
+                :style="header.cellStyle"
+              >
+                <v-sheet
+                  :class="`mx-n4 px-4 ${isHovering ? rowHoverColor : ''}`"
+                >
+                  <slot :name="`item-${header.value}`" :item="item">
+                    {{ item[header.value] }}
+                  </slot>
+                </v-sheet>
+              </td>
+            </slot>
+          </tr>
+        </template>
+      </v-hover>
       <tr v-if="pageItems.length === 0">
         <td
           :colspan="headers.length"
@@ -219,7 +234,6 @@
     <template v-if="showPaginationOptions" #bottom>
       <div class="d-flex align-center px-4">
         <v-btn
-          round
           variant="text"
           append-icon="mdi-menu-down"
           class="border-b"

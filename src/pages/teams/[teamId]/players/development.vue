@@ -222,9 +222,9 @@
     <template #header-nationality>
       <v-icon>mdi-flag</v-icon>
     </template>
-    <template #item="{ item }">
+    <template #item="{ item, rowColor }">
       <td class="sticky">
-        <v-sheet class="mx-n4 px-4 my-n2 py-2">
+        <v-sheet :class="`mx-n4 px-4 ${rowColor}`">
           <v-btn
             :to="`/teams/${team.id}/players/${item.id}`"
             size="small"
