@@ -136,14 +136,14 @@
       <v-btn
         :icon="`mdi-${editing ? 'close' : 'pencil'}`"
         variant="text"
-        small
+        size="small"
         @click="toggleEditing"
       />
       <v-btn
         v-if="editing"
         icon="mdi-content-save"
         variant="text"
-        small
+        size="small"
         @click="submitForm"
       />
       <remove-button

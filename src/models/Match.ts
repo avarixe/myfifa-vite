@@ -7,8 +7,8 @@ export class Match extends Model {
   static fields() {
     return {
       // Primary/Foreign keys
-      id: this.number(0),
-      teamId: this.number(0),
+      id: this.attr(0),
+      teamId: this.attr(0),
 
       // Database fields
       home: this.string(''),

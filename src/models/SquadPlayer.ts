@@ -7,9 +7,9 @@ export class SquadPlayer extends Model {
   static fields() {
     return {
       // Primary/Foreign keys
-      id: this.number(0),
-      playerId: this.number(0),
-      squadId: this.number(0),
+      id: this.attr(0),
+      playerId: this.attr(0),
+      squadId: this.attr(0),
 
       // Database fields
       pos: this.string(''),

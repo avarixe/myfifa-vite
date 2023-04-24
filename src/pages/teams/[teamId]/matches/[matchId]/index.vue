@@ -172,7 +172,7 @@
 
   <section id="lineup" class="mt-4">
     <div class="text-h4 mb-2 text-primary font-weight-light">
-      <v-icon start large>mdi-account-multiple</v-icon>
+      <v-icon start>mdi-account-multiple</v-icon>
       Lineup
     </div>
 
@@ -204,7 +204,7 @@
 
   <section id="timeline" class="mt-4">
     <div class="text-h4 mb-2 text-primary font-weight-light">
-      <v-icon start large>mdi-timeline</v-icon>
+      <v-icon start>mdi-timeline</v-icon>
       Timeline
     </div>
 

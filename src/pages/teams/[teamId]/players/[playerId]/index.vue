@@ -188,7 +188,7 @@
 
   <section id="performance">
     <div class="text-h4 my-3 text-info font-weight-light">
-      <v-icon start large>mdi-run</v-icon>
+      <v-icon start>mdi-run</v-icon>
       Performance
     </div>
 
@@ -225,7 +225,7 @@
 
   <section id="timeline">
     <div class="text-h4 my-3 text-info font-weight-light">
-      <v-icon start large>mdi-timeline</v-icon>
+      <v-icon start>mdi-timeline</v-icon>
       Timeline
     </div>
 
@@ -234,7 +234,7 @@
 
   <section id="development">
     <div class="text-h4 my-3 text-info font-weight-light">
-      <v-icon start large>mdi-chart-line</v-icon>
+      <v-icon start>mdi-chart-line</v-icon>
       Development
     </div>
 

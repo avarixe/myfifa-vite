@@ -42,8 +42,14 @@
     color="deep-orange"
   >
     <template #heading>
-      <v-chip v-if="!event.signedOn" color="error" small label outlined>
-        <v-icon left small>mdi-pencil-off</v-icon>
+      <v-chip
+        v-if="!event.signedOn"
+        color="error"
+        size="small"
+        label
+        variant="outlined"
+      >
+        <v-icon start size="small">mdi-pencil-off</v-icon>
         UNSIGNED
       </v-chip>
       <template v-if="event.startedOn > team.currentlyOn">
@@ -97,8 +103,8 @@
     <template #additional-actions>
       <v-btn
         v-if="buyOptionAvailable"
-        text
-        small
+        variant="text"
+        size="small"
         :color="event.origin === team.name ? 'red' : 'green'"
       >
         Activate Buy Option

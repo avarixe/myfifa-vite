@@ -7,8 +7,8 @@ export class TableRow extends Model {
   static fields() {
     return {
       // Primary/Foreign keys
-      id: this.number(0),
-      stageId: this.number(0),
+      id: this.attr(0),
+      stageId: this.attr(0),
 
       // Database fields
       name: this.string(''),

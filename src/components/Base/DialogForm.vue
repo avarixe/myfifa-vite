@@ -16,7 +16,7 @@
 
   const dialog = ref(false)
   const emit = defineEmits(['open', 'close'])
-  watchEffect(() => {
+  watch(dialog, () => {
     if (dialog.value) {
       document.documentElement.style.overflow = 'hidden'
       emit('open')
@@ -65,7 +65,7 @@
       @submit.prevent="submitForm"
     >
       <v-card :style="{ maxHeight: '75vh' }">
-        <v-toolbar dense :extended="formError.length > 0">
+        <v-toolbar density="compact" :extended="formError.length > 0">
           <slot name="header">
             <v-toolbar-title>
               <v-icon v-if="titleIcon" start>{{ titleIcon }}</v-icon>

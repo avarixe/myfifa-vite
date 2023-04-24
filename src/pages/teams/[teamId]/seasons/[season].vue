@@ -84,7 +84,7 @@
 
   <section id="summary">
     <div class="text-h4 my-3 text-info font-weight-light">
-      <v-icon start large>mdi-calendar</v-icon>
+      <v-icon start>mdi-calendar</v-icon>
       Summary
     </div>
 
@@ -96,7 +96,7 @@
 
   <section id="competitions">
     <div class="text-h4 my-3 text-info font-weight-light">
-      <v-icon start large>mdi-trophy</v-icon>
+      <v-icon start>mdi-trophy</v-icon>
       Competitions
     </div>
 
@@ -108,7 +108,7 @@
 
   <section id="transfers">
     <div class="text-h4 my-3 text-info font-weight-light">
-      <v-icon start large>mdi-airplane-takeoff</v-icon>
+      <v-icon start>mdi-airplane-takeoff</v-icon>
       Transfers
     </div>
 

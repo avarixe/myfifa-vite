@@ -7,8 +7,8 @@ export class Contract extends Model {
   static fields() {
     return {
       // Primary/Foreign keys
-      id: this.number(0),
-      playerId: this.number(0),
+      id: this.attr(0),
+      playerId: this.attr(0),
 
       // Database fields
       signedOn: this.string(''),

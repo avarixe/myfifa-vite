@@ -30,7 +30,7 @@
 </script>
 
 <template>
-  <v-menu offset-y offset-overflow activator="parent">
+  <v-menu activator="parent">
     <v-list>
       <v-list-item
         v-for="squad in squads"

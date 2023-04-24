@@ -7,8 +7,8 @@ export class Squad extends Model {
   static fields() {
     return {
       // Primary/Foreign keys
-      id: this.number(0),
-      teamId: this.number(0),
+      id: this.attr(0),
+      teamId: this.attr(0),
 
       // Database fields
       name: this.string(''),
