@@ -20,13 +20,12 @@
     <v-list-subheader>
       <v-btn
         :to="`/teams/${team.id}/seasons/${season}`"
+        :text="seasonLabel(season)"
         size="x-large"
         color="primary"
         variant="text"
         class="text-h4"
-      >
-        {{ seasonLabel(season) }}
-      </v-btn>
+      />
     </v-list-subheader>
     <v-list-item
       v-if="season === currentSeason"

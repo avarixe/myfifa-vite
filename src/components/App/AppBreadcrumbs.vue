@@ -13,7 +13,7 @@
       const prevStep = routeSteps[i - 1]
       switch (step) {
         case '': // root
-          return { to: '/', text: 'Home' }
+          return { to: '/', title: 'Home' }
         case 'teams':
         case 'players':
         case 'matches':
@@ -22,46 +22,46 @@
         case 'account':
         case 'development':
         case 'statistics':
-          return { to, text: capitalize(step) }
+          return { to, title: capitalize(step) }
         case 'seasons':
           return {
             to: to.replace(/seasons/, 'competitions'),
-            text: capitalize(step)
+            title: capitalize(step)
           }
         case 'new':
           return {
             to,
-            text: `New ${capitalize(prevStep).replace(/e?s$/, '')}`
+            title: `New ${capitalize(prevStep).replace(/e?s$/, '')}`
           }
         case 'edit': {
           const twoStepsAgo = routeSteps[i - 2]
           return {
             to,
-            text: `Edit ${capitalize(twoStepsAgo).replace(/e?s$/, '')}`
+            title: `Edit ${capitalize(twoStepsAgo).replace(/e?s$/, '')}`
           }
         }
         default:
           switch (prevStep) {
             case 'teams': {
               const team = teamRepo.find(parseInt(step))
-              return { to, text: team?.name }
+              return { to, title: team?.name }
             }
             case 'players': {
               const player = playerRepo.find(parseInt(step))
-              return { to, text: player?.name }
+              return { to, title: player?.name }
             }
             case 'matches': {
               const match = matchRepo.find(parseInt(step))
-              return { to, text: `${match?.home} v ${match?.away}` }
+              return { to, title: `${match?.home} v ${match?.away}` }
             }
             case 'competitions': {
               const competition = competitionRepo.find(parseInt(step))
-              return { to, text: competition?.name }
+              return { to, title: competition?.name }
             }
             case 'seasons':
-              return { to, text: seasonLabel(parseInt(step)) }
+              return { to, title: seasonLabel(parseInt(step)) }
             default:
-              return { to, text: step }
+              return { to, title: step }
           }
       }
     })

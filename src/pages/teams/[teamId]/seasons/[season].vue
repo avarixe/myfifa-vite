@@ -68,17 +68,15 @@
     <v-col cols="12">
       <v-btn
         :to="`/teams/${team.id}/seasons/${season - 1}`"
+        text="Previous Season"
         :disabled="season === 0"
-      >
-        Previous Season
-      </v-btn>
+      />
       &nbsp;
       <v-btn
         :to="`/teams/${team.id}/seasons/${season + 1}`"
+        text="Next Season"
         :disabled="season >= currentSeason"
-      >
-        Next Season
-      </v-btn>
+      />
     </v-col>
   </v-row>
 

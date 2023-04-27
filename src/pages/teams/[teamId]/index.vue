@@ -92,10 +92,9 @@
         <v-card-actions class="justify-center">
           <v-btn
             :to="`/teams/${team.id}/matches/${lastMatch.id}`"
+            text="Go To Match"
             color="primary"
-          >
-            Go To Match
-          </v-btn>
+          />
         </v-card-actions>
       </v-card>
     </v-col>
@@ -119,12 +118,11 @@
               <td>
                 <v-btn
                   :to="`/teams/${team.id}/players/${player.id}`"
+                  :text="player.name"
                   variant="text"
                   color="primary"
                   class="text-capitalize"
-                >
-                  {{ player.name }}
-                </v-btn>
+                />
               </td>
               <td class="text-center">{{ player.pos }}</td>
               <td>{{ player.currentInjury.description }}</td>
@@ -168,12 +166,11 @@
               <td>
                 <v-btn
                   :to="`/teams/${team.id}/players/${player.id}`"
+                  :text="player.name"
                   variant="text"
                   color="primary"
                   class="text-capitalize"
-                >
-                  {{ player.name }}
-                </v-btn>
+                />
               </td>
               <td class="text-center">{{ player.pos }}</td>
               <td class="text-right">
@@ -218,12 +215,11 @@
               <td>
                 <v-btn
                   :to="`/teams/${team.id}/players/${player.id}`"
+                  :text="player.name"
                   variant="text"
                   color="primary"
                   class="text-capitalize"
-                >
-                  {{ player.name }}
-                </v-btn>
+                />
               </td>
               <td class="text-center">{{ player.pos }}</td>
               <td class="text-right">

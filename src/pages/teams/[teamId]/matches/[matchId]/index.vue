@@ -118,15 +118,14 @@
     </div>
     <v-btn
       :to="`/teams/${team?.id}/matches/${previousMatch?.id}`"
+      text="Previous"
       :disabled="!previousMatch"
-    >
-      Previous
-    </v-btn>
+    />
     &nbsp;
     <v-btn v-if="nextMatch" :to="`/teams/${team?.id}/matches/${nextMatch?.id}`">
       Next
     </v-btn>
-    <v-btn v-else :to="`/teams/${team?.id}/matches/new`"> New </v-btn>
+    <v-btn v-else :to="`/teams/${team?.id}/matches/new`">New</v-btn>
     &nbsp;
     <template v-if="!readonly">
       <v-btn :to="`/teams/${team?.id}/matches/${match.id}/edit`">Edit</v-btn>

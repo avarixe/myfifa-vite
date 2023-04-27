@@ -176,7 +176,7 @@
 <template>
   <div class="text-h4 mb-2">Player Development</div>
 
-  <v-btn :to="`/teams/${team.id}/players/statistics`"> Statistics </v-btn>
+  <v-btn :to="`/teams/${team.id}/players/statistics`">Statistics</v-btn>
 
   <div class="d-flex mt-2">
     <v-btn-toggle v-model="filter" variant="outlined">
@@ -227,13 +227,12 @@
         <v-sheet :class="`mx-n4 px-4 ${rowColor}`">
           <v-btn
             :to="`/teams/${team.id}/players/${item.id}`"
+            :text="item.name"
             size="small"
             variant="text"
             color="primary"
             class="text-capitalize"
-          >
-            {{ item.name }}
-          </v-btn>
+          />
         </v-sheet>
       </td>
       <td class="text-center">
