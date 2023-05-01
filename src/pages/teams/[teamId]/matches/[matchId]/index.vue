@@ -1,4 +1,8 @@
 <script setup lang="ts">
+  import { Match } from '~/models'
+
+  defineProps<{ teamId: string; matchId: string }>()
+
   const route = useRoute()
   const teamId = computed(() => parseInt(route.params.teamId.toString()))
 
@@ -60,7 +64,7 @@
   })
 
   const matchRepo = useRepo(Match)
-  const match: Ref<MatchRecord> = computed(() =>
+  const match: Ref<Match> = computed(() =>
     matchRepo
       .withAll()
       .with('caps', query => query.with('player'))

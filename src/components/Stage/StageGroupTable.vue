@@ -1,7 +1,9 @@
 <script setup lang="ts">
+  import { Stage } from '~/models'
+
   const props = withDefaults(
     defineProps<{
-      stage: StageRecord
+      stage: Stage
       readonly?: boolean
       isNamed?: boolean
     }>(),

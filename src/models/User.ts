@@ -1,26 +1,17 @@
 import { Model } from 'pinia-orm'
+import { Attr, Str, Bool, Cast } from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
 
-export class User extends Model {
+export default class User extends Model {
   static entity = 'User'
 
-  static fields() {
-    return {
-      // Primary/Foreign keys
-      id: this.attr(0),
+  // Primary/Foreign keys
+  @Cast(() => NumberCast) @Attr(0) declare id: number
 
-      // Database fields
-      fullName: this.string(''),
-      username: this.string(''),
-      email: this.string(''),
-      admin: this.boolean(false),
-      darkMode: this.boolean(false)
-    }
-  }
-
-  static casts() {
-    return {
-      id: NumberCast
-    }
-  }
+  // Database fields
+  @Str('') declare fullName: string
+  @Str('') declare username: string
+  @Str('') declare email: string
+  @Bool(false) declare admin: boolean
+  @Bool(false) declare darkMode: boolean
 }

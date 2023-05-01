@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  defineProps<{ teamId: string; season: string }>()
+
   const route = useRoute()
   const season = computed(() => parseInt(route.params.season?.toString()))
   const { data, team, seasonLabel, currentSeason } = await useTeamQuery({

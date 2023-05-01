@@ -1,7 +1,9 @@
 <script setup lang="ts">
+  import { Player, Transfer } from '~/models'
+
   const props = defineProps<{
-    player: PlayerRecord
-    record?: TransferRecord
+    player: Player
+    record?: Transfer
   }>()
 
   const { team } = useTeam()

@@ -1,9 +1,11 @@
 <script setup lang="ts">
+  import { Player, Transfer } from '~/models'
+
   const { team } = useTeam()
 
   const props = defineProps<{
-    player: PlayerRecord
-    event: TransferRecord
+    player: Player
+    event: Transfer
   }>()
 
   const transferOut = computed(() => props.event.origin === team.value.name)

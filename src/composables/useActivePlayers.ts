@@ -1,3 +1,5 @@
+import { Player } from '~/models'
+
 export default () => {
   const { teamId } = useTeam()
   const playerRepo = useRepo(Player)

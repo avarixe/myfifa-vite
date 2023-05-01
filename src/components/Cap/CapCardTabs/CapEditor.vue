@@ -1,5 +1,7 @@
 <script setup lang="ts">
-  const props = defineProps<{ cap: CapRecord }>()
+  import { Cap } from '~/models'
+
+  const props = defineProps<{ cap: Cap }>()
 
   const attributes: CapAttributes = reactive({})
   watchEffect(() => {

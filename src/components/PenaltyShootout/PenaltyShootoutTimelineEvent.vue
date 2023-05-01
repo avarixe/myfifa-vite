@@ -1,7 +1,9 @@
 <script setup lang="ts">
+  import { Match, PenaltyShootout } from '~/models'
+
   const props = defineProps<{
-    match: MatchRecord
-    event: PenaltyShootoutRecord
+    match: Match
+    event: PenaltyShootout
     readonly?: boolean
   }>()
 

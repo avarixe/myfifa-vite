@@ -1,8 +1,9 @@
 <script setup lang="ts">
   import ApexChart from 'vue3-apexcharts'
+  import { Contract, Player } from '~/models'
 
   const props = defineProps<{
-    player: PlayerRecord
+    player: Player
   }>()
 
   const contractRepo = useRepo(Contract)

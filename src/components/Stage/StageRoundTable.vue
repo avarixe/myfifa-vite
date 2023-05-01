@@ -1,7 +1,9 @@
 <script setup lang="ts">
+  import { Stage } from '~/models'
+
   const props = withDefaults(
     defineProps<{
-      stage: StageRecord
+      stage: Stage
       readonly?: boolean
       isNamed?: boolean
     }>(),
@@ -28,9 +30,7 @@
     resetAttributes()
   }
 
-  const { previousRoundTeams } = useCompetition(
-    parseInt(props.stage.competitionId)
-  )
+  const { previousRoundTeams } = useCompetition(props.stage.competitionId)
   const teamOptions = computed(() => previousRoundTeams(props.stage))
 
   function addFixture() {

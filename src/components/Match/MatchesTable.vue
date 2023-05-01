@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { Match } from '~/models'
+
   const props = withDefaults(defineProps<{ filters?: MatchFilters }>(), {
     filters: () => ({
       season: null,

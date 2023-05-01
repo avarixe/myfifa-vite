@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  defineProps<{ teamId: string }>()
+
   const { teamId } = await useTeamQuery({
     query: gql`
       query fetchTeam($teamId: ID!) {

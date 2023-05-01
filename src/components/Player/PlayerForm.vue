@@ -1,9 +1,11 @@
 <script setup lang="ts">
+  import { Player } from '~/models'
+
   const { team } = useTeam()
 
   const props = defineProps<{
     teamId?: number
-    record?: PlayerRecord
+    record?: Player
   }>()
 
   const attributes = reactive({

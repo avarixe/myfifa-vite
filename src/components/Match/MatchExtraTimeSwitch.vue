@@ -1,6 +1,8 @@
 <script setup lang="ts">
+  import { Match } from '~/models'
+
   const props = defineProps<{
-    match: MatchRecord
+    match: Match
   }>()
 
   const { formIsLoading: loading, submitForm } = useForm({

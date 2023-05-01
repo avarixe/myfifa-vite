@@ -1,7 +1,9 @@
 <script setup lang="ts">
+  import { Match, Substitution } from '~/models'
+
   defineProps<{
-    match: MatchRecord
-    event: SubstitutionRecord
+    match: Match
+    event: Substitution
     readonly?: boolean
   }>()
 </script>

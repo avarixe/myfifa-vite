@@ -1,6 +1,8 @@
 <script setup lang="ts">
+  import { Match, Squad } from '~/models'
+
   const props = defineProps<{
-    match: MatchRecord
+    match: Match
   }>()
 
   const { team } = useTeam()

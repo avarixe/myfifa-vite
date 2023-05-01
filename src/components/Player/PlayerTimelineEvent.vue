@@ -3,6 +3,7 @@
   import InjuryForm from '~/components/Injury/InjuryForm.vue'
   import LoanForm from '~/components/Loan/LoanForm.vue'
   import TransferForm from '~/components/Transfer/TransferForm.vue'
+  import { Player, Contract, Injury, Loan, Transfer } from '~/models'
 
   const eventForm = {
     Contract: ContractForm,
@@ -12,11 +13,8 @@
   }
 
   defineProps<{
-    player: PlayerRecord
-    event: {
-      id: number
-      timelineType: 'Contract' | 'Injury' | 'Loan' | 'Transfer'
-    }
+    player: Player
+    event: Contract | Injury | Loan | Transfer
     title: string
     icon: string
     color: string

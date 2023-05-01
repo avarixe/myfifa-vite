@@ -2,6 +2,7 @@
   import BookingTimelineEvent from '~/components/Booking/BookingTimelineEvent.vue'
   import GoalTimelineEvent from '~/components/Goal/GoalTimelineEvent.vue'
   import SubstitutionTimelineEvent from '~/components/Substitution/SubstitutionTimelineEvent.vue'
+  import { Match } from '~/models'
 
   const eventComponent = {
     Booking: BookingTimelineEvent,
@@ -10,7 +11,7 @@
   }
 
   const props = defineProps<{
-    match: MatchRecord
+    match: Match
     readonly?: boolean
   }>()
 

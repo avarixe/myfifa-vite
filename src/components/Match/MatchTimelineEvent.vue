@@ -2,6 +2,7 @@
   import BookingForm from '~/components/Booking/BookingForm.vue'
   import GoalForm from '~/components/Goal/GoalForm.vue'
   import SubstitutionForm from '~/components/Substitution/SubstitutionForm.vue'
+  import { Match, Goal, Booking, Substitution } from '~/models'
 
   const eventForm = {
     Booking: BookingForm,
@@ -11,8 +12,8 @@
 
   const props = withDefaults(
     defineProps<{
-      match: MatchRecord
-      event: MatchEvent
+      match: Match
+      event: Goal | Booking | Substitution
       readonly: boolean
     }>(),
     { readonly: false }
@@ -21,7 +22,7 @@
   const { team } = useTeam()
 
   const teamIsHome = computed(() => {
-    if (props.event.constructor.entity === 'Substitution') {
+    if (props.event.timelineType === 'Substitution') {
       return team.value.name === props.match.home
     } else {
       return props.event.home

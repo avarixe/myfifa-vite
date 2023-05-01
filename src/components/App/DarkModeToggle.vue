@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { User } from '~/models'
+
   const { currentUser } = useSession()
 
   const { submitForm: toggleMode, formIsLoading } = useForm({

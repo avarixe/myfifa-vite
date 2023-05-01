@@ -1,42 +1,37 @@
 import { Model } from 'pinia-orm'
+import {
+  Attr,
+  Str,
+  Num,
+  Bool,
+  BelongsTo,
+  Cast
+} from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
+import Player from './Player'
 
-export class Substitution extends Model {
+export default class Substitution extends Model {
   static entity = 'Substitution'
 
-  static fields() {
-    return {
-      // Primary/Foreign keys
-      id: this.attr(0),
-      matchId: this.attr(0),
-      playerId: this.attr(0),
-      replacementId: this.attr(0),
+  // Primary/Foreign keys
+  @Cast(() => NumberCast) @Attr(0) declare id: number
+  @Cast(() => NumberCast) @Attr(0) declare matchId: number
+  @Cast(() => NumberCast) @Attr(0) declare playerId: number
+  @Cast(() => NumberCast) @Attr(0) declare replacementId: number
 
-      // Database fields
-      playerName: this.string(''),
-      replacedBy: this.string(''),
-      minute: this.number(0),
-      injury: this.boolean(false),
-      createdAt: this.string(''),
+  // Database fields
+  @Str('') declare playerName: string
+  @Str('') declare replacedBy: string
+  @Num(0) declare minute: number
+  @Bool(false) declare injury: boolean
+  @Str('') declare createdAt: string
 
-      // Calculated fields
-      home: this.boolean(true),
+  // Calculated fields
+  @Bool(true) declare home: boolean
 
-      // Associations
-      replacement: this.belongsTo(Player, 'replacementId', 'id')
-    }
-  }
+  // Static fields
+  @Str('Substitution') declare timelineType: string
 
-  static casts() {
-    return {
-      id: NumberCast,
-      matchId: NumberCast,
-      playerId: NumberCast,
-      replacementId: NumberCast
-    }
-  }
-
-  get timelineType(): string {
-    return 'Substitution'
-  }
+  // Associations
+  @BelongsTo(() => Player, 'replacementId') declare replacement: Player
 }

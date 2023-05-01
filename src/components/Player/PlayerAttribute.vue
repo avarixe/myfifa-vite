@@ -1,6 +1,8 @@
 <script setup lang="ts">
+  import { Player } from '~/models'
+
   const props = defineProps<{
-    player: PlayerRecord
+    player: Player
     attribute: string
     label: string
   }>()

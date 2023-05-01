@@ -1,47 +1,56 @@
 import { Model } from 'pinia-orm'
+import {
+  Attr,
+  Str,
+  Num,
+  Bool,
+  BelongsTo,
+  HasOne,
+  HasMany,
+  BelongsToMany,
+  Cast
+} from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
+import Team from './Team'
+import PenaltyShootout from './PenaltyShootout'
+import Goal from './Goal'
+import Substitution from './Substitution'
+import Booking from './Booking'
+import Cap from './Cap'
+import Player from './Player'
 
-export class Match extends Model {
+export default class Match extends Model {
   static entity = 'Match'
 
-  static fields() {
-    return {
-      // Primary/Foreign keys
-      id: this.attr(0),
-      teamId: this.attr(0),
+  // Primary/Foreign keys
+  @Cast(() => NumberCast) @Attr(0) declare id: number
+  @Cast(() => NumberCast) @Attr(0) declare teamId: number
 
-      // Database fields
-      home: this.string(''),
-      away: this.string(''),
-      competition: this.string(''),
-      stage: this.string(''),
-      playedOn: this.string(''),
-      extraTime: this.boolean(false),
-      homeScore: this.number(0),
-      awayScore: this.number(0),
+  // Database fields
+  @Str('') declare home: string
+  @Str('') declare away: string
+  @Str('') declare competition: string
+  @Str('') declare stage: string
+  @Str('') declare playedOn: string
+  @Bool(false) declare extraTime: boolean
+  @Num(0) declare homeScore: number
+  @Num(0) declare awayScore: number
 
-      // Calculated fields
-      score: this.string(''),
-      teamResult: this.attr(null),
-      season: this.number(0),
+  // Calculated fields
+  @Str('') declare score: string
+  @Attr(null) declare teamResult: string | null
+  @Num(0) declare season: number
 
-      // Associations
-      team: this.belongsTo(Team, 'teamId'),
-      penaltyShootout: this.hasOne(PenaltyShootout, 'matchId'),
-      goals: this.hasMany(Goal, 'matchId'),
-      substitutions: this.hasMany(Substitution, 'matchId'),
-      bookings: this.hasMany(Booking, 'matchId'),
-      caps: this.hasMany(Cap, 'matchId'),
-      players: this.belongsToMany(Player, Cap, 'matchId', 'playerId')
-    }
-  }
-
-  static casts() {
-    return {
-      id: NumberCast,
-      teamId: NumberCast
-    }
-  }
+  // Associations
+  @BelongsTo(() => Team, 'teamId') declare team: Team
+  @HasOne(() => PenaltyShootout, 'matchId')
+  declare penaltyShootout: PenaltyShootout | null
+  @HasMany(() => Goal, 'matchId') declare goals: Goal[]
+  @HasMany(() => Substitution, 'matchId') declare substitutions: Substitution[]
+  @HasMany(() => Booking, 'matchId') declare bookings: Booking[]
+  @HasMany(() => Cap, 'matchId') declare caps: Cap[]
+  @BelongsToMany(() => Player, () => Cap, 'matchId', 'playerId')
+  declare players: Player[]
 
   get opponent(): string {
     return this.home === this.team.name ? this.away : this.home

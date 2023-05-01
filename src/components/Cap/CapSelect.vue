@@ -1,5 +1,7 @@
 <script setup lang="ts">
-  const props = withDefaults(defineProps<{ caps: CapRecord[] }>(), {
+  import { Cap, Player } from '~/models'
+
+  const props = withDefaults(defineProps<{ caps: Cap[] }>(), {
     caps: () => []
   })
 

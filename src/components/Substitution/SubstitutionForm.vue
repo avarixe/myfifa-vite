@@ -1,7 +1,9 @@
 <script setup lang="ts">
+  import { Match, Substitution } from '~/models'
+
   const props = defineProps<{
-    match: MatchRecord
-    record?: SubstitutionRecord
+    match: Match
+    record?: Substitution
   }>()
 
   interface SubstitutionAttributes {

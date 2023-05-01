@@ -1,7 +1,9 @@
 <script setup lang="ts">
+  import { Cap, Match, Player } from '~/models'
+
   const props = defineProps<{
-    cap: CapRecord
-    match: MatchRecord
+    cap: Cap
+    match: Match
   }>()
 
   const menu = ref(false)

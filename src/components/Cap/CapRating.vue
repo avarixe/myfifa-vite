@@ -1,6 +1,8 @@
 <script setup lang="ts">
+  import { Cap } from '~/models'
+
   const props = defineProps<{
-    cap: CapRecord
+    cap: Cap
     readonly?: boolean
   }>()
 

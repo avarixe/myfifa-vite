@@ -1,9 +1,11 @@
 <script setup lang="ts">
+  import { Player, Contract } from '~/models'
+
   const { team } = useTeam()
 
   const props = defineProps<{
-    player: PlayerRecord
-    record?: ContractRecord
+    player: Player
+    record?: Contract
   }>()
 
   interface ContractAttributes {

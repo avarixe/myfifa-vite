@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { Player } from '~/models'
+
   const props = defineProps<{
     teamId: string
     playerId: string
@@ -48,7 +50,7 @@
   })
   const playerRepo = useRepo(Player)
   playerRepo.save(data.value?.player)
-  const player: Ref<PlayerRecord> = computed(() =>
+  const player: Ref<Player> = computed(() =>
     playerRepo.withAll().find(parseInt(props.playerId))
   )
 

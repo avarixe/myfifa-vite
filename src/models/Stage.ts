@@ -1,32 +1,34 @@
 import { Model } from 'pinia-orm'
+import {
+  Attr,
+  Str,
+  Num,
+  Bool,
+  BelongsTo,
+  HasMany,
+  Cast
+} from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
+import Competition from './Competition'
+import Fixture from './Fixture'
+import TableRow from './TableRow'
 
-export class Stage extends Model {
+export default class Stage extends Model {
   static entity = 'Stage'
 
-  static fields() {
-    return {
-      // Primary/Foreign keys
-      id: this.attr(0),
-      competitionId: this.attr(0),
+  // Primary/Foreign keys
+  @Cast(() => NumberCast) @Attr(0) declare id: number
+  @Cast(() => NumberCast) @Attr(0) declare competitionId: number
 
-      // Database fields
-      name: this.string(''),
-      numTeams: this.number(0),
-      numFixtures: this.number(0),
-      table: this.boolean(false),
+  // Database fields
+  @Str('') declare name: string
+  @Num(0) declare numTeams: number
+  @Num(0) declare numFixtures: number
+  @Bool(false) declare table: boolean
 
-      // Associations
-      competition: this.belongsTo(Competition, 'competitionId', 'id'),
-      fixtures: this.hasMany(Fixture, 'stageId'),
-      tableRows: this.hasMany(TableRow, 'stageId')
-    }
-  }
-
-  static casts() {
-    return {
-      id: NumberCast,
-      competitionId: NumberCast
-    }
-  }
+  // Associations
+  @BelongsTo(() => Competition, 'competitionId')
+  declare competition: Competition
+  @HasMany(() => Fixture, 'stageId') declare fixtures: Fixture[]
+  @HasMany(() => TableRow, 'stageId') declare tableRows: TableRow[]
 }

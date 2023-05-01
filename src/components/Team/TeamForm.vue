@@ -1,6 +1,8 @@
 <script setup lang="ts">
+  import { Team } from '~/models'
+
   const props = defineProps<{
-    record?: TeamRecord
+    record?: Team
   }>()
 
   const attributes = reactive({

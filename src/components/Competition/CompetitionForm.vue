@@ -1,9 +1,11 @@
 <script setup lang="ts">
+  import { Competition } from '~/models'
+
   const { team, currentSeason, seasonLabel } = useTeam()
 
   const props = defineProps<{
     teamId?: number
-    record?: CompetitionRecord
+    record?: Competition
   }>()
 
   const attributes = reactive({

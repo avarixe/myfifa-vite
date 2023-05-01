@@ -1,36 +1,25 @@
 import { Model } from 'pinia-orm'
+import { Attr, Str, Num, Cast } from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
 
-export class Loan extends Model {
+export default class Loan extends Model {
   static entity = 'Loan'
 
-  static fields() {
-    return {
-      // Primary/Foreign keys
-      id: this.attr(0),
-      playerId: this.attr(0),
+  // Primary/Foreign keys
+  @Cast(() => NumberCast) @Attr(0) declare id: number
+  @Cast(() => NumberCast) @Attr(0) declare playerId: number
 
-      // Database fields
-      startedOn: this.string(''),
-      signedOn: this.string(''),
-      endedOn: this.string(''),
-      origin: this.string(''),
-      destination: this.string(''),
-      wagePercentage: this.number(null),
-      transferFee: this.number(null),
-      addonClause: this.number(null),
-      createdAt: this.string('')
-    }
-  }
+  // Database fields
+  @Str('') declare startedOn: string
+  @Str('') declare signedOn: string
+  @Str('') declare endedOn: string
+  @Str('') declare origin: string
+  @Str('') declare destination: string
+  @Num(null) declare wagePercentage: number | null
+  @Num(null) declare transferFee: number | null
+  @Num(null) declare addonClause: number | null
+  @Str('') declare createdAt: string
 
-  static casts() {
-    return {
-      id: NumberCast,
-      playerId: NumberCast
-    }
-  }
-
-  get timelineType(): string {
-    return 'Loan'
-  }
+  // Static fields
+  @Str('Loan') declare timelineType: string
 }

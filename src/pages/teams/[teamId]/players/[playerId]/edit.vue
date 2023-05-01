@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { Player } from '~/models'
+
   const props = defineProps<{
     teamId: string
     playerId: string

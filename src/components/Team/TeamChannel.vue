@@ -4,7 +4,7 @@
   import * as models from '../../models'
 
   const props = defineProps<{
-    team: TeamRecord
+    team: models.Team
   }>()
 
   const cableURL = `${import.meta.env.VITE_API_URL.replace('http', 'ws')}/cable`

@@ -2,7 +2,7 @@
   withDefaults(
     defineProps<{
       confirmText: string
-      confirmColor: string
+      confirmColor?: string
     }>(),
     { confirmColor: 'primary' }
   )

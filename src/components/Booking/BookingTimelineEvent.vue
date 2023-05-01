@@ -1,8 +1,10 @@
 <script setup lang="ts">
+  import { Match, Booking } from '~/models'
+
   withDefaults(
     defineProps<{
-      match: MatchRecord
-      event: BookingRecord
+      match: Match
+      event: Booking
       readonly: boolean
     }>(),
     { readonly: false }

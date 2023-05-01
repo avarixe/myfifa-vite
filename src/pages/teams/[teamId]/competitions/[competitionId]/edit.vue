@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { Competition } from '~/models'
+
   const props = defineProps<{
     teamId: string
     competitionId: string

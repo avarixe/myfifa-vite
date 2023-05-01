@@ -1,9 +1,11 @@
 <script setup lang="ts">
+  import { Player, Contract } from '~/models'
+
   const { team } = useTeam()
 
   defineProps<{
-    player: PlayerRecord
-    event: ContractRecord
+    player: Player
+    event: Contract
   }>()
 </script>
 

@@ -1,40 +1,37 @@
 import { Model } from 'pinia-orm'
+import {
+  Attr,
+  Str,
+  Num,
+  Bool,
+  BelongsTo,
+  Cast
+} from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
+import Match from './Match'
+import Player from './Player'
 
-export class Booking extends Model {
+export default class Booking extends Model {
   static entity = 'Booking'
 
-  static fields() {
-    return {
-      // Primary/Foreign keys
-      id: this.attr(0),
-      matchId: this.attr(0),
-      playerId: this.attr(null),
+  // Primary/Foreign keys
+  @Cast(() => NumberCast) @Attr(0) declare id: number
+  @Cast(() => NumberCast) @Attr(0) declare matchId: number
+  @Cast(() => NumberCast) @Attr(null) declare playerId: number | null
 
-      // Database fields
-      playerName: this.string(''),
-      minute: this.number(0),
-      redCard: this.boolean(false),
-      createdAt: this.string(''),
+  // Database fields
+  @Str('') declare playerName: string
+  @Num(0) declare minute: number
+  @Bool(false) declare redCard: boolean
+  @Str('') declare createdAt: string
 
-      // Calculated fields
-      home: this.boolean(true),
+  // Calculated fields
+  @Bool(true) declare home: boolean
 
-      // Associations
-      match: this.belongsTo(Match, 'matchId'),
-      player: this.belongsTo(Player, 'playerId')
-    }
-  }
+  // Static fields
+  @Str('Booking') declare timelineType: string
 
-  static casts() {
-    return {
-      id: NumberCast,
-      matchId: NumberCast,
-      playerId: NumberCast
-    }
-  }
-
-  get timelineType(): string {
-    return 'Booking'
-  }
+  // Associations
+  @BelongsTo(() => Match, 'matchId') declare match: Match
+  @BelongsTo(() => Player, 'playerId') declare player: Player
 }

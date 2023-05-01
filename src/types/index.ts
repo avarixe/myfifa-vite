@@ -3,15 +3,6 @@ export interface CapAttributes {
   playerId?: number
 }
 
-export interface MatchEvent {
-  timelineType: string
-  home: boolean
-  minute: number
-  constructor: {
-    entity: string
-  }
-}
-
 export interface MatchFilters {
   season?: number
   competition?: string

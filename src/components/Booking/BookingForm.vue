@@ -1,7 +1,9 @@
 <script setup lang="ts">
+  import { Match, Booking } from '~/models'
+
   const props = defineProps<{
-    match: MatchRecord
-    record?: BookingRecord
+    match: Match
+    record?: Booking
   }>()
 
   const { team } = useTeam()

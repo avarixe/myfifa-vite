@@ -2,7 +2,7 @@
   const props = withDefaults(
     defineProps<{
       text: string
-      speed: number
+      speed?: number
     }>(),
     { text: '', speed: 6 }
   )

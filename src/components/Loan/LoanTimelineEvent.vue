@@ -1,11 +1,12 @@
 <script setup lang="ts">
   import { formatDistance } from 'date-fns'
+  import { Player, Loan } from '~/models'
 
   const { team } = useTeam()
 
   const props = defineProps<{
-    player: PlayerRecord
-    event: LoanRecord
+    player: Player
+    event: Loan
   }>()
 
   const title = computed(() =>

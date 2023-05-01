@@ -10,7 +10,12 @@
       "vue/ref-macros",
       "vite-plugin-pages/client"
     ],
-    "skipLibCheck": true
+    "paths": {
+      "~*": ["./src/*"]
+    },
+    "skipLibCheck": true,
+    "useDefineForClassFields": false,
+    "experimentalDecorators": true
   },
   "exclude": ["node_modules"]
 }
