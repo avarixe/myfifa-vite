@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  const props = defineProps({
-    match: { type: Object, required: true },
-    readonly: { type: Boolean, default: false }
-  })
+  const props = defineProps<{
+    match: MatchRecord
+    readonly?: boolean
+  }>()
 
   const { team } = useTeam()
 
@@ -40,7 +40,6 @@
   <formation-grid :cells="formationCells" hide-empty-cells>
     <template #filled-pos="{ cell }">
       <div
-        v-ripple
         :class="`pos-cell pa-2 elevation-${readonly ? 0 : 5} rounded-lg w-100`"
       >
         <div class="player-pos font-weight-bold">{{ cell.pos }}</div>
@@ -50,11 +49,10 @@
         />
         <cap-rating :cap="cell" :readonly="readonly" />
         <cap-events :cap="cell" :match="match" />
-        <cap-card
-          v-if="!cell.subbedOut && !readonly"
-          :cap="cell"
-          :match="match"
-        />
+        <div v-if="!readonly" class="hidden-sm-and-down">
+          <v-divider class="my-2 mx-n2" />
+          <cap-event-actions :cap="cell" :match="match" />
+        </div>
       </div>
     </template>
   </formation-grid>
@@ -75,7 +73,6 @@
       class="text-center"
     >
       <div
-        v-ripple
         :class="`pos-cell pa-2 elevation-${readonly ? 0 : 5} rounded-lg w-100`"
       >
         <div class="player-pos font-weight-bold">{{ cap.pos }}</div>
@@ -85,11 +82,10 @@
         />
         <cap-rating :cap="cap" />
         <cap-events :cap="cap" :match="match" />
-        <cap-card
-          v-if="!cap.subbedOut && !readonly"
-          :cap="cap"
-          :match="match"
-        />
+        <div v-if="!readonly" class="hidden-sm-and-down">
+          <v-divider class="my-2 mx-n2" />
+          <cap-event-actions :cap="cap" :match="match" />
+        </div>
       </div>
     </v-col>
     <template v-if="substitutes.length < substitutesRowLength">
@@ -100,15 +96,49 @@
       />
     </template>
     <v-col v-if="!readonly" cols="2" class="text-center">
-      <div v-ripple class="pos-cell pa-2 elevation-5 rounded-lg w-100">
+      <div class="pos-cell pa-2 elevation-5 rounded-lg w-100">
         <div class="match-side-label font-weight-bold">TEAM</div>
         <div class="match-side-team">
           {{ match[match.home === team?.name ? 'away' : 'home'] }}
         </div>
-        <match-side-card
-          :match="match"
-          :side="match.home === team?.name ? 'away' : 'home'"
-        />
+        <div class="hidden-sm-and-down">
+          <v-divider class="my-2 mx-n2" />
+          <div
+            class="d-flex justify-space-around align-center flex-wrap"
+            :style="{ overflow: 'auto' }"
+          >
+            <v-btn size="x-small" icon variant="text">
+              <v-icon>mdi-account</v-icon>
+              <match-side-menu
+                :match="match"
+                :side="match.home === team?.name ? 'away' : 'home'"
+              >
+                <template #default="{ side, close }">
+                  <match-side-goal-form
+                    :match="match"
+                    :side="side"
+                    @submitted="close"
+                  />
+                </template>
+              </match-side-menu>
+            </v-btn>
+            <v-btn size="x-small" icon variant="text">
+              <v-icon>mdi-soccer</v-icon>
+              <match-side-menu
+                :match="match"
+                :side="match.home === team?.name ? 'away' : 'home'"
+              >
+                <template #default="{ side, close }">
+                  <match-side-goal-form
+                    :match="match"
+                    :side="side"
+                    @submitted="close"
+                  />
+                </template>
+              </match-side-menu>
+            </v-btn>
+          </div>
+        </div>
       </div>
     </v-col>
   </v-row>
@@ -126,7 +156,6 @@
       class="text-center"
     >
       <div
-        v-ripple
         :class="`pos-cell pa-2 elevation-${readonly ? 0 : 5} rounded-lg w-100`"
       >
         <div class="player-pos font-weight-bold">{{ cap.pos }}</div>
@@ -136,11 +165,10 @@
         />
         <cap-rating :cap="cap" :readon="readonly" />
         <cap-events :cap="cap" :match="match" />
-        <cap-card
-          v-if="!cap.subbedOut && !readonly"
-          :cap="cap"
-          :match="match"
-        />
+        <div v-if="!readonly" class="hidden-sm-and-down">
+          <v-divider class="my-2 mx-n2" />
+          <cap-event-actions :cap="cap" :match="match" />
+        </div>
       </div>
     </v-col>
     <v-col
@@ -152,10 +180,6 @@
 </template>
 
 <style scoped>
-  .pos-cell:hover {
-    cursor: pointer;
-  }
-
   .match-side-label {
     margin-left: -100%;
     margin-right: -100%;

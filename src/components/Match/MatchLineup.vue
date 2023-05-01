@@ -37,7 +37,12 @@
   <v-list density="compact">
     <template v-if="teamPlayed">
       <v-list-subheader>Players</v-list-subheader>
-      <v-list-item v-for="cap in sortedCaps" :key="cap.id" v-ripple>
+      <v-list-item
+        v-for="cap in sortedCaps"
+        :key="cap.id"
+        v-ripple="!cap.subbedOut"
+        :disabled="readonly || cap.subbedOut"
+      >
         <template #prepend>
           <span
             class="font-weight-black text-uppercase"
@@ -52,7 +57,11 @@
           <cap-rating :cap="cap" :readonly="readonly" />
         </template>
 
-        <cap-card v-if="!readonly" :cap="cap" :match="match" />
+        <cap-card
+          v-if="!readonly && !cap.subbedOut"
+          :cap="cap"
+          :match="match"
+        />
       </v-list-item>
     </template>
     <template v-if="!readonly">
@@ -74,7 +83,7 @@
 </template>
 
 <style scoped>
-  .v-list-item:hover {
+  .v-list-item:not(.subbed-out):hover {
     cursor: pointer;
   }
 </style>
