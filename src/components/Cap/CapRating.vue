@@ -20,7 +20,7 @@
     hoverRating.value = props.cap.rating
   })
 
-  const { submitForm: onInput } = useForm({
+  const { submitForm } = useForm({
     mutation: gql`
       mutation ($id: ID!, $attributes: CapAttributes!) {
         updateCap(id: $id, attributes: $attributes) {
@@ -37,9 +37,9 @@
     })
   })
 
-  function clearRating() {
-    rating.value = null
-    onInput()
+  function setRating(value) {
+    rating.value = value
+    submitForm()
   }
 </script>
 
@@ -58,15 +58,20 @@
         class="d-flex align-center px-2 py-1"
         :style="{ overflowX: 'hidden' }"
       >
-        <v-rating v-model="rating" hover :color="color[rating] || 'grey'">
-          <template #item="{ index }">
+        <v-rating
+          :model-value="rating"
+          hover
+          :color="color[rating] || 'grey'"
+          @update:model-value="setRating"
+        >
+          <template #item="{ index, onClick }">
             <v-icon
               :color="color[hoverRating] || 'grey'"
               :icon="`mdi-star-four-points${
                 hoverRating > index ? '' : '-outline'
               }`"
               @mouseenter.prevent="hoverRating = index + 1"
-              @click="onInput"
+              @click="onClick"
             />
           </template>
         </v-rating>
@@ -75,7 +80,7 @@
           variant="plain"
           size="small"
           :disabled="!rating"
-          @click="clearRating"
+          @click="setRating(null)"
         />
       </v-card>
     </v-menu>
