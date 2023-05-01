@@ -186,13 +186,12 @@
     </template>
     <template #item-name="{ item: player }">
       <v-btn
+        :to="`/teams/${team.id}/players/${player.id}`"
+        :text="player.name"
         variant="text"
         color="primary"
         class="text-capitalize"
-        :to="`/teams/${team.id}/players/${player.id}`"
-      >
-        {{ player.name }}
-      </v-btn>
+      />
     </template>
     <template #item-nationality="{ item: player }">
       <flag :iso="player.flag" :title="player.nationality" class="mr-2" />

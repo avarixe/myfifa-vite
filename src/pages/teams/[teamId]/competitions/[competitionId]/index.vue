@@ -57,12 +57,11 @@
 <template>
   <v-btn
     :to="`/teams/${team.id}/seasons/${competition.season}`"
+    :text="seasonLabel(competition.season)"
     variant="text"
     color="primary"
     class="pa-0"
-  >
-    {{ seasonLabel(competition.season) }}
-  </v-btn>
+  />
   <div class="text-h4">{{ competition.name }}</div>
   <div v-if="competition.champion" class="text-body-1">
     <v-icon start color="warning">mdi-trophy</v-icon>

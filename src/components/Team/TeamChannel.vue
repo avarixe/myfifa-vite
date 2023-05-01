@@ -135,12 +135,11 @@
     <template #actions>
       <v-btn
         v-if="connectionState === 'Disconnected'"
+        text="Reconnect"
         color="error"
         variant="text"
         @click="connectToWebSocket"
-      >
-        Reconnect
-      </v-btn>
+      />
     </template>
   </v-snackbar>
 </template>

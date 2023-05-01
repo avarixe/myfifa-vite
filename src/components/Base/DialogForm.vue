@@ -94,19 +94,21 @@
         <v-divider />
         <v-card-actions>
           <v-spacer />
-          <v-btn size="large" :disabled="formIsLoading" @click="dialog = false">
-            Cancel
-          </v-btn>
+          <v-btn
+            text="Cancel"
+            size="large"
+            :disabled="formIsLoading"
+            @click="dialog = false"
+          />
           <slot name="additional-actions" />
           <v-btn
             type="submit"
+            text="Save"
             :disabled="!formIsValid"
             color="primary"
             size="large"
             :loading="formIsLoading"
-          >
-            Save
-          </v-btn>
+          />
         </v-card-actions>
       </v-card>
     </v-form>

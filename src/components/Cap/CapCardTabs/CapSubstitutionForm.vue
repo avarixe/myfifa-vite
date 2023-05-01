@@ -70,13 +70,12 @@
         <v-spacer />
         <v-btn
           type="submit"
+          text="Save"
           :disabled="!formIsValid"
           color="primary"
           variant="text"
           :loading="formIsLoading"
-        >
-          Save
-        </v-btn>
+        />
       </div>
     </div>
   </v-form>

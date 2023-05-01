@@ -232,13 +232,12 @@
         <v-sheet :class="`mx-n4 px-4 ${rowColor}`">
           <v-btn
             :to="`/teams/${team.id}/players/${item.playerId}`"
+            :text="item.name"
             size="small"
             variant="text"
             color="primary"
             class="text-capitalize"
-          >
-            {{ item.name }}
-          </v-btn>
+          />
         </v-sheet>
       </td>
       <td class="text-center">{{ item.pos }}</td>

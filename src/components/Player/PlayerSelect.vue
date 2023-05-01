@@ -1,6 +1,10 @@
 <script setup lang="ts">
-  defineProps({
-    players: { type: Array, default: () => [] }
+  interface PlayerItem {
+    pos: string
+  }
+
+  withDefaults(defineProps<{ players: PlayerItem[] }>(), {
+    players: () => []
   })
 </script>
 
@@ -11,7 +15,7 @@
     item-title="name"
     item-value="id"
   >
-    <template #item="{ item, props }">
+    <template #item="{ item, props }: { item: { raw: PlayerItem }, props: {} }">
       <v-list-item v-bind="props">
         <template #prepend>
           <small class="text-disabled font-weight-bold mr-4">{{
