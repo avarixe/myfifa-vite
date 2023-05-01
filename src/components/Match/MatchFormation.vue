@@ -108,7 +108,7 @@
             :style="{ overflow: 'auto' }"
           >
             <v-btn size="x-small" icon variant="text">
-              <v-icon>mdi-account</v-icon>
+              <v-icon>mdi-soccer</v-icon>
               <match-side-menu
                 :match="match"
                 :side="match.home === team?.name ? 'away' : 'home'"
@@ -123,7 +123,7 @@
               </match-side-menu>
             </v-btn>
             <v-btn size="x-small" icon variant="text">
-              <v-icon>mdi-soccer</v-icon>
+              <v-icon>mdi-book</v-icon>
               <match-side-menu
                 :match="match"
                 :side="match.home === team?.name ? 'away' : 'home'"
