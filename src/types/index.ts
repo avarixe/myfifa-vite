@@ -5,6 +5,7 @@ export interface CapRecord {
   start: number
   stop: number
   subbedOut: boolean
+  player?: PlayerRecord
 }
 
 export interface CapAttributes {
@@ -15,6 +16,7 @@ export interface CapAttributes {
 export interface MatchRecord {
   home: string
   away: string
+  caps?: CapRecord[]
 }
 
 export interface MatchEvent {
