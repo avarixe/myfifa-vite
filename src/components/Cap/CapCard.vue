@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  const props = defineProps({
-    cap: { type: Object, required: true },
-    match: { type: Object, required: true }
-  })
+  const props = defineProps<{
+    cap: CapRecord
+    match: MatchRecord
+  }>()
 
   const menu = ref(false)
   const tab = ref('cap')

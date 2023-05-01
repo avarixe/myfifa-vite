@@ -1,10 +1,10 @@
 <script setup lang="ts">
   const { team } = useTeam()
 
-  const props = defineProps({
-    player: { type: Object, required: true },
-    event: { type: Object, required: true }
-  })
+  const props = defineProps<{
+    player: PlayerRecord
+    event: TransferRecord
+  }>()
 
   const transferOut = computed(() => props.event.origin === team.value.name)
   const title = computed(() =>

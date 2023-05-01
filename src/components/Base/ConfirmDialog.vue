@@ -1,8 +1,11 @@
 <script setup lang="ts">
-  defineProps({
-    confirmText: { type: String, required: true },
-    confirmColor: { type: String, default: 'primary' }
-  })
+  withDefaults(
+    defineProps<{
+      confirmText: string
+      confirmColor: string
+    }>(),
+    { confirmColor: 'primary' }
+  )
 
   const dialog = ref(false)
   const emit = defineEmits(['open', 'close', 'confirm'])

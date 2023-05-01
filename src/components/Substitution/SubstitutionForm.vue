@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  const props = defineProps({
-    match: { type: Object, required: true },
-    record: { type: Object, default: null }
-  })
+  const props = defineProps<{
+    match: MatchRecord
+    record?: SubstitutionRecord
+  }>()
 
   interface SubstitutionAttributes {
     playerId?: number

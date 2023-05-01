@@ -5,7 +5,7 @@ export default () => {
   const teamId = computed(() => parseInt(route.params.teamId?.toString()))
 
   const teamRepo = useRepo(Team)
-  const team = computed(() => teamRepo.find(teamId.value))
+  const team: Ref<TeamRecord> = computed(() => teamRepo.find(teamId.value))
 
   function seasonOn(date: string): number {
     const startDate: Date = parseISO(team.value.startedOn)

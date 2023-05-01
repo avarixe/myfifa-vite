@@ -1,11 +1,16 @@
 <script setup lang="ts">
   import { addYears } from 'date-fns'
 
-  const props = defineProps({
-    transferActivity: { type: Object, required: true },
-    playerValues: { type: Object, required: true },
-    season: { type: Number, required: true }
-  })
+  const props = defineProps<{
+    transferActivity: {
+      arrivals: ContractRecord[]
+      departures: ContractRecord[]
+      transfers: TransferRecord[]
+      loans: LoanRecord[]
+    }
+    playerValues: object
+    season: number
+  }>()
 
   const { team } = useTeam()
 

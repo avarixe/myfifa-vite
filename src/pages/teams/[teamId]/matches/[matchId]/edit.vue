@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  const props = defineProps({
-    teamId: { type: String, required: true },
-    matchId: { type: String, required: true }
-  })
+  const props = defineProps<{
+    teamId: string
+    matchId: string
+  }>()
 
   const { data } = await useTeamQuery({
     query: gql`

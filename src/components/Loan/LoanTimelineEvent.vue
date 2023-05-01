@@ -3,10 +3,10 @@
 
   const { team } = useTeam()
 
-  const props = defineProps({
-    player: { type: Object, required: true },
-    event: { type: Object, required: true }
-  })
+  const props = defineProps<{
+    player: PlayerRecord
+    event: LoanRecord
+  }>()
 
   const title = computed(() =>
     team.value.name === props.event.origin

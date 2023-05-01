@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  const props = defineProps({
-    teamId: { type: String, required: true },
-    playerId: { type: String, required: true }
-  })
+  const props = defineProps<{
+    teamId: string
+    playerId: string
+  }>()
 
   const { data, team } = await useTeamQuery({
     query: gql`
@@ -48,7 +48,7 @@
   })
   const playerRepo = useRepo(Player)
   playerRepo.save(data.value?.player)
-  const player = computed(() =>
+  const player: Ref<PlayerRecord> = computed(() =>
     playerRepo.withAll().find(parseInt(props.playerId))
   )
 

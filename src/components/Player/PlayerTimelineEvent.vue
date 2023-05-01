@@ -11,13 +11,16 @@
     Transfer: TransferForm
   }
 
-  defineProps({
-    player: { type: Object, required: true },
-    event: { type: Object, required: true },
-    title: { type: String, required: true },
-    icon: { type: String, required: true },
-    color: { type: String, required: true }
-  })
+  defineProps<{
+    player: PlayerRecord
+    event: {
+      id: number
+      timelineType: 'Contract' | 'Injury' | 'Loan' | 'Transfer'
+    }
+    title: string
+    icon: string
+    color: string
+  }>()
 </script>
 
 <template>

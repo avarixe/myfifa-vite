@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  const props = defineProps({
-    player: { type: Object, required: true },
-    record: { type: Object, default: null }
-  })
+  const props = defineProps<{
+    player: PlayerRecord
+    record?: InjuryRecord
+  }>()
 
   interface InjuryAttributes {
     startedOn?: string

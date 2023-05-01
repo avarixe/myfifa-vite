@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  const props = defineProps({
-    teamId: { type: String, required: true },
-    competitionId: { type: String, required: true }
-  })
+  const props = defineProps<{
+    teamId: string
+    competitionId: string
+  }>()
 
   const { data, team, seasonLabel } = await useTeamQuery({
     query: gql`
@@ -45,7 +45,7 @@
     readonly.value = !!competition.value?.champion
   })
 
-  const matchesFilters = computed(() => ({
+  const matchesFilters: Ref<MatchFilters> = computed(() => ({
     season: competition.value.season,
     competition: competition.value.name,
     stage: null,

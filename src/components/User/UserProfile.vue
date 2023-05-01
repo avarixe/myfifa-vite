@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  const props = defineProps({
-    user: { type: Object, required: true }
-  })
+  const props = defineProps<{
+    user: UserRecord
+  }>()
 
   const attributes = reactive(
     _pick(props.user, ['fullName', 'username', 'email'])

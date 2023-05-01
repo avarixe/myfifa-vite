@@ -1,22 +1,6 @@
-export interface CapRecord {
-  id: number
-  pos: string
-  playerId: number
-  start: number
-  stop: number
-  subbedOut: boolean
-  player?: PlayerRecord
-}
-
 export interface CapAttributes {
   pos?: string
   playerId?: number
-}
-
-export interface MatchRecord {
-  home: string
-  away: string
-  caps?: CapRecord[]
 }
 
 export interface MatchEvent {
@@ -28,20 +12,12 @@ export interface MatchEvent {
   }
 }
 
-export interface BookingRecord extends MatchEvent {
-  playerName: string
-  redCard: boolean
-}
-
-export interface GoalRecord extends MatchEvent {
-  playerName: string
-  assistedBy?: string
-  ownGoal: boolean
-}
-
-export interface PlayerRecord {
-  id: number
-  name: string
+export interface MatchFilters {
+  season?: number
+  competition?: string
+  stage?: string
+  team?: string
+  result: Array<'win' | 'draw' | 'loss'>
 }
 
 export interface StageAttributes {
@@ -68,10 +44,4 @@ export interface StageAttributes {
     goalsAgainst?: number
     _destroy?: boolean
   }[]
-}
-
-export interface StageRecord {
-  id: number
-  name: string
-  table: boolean
 }

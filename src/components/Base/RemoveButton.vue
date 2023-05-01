@@ -1,12 +1,14 @@
 <script setup lang="ts">
   import * as fragments from '../../fragments'
 
-  const props = defineProps({
-    record: { type: Object, required: true },
-    store: { type: String, required: true },
-    label: { type: String, default: null },
-    icon: { type: String, default: null }
-  })
+  const props = defineProps<{
+    record: {
+      id: number
+    }
+    store: string
+    label?: string
+    icon?: string
+  }>()
 
   const recordType = `${props.store[0].toLowerCase()}${props.store.slice(1)}`
 

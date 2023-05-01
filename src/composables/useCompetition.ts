@@ -1,6 +1,6 @@
 export default competitionId => {
   const competitionRepo = useRepo(Competition)
-  const competition = computed(() =>
+  const competition: Ref<CompetitionRecord> = computed(() =>
     competitionRepo
       .with('team')
       .with('stages', query => {

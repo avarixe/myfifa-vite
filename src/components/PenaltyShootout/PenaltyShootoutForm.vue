@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  const props = defineProps({
-    match: { type: Object, required: true }
-  })
+  const props = defineProps<{
+    match: MatchRecord
+  }>()
 
   interface PenaltyShootoutAttributes {
     homeScore?: number

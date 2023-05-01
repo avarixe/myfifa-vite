@@ -9,12 +9,12 @@
     Substitution: SubstitutionTimelineEvent
   }
 
-  const props = defineProps({
-    match: { type: Object, required: true },
-    readonly: { type: Boolean, default: false }
-  })
+  const props = defineProps<{
+    match: MatchRecord
+    readonly?: boolean
+  }>()
 
-  const events = computed(() =>
+  const events: Ref<{ timelineType: string }[]> = computed(() =>
     _orderBy(
       [
         ...props.match.bookings,

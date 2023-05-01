@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  const props = defineProps({
-    player: { type: Object, required: true },
-    loan: { type: Object, required: true }
-  })
+  const props = defineProps<{
+    player: PlayerRecord
+    loan?: LoanRecord
+  }>()
 
   const { team } = useTeam()
 

@@ -1,10 +1,10 @@
 <script setup lang="ts">
   const { team } = useTeam()
 
-  defineProps({
-    player: { type: Object, required: true },
-    event: { type: Object, required: true }
-  })
+  defineProps<{
+    player: PlayerRecord
+    event: ContractRecord
+  }>()
 </script>
 
 <template>

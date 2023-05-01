@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  const props = defineProps({
-    season: { type: Number, required: true }
-  })
+  const props = defineProps<{
+    season: number
+  }>()
 
   const { currentSeason, seasonLabel, team } = useTeam()
 

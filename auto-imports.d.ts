@@ -160,7 +160,8 @@ declare global {
   // @ts-ignore
   export type { Component, ComponentPublicInstance, ComputedRef, InjectionKey, PropType, Ref, VNode } from 'vue'
   // @ts-ignore
-  export type { BookingRecord, CapRecord, CapAttributes, GoalRecord, MatchRecord, MatchEvent, PlayerRecord, StageAttributes, StageRecord } from './src/types'
+  export type { CapAttributes, MatchFilters, StageAttributes } from './src/types'
+  export type { BookingRecord, CapRecord, CompetitionRecord, ContractRecord, GoalRecord, InjuryRecord, LoanRecord, MatchRecord, MatchEvent, PenaltyShootoutRecord, PlayerRecord, SquadRecord, StageRecord, SubstitutionRecord, TableRowRecord, TeamRecord, TransferRecord, UserRecord } from './src/types/records'
 }
 // for vue template auto import
 import { UnwrapRef } from 'vue'

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  const props = defineProps({
-    match: { type: Object, required: true },
-    cap: { type: Object, required: true }
-  })
+  const props = defineProps<{
+    cap: CapRecord
+    match: MatchRecord
+  }>()
 
   const { team } = useTeam()
 

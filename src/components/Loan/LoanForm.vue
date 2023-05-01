@@ -1,10 +1,10 @@
 <script setup lang="ts">
   import { subDays } from 'date-fns'
 
-  const props = defineProps({
-    player: { type: Object, required: true },
-    record: { type: Object, default: null }
-  })
+  const props = defineProps<{
+    player: PlayerRecord
+    record?: LoanRecord
+  }>()
 
   interface LoanAttributes {
     signedOn?: string

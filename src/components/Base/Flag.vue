@@ -1,12 +1,11 @@
 <script setup lang="ts">
-  const props = defineProps({
-    iso: { type: String, required: true },
-    size: {
-      type: String,
-      default: 'm',
-      validator: (v: string) => ['s', 'm', 'l', 'xl'].indexOf(v) >= 0
-    }
-  })
+  const props = withDefaults(
+    defineProps<{
+      iso: string
+      size?: 's' | 'm' | 'l' | 'xl'
+    }>(),
+    { size: 'm' }
+  )
 
   const imageUrl = computed(() => {
     const size = props.size === 'xl' ? 'l' : props.size

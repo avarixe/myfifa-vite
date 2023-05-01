@@ -1,10 +1,10 @@
 <script setup lang="ts">
   const { team, seasonOn } = useTeam()
 
-  const props = defineProps({
-    teamId: { type: Number, default: null },
-    record: { type: Object, default: null }
-  })
+  const props = defineProps<{
+    teamId?: number
+    record?: MatchRecord
+  }>()
 
   const attributes = reactive({
     playedOn: props.record?.playedOn || team.value.currentlyOn,

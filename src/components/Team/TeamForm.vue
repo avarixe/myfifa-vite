@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  const props = defineProps({
-    record: { type: Object, default: null }
-  })
+  const props = defineProps<{
+    record?: TeamRecord
+  }>()
 
   const attributes = reactive({
     name: props.record?.name || '',

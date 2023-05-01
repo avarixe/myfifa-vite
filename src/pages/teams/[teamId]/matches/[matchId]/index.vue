@@ -60,7 +60,7 @@
   })
 
   const matchRepo = useRepo(Match)
-  const match = computed(() =>
+  const match: Ref<MatchRecord> = computed(() =>
     matchRepo
       .withAll()
       .with('caps', query => query.with('player'))

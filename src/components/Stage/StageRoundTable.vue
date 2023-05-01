@@ -1,9 +1,12 @@
 <script setup lang="ts">
-  const props = defineProps({
-    stage: { type: Object, required: true },
-    readonly: { type: Boolean, default: false },
-    isNamed: { type: Boolean, default: true }
-  })
+  const props = withDefaults(
+    defineProps<{
+      stage: StageRecord
+      readonly?: boolean
+      isNamed?: boolean
+    }>(),
+    { isNamed: true }
+  )
 
   const attributes: StageAttributes = reactive({})
   function resetAttributes() {

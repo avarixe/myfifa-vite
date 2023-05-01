@@ -1,9 +1,9 @@
 <script setup lang="ts">
-  const props = defineProps({
-    player: { type: Object, required: true },
-    attribute: { type: String, required: true },
-    label: { type: String, required: true }
-  })
+  const props = defineProps<{
+    player: PlayerRecord
+    attribute: string
+    label: string
+  }>()
 
   const modelValue = ref(null)
   watchEffect(() => {

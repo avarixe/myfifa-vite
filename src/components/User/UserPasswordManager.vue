@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  defineProps({
-    user: { type: Object, required: true }
-  })
+  defineProps<{
+    user: UserRecord
+  }>()
 
   const attributes = reactive({
     currentPassword: '',

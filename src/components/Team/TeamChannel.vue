@@ -3,9 +3,9 @@
   import _camelCase from 'lodash.camelcase'
   import * as models from '../../models'
 
-  const props = defineProps({
-    team: { type: Object, required: true }
-  })
+  const props = defineProps<{
+    team: TeamRecord
+  }>()
 
   const cableURL = `${import.meta.env.VITE_API_URL.replace('http', 'ws')}/cable`
 

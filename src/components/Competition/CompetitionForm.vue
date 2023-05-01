@@ -1,10 +1,10 @@
 <script setup lang="ts">
   const { team, currentSeason, seasonLabel } = useTeam()
 
-  const props = defineProps({
-    teamId: { type: Number, default: null },
-    record: { type: Object, default: null }
-  })
+  const props = defineProps<{
+    teamId?: number
+    record?: CompetitionRecord
+  }>()
 
   const attributes = reactive({
     season: props.record ? props.record.season : currentSeason.value,
