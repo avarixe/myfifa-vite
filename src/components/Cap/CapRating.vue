@@ -58,20 +58,15 @@
         class="d-flex align-center px-2 py-1"
         :style="{ overflowX: 'hidden' }"
       >
-        <v-rating
-          v-model="rating"
-          hover
-          :color="color[rating] || 'grey'"
-          @input="onInput"
-        >
-          <template #item="{ index, props: itemProps }">
+        <v-rating v-model="rating" hover :color="color[rating] || 'grey'">
+          <template #item="{ index }">
             <v-icon
               :color="color[hoverRating] || 'grey'"
               :icon="`mdi-star-four-points${
                 hoverRating > index ? '' : '-outline'
               }`"
               @mouseenter.prevent="hoverRating = index + 1"
-              @click="itemProps.onClick"
+              @click="onInput"
             />
           </template>
         </v-rating>
