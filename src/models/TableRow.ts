@@ -1,36 +1,27 @@
 import { Model } from 'pinia-orm'
+import { Attr, Str, Num, BelongsTo, Cast } from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
+import Stage from './Stage'
 
-export class TableRow extends Model {
+export default class TableRow extends Model {
   static entity = 'TableRow'
 
-  static fields() {
-    return {
-      // Primary/Foreign keys
-      id: this.attr(0),
-      stageId: this.attr(0),
+  // Primary/Foreign keys
+  @Cast(() => NumberCast) @Attr(0) declare id: number
+  @Cast(() => NumberCast) @Attr(0) declare stageId: number
 
-      // Database fields
-      name: this.string(''),
-      wins: this.number(null),
-      draws: this.number(null),
-      losses: this.number(null),
-      goalsFor: this.number(null),
-      goalsAgainst: this.number(null),
+  // Database fields
+  @Str('') declare name: string | null
+  @Num(null) declare wins: number | null
+  @Num(null) declare draws: number | null
+  @Num(null) declare losses: number | null
+  @Num(null) declare goalsFor: number | null
+  @Num(null) declare goalsAgainst: number | null
 
-      // Calculated fields
-      goalDifference: this.number(null),
-      points: this.number(null),
+  // Calculated fields
+  @Num(null) declare goalDifference: number | null
+  @Num(null) declare points: number | null
 
-      // Associations
-      stage: this.belongsTo(Stage, 'stageId')
-    }
-  }
-
-  static casts() {
-    return {
-      id: NumberCast,
-      stageId: NumberCast
-    }
-  }
+  // Associations
+  @BelongsTo(() => Stage, 'stageId') declare stage: Stage
 }

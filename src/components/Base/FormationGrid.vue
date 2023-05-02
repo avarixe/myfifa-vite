@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  defineProps({
-    cells: { type: Object, required: true },
-    hideEmptyCells: { type: Boolean, default: false }
-  })
+  defineProps<{
+    cells: object
+    hideEmptyCells?: boolean
+  }>()
 
   const positions = [
     [null, 'LS', 'ST', 'RS', null],

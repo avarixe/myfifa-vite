@@ -1,8 +1,10 @@
 <script setup lang="ts">
-  const props = defineProps({
-    cap: { type: Object, required: true },
-    match: { type: Object, required: true }
-  })
+  import { Cap, Match, Player } from '~/models'
+
+  const props = defineProps<{
+    cap: Cap
+    match: Match
+  }>()
 
   const menu = ref(false)
   const tab = ref('cap')

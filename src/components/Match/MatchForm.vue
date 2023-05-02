@@ -1,10 +1,12 @@
 <script setup lang="ts">
+  import { Match, Competition, Stage } from '~/models'
+
   const { team, seasonOn } = useTeam()
 
-  const props = defineProps({
-    teamId: { type: Number, default: null },
-    record: { type: Object, default: null }
-  })
+  const props = defineProps<{
+    teamId?: number
+    record?: Match
+  }>()
 
   const attributes = reactive({
     playedOn: props.record?.playedOn || team.value.currentlyOn,

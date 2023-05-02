@@ -1,50 +1,60 @@
 import { Model } from 'pinia-orm'
+import {
+  Attr,
+  Str,
+  Num,
+  Bool,
+  BelongsTo,
+  HasMany,
+  BelongsToMany,
+  Cast
+} from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
+import Team from './Team'
+import PlayerHistory from './PlayerHistory'
+import Injury from './Injury'
+import Loan from './Loan'
+import Contract from './Contract'
+import Transfer from './Transfer'
+import Cap from './Cap'
+import Match from './Match'
+import Goal from './Goal'
+import Booking from './Booking'
 
-export class Player extends Model {
+export default class Player extends Model {
   static entity = 'Player'
 
-  static fields() {
-    return {
-      // Primary/Foreign keys
-      id: this.attr(0),
-      teamId: this.attr(0),
+  // Primary/Foreign keys
+  @Cast(() => NumberCast) @Attr(0) declare id: number
+  @Cast(() => NumberCast) @Attr(0) declare teamId: number
 
-      // Database fields
-      name: this.string(''),
-      nationality: this.string(''),
-      pos: this.string(''),
-      secPos: this.attr([]),
-      ovr: this.number(60),
-      value: this.number(null),
-      status: this.string(null),
-      youth: this.boolean(false),
-      kitNo: this.number(null),
+  // Database fields
+  @Str('') declare name: string
+  @Str('') declare nationality: string
+  @Str('') declare pos: string
+  @Attr([]) declare secPos: string[]
+  @Num(60) declare ovr: number
+  @Num(0) declare value: number
+  @Str(null) declare status: string | null
+  @Bool(false) declare youth: boolean
+  @Num(null) declare kitNo: number | null
 
-      // Calculated fields
-      age: this.number(16),
+  // Calculated fields
+  @Num(16) declare age: number
 
-      // Associations
-      team: this.belongsTo(Team, 'teamId'),
-      histories: this.hasMany(PlayerHistory, 'playerId'),
-      injuries: this.hasMany(Injury, 'playerId'),
-      loans: this.hasMany(Loan, 'playerId'),
-      contracts: this.hasMany(Contract, 'playerId'),
-      transfers: this.hasMany(Transfer, 'playerId'),
-      caps: this.hasMany(Cap, 'playerId'),
-      matches: this.belongsToMany(Match, Cap, 'playerId', 'matchId'),
-      goals: this.hasMany(Goal, 'playerId'),
-      assists: this.hasMany(Goal, 'assistId'),
-      bookings: this.hasMany(Booking, 'playerId')
-    }
-  }
-
-  static casts() {
-    return {
-      id: NumberCast,
-      teamId: NumberCast
-    }
-  }
+  // Associations
+  @BelongsTo(() => Team, 'teamId') declare team: Team
+  @HasMany(() => PlayerHistory, 'playerId') declare histories: PlayerHistory[]
+  @HasMany(() => Injury, 'playerId') declare injuries: Injury[]
+  @HasMany(() => Loan, 'playerId') declare loans: Loan[]
+  @HasMany(() => Contract, 'playerId') declare contracts: Contract[]
+  @HasMany(() => Transfer, 'playerId') declare transfers: Transfer[]
+  @HasMany(() => Cap, 'playerId') declare caps: Cap[]
+  @BelongsToMany(() => Match, () => Cap, 'playerId', 'matchId')
+  declare matches: Match[]
+  @HasMany(() => Goal, 'playerId') declare goals: Goal[]
+  @HasMany(() => Goal, 'assistId') declare assists: Goal[]
+  @HasMany(() => Booking, 'playerId') declare bookings: Booking[]
 
   get isActive(): boolean {
     return this.status && this.status.length > 0

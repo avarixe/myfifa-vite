@@ -1,8 +1,10 @@
 <script setup lang="ts">
+  import { Goal, Match } from '~/models'
+
   withDefaults(
     defineProps<{
-      match: MatchRecord
-      event: GoalRecord
+      match: Match
+      event: Goal
       readonly: boolean
     }>(),
     { readonly: false }

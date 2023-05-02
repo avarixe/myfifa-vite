@@ -3,6 +3,7 @@
   import InjuryForm from '~/components/Injury/InjuryForm.vue'
   import LoanForm from '~/components/Loan/LoanForm.vue'
   import TransferForm from '~/components/Transfer/TransferForm.vue'
+  import { Player, Contract, Injury, Loan, Transfer } from '~/models'
 
   const eventForm = {
     Contract: ContractForm,
@@ -11,13 +12,13 @@
     Transfer: TransferForm
   }
 
-  defineProps({
-    player: { type: Object, required: true },
-    event: { type: Object, required: true },
-    title: { type: String, required: true },
-    icon: { type: String, required: true },
-    color: { type: String, required: true }
-  })
+  defineProps<{
+    player: Player
+    event: Contract | Injury | Loan | Transfer
+    title: string
+    icon: string
+    color: string
+  }>()
 </script>
 
 <template>

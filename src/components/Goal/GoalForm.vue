@@ -1,8 +1,10 @@
 <script setup lang="ts">
-  const props = defineProps({
-    match: { type: Object, required: true },
-    record: { type: Object, default: null }
-  })
+  import { Goal, Match } from '~/models'
+
+  const props = defineProps<{
+    match: Match
+    record?: Goal
+  }>()
 
   const { minute, unsubbedPlayers } = useMatch(props.match)
 

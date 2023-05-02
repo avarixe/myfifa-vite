@@ -1,9 +1,11 @@
 <script setup lang="ts">
-  const props = defineProps({
-    match: { type: Object, required: true },
-    event: { type: Object, required: true },
-    readonly: { type: Boolean, default: false }
-  })
+  import { Match, PenaltyShootout } from '~/models'
+
+  const props = defineProps<{
+    match: Match
+    event: PenaltyShootout
+    readonly?: boolean
+  }>()
 
   const winner = computed(() =>
     props.event.homeScore > props.event.awayScore

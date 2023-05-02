@@ -1,27 +1,17 @@
 import { Model } from 'pinia-orm'
+import { Attr, Str, Cast } from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
 
-export class FixtureLeg extends Model {
+export default class FixtureLeg extends Model {
   static entity = 'FixtureLeg'
 
-  static fields() {
-    return {
-      // Primary/Foreign keys
-      id: this.attr(0),
-      fixtureId: this.attr(0),
+  // Primary/Foreign keys
+  @Cast(() => NumberCast) @Attr(0) declare id: number
+  @Cast(() => NumberCast) @Attr(0) declare fixtureId: number
 
-      // Database fields
-      homeScore: this.string(''),
-      awayScore: this.string('')
-    }
-  }
-
-  static casts() {
-    return {
-      id: NumberCast,
-      fixtureId: NumberCast
-    }
-  }
+  // Database fields
+  @Str('') declare homeScore: string
+  @Str('') declare awayScore: string
 
   get score(): string {
     return `${this.homeScore || ''} - ${this.awayScore || ''}`

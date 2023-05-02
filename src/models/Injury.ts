@@ -1,31 +1,20 @@
 import { Model } from 'pinia-orm'
+import { Attr, Str, Cast } from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
 
-export class Injury extends Model {
+export default class Injury extends Model {
   static entity = 'Injury'
 
-  static fields() {
-    return {
-      // Primary/Foreign keys
-      id: this.attr(0),
-      playerId: this.attr(0),
+  // Primary/Foreign keys
+  @Cast(() => NumberCast) @Attr(0) declare id: number
+  @Cast(() => NumberCast) @Attr(0) declare playerId: number
 
-      // Database fields
-      startedOn: this.string(''),
-      endedOn: this.string(''),
-      description: this.string(''),
-      createdAt: this.string('')
-    }
-  }
+  // Database fields
+  @Str('') declare startedOn: string
+  @Str('') declare endedOn: string
+  @Str('') declare description: string
+  @Str('') declare createdAt: string
 
-  static casts() {
-    return {
-      id: NumberCast,
-      playerId: NumberCast
-    }
-  }
-
-  get timelineType(): string {
-    return 'Injury'
-  }
+  // Static fields
+  @Str('Injury') declare timelineType: string
 }

@@ -1,5 +1,7 @@
 <script setup lang="ts">
-  withDefaults(defineProps<{ stages: StageRecord[]; readonly: boolean }>(), {
+  import { Stage } from '~/models'
+
+  withDefaults(defineProps<{ stages: Stage[]; readonly: boolean }>(), {
     stages: () => [],
     readonly: false
   })

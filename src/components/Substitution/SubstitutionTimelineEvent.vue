@@ -1,9 +1,11 @@
 <script setup lang="ts">
-  defineProps({
-    match: { type: Object, required: true },
-    event: { type: Object, required: true },
-    readonly: { type: Boolean, default: false }
-  })
+  import { Match, Substitution } from '~/models'
+
+  defineProps<{
+    match: Match
+    event: Substitution
+    readonly?: boolean
+  }>()
 </script>
 
 <template>

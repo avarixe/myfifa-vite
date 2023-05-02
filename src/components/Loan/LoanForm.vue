@@ -1,10 +1,11 @@
 <script setup lang="ts">
   import { subDays } from 'date-fns'
+  import { Player, Loan } from '~/models'
 
-  const props = defineProps({
-    player: { type: Object, required: true },
-    record: { type: Object, default: null }
-  })
+  const props = defineProps<{
+    player: Player
+    record?: Loan
+  }>()
 
   interface LoanAttributes {
     signedOn?: string
@@ -54,9 +55,7 @@
       ? team.value.name === props.record.origin
       : props.player.status?.length > 0
   )
-  const title = computed(() =>
-    props.record ? 'Update Loan' : 'Record New Loan'
-  )
+  const title = computed(() => `${props.record ? 'Update' : 'Record New'} Loan`)
 
   watchEffect(() => {
     if (!attributes.addonClause) {

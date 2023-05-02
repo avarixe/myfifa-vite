@@ -1,7 +1,9 @@
 <script setup lang="ts">
-  const props = defineProps({
-    match: { type: Object, required: true }
-  })
+  import { Match, Squad } from '~/models'
+
+  const props = defineProps<{
+    match: Match
+  }>()
 
   const { team } = useTeam()
 

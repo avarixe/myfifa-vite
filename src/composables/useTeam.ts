@@ -1,11 +1,12 @@
 import { addYears, differenceInYears } from 'date-fns'
+import { Team } from '~/models'
 
 export default () => {
   const route = useRoute()
   const teamId = computed(() => parseInt(route.params.teamId?.toString()))
 
   const teamRepo = useRepo(Team)
-  const team = computed(() => teamRepo.find(teamId.value))
+  const team: Ref<Team> = computed(() => teamRepo.find(teamId.value))
 
   function seasonOn(date: string): number {
     const startDate: Date = parseISO(team.value.startedOn)

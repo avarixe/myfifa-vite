@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  const props = defineProps({
-    competitionId: { type: Number, required: true }
-  })
+  const props = defineProps<{
+    competitionId: number
+  }>()
 
   const attributes = reactive({
     name: '',

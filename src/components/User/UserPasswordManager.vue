@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  defineProps({
-    user: { type: Object, required: true }
-  })
+  import { User } from '~/models'
+
+  defineProps<{ user: User }>()
 
   const attributes = reactive({
     currentPassword: '',

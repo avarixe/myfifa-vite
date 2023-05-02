@@ -3,6 +3,7 @@
   import InjuryTimelineEvent from '~/components/Injury/InjuryTimelineEvent.vue'
   import LoanTimelineEvent from '~/components/Loan/LoanTimelineEvent.vue'
   import TransferTimelineEvent from '~/components/Transfer/TransferTimelineEvent.vue'
+  import { Player } from '~/models'
 
   const eventComponent = {
     Contract: ContractTimelineEvent,
@@ -11,7 +12,7 @@
     Transfer: TransferTimelineEvent
   }
 
-  const props = defineProps<{ player: PlayerRecord }>()
+  const props = defineProps<{ player: Player }>()
 
   const events = computed(() =>
     _orderBy(

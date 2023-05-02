@@ -1,8 +1,10 @@
 <script setup lang="ts">
-  const props = defineProps({
-    cap: { type: Object, required: true },
-    readonly: { type: Boolean, default: false }
-  })
+  import { Cap } from '~/models'
+
+  const props = defineProps<{
+    cap: Cap
+    readonly?: boolean
+  }>()
 
   const rating = ref(props.cap.rating)
   const hoverRating = ref(props.cap.rating)

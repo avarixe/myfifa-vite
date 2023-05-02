@@ -1,38 +1,33 @@
 import { Model } from 'pinia-orm'
+import { Attr, Str, Bool, HasMany, Cast } from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
+import Player from './Player'
+import Match from './Match'
+import Squad from './Squad'
+import Competition from './Competition'
 
-export class Team extends Model {
+export default class Team extends Model {
   static entity = 'Team'
 
-  static fields() {
-    return {
-      // Primary/Foreign keys
-      id: this.attr(0),
+  // Primary/Foreign keys
+  @Cast(() => NumberCast) @Attr(0) declare id: number
 
-      // Database fields
-      name: this.string(''),
-      startedOn: this.string(''),
-      currentlyOn: this.string(''),
-      active: this.boolean(true),
-      currency: this.string('$'),
+  // Database fields
+  @Str('') declare name: string
+  @Str('') declare startedOn: string
+  @Str('') declare currentlyOn: string
+  @Bool(true) declare active: boolean
+  @Str('$') declare currency: string
 
-      // Calculated fields
-      timePeriod: this.string(''),
-      badgePath: this.string(''),
+  // Calculated fields
+  @Str('') declare timePeriod: string
+  @Str('') declare badgePath: string
 
-      // Associations
-      players: this.hasMany(Player, 'teamId'),
-      matches: this.hasMany(Match, 'teamId'),
-      squads: this.hasMany(Squad, 'teamId'),
-      competitions: this.hasMany(Competition, 'teamId')
-    }
-  }
-
-  static casts() {
-    return {
-      id: NumberCast
-    }
-  }
+  // Associations
+  @HasMany(() => Player, 'teamId') declare players: Player[]
+  @HasMany(() => Match, 'teamId') declare matches: Match[]
+  @HasMany(() => Squad, 'teamId') declare squads: Squad[]
+  @HasMany(() => Competition, 'teamId') declare competitions: Competition[]
 
   get badgeUrl(): string {
     return this.badgePath

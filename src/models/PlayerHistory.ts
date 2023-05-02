@@ -1,27 +1,17 @@
 import { Model } from 'pinia-orm'
+import { Attr, Str, Num, Cast } from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
 
-export class PlayerHistory extends Model {
+export default class PlayerHistory extends Model {
   static entity = 'PlayerHistory'
 
-  static fields() {
-    return {
-      // Primary/Foreign keys
-      id: this.attr(0),
-      playerId: this.attr(0),
+  // Primary/Foreign keys
+  @Cast(() => NumberCast) @Attr(0) declare id: number
+  @Cast(() => NumberCast) @Attr(0) declare playerId: number
 
-      // Database fields
-      recordedOn: this.string(''),
-      ovr: this.number(60),
-      value: this.number(0),
-      kitNo: this.number(0)
-    }
-  }
-
-  static casts() {
-    return {
-      id: NumberCast,
-      playerId: NumberCast
-    }
-  }
+  // Database fields
+  @Str('') declare recordedOn: string
+  @Num(60) declare ovr: number
+  @Num(0) declare value: number
+  @Num(0) declare kitNo: number
 }

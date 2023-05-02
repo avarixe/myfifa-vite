@@ -1,8 +1,10 @@
 <script setup lang="ts">
-  const props = defineProps({
-    cap: { type: Object, required: true },
-    match: { type: Object, required: true }
-  })
+  import { Cap, Match } from '~/models'
+
+  const props = defineProps<{
+    cap: Cap
+    match: Match
+  }>()
 
   const numGoals = computed(
     () =>

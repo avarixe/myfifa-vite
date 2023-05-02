@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { Competition } from '~/models'
+
   interface CompetitionStats {
     name: string
     competition: string

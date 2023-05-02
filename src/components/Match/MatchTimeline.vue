@@ -2,6 +2,7 @@
   import BookingTimelineEvent from '~/components/Booking/BookingTimelineEvent.vue'
   import GoalTimelineEvent from '~/components/Goal/GoalTimelineEvent.vue'
   import SubstitutionTimelineEvent from '~/components/Substitution/SubstitutionTimelineEvent.vue'
+  import { Match } from '~/models'
 
   const eventComponent = {
     Booking: BookingTimelineEvent,
@@ -9,12 +10,12 @@
     Substitution: SubstitutionTimelineEvent
   }
 
-  const props = defineProps({
-    match: { type: Object, required: true },
-    readonly: { type: Boolean, default: false }
-  })
+  const props = defineProps<{
+    match: Match
+    readonly?: boolean
+  }>()
 
-  const events = computed(() =>
+  const events: Ref<{ timelineType: string }[]> = computed(() =>
     _orderBy(
       [
         ...props.match.bookings,

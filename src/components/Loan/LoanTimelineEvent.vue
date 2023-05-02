@@ -1,12 +1,13 @@
 <script setup lang="ts">
   import { formatDistance } from 'date-fns'
+  import { Player, Loan } from '~/models'
 
   const { team } = useTeam()
 
-  const props = defineProps({
-    player: { type: Object, required: true },
-    event: { type: Object, required: true }
-  })
+  const props = defineProps<{
+    player: Player
+    event: Loan
+  }>()
 
   const title = computed(() =>
     team.value.name === props.event.origin

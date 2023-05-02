@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  const props = defineProps({
-    player: { type: Object, required: true }
-  })
+  import { Player } from '~/models'
+
+  const props = defineProps<{ player: Player }>()
 
   const { submitForm: onConfirm } = useForm({
     mutation: gql`

@@ -1,6 +1,8 @@
+import { Competition, Stage, TableRow, Fixture } from '~/models'
+
 export default competitionId => {
   const competitionRepo = useRepo(Competition)
-  const competition = computed(() =>
+  const competition: Ref<Competition> = computed(() =>
     competitionRepo
       .with('team')
       .with('stages', query => {
@@ -67,7 +69,7 @@ export default competitionId => {
   }
 
   const stageRepo = useRepo(Stage)
-  const orderedRounds: Ref<StageRecord[]> = computed(() =>
+  const orderedRounds: Ref<Stage[]> = computed(() =>
     stageRepo
       .with('fixtures', query => {
         query.with('legs')

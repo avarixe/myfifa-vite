@@ -1,41 +1,31 @@
 import { Model } from 'pinia-orm'
+import { Attr, Str, Num, BelongsTo, Cast } from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
+import Player from './Player'
 
-export class Contract extends Model {
+export default class Contract extends Model {
   static entity = 'Contract'
 
-  static fields() {
-    return {
-      // Primary/Foreign keys
-      id: this.attr(0),
-      playerId: this.attr(0),
+  // Primary/Foreign keys
+  @Cast(() => NumberCast) @Attr(0) declare id: number
+  @Cast(() => NumberCast) @Attr(0) declare playerId: number
 
-      // Database fields
-      signedOn: this.string(''),
-      wage: this.number(null),
-      signingBonus: this.number(null),
-      releaseClause: this.number(null),
-      performanceBonus: this.number(null),
-      bonusReq: this.number(null),
-      bonusReqType: this.string(null),
-      endedOn: this.string(''),
-      startedOn: this.string(''),
-      conclusion: this.string(null),
-      createdAt: this.string(''),
+  // Database fields
+  @Str('') declare signedOn: string
+  @Num(null) declare wage: number | null
+  @Num(null) declare signingBonus: number | null
+  @Num(null) declare releaseClause: number | null
+  @Num(null) declare performanceBonus: number | null
+  @Num(null) declare bonusReq: number | null
+  @Str(null) declare bonusReqType: string | null
+  @Str('') declare endedOn: string
+  @Str('') declare startedOn: string
+  @Str(null) declare conclusion: string | null
+  @Str('') declare createdAt: string
 
-      // Associations
-      player: this.belongsTo(Player, 'playerId', 'id')
-    }
-  }
+  // Static fields
+  @Str('Contract') declare timelineType: string
 
-  static casts() {
-    return {
-      id: NumberCast,
-      playerId: NumberCast
-    }
-  }
-
-  get timelineType(): string {
-    return 'Contract'
-  }
+  // Associations
+  @BelongsTo(() => Player, 'playerId') declare player: Player
 }

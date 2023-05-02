@@ -1,31 +1,21 @@
 import { Model } from 'pinia-orm'
+import { Attr, Str, BelongsTo, Cast } from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
+import Player from './Player'
 
-export class SquadPlayer extends Model {
+export default class SquadPlayer extends Model {
   static entity = 'SquadPlayer'
 
-  static fields() {
-    return {
-      // Primary/Foreign keys
-      id: this.attr(0),
-      playerId: this.attr(0),
-      squadId: this.attr(0),
+  // Primary/Foreign keys
+  @Cast(() => NumberCast) @Attr(0) declare id: number
+  @Cast(() => NumberCast) @Attr(0) declare playerId: number
+  @Cast(() => NumberCast) @Attr(0) declare squadId: number
 
-      // Database fields
-      pos: this.string(''),
+  // Database fields
+  @Str('') declare pos: string
 
-      // Associations
-      player: this.belongsTo(Player, 'playerId')
-    }
-  }
-
-  static casts() {
-    return {
-      id: NumberCast,
-      playerId: NumberCast,
-      squadId: NumberCast
-    }
-  }
+  // Associations
+  @BelongsTo(() => Player, 'playerId') declare player: Player
 
   get positionType(): string {
     return matchPositions[this.pos]

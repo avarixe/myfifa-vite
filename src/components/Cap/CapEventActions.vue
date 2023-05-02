@@ -1,7 +1,9 @@
 <script setup lang="ts">
+  import { Cap, Match } from '~/models'
+
   defineProps<{
-    cap: CapRecord
-    match: MatchRecord
+    cap: Cap
+    match: Match
   }>()
 </script>
 

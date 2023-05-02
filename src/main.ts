@@ -6,6 +6,7 @@ import { createVuetify } from 'vuetify'
 import * as directives from 'vuetify/directives'
 import 'vuetify/styles'
 
+import { User } from './models'
 import App from './App.vue'
 
 import Datepicker from '@vuepic/vue-datepicker'

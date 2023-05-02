@@ -1,28 +1,19 @@
 import { Model } from 'pinia-orm'
+import { Attr, Str, HasMany, Cast } from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
+import FixtureLeg from './FixtureLeg'
 
-export class Fixture extends Model {
+export default class Fixture extends Model {
   static entity = 'Fixture'
 
-  static fields() {
-    return {
-      // Primary/Foreign keys
-      id: this.attr(0),
-      stageId: this.attr(0),
+  // Primary/Foreign keys
+  @Cast(() => NumberCast) @Attr(0) declare id: number
+  @Cast(() => NumberCast) @Attr(0) declare stageId: number
 
-      // Database fields
-      homeTeam: this.string(''),
-      awayTeam: this.string(''),
+  // Database fields
+  @Str('') declare homeTeam: string
+  @Str('') declare awayTeam: string
 
-      // Associations
-      legs: this.hasMany(FixtureLeg, 'fixtureId', 'id')
-    }
-  }
-
-  static casts() {
-    return {
-      id: NumberCast,
-      stageId: NumberCast
-    }
-  }
+  // Associations
+  @HasMany(() => FixtureLeg, 'fixtureId') declare legs: FixtureLeg[]
 }

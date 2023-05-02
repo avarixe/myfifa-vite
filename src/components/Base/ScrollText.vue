@@ -1,8 +1,11 @@
 <script setup lang="ts">
-  const props = defineProps({
-    text: { type: String, default: '' },
-    speed: { type: Number, default: 6 }
-  })
+  const props = withDefaults(
+    defineProps<{
+      text: string
+      speed?: number
+    }>(),
+    { text: '', speed: 6 }
+  )
 
   const textClass = ref('truncated')
   const resizeListener = ref(null)

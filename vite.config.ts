@@ -27,7 +27,6 @@ export default defineConfig({
         './src/constants',
         './src/fragments',
         './src/helpers',
-        './src/models',
         './src/store'
       ],
       imports: [
@@ -47,17 +46,7 @@ export default defineConfig({
         },
         {
           from: './src/types',
-          imports: [
-            'BookingRecord',
-            'CapRecord',
-            'CapAttributes',
-            'GoalRecord',
-            'MatchRecord',
-            'MatchEvent',
-            'PlayerRecord',
-            'StageAttributes',
-            'StageRecord'
-          ],
+          imports: ['CapAttributes', 'StageAttributes', 'MatchFilters'],
           type: true
         }
       ],

@@ -1,8 +1,10 @@
 <script setup lang="ts">
-  const props = defineProps({
-    teamId: { type: Number, default: null },
-    record: { type: Object, default: null }
-  })
+  import { Squad, Player } from '~/models'
+
+  const props = defineProps<{
+    teamId?: number
+    record?: Squad
+  }>()
 
   const inEditMode = ref(!props.record)
 
@@ -82,7 +84,7 @@
       ['asc', 'desc']
     )
   )
-  const unselectedPlayers = computed(() =>
+  const unselectedPlayers: Ref<Player[]> = computed(() =>
     players.value.filter(player =>
       attributes.squadPlayersAttributes.every(
         attr => attr.playerId !== player.id

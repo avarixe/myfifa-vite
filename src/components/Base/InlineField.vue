@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  defineProps({
-    displayValue: { type: [String, Number], default: null },
-    tooltip: { type: String, default: null }
-  })
+  defineProps<{
+    displayValue?: string | number
+    tooltip?: string
+  }>()
 
   const menu = ref(false)
   const emit = defineEmits(['closed'])

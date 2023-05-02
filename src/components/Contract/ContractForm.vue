@@ -1,10 +1,12 @@
 <script setup lang="ts">
+  import { Player, Contract } from '~/models'
+
   const { team } = useTeam()
 
-  const props = defineProps({
-    player: { type: Object, required: true },
-    record: { type: Object, default: null }
-  })
+  const props = defineProps<{
+    player: Player
+    record?: Contract
+  }>()
 
   interface ContractAttributes {
     signedOn?: string
@@ -130,7 +132,7 @@
       <v-col cols="12">
         <v-text-field
           v-if="numSeasonsOn"
-          v-model.number="attributes.numSeasons"
+          v-model="attributes.numSeasons"
           label="Number of Seasons"
           prepend-icon="mdi-pound"
           append-outer-icon="mdi-calendar"

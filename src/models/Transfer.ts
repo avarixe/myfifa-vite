@@ -1,40 +1,30 @@
 import { Model } from 'pinia-orm'
+import { Attr, Str, Num, BelongsTo, Cast } from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
+import Player from './Player'
 
-export class Transfer extends Model {
+export default class Transfer extends Model {
   static entity = 'Transfer'
 
-  static fields() {
-    return {
-      // Primary/Foreign keys
-      id: this.attr(0),
-      playerId: this.attr(0),
+  // Primary/Foreign keys
+  @Cast(() => NumberCast) @Attr(0) declare id: number
+  @Cast(() => NumberCast) @Attr(0) declare playerId: number
 
-      // Database fields
-      signedOn: this.string(''),
-      movedOn: this.string(''),
-      origin: this.string(''),
-      destination: this.string(''),
-      fee: this.number(null),
-      tradedPlayer: this.string(null),
-      addonClause: this.number(null),
-      createdAt: this.string(''),
+  // Database fields
+  @Str(null) declare signedOn: string | null
+  @Str(null) declare movedOn: string | null
+  @Str('') declare origin: string
+  @Str('') declare destination: string
+  @Num(null) declare fee: number | null
+  @Str(null) declare tradedPlayer: string | null
+  @Num(null) declare addonClause: number | null
+  @Str('') declare createdAt: string
 
-      // Associations
-      player: this.belongsTo(Player, 'playerId', 'id')
-    }
-  }
+  // Static fields
+  @Str('Transfer') declare timelineType: string
 
-  static casts() {
-    return {
-      id: NumberCast,
-      playerId: NumberCast
-    }
-  }
-
-  get timelineType(): string {
-    return 'Transfer'
-  }
+  // Associations
+  @BelongsTo(() => Player, 'playerId') declare player: Player
 
   get startedOn(): string {
     return this.movedOn

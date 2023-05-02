@@ -1,8 +1,10 @@
 <script setup lang="ts">
-  const props = defineProps({
-    match: { type: Object, required: true },
-    side: { type: String, required: true }
-  })
+  import { Match } from '~/models'
+
+  const props = defineProps<{
+    match: Match
+    side: 'home' | 'away'
+  }>()
 
   const menu = ref(false)
   const tab = ref('goal')

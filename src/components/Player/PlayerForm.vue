@@ -1,10 +1,12 @@
 <script setup lang="ts">
+  import { Player } from '~/models'
+
   const { team } = useTeam()
 
-  const props = defineProps({
-    teamId: { type: Number, default: null },
-    record: { type: Object, default: null }
-  })
+  const props = defineProps<{
+    teamId?: number
+    record?: Player
+  }>()
 
   const attributes = reactive({
     name: props.record?.name,

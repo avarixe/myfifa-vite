@@ -1,11 +1,17 @@
 <script setup lang="ts">
   import { addYears } from 'date-fns'
+  import { Player, Contract, Transfer, Loan } from '~/models'
 
-  const props = defineProps({
-    transferActivity: { type: Object, required: true },
-    playerValues: { type: Object, required: true },
-    season: { type: Number, required: true }
-  })
+  const props = defineProps<{
+    transferActivity: {
+      arrivals: Contract[]
+      departures: Contract[]
+      transfers: Transfer[]
+      loans: Loan[]
+    }
+    playerValues: object
+    season: number
+  }>()
 
   const { team } = useTeam()
 
@@ -47,7 +53,7 @@
         )
       })
       .map((arrival, i) => {
-        const player = playerRepo.find(parseInt(arrival.playerId))
+        const player = playerRepo.find(parseInt(arrival.playerId.toString()))
 
         return {
           ..._pick(player, ['name', 'pos']),
@@ -66,7 +72,7 @@
 
   const departures: Ref<TransferTableRow[]> = computed(() =>
     props.transferActivity.departures.map((departure, i) => {
-      const player = playerRepo.find(parseInt(departure.playerId))
+      const player = playerRepo.find(parseInt(departure.playerId.toString()))
 
       return {
         ..._pick(player, ['name', 'pos']),
@@ -85,7 +91,7 @@
 
   const transfers: Ref<TransferTableRow[]> = computed(() =>
     props.transferActivity.transfers.map((transfer, i) => {
-      const player = playerRepo.find(parseInt(transfer.playerId))
+      const player = playerRepo.find(parseInt(transfer.playerId.toString()))
       const playerValues =
         props.playerValues[transfer.playerId] || Array(2).fill(player.value)
       const transferOut = team.value.name === transfer.origin
@@ -118,7 +124,7 @@
   })
   const loans: Ref<TransferTableRow[]> = computed(() =>
     props.transferActivity.loans.reduce((loans, loan) => {
-      const player = playerRepo.find(parseInt(loan.playerId))
+      const player = playerRepo.find(parseInt(loan.playerId.toString()))
       const loanOut = team.value.name === loan.origin
       const row = {
         ..._pick(player, ['name', 'pos']),

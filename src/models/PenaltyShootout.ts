@@ -1,25 +1,15 @@
 import { Model } from 'pinia-orm'
+import { Attr, Num, Cast } from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
 
-export class PenaltyShootout extends Model {
+export default class PenaltyShootout extends Model {
   static entity = 'PenaltyShootout'
 
-  static fields() {
-    return {
-      // Primary/Foreign keys
-      id: this.attr(0),
-      matchId: this.attr(0),
+  // Primary/Foreign keys
+  @Cast(() => NumberCast) @Attr(0) declare id: number
+  @Cast(() => NumberCast) @Attr(0) declare matchId: number
 
-      // Database fields
-      homeScore: this.number(0),
-      awayScore: this.number(0)
-    }
-  }
-
-  static casts() {
-    return {
-      id: NumberCast,
-      matchId: NumberCast
-    }
-  }
+  // Database fields
+  @Num(0) declare homeScore: number
+  @Num(0) declare awayScore: number
 }

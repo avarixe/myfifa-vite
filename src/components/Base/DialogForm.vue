@@ -5,7 +5,7 @@
       variables: () => object
       title: string
       titleIcon?: string
-      validateOnOpen: boolean
+      validateOnOpen?: boolean
     }>(),
     {
       title: '',

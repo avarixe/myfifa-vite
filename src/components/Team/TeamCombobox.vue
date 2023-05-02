@@ -1,8 +1,11 @@
 <script setup lang="ts">
-  const props = defineProps({
-    modelValue: { type: String, default: null },
-    defaultItems: { type: Array, default: () => [] }
-  })
+  const props = withDefaults(
+    defineProps<{
+      modelValue?: string
+      defaultItems?: string[]
+    }>(),
+    { modelValue: '', defaultItems: () => [] }
+  )
 
   defineEmits(['update:modelValue'])
 

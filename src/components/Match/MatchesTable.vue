@@ -1,15 +1,14 @@
 <script setup lang="ts">
-  const props = defineProps({
-    filters: {
-      type: Object,
-      default: () => ({
-        season: null,
-        competition: null,
-        stage: null,
-        team: null,
-        result: ['win', 'draw', 'loss']
-      })
-    }
+  import { Match } from '~/models'
+
+  const props = withDefaults(defineProps<{ filters?: MatchFilters }>(), {
+    filters: () => ({
+      season: null,
+      competition: null,
+      stage: null,
+      team: null,
+      result: ['win', 'draw', 'loss']
+    })
   })
 
   const { team } = useTeam()

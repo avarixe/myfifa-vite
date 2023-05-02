@@ -1,8 +1,10 @@
 <script setup lang="ts">
-  const props = defineProps({
-    match: { type: Object, required: true },
-    readonly: { type: Boolean, default: false }
-  })
+  import { Match } from '~/models'
+
+  const props = defineProps<{
+    match: Match
+    readonly?: boolean
+  }>()
 
   const { team } = useTeam()
 

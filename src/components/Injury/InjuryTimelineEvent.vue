@@ -1,12 +1,13 @@
 <script setup lang="ts">
   import { formatDistance } from 'date-fns'
+  import { Player, Injury } from '~/models'
 
   const { team } = useTeam()
 
-  const props = defineProps({
-    player: { type: Object, required: true },
-    event: { type: Object, required: true }
-  })
+  const props = defineProps<{
+    player: Player
+    event: Injury
+  }>()
 
   const duration = computed(() =>
     formatDistance(

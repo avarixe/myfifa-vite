@@ -1,8 +1,10 @@
 <script setup lang="ts">
-  const props = defineProps({
-    player: { type: Object, required: true },
-    loan: { type: Object, required: true }
-  })
+  import { Player, Loan } from '~/models'
+
+  const props = defineProps<{
+    player: Player
+    loan?: Loan
+  }>()
 
   const { team } = useTeam()
 

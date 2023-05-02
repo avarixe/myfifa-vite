@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { Team, Player, Match, Competition } from '~/models'
+
   const teamRepo = useRepo(Team)
   const playerRepo = useRepo(Player)
   const matchRepo = useRepo(Match)

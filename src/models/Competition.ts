@@ -1,32 +1,31 @@
 import { Model } from 'pinia-orm'
+import {
+  Attr,
+  Str,
+  Num,
+  BelongsTo,
+  HasMany,
+  Cast
+} from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
+import Team from './Team'
+import Stage from './Stage'
 
-export class Competition extends Model {
+export default class Competition extends Model {
   static entity = 'Competition'
 
-  static fields() {
-    return {
-      // Primary/Foreign keys
-      id: this.attr(0),
-      teamId: this.attr(0),
+  // Primary/Foreign keys
+  @Cast(() => NumberCast) @Attr(0) declare id: number
+  @Cast(() => NumberCast) @Attr(0) declare teamId: number
 
-      // Database fields
-      season: this.number(0),
-      name: this.string(''),
-      champion: this.string(null),
+  // Database fields
+  @Num(0) declare season: number
+  @Str('') declare name: string
+  @Str(null) declare champion: string | null
 
-      // Associations
-      team: this.belongsTo(Team, 'teamId'),
-      stages: this.hasMany(Stage, 'competitionId')
-    }
-  }
-
-  static casts() {
-    return {
-      id: NumberCast,
-      teamId: NumberCast
-    }
-  }
+  // Associations
+  @BelongsTo(() => Team, 'teamId') declare team: Team
+  @HasMany(() => Stage, 'competitionId') declare stages: Stage[]
 
   get statusIcon(): string {
     if (this.champion === this.team.name) {

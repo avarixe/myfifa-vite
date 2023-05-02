@@ -1,8 +1,10 @@
 <script setup lang="ts">
-  const props = defineProps({
-    player: { type: Object, required: true },
-    record: { type: Object, default: null }
-  })
+  import { Player, Injury } from '~/models'
+
+  const props = defineProps<{
+    player: Player
+    record?: Injury
+  }>()
 
   interface InjuryAttributes {
     startedOn?: string
@@ -41,8 +43,8 @@
 
   const timespans = ['Days', 'Weeks', 'Months', 'Years']
 
-  const title = computed(() =>
-    props.record ? 'Update Injury' : 'Record New Injury'
+  const title = computed(
+    () => `${props.record ? 'Update' : 'Record New'} Injury`
   )
 
   watch(durationOn, () => {

@@ -1,8 +1,10 @@
 <script setup lang="ts">
-  const props = defineProps({
-    player: { type: Object, required: true },
-    record: { type: Object, default: null }
-  })
+  import { Player, Transfer } from '~/models'
+
+  const props = defineProps<{
+    player: Player
+    record?: Transfer
+  }>()
 
   const { team } = useTeam()
   const transferOut = computed(() =>

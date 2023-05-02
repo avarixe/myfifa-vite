@@ -1,42 +1,37 @@
 import { Model } from 'pinia-orm'
+import {
+  Attr,
+  Str,
+  Num,
+  Bool,
+  BelongsTo,
+  Cast
+} from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
+import Player from './Player'
 
-export class Goal extends Model {
+export default class Goal extends Model {
   static entity = 'Goal'
 
-  static fields() {
-    return {
-      // Primary/Foreign keys
-      id: this.attr(0),
-      matchId: this.attr(0),
-      playerId: this.attr(null),
-      assistId: this.attr(null),
+  // Primary/Foreign keys
+  @Cast(() => NumberCast) @Attr(0) declare id: number
+  @Cast(() => NumberCast) @Attr(0) declare matchId: number
+  @Cast(() => NumberCast) @Attr(null) declare playerId: number | null
+  @Cast(() => NumberCast) @Attr(null) declare assistId: number | null
 
-      // Database fields
-      playerName: this.string(''),
-      assistedBy: this.string(''),
-      minute: this.number(0),
-      home: this.boolean(true),
-      ownGoal: this.boolean(false),
-      penalty: this.boolean(false),
-      createdAt: this.string(''),
+  // Database fields
+  @Str('') declare playerName: string
+  @Str('') declare assistedBy: string
+  @Num(0) declare minute: number
+  @Bool(true) declare home: boolean
+  @Bool(false) declare ownGoal: boolean
+  @Bool(false) declare penalty: boolean
+  @Str('') declare createdAt: string
 
-      // Associations
-      player: this.belongsTo(Player, 'playerId', 'id'),
-      assistingPlayer: this.belongsTo(Player, 'assistId', 'id')
-    }
-  }
+  // Static fields
+  @Str('Goal') declare timelineType: string
 
-  static casts() {
-    return {
-      id: NumberCast,
-      matchId: NumberCast,
-      playerId: NumberCast,
-      assistId: NumberCast
-    }
-  }
-
-  get timelineType(): string {
-    return 'Goal'
-  }
+  // Associations
+  @BelongsTo(() => Player, 'playerId') declare player: Player
+  @BelongsTo(() => Player, 'assistId') declare assistingPlayer: Player
 }

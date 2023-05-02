@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { Team } from '~/models'
+
   const { data } = await useQuery({
     query: gql`
       query fetchTeams {

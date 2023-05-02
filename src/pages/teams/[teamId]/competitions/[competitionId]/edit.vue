@@ -1,8 +1,10 @@
 <script setup lang="ts">
-  const props = defineProps({
-    teamId: { type: String, required: true },
-    competitionId: { type: String, required: true }
-  })
+  import { Competition } from '~/models'
+
+  const props = defineProps<{
+    teamId: string
+    competitionId: string
+  }>()
 
   const { data } = await useTeamQuery({
     query: gql`

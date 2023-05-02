@@ -1,9 +1,14 @@
 <script setup lang="ts">
-  const props = defineProps({
-    stage: { type: Object, required: true },
-    readonly: { type: Boolean, default: false },
-    isNamed: { type: Boolean, default: true }
-  })
+  import { Stage } from '~/models'
+
+  const props = withDefaults(
+    defineProps<{
+      stage: Stage
+      readonly?: boolean
+      isNamed?: boolean
+    }>(),
+    { isNamed: true }
+  )
 
   const attributes: StageAttributes = reactive({})
   function resetAttributes() {
@@ -25,9 +30,7 @@
     resetAttributes()
   }
 
-  const { previousRoundTeams } = useCompetition(
-    parseInt(props.stage.competitionId)
-  )
+  const { previousRoundTeams } = useCompetition(props.stage.competitionId)
   const teamOptions = computed(() => previousRoundTeams(props.stage))
 
   function addFixture() {
