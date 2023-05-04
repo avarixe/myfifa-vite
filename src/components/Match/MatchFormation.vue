@@ -131,7 +131,7 @@
                 :side="match.home === team?.name ? 'away' : 'home'"
               >
                 <template #default="{ side, close }">
-                  <match-side-goal-form
+                  <match-side-booking-form
                     :match="match"
                     :side="side"
                     @submitted="close"
