@@ -65,7 +65,6 @@
         v-model="attributes.replacementId"
         :players="availablePlayers"
         label="Replaced By"
-        icon="mdi-subdirectory-arrow-right"
       />
       <v-checkbox v-model="attributes.injury" label="Injury" hide-details />
       <div class="d-flex">

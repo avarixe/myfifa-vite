@@ -72,9 +72,9 @@
       <v-text-field v-model.number="minute" label="Minute" type="number" />
       <cap-select
         v-model="attributes.assistId"
-        :caps="assistOptions"
         label="Assisted By"
-        icon="mdi-human-greeting"
+        :caps="assistOptions"
+        reverse-order
         :disabled="attributes.penalty || attributes.ownGoal"
         clearable
         hide-details
