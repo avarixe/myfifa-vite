@@ -149,7 +149,6 @@
           label="Goal Scorer"
           prepend-icon="mdi-account"
           :caps="scorerOptions"
-          reverse-order
         />
         <v-text-field
           v-else

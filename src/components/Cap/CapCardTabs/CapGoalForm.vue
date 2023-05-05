@@ -74,7 +74,6 @@
         v-model="attributes.assistId"
         label="Assisted By"
         :caps="assistOptions"
-        reverse-order
         :disabled="attributes.penalty || attributes.ownGoal"
         clearable
         hide-details

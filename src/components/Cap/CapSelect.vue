@@ -1,15 +1,7 @@
 <script setup lang="ts">
   import { Cap, Player } from '~/models'
 
-  const props = withDefaults(
-    defineProps<{
-      caps: Cap[]
-      reverseOrder?: boolean
-    }>(),
-    {
-      caps: () => []
-    }
-  )
+  const props = withDefaults(defineProps<{ caps: Cap[] }>(), { caps: () => [] })
 
   const playerPositions = computed(() =>
     props.caps.reduce(
@@ -31,9 +23,8 @@
           props.caps.map(cap => cap.playerId)
         )
         .get(),
-      player =>
-        matchPositionList.indexOf(playerPositions.value[player.id]) *
-        (props.reverseOrder ? -1 : 1)
+      (player: Player) =>
+        matchPositionList.indexOf(playerPositions.value[player.id])
     )
   )
 </script>

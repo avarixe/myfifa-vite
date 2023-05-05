@@ -17,14 +17,17 @@ export const positions: string[] = [
 ]
 
 export const matchPositions: object = {
-  GK: 'DEF',
-  LB: 'DEF',
-  LWB: 'DEF',
-  LCB: 'DEF',
-  CB: 'DEF',
-  RCB: 'DEF',
-  RB: 'DEF',
-  RWB: 'DEF',
+  LW: 'FWD',
+  LS: 'FWD',
+  ST: 'FWD',
+  RS: 'FWD',
+  LF: 'FWD',
+  CF: 'FWD',
+  RF: 'FWD',
+  RW: 'FWD',
+  LAM: 'MID',
+  CAM: 'MID',
+  RAM: 'MID',
   LM: 'MID',
   LDM: 'MID',
   LCM: 'MID',
@@ -33,17 +36,14 @@ export const matchPositions: object = {
   RDM: 'MID',
   RCM: 'MID',
   RM: 'MID',
-  LAM: 'MID',
-  CAM: 'MID',
-  RAM: 'MID',
-  LW: 'FWD',
-  RF: 'FWD',
-  CF: 'FWD',
-  LF: 'FWD',
-  LS: 'FWD',
-  ST: 'FWD',
-  RS: 'FWD',
-  RW: 'FWD'
+  LB: 'DEF',
+  LWB: 'DEF',
+  LCB: 'DEF',
+  CB: 'DEF',
+  RCB: 'DEF',
+  RB: 'DEF',
+  RWB: 'DEF',
+  GK: 'DEF'
 }
 
 export const nationalities: object = {
