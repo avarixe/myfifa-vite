@@ -132,7 +132,7 @@
       <v-col cols="12">
         <v-text-field
           v-if="numSeasonsOn"
-          v-model="attributes.numSeasons"
+          v-model.number="attributes.numSeasons"
           label="Number of Seasons"
           prepend-icon="mdi-pound"
           append-outer-icon="mdi-calendar"
