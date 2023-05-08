@@ -9,7 +9,7 @@
 
 <template>
   <div
-    class="d-flex justify-space-around align-center flex-wrap"
+    class="d-flex justify-space-around align-center overflow-visible"
     :style="{ overflow: 'auto' }"
   >
     <v-btn size="x-small" icon variant="text" :disabled="cap.subbedOut">

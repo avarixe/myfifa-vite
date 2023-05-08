@@ -22,6 +22,7 @@ declare module '@vue/runtime-core' {
     CapEventActions: typeof import('./src/components/Cap/CapEventActions.vue')['default']
     CapEventMenu: typeof import('./src/components/Cap/CapEventMenu.vue')['default']
     CapEvents: typeof import('./src/components/Cap/CapEvents.vue')['default']
+    CapForm: typeof import('./src/components/Cap/CapForm.vue')['default']
     CapGoalForm: typeof import('./src/components/Cap/CapCardTabs/CapGoalForm.vue')['default']
     CapRating: typeof import('./src/components/Cap/CapRating.vue')['default']
     CapSelect: typeof import('./src/components/Cap/CapSelect.vue')['default']

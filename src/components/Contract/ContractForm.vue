@@ -22,12 +22,15 @@
   }
 
   const attributes: ContractAttributes = reactive({})
-  watch(() => attributes.performanceBonus, () => {
-    if (!attributes.performanceBonus) {
-      attributes.bonusReq = null
-      attributes.bonusReqType = null
+  watch(
+    () => attributes.performanceBonus,
+    () => {
+      if (!attributes.performanceBonus) {
+        attributes.bonusReq = null
+        attributes.bonusReqType = null
+      }
     }
-  })
+  )
 
   const numSeasonsOn = ref(true)
   watch(numSeasonsOn, () => {
