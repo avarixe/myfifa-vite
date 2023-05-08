@@ -12,6 +12,12 @@
         g => g.playerId === props.cap.playerId && !g.ownGoal
       ).length
   )
+  const numOwnGoals = computed(
+    () =>
+      props.match.goals.filter(
+        g => g.playerId === props.cap.playerId && g.ownGoal
+      ).length
+  )
   const numAssists = computed(
     () =>
       props.match.goals.filter(g => g.assistId === props.cap.playerId).length
@@ -59,6 +65,17 @@
         <div class="counter font-weight-black">{{ numGoals }}</div>
       </template>
       <v-icon color="blue" size="small" icon="mdi-soccer" />
+    </v-badge>
+    <v-badge
+      v-if="numOwnGoals > 0"
+      location="bottom right"
+      overlap
+      color="transparent"
+    >
+      <template #badge>
+        <div class="counter font-weight-black">{{ numOwnGoals }}</div>
+      </template>
+      <v-icon color="red" size="small" icon="mdi-soccer" />
     </v-badge>
     <v-badge
       v-if="numAssists > 0"

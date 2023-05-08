@@ -15,7 +15,7 @@
   <match-timeline-event :match="match" :event="event" :readonly="readonly">
     <div>
       <v-icon
-        :color="event.ownGoal ? 'blue-grey' : 'blue'"
+        :color="event.ownGoal ? 'red' : 'blue'"
         size="small"
         start
         icon="mdi-soccer"
