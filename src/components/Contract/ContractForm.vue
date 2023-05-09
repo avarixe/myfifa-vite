@@ -22,7 +22,25 @@
   }
 
   const attributes: ContractAttributes = reactive({})
+  watch(
+    () => attributes.performanceBonus,
+    () => {
+      if (!attributes.performanceBonus) {
+        attributes.bonusReq = null
+        attributes.bonusReqType = null
+      }
+    }
+  )
+
   const numSeasonsOn = ref(true)
+  watch(numSeasonsOn, () => {
+    if (numSeasonsOn.value) {
+      attributes.numSeasons = null
+    } else {
+      delete attributes.numSeasons
+    }
+  })
+
   function onOpen() {
     attributes.signedOn = props.record?.signedOn
     attributes.startedOn = props.record?.startedOn
@@ -58,19 +76,6 @@
   const title = computed(() =>
     props.record ? 'Edit Contract' : 'Sign New Contract'
   )
-
-  watchEffect(() => {
-    if (!attributes.performanceBonus) {
-      attributes.bonusReq = null
-      attributes.bonusReqType = null
-    }
-
-    if (numSeasonsOn.value) {
-      attributes.numSeasons = null
-    } else {
-      delete attributes.numSeasons
-    }
-  })
 
   const mutation = props.record
     ? gql`

@@ -8,18 +8,7 @@
 </script>
 
 <template>
-  <div
-    class="d-flex justify-space-around align-center flex-wrap"
-    :style="{ overflow: 'auto' }"
-  >
-    <v-btn size="x-small" icon variant="text" :disabled="cap.subbedOut">
-      <v-icon>mdi-account</v-icon>
-      <cap-event-menu :cap="cap" :match="match">
-        <template #default="{ close }">
-          <cap-editor :cap="cap" :match="match" @submitted="close" />
-        </template>
-      </cap-event-menu>
-    </v-btn>
+  <div class="d-flex justify-space-around align-center overflow-visible">
     <v-btn size="x-small" icon variant="text" :disabled="cap.subbedOut">
       <v-icon>mdi-soccer</v-icon>
       <cap-event-menu :cap="cap" :match="match">

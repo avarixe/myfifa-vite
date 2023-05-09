@@ -18,9 +18,9 @@
     <template #item="{ item, props }: { item: { raw: PlayerItem }, props: {} }">
       <v-list-item v-bind="props">
         <template #prepend>
-          <small class="text-disabled font-weight-bold mr-4">{{
-            item.raw.pos
-          }}</small>
+          <small class="text-disabled font-weight-bold mr-4">
+            {{ item.raw.pos }}
+          </small>
         </template>
       </v-list-item>
     </template>

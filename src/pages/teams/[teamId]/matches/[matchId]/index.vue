@@ -185,6 +185,15 @@
     </v-btn-toggle>
 
     <div v-if="!readonly" class="my-2">
+      <template v-if="match.caps.length < 11">
+        <v-btn>
+          <v-icon start>mdi-account-plus</v-icon>
+          Add Cap
+
+          <cap-form :match="match" />
+        </v-btn>
+        &nbsp;
+      </template>
       <v-btn>
         <v-icon start>mdi-download</v-icon>
         Apply Squad
