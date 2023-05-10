@@ -1,7 +1,9 @@
 <script setup lang="ts">
+  import { read, utils } from 'xlsx'
+
   defineProps<{ playerId: string }>()
 
-  const { team } = await useTeamQuery({
+  await useTeamQuery({
     query: gql`
       query fetchPlayersPage($teamId: ID!) {
         team(id: $teamId) {
@@ -11,18 +13,13 @@
       ${teamFragment}
     `
   })
+  const { team, endOfCurrentSeason } = useTeam()
 
   const valid = ref(false)
   const numPlayers = ref(0)
   const submitted = ref(0)
   const cleared = ref(0)
   const players = ref([])
-
-  useHead(() => ({
-    script: [
-      { src: '//cdn.jsdelivr.net/npm/xlsx@0.17.0/dist/xlsx.mini.min.js' }
-    ]
-  }))
 
   function addPlayer() {
     players.value.push({
@@ -39,7 +36,7 @@
         {
           signedOn: team.value.currentlyOn,
           startedOn: team.value.currentlyOn,
-          endedOn: team.value.currentlyOn,
+          endedOn: endOfCurrentSeason.value,
           wage: null,
           releaseClause: null,
           signingBonus: null,
@@ -55,57 +52,59 @@
     players.value = players.value.filter(player => player.rowId !== row.rowId)
   }
 
-  // function upload(event) {
-  //   const reader = new FileReader()
-  //   reader.onload = (e) => {
-  //     // Parse data
-  //     const bstr = e.target.result
-  //     const wb = window.XLSX.read(bstr, { type: 'binary', cellDates: true })
-  //     // Get first worksheet
-  //     const wsname = wb.SheetNames[0]
-  //     const ws = wb.Sheets[wsname]
-  //     // Convert array of arrays
-  //     const data = window.XLSX.utils.sheet_to_json(ws)
-  //     // Update state
-  //     data.forEach(player => this.importPlayer(player))
-  //   }
+  const uploader = ref(null)
+  function upload(event) {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      // Parse data
+      const bstr = e.target.result
+      const wb = read(bstr, { type: 'binary', cellDates: true })
+      // Get first worksheet
+      const wsname = wb.SheetNames[0]
+      const ws = wb.Sheets[wsname]
+      // Convert array of arrays
+      const data = utils.sheet_to_json(ws)
+      // Update state
+      data.forEach(player => importPlayer(player))
+    }
 
-  //   const files = event.target.files
+    const files = event.target.files
 
-  //   if (files && files.length > 0) {
-  //     reader.readAsBinaryString(files[0])
-  //   }
+    if (files?.length > 0) {
+      reader.readAsBinaryString(files[0])
+    }
 
-  //   this.$refs.uploader.value = null
-  // }
+    uploader.value.value = null
+  }
 
-  // function importPlayer(player) {
-  //   players.value.push({
-  //     rowId: numPlayers.value++,
-  //     name: player['Name'],
-  //     pos: player['Position'],
-  //     nationality: player['Nationality'],
-  //     secPos: player['Secondary Position(s)']?.split(','),
-  //     ovr: player['OVR'],
-  //     value: player['Value'],
-  //     kitNo: player['Kit Number'],
-  //     age: player['Age'],
-  //     contractsAttributes: [
-  //       {
-  //         signedOn: this.team.currentlyOn,
-  //         startedOn: this.team.currentlyOn,
-  //         endedOn: player['Contract Ends'] &&
-  //           format(player['Contract Ends'], 'yyyy-MM-dd'),
-  //         wage: player['Wage'],
-  //         releaseClause: player['Release Clause'],
-  //         signingBonus: player['Signing Bonus'],
-  //         performanceBonus: player['Performance Bonus'],
-  //         bonusReq: player['Bonus Req'],
-  //         bonusReqType: player['Bonus Req. Type']
-  //       }
-  //     ]
-  //   })
-  // }
+  function importPlayer(player) {
+    players.value.push({
+      rowId: numPlayers.value++,
+      name: player['Name'],
+      pos: player['Position'],
+      nationality: player['Nationality'],
+      secPos: player['Secondary Position(s)']?.split(','),
+      ovr: player['OVR'],
+      value: player['Value'],
+      kitNo: player['Kit Number'],
+      age: player['Age'],
+      contractsAttributes: [
+        {
+          signedOn: team.value.currentlyOn,
+          startedOn: team.value.currentlyOn,
+          endedOn: player['Contract Ends']
+            ? format(player['Contract Ends'], 'yyyy-MM-dd')
+            : null,
+          wage: player['Wage'],
+          releaseClause: player['Release Clause'],
+          signingBonus: player['Signing Bonus'],
+          performanceBonus: player['Performance Bonus'],
+          bonusReq: player['Bonus Req'],
+          bonusReqType: player['Bonus Req. Type']
+        }
+      ]
+    })
+  }
 </script>
 
 <template>
@@ -113,16 +112,16 @@
     <v-row>
       <v-col cols="12">
         <v-btn class="ma-1" @click="addPlayer">
-          <v-icon left>mdi-plus-circle-outline</v-icon>
-          Player
+          <v-icon start>mdi-plus</v-icon>
+          Row
         </v-btn>
-        <!-- <input ref="uploader" type="file" accept=".xlsx" class="d-none" @input="upload"> -->
+        <input ref="uploader" type="file" accept=".xlsx" class="d-none" @input="upload">
         <v-btn class="ma-1" to="/import_players_template.xlsx" target="_blank">
           Download Template
         </v-btn>
-        <!-- <v-btn class="ma-1" @click="$refs.uploader.click()">
+        <v-btn class="ma-1" @click="uploader.click()">
           Upload File
-        </v-btn> -->
+        </v-btn>
       </v-col>
       <v-col cols="12">
         <v-form ref="form" v-model="valid" @submit.prevent="submitted++">
@@ -131,8 +130,10 @@
               <v-table fixed-header height="50vh">
                 <thead>
                   <tr>
-                    <th class="sticky text-center">
-                      <v-icon>mdi-list-status</v-icon>
+                    <th class="sticky text-center" :style="{ zIndex: 2 }">
+                      <v-sheet class="mx-n4 px-4">
+                        <v-icon>mdi-list-status</v-icon>
+                      </v-sheet>
                     </th>
                     <th>Name</th>
                     <th>Nationality</th>
@@ -166,16 +167,10 @@
                 type="submit"
                 :disabled="!valid || players.length === 0"
                 color="primary"
-                variant="text"
               >
                 Submit
               </v-btn>
-              <v-btn
-                color="success"
-                :disabled="cleared >= submitted"
-                variant="text"
-                @click="cleared++"
-              >
+              <v-btn :disabled="cleared >= submitted" @click="cleared++">
                 Clear Saved Players
               </v-btn>
             </v-card-actions>

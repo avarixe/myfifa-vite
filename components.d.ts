@@ -53,7 +53,6 @@ declare module '@vue/runtime-core' {
     MatchForm: typeof import('./src/components/Match/MatchForm.vue')['default']
     MatchFormation: typeof import('./src/components/Match/Formation/MatchFormation.vue')['default']
     MatchFormationCap: typeof import('./src/components/Match/Formation/MatchFormationCap.vue')['default']
-    MatchFormationCell: typeof import('./src/components/Match/Formation/MatchFormationCell.vue')['default']
     MatchFormationSide: typeof import('./src/components/Match/Formation/MatchFormationSide.vue')['default']
     MatchLineup: typeof import('./src/components/Match/MatchLineup.vue')['default']
     MatchSideBookingForm: typeof import('./src/components/Match/SideCard/MatchSideBookingForm.vue')['default']

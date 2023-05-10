@@ -12,8 +12,9 @@
         value: number
         kitNo: number
         contractsAttributes: {
-          startOn: string
-          endOn: string
+          signedOn: string
+          startedOn: string
+          endedOn: string
           wage: number
           signingBonus: number
           releaseClause: number
@@ -79,27 +80,28 @@
 
 <template>
   <tr>
-    <td class="stick-left pa-1">
-      <v-btn v-if="saved" variant="text" @click="emit('remove', player)">
-        <v-icon color="success">mdi-check-circle</v-icon>
-      </v-btn>
-      <v-tooltip v-else-if="error.length > 0" color="red" right>
-        <template #activator="{ on }">
-          <v-btn variant="text" v-on="on" @click="error = ''">
-            <v-icon color="red">mdi-alert</v-icon>
-          </v-btn>
-        </template>
-        <v-icon left dark> mdi-alert </v-icon>
-        {{ error }}
-      </v-tooltip>
-      <v-btn
-        v-else
-        variant="text"
-        :loading="loading"
-        @click="emit('remove', player)"
-      >
-        <v-icon>mdi-close</v-icon>
-      </v-btn>
+    <td class="sticky">
+      <v-sheet class="mx-n4 px-4">
+        <v-btn v-if="saved" variant="text" @click="emit('remove', player)">
+          <v-icon color="success">mdi-check-circle</v-icon>
+        </v-btn>
+        <v-tooltip v-else-if="error.length > 0" color="red" right>
+          <template #activator="{ on }">
+            <v-btn variant="text" v-on="on" @click="error = ''">
+              <v-icon color="red">mdi-alert</v-icon>
+            </v-btn>
+          </template>
+          <v-icon left dark> mdi-alert </v-icon>
+          {{ error }}
+        </v-tooltip>
+        <v-btn
+          v-else
+          variant="text"
+          icon="mdi-close"
+          :loading="loading"
+          @click="emit('remove', player)"
+        />
+      </v-sheet>
     </td>
     <td>
       <v-text-field
