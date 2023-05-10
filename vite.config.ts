@@ -32,6 +32,8 @@ export default defineConfig({
       imports: [
         'vue',
         'vue-router',
+        '@vueuse/core',
+        '@vueuse/head',
         'pinia',
         {
           '@urql/vue': ['useQuery', 'useMutation', 'gql'],
