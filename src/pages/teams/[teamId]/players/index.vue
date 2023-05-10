@@ -160,6 +160,8 @@
       Player
     </v-btn>
     &nbsp;
+    <v-btn :to="`/teams/${team.id}/players/import`">Import</v-btn>
+    &nbsp;
     <v-btn :to="`/teams/${team.id}/players/development`">Development</v-btn>
     &nbsp;
     <v-btn :to="`/teams/${team.id}/players/statistics`">Statistics</v-btn>

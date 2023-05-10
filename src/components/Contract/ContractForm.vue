@@ -66,13 +66,6 @@
     bonusReqType: [isRequired('Bonus Req. Type')]
   }
 
-  const bonusRequirementTypes = [
-    'Appearances',
-    'Goals',
-    'Assists',
-    'Clean Sheets'
-  ]
-
   const title = computed(() =>
     props.record ? 'Edit Contract' : 'Sign New Contract'
   )

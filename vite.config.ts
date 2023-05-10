@@ -32,12 +32,15 @@ export default defineConfig({
       imports: [
         'vue',
         'vue-router',
+        '@vueuse/core',
+        '@vueuse/head',
         'pinia',
         {
           '@urql/vue': ['useQuery', 'useMutation', 'gql'],
           'pinia-orm': ['useRepo'],
           'lodash.keyby': [['default', '_keyBy']],
           'lodash.groupby': [['default', '_groupBy']],
+          'lodash.omit': [['default', '_omit']],
           'lodash.orderby': [['default', '_orderBy']],
           'lodash.pick': [['default', '_pick']],
           'date-fns': ['format', 'parseISO'],

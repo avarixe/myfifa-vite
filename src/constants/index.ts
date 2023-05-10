@@ -1,4 +1,4 @@
-export const positions: string[] = [
+export const positions = [
   'GK',
   'LB',
   'LWB',
@@ -16,7 +16,7 @@ export const positions: string[] = [
   'RW'
 ]
 
-export const matchPositions: object = {
+export const matchPositions = {
   LW: 'FWD',
   LS: 'FWD',
   ST: 'FWD',
@@ -46,7 +46,14 @@ export const matchPositions: object = {
   GK: 'DEF'
 }
 
-export const nationalities: object = {
+export const bonusRequirementTypes = [
+  'Appearances',
+  'Goals',
+  'Assists',
+  'Clean Sheets'
+]
+
+export const nationalities = {
   // Africa
   Algeria: 'dz',
   Angola: 'ao',
