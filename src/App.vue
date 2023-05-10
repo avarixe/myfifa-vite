@@ -22,7 +22,7 @@
 
   const route = useRoute()
   const inPublicPage = computed(() =>
-    ['login', 'register'].includes(route.name.toString())
+    ['login', 'register'].includes(route.name?.toString())
   )
 
   const theme = useTheme()
@@ -38,9 +38,33 @@
       <v-container>
         <app-breadcrumbs v-if="token" />
         <app-broadcaster />
-        <suspense v-if="token || inPublicPage">
-          <router-view />
-        </suspense>
+
+        <div
+          v-if="
+            team &&
+            team.startedOn === team.currentlyOn &&
+            route.name !== 'teams-teamId-players-import'
+          "
+          class="mb-2"
+        >
+          <v-alert type="info" variant="tonal" border="start">
+            <v-alert-title>Welcome to {{ team.name }}!</v-alert-title>
+            Click
+            <v-btn
+              :to="`/teams/${team.id}/players/import`"
+              text="here"
+              variant="plain"
+              class="pa-0"
+            />
+            to begin importing Players
+          </v-alert>
+        </div>
+
+        <div>
+          <suspense v-if="token || inPublicPage">
+            <router-view />
+          </suspense>
+        </div>
       </v-container>
     </v-main>
   </v-app>

@@ -1,11 +1,11 @@
 <script setup lang="ts">
   import { read, utils } from 'xlsx'
 
-  defineProps<{ playerId: string }>()
+  defineProps<{ teamId: string }>()
 
   await useTeamQuery({
     query: gql`
-      query fetchPlayersPage($teamId: ID!) {
+      query fetchPlayersImportPage($teamId: ID!) {
         team(id: $teamId) {
           ...TeamData
         }
@@ -15,7 +15,6 @@
   })
   const { team, endOfCurrentSeason } = useTeam()
 
-  const valid = ref(false)
   const numPlayers = ref(0)
   const submitted = ref(0)
   const cleared = ref(0)
@@ -55,7 +54,7 @@
   const uploader = ref(null)
   function upload(event) {
     const reader = new FileReader()
-    reader.onload = (e) => {
+    reader.onload = e => {
       // Parse data
       const bstr = e.target.result
       const wb = read(bstr, { type: 'binary', cellDates: true })
@@ -115,16 +114,24 @@
           <v-icon start>mdi-plus</v-icon>
           Row
         </v-btn>
-        <input ref="uploader" type="file" accept=".xlsx" class="d-none" @input="upload">
-        <v-btn class="ma-1" to="/import_players_template.xlsx" target="_blank">
+        <input
+          ref="uploader"
+          type="file"
+          accept=".xlsx"
+          class="d-none"
+          @input="upload"
+        />
+        <v-btn
+          class="ma-1"
+          href="/import_players_template.xlsx"
+          target="_blank"
+        >
           Download Template
         </v-btn>
-        <v-btn class="ma-1" @click="uploader.click()">
-          Upload File
-        </v-btn>
+        <v-btn class="ma-1" @click="uploader.click()"> Upload File </v-btn>
       </v-col>
       <v-col cols="12">
-        <v-form ref="form" v-model="valid" @submit.prevent="submitted++">
+        <v-form ref="form" @submit.prevent="submitted++">
           <v-card>
             <v-card-text>
               <v-table fixed-header height="50vh">
@@ -165,7 +172,7 @@
             <v-card-actions>
               <v-btn
                 type="submit"
-                :disabled="!valid || players.length === 0"
+                :disabled="players.length === 0"
                 color="primary"
               >
                 Submit

@@ -7,6 +7,7 @@ declare global {
   const EffectScope: typeof import('vue')['EffectScope']
   const _groupBy: typeof import('lodash.groupby')['default']
   const _keyBy: typeof import('lodash.keyby')['default']
+  const _omit: typeof import('lodash.omit')['default']
   const _orderBy: typeof import('lodash.orderby')['default']
   const _pick: typeof import('lodash.pick')['default']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
@@ -369,6 +370,7 @@ declare module 'vue' {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly _groupBy: UnwrapRef<typeof import('lodash.groupby')['default']>
     readonly _keyBy: UnwrapRef<typeof import('lodash.keyby')['default']>
+    readonly _omit: UnwrapRef<typeof import('lodash.omit')['default']>
     readonly _orderBy: UnwrapRef<typeof import('lodash.orderby')['default']>
     readonly _pick: UnwrapRef<typeof import('lodash.pick')['default']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>

@@ -2,7 +2,6 @@
   const props = withDefaults(
     defineProps<{
       player: {
-        rowId: number
         name: string
         nationality: string
         pos: string
@@ -33,15 +32,37 @@
   )
 
   const attributes = reactive({
-    ...props.player,
-    contractsAttributes: { ...props.player.contractsAttributes }
+    ..._omit(props.player, 'rowId'),
+    contractsAttributes: [...props.player.contractsAttributes]
   })
 
-  const loading = ref(false)
   const saved = ref(false)
-  const error = ref('')
-
   const { team } = useTeam()
+  const {
+    submitForm: savePlayer,
+    formIsLoading: loading,
+    formError: error,
+    dismissError
+  } = useForm({
+    mutation: gql`
+      mutation createPlayer($teamId: ID!, $attributes: PlayerAttributes!) {
+        addPlayer(teamId: $teamId, attributes: $attributes) {
+          player {
+            ...PlayerData
+          }
+        }
+      }
+      ${playerFragment}
+    `,
+    variables: () => ({
+      teamId: team.value.id,
+      attributes
+    }),
+    onSuccess() {
+      saved.value = true
+    },
+    broadcastErrors: false
+  })
 
   watch(
     () => props.submitted,
@@ -61,39 +82,32 @@
       }
     }
   )
-
-  async function savePlayer() {
-    try {
-      loading.value = true
-
-      delete attributes.rowId
-      // TODO:
-      // await createPlayer({ teamId: team.value.id, attributes })
-      this.saved = true
-    } catch (e) {
-      this.error = e.message
-    } finally {
-      loading.value = false
-    }
-  }
 </script>
 
 <template>
   <tr>
     <td class="sticky">
       <v-sheet class="mx-n4 px-4">
-        <v-btn v-if="saved" variant="text" @click="emit('remove', player)">
-          <v-icon color="success">mdi-check-circle</v-icon>
+        <v-btn
+          v-if="saved"
+          icon="mdi-check-circle"
+          color="success"
+          variant="text"
+          @click="emit('remove', player)"
+        />
+        <v-btn
+          v-else-if="error.length > 0"
+          color="red"
+          icon
+          variant="text"
+          @click="dismissError"
+        >
+          <v-icon>mdi-alert</v-icon>
+          <v-tooltip color="red" activator="parent" location="right">
+            <v-icon start>mdi-alert</v-icon>
+            {{ error }}
+          </v-tooltip>
         </v-btn>
-        <v-tooltip v-else-if="error.length > 0" color="red" right>
-          <template #activator="{ on }">
-            <v-btn variant="text" v-on="on" @click="error = ''">
-              <v-icon color="red">mdi-alert</v-icon>
-            </v-btn>
-          </template>
-          <v-icon left dark> mdi-alert </v-icon>
-          {{ error }}
-        </v-tooltip>
         <v-btn
           v-else
           variant="text"

@@ -101,6 +101,7 @@ declare module '@vue/runtime-core' {
     UserPasswordManager: typeof import('./src/components/User/UserPasswordManager.vue')['default']
     UserProfile: typeof import('./src/components/User/UserProfile.vue')['default']
     VAlert: typeof import('vuetify/components')['VAlert']
+    VAlertTitle: typeof import('vuetify/components')['VAlertTitle']
     VApp: typeof import('vuetify/components')['VApp']
     VAppBar: typeof import('vuetify/components')['VAppBar']
     VAppBarNavIcon: typeof import('vuetify/components')['VAppBarNavIcon']

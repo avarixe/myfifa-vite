@@ -34,7 +34,7 @@
         ${teamFragment}
       `
   function variables() {
-    return props.record ? { attributes } : { id: props.record.id, attributes }
+    return props.record ? { id: props.record.id, attributes } : { attributes }
   }
 
   const router = useRouter()
