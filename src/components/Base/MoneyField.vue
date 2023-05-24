@@ -1,14 +1,12 @@
 <script setup lang="ts">
-  import { useCurrencyInput } from 'vue-currency-input'
+  import { useCurrencyInput, CurrencyDisplay } from 'vue-currency-input'
 
   defineProps<{ modelValue?: string | number }>()
 
   const { inputRef, formattedValue } = useCurrencyInput({
     currency: 'USD',
     locale: 'en',
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    currencyDisplay: 'hidden',
+    currencyDisplay: CurrencyDisplay.hidden,
     precision: 0,
     hideGroupingSeparatorOnFocus: false,
     useGrouping: true

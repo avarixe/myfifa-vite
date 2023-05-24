@@ -66,14 +66,14 @@
           :color="color[rating] || 'grey'"
           @update:model-value="setRating"
         >
-          <template #item="{ index, onClick }">
+          <template #item="{ index, props: ratingProps }">
             <v-icon
               :color="color[hoverRating] || 'grey'"
               :icon="`mdi-star-four-points${
                 hoverRating > index ? '' : '-outline'
               }`"
               @mouseenter.prevent="hoverRating = index + 1"
-              @click="onClick"
+              @click="ratingProps.onClick"
             />
           </template>
         </v-rating>

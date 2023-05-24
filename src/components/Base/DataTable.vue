@@ -48,11 +48,7 @@
     itemsPerPageOptions: props =>
       props.options.itemsPerPageOptions ?? [10, 20, 50, -1],
     sortBy: props => props.options.sortBy,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     sortDesc: props => props.options.sortDesc ?? false,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     mustSort: props => props.options.mustSort ?? false,
     serverItemsLength: null,
     showPaginationOptions: true
