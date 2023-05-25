@@ -1,16 +1,4 @@
 <script setup lang="ts" generic="T">
-  interface Header {
-    text: string
-    value: string
-    sortBy?: string
-    width?: number
-    class?: string
-    style?: string
-    sortable?: boolean
-    cellClass?: string
-    cellStyle?: string
-  }
-
   interface TableOptions {
     itemKey?: string
     itemsPerPage?: number
@@ -21,7 +9,7 @@
   }
 
   interface Props {
-    headers: Header[]
+    headers: TableHeader[]
     items: T[]
     options?: TableOptions
     itemKey?: string
@@ -157,7 +145,7 @@
           <th
             v-for="header in headers"
             :key="header.value"
-            :class="header.class"
+            :class="`${header.class} text-${header.align || 'start'}`"
             :style="header.style"
           >
             <v-sheet class="mx-n4 px-4">
@@ -170,20 +158,31 @@
                   :style="{ textTransform: 'inherit' }"
                   @click="changeSortColumn(header)"
                 >
-                  <slot :name="`header-${header.value}`" :header="header">
-                    {{ header.text }}
-                  </slot>
-                  <v-icon v-if="sortBy === header.value" end>
-                    mdi-chevron-{{ sortDesc ? 'down' : 'up' }}
-                  </v-icon>
-                  <v-icon
-                    v-else-if="header.sortable !== false"
-                    class="text-medium-emphasis"
-                    end
-                    :style="{ visibility: isHovering ? 'inherit' : 'hidden' }"
+                  <div
+                    :class="`d-flex flex-row ${
+                      header.align === 'end' ? 'flex-row-reverse' : ''
+                    }`"
                   >
-                    mdi-chevron-up
-                  </v-icon>
+                    <slot :name="`header-${header.value}`" :header="header">
+                      {{ header.text }}
+                    </slot>
+                    <v-icon
+                      v-if="sortBy === header.value"
+                      :start="header.align === 'end'"
+                      :end="header.align !== 'end'"
+                    >
+                      mdi-chevron-{{ sortDesc ? 'down' : 'up' }}
+                    </v-icon>
+                    <v-icon
+                      v-else-if="header.sortable !== false"
+                      class="text-medium-emphasis"
+                      :start="header.align === 'end'"
+                      :end="header.align !== 'end'"
+                      :style="{ visibility: isHovering ? 'inherit' : 'hidden' }"
+                    >
+                      mdi-chevron-up
+                    </v-icon>
+                  </div>
                 </v-btn>
               </v-hover>
             </v-sheet>
@@ -208,8 +207,8 @@
               <td
                 v-for="(header, j) in headers"
                 :key="j"
-                :class="header.cellClass"
-                :style="header.cellStyle"
+                :class="`${header.class} text-${header.align || 'start'}`"
+                :style="header.style"
               >
                 <v-sheet
                   :class="`mx-n4 px-4 ${isHovering ? rowHoverColor : ''}`"

@@ -198,26 +198,14 @@
   )
 
   const headers = [
-    { text: 'Player', value: 'name', class: 'sticky', width: 200 },
-    {
-      text: 'Pos',
-      value: 'pos',
-      class: 'text-center',
-      sortBy: 'posIdx',
-      width: 100
-    },
-    { text: 'Date', value: 'date', class: 'text-center', width: 120 },
-    {
-      text: '',
-      value: 'icon',
-      class: 'text-center',
-      sortable: false,
-      width: 40
-    },
+    { text: 'Player', value: 'name', class: 'sticky' },
+    { text: 'Pos', value: 'pos', align: 'center', sortBy: 'posIdx' },
+    { text: 'Date', value: 'date', align: 'center', width: 120 },
+    { text: '', value: 'icon', align: 'center', sortable: false, width: 40 },
     { text: 'From/To', value: 'fromTo', width: 170 },
-    { text: 'Value', value: 'value', class: 'text-right', width: 150 },
-    { text: 'Fee', value: 'fee', class: 'text-right', width: 150 },
-    { text: 'Net Value', value: 'netValue', class: 'text-right', width: 150 }
+    { text: 'Value', value: 'value', align: 'end', width: 150 },
+    { text: 'Fee', value: 'fee', align: 'end', width: 150 },
+    { text: 'Net Value', value: 'netValue', align: 'end', width: 150 }
   ]
 </script>
 

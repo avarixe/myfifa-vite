@@ -81,68 +81,17 @@
   })
 
   const headers = [
-    {
-      value: 'player.name',
-      text: 'Name',
-      class: 'sticky',
-      cellClass: 'sticky'
-    },
-    {
-      value: 'player.nationality',
-      text: 'Nationality',
-      class: 'text-center',
-      cellClass: 'text-center'
-    },
-    {
-      value: 'player.status',
-      text: 'Status',
-      class: 'text-center',
-      cellClass: 'text-center'
-    },
-    {
-      value: 'player.age',
-      text: 'Age',
-      class: 'text-center',
-      cellClass: 'text-center'
-    },
-    {
-      value: 'player.pos',
-      text: 'Pos',
-      sortBy: 'posIdx',
-      class: 'text-center',
-      cellClass: 'text-center'
-    },
+    { value: 'player.name', text: 'Name', class: 'sticky' },
+    { value: 'player.nationality', text: 'Nationality', align: 'center' },
+    { value: 'player.status', text: 'Status', align: 'center' },
+    { value: 'player.age', text: 'Age', align: 'center' },
+    { value: 'player.pos', text: 'Pos', sortBy: 'posIdx', align: 'center' },
     { value: 'player.secPos', text: '2nd Pos' },
-    {
-      value: 'player.kitNo',
-      text: 'Kit No',
-      class: 'text-center',
-      cellClass: 'text-center'
-    },
-    {
-      value: 'player.ovr',
-      text: 'OVR',
-      class: 'text-center',
-      cellClass: 'text-center'
-    },
-    {
-      value: 'player.value',
-      text: 'Value',
-      class: 'text-right',
-      cellClass: 'text-right'
-    },
-    {
-      value: 'contract.wage',
-      text: 'Wage',
-      class: 'text-right',
-      cellClass: 'text-right'
-    },
-    {
-      value: 'contract.endedOn',
-      text: 'Contract Ends',
-      class: 'text-right',
-      cellClass: 'text-right'
-    }
+    { value: 'player.kitNo', text: 'Kit No', align: 'center' },
+    { value: 'player.ovr', text: 'OVR', align: 'center' },
+    { value: 'player.value', text: 'Value', align: 'end' },
+    { value: 'contract.wage', text: 'Wage', align: 'end' },
+    { value: 'contract.endedOn', text: 'Contract Ends', align: 'end' }
   ]
 </script>
 

@@ -39,59 +39,33 @@
   ]
 
   const headers = computed(() => {
+    const lMetric = metric.value.toLowerCase()
     const columns = [
-      {
-        text: 'Name',
-        value: 'player.name',
-        width: 200,
-        class: 'sticky',
-        cellClass: 'sticky'
-      },
-      {
-        text: 'Nationality',
-        value: 'player.nationality',
-        class: 'text-center',
-        cellClass: 'text-center',
-        width: 120
-      },
-      {
-        text: 'Pos',
-        value: 'player.pos',
-        class: 'text-center',
-        cellClass: 'text-center',
-        width: 100,
-        sortBy: 'posIdx'
-      },
+      { text: 'Name', value: 'player.name', width: 200, class: 'sticky' },
+      { text: 'Nationality', value: 'player.nationality', align: 'center' },
+      { text: 'Pos', value: 'player.pos', align: 'center', sortBy: 'posIdx' },
       {
         text: `Start ${metric.value}`,
-        value: `start${capitalize(metric.value.toLowerCase())}`,
-        class: 'text-right',
-        cellClass: 'text-right',
-        width: 120
+        value: `start${capitalize(lMetric)}`,
+        align: 'end'
       },
       {
         text: `Last ${metric.value}`,
-        value: `player.${metric.value.toLowerCase()}`,
-        class: 'text-right',
-        cellClass: 'text-right',
-        width: 120
+        value: `player.${lMetric}`,
+        align: 'end'
       },
       {
         text: `${metric.value} Change`,
-        value: `${metric.value.toLowerCase()}Diff.total`,
-        class: 'text-right',
-        cellClass: 'text-right',
-        width: 120
+        value: `${lMetric}Diff.total`,
+        align: 'end'
       }
     ]
 
     for (let i = 0; i <= currentSeason.value; i++) {
       columns.push({
         text: seasonLabel(i),
-        value: `${metric.value.toLowerCase()}Diff.${i}`,
-        class: 'text-right',
-        cellClass: 'text-right',
-        width: 120
+        value: `${lMetric}Diff.${i}`,
+        align: 'end'
       })
     }
 

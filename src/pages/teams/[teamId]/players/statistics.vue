@@ -36,51 +36,61 @@
     { text: 'Active', color: 'light-green', icon: 'account-check' }
   ]
 
-  const headers = [
-    {
-      text: 'Name',
-      value: 'name',
-      width: 200,
-      class: 'sticky',
-      cellClass: 'sticky'
-    },
-    { text: 'Nationality', value: 'nationality', align: 'center', width: 120 },
-    {
-      text: 'Pos',
-      value: 'pos',
-      align: 'center',
-      width: 100,
-      sortBy: 'posIdx'
-    },
-    {
-      text: 'Games Played',
-      value: 'numMatches',
-      align: 'end',
-      class: 'text-right'
-    },
-    { text: 'Minutes', value: 'numMinutes', align: 'end', class: 'text-right' },
-    { text: 'Goals', value: 'numGoals', align: 'end', class: 'text-right' },
-    { text: 'Assists', value: 'numAssists', align: 'end', class: 'text-right' },
-    {
-      text: 'Clean Sheets',
-      value: 'numCleanSheets',
-      align: 'end',
-      class: 'text-right'
-    },
-    { text: 'Rating', value: 'avgRating' }
-  ]
+  const headers = computed(() => {
+    const playerHeaders: TableHeader[] = [
+      { text: 'Name', value: 'player.name', width: 200, class: 'sticky' },
+      { text: 'Nationality', value: 'player.nationality', align: 'center' },
+      {
+        text: 'Pos',
+        value: 'player.pos',
+        align: 'center',
+        sortBy: 'player.posIdx'
+      }
+    ]
+
+    if (splitSeason.value) {
+      playerHeaders.push({
+        text: 'Season',
+        value: 'season',
+        width: 400,
+        style: { minWidth: '120px' }
+      })
+    }
+    if (splitCompetition.value) {
+      playerHeaders.push({
+        text: 'Season',
+        value: 'season',
+        style: { minWidth: '250px' }
+      })
+    }
+
+    return [
+      ...playerHeaders,
+      { text: 'GP', value: 'numMatches', align: 'end' },
+      { text: 'Minutes', value: 'numMinutes', align: 'end' },
+      { text: 'G', value: 'numGoals', align: 'end' },
+      { text: 'A', value: 'numAssists', align: 'end' },
+      { text: 'CS', value: 'numCleanSheets', align: 'end' },
+      { text: 'Rating', value: 'avgRating' },
+      { text: 'xG + xA', value: 'xGAndxA', align: 'end' },
+      { text: 'xG', value: 'xG', align: 'end' },
+      { text: 'xA', value: 'xA', align: 'end' }
+    ]
+  })
 
   const filters = reactive({
     season: null,
     competition: null
   })
 
+  const splitSeason = ref(false)
+  const splitCompetition = ref(false)
+
   const playerRepo = useRepo(Player)
   const players = computed(() =>
-    playerRepo.where('teamId', team.value.id).get()
-  )
-  const rows = computed(() =>
-    players.value
+    playerRepo
+      .where('teamId', team.value.id)
+      .get()
       .filter(player => {
         switch (filter.value) {
           case 'All':
@@ -91,47 +101,86 @@
             return player.status !== null && player.status !== 'Pending'
         }
       })
-      .map(player => {
-        const playerStats = []
+  )
+
+  interface PlayerWithStats {
+    id: string | number
+    player: Player
+    season?: number
+    competition?: string
+    numMatches: number
+    numMinutes: number
+    numGoals: number
+    numAssists: number
+    numCleanSheets: number
+    avgRating: number
+    xG: number
+    xA: number
+    xGAndxA: number
+  }
+  const items: Ref<PlayerWithStats[]> = computed(() => {
+    const rows = []
+    players.value.forEach(player => {
+      const filteredStats =
+        statsByPlayerId[player.id]?.filter(
+          data =>
+            [null, data.season].includes(filters.season) &&
+            [null, data.competition].includes(filters.competition)
+        ) || []
+
+      const splitStats = _groupBy(filteredStats, stats =>
+        [
+          stats.playerId,
+          splitSeason.value ? stats.season : null,
+          splitCompetition.value ? stats.competition : null
+        ].join('_')
+      )
+
+      for (const key in splitStats) {
         const matchStats = {
           numMatches: 0,
           numMinutes: 0,
           numGoals: 0,
           numAssists: 0,
           numCleanSheets: 0,
-          avgRating: 0
+          avgRating: 0,
+          xG: 0,
+          xA: 0,
+          xGAndxA: 0
         }
         let numRatedMinutes = 0
 
-        statsByPlayerId[player.id]?.forEach(data => {
-          if (
-            [null, data.season].includes(filters.season) &&
-            [null, data.competition].includes(filters.competition)
-          ) {
-            playerStats.push(data)
-            for (const metric in matchStats) {
-              if (metric === 'avgRating') {
-                if (data.avgRating > 0) {
-                  numRatedMinutes += data.numMinutes
-                  matchStats.avgRating += data.avgRating * data.numMinutes
-                }
-              } else {
-                matchStats[metric] += data[metric]
+        splitStats[key].forEach(data => {
+          for (const metric in matchStats) {
+            if (metric === 'avgRating') {
+              if (data.avgRating > 0) {
+                numRatedMinutes += data.numMinutes
+                matchStats.avgRating += data.avgRating * data.numMinutes
               }
+            } else {
+              matchStats[metric] += data[metric]
             }
           }
         })
+
+        if (matchStats.numMinutes > 0) {
+          matchStats.xG = (matchStats.numGoals / matchStats.numMinutes) * 90
+          matchStats.xA = (matchStats.numAssists / matchStats.numMinutes) * 90
+          matchStats.xGAndxA = matchStats.xG + matchStats.xA
+        }
         matchStats.avgRating /= numRatedMinutes || 1
 
-        return {
-          ...player,
-          ...matchStats,
-          posIdx: player.posIdx,
-          flag: player.flag,
-          playerStats: playerStats.sort((a, b) => a.season - b.season)
-        }
-      })
-  )
+        rows.push({
+          id: key,
+          player,
+          season: splitStats[key][0].season,
+          competition: splitStats[key][0].competition,
+          ...matchStats
+        })
+      }
+    })
+    return rows
+  })
 
   const seasonOptions = [...Array(currentSeason.value + 1).keys()].map(
     season => ({
@@ -191,41 +240,61 @@
       </v-btn>
     </v-btn-toggle>
     <v-spacer />
-    <v-select
-      v-model="filters.season"
-      label="Season"
-      :items="seasonOptions"
-      density="compact"
-      clearable
-      hide-details
-    />
+    <div class="flex-grow-1">
+      <v-select
+        v-model="filters.season"
+        label="Season"
+        :items="seasonOptions"
+        density="compact"
+        clearable
+        hide-details
+      />
+      <v-checkbox
+        v-model="splitSeason"
+        label="Split by Season"
+        hide-details
+        density="compact"
+        class="d-inline-block"
+      />
+    </div>
     <v-spacer />
-    <v-autocomplete
-      v-model="filters.competition"
-      label="Competition"
-      :items="competitionNames"
-      density="compact"
-      clearable
-      hide-details
-    />
+    <div class="flex-grow-1">
+      <v-autocomplete
+        v-model="filters.competition"
+        label="Competition"
+        :items="competitionNames"
+        density="compact"
+        clearable
+        hide-details
+      />
+      <v-checkbox
+        v-model="splitCompetition"
+        label="Split by Competition"
+        hide-details
+        density="compact"
+        class="d-inline-block"
+      />
+    </div>
   </div>
 
   <data-table
     :headers="headers"
-    :items="rows"
+    :items="items"
     item-key="id"
     sort-by="pos"
+    :items-per-page="50"
+    density="compact"
     class="mt-4"
   >
-    <template #header-nationality>
+    <template #[`header-player.nationality`]>
       <v-icon>mdi-flag</v-icon>
     </template>
     <template #item="{ item, rowColor }">
       <td class="sticky">
         <v-sheet :class="`mx-n4 px-4 ${rowColor}`">
           <v-btn
-            :to="`/teams/${team.id}/players/${item.id}`"
-            :text="item.name"
+            :to="`/teams/${team.id}/players/${item.player.id}`"
+            :text="item.player.name"
             size="small"
             variant="text"
             color="primary"
@@ -234,9 +303,15 @@
         </v-sheet>
       </td>
       <td class="text-center">
-        <flag :iso="item.flag" :title="item.nationality" class="mr-2" />
+        <flag
+          :iso="item.player.flag"
+          :title="item.player.nationality"
+          class="mr-2"
+        />
       </td>
-      <td class="text-center">{{ item.pos }}</td>
+      <td class="text-center">{{ item.player.pos }}</td>
+      <td v-if="splitSeason">{{ seasonLabel(item.season) }}</td>
+      <td v-if="splitCompetition">{{ item.competition }}</td>
       <td class="text-right">{{ item.numMatches }}</td>
       <td class="text-right">{{ item.numMinutes }}</td>
       <td class="text-right">{{ item.numGoals }}</td>
@@ -253,6 +328,9 @@
           <strong class="text-black">{{ item.avgRating.toFixed(2) }}</strong>
         </v-progress-linear>
       </td>
+      <td class="text-right">{{ item.xGAndxA?.toFixed(2) }}</td>
+      <td class="text-right">{{ item.xG?.toFixed(2) }}</td>
+      <td class="text-right">{{ item.xA?.toFixed(2) }}</td>
     </template>
   </data-table>
 </template>

@@ -17,20 +17,15 @@
   }>()
 
   const headers = [
-    {
-      text: 'Competition',
-      value: 'name',
-      class: 'sticky',
-      cellClass: 'sticky'
-    },
-    { text: 'Status', value: 'status', class: 'text-center' },
-    { text: 'GP', value: 'matchesPlayed', class: 'text-right' },
-    { text: 'W', value: 'wins', class: 'text-right' },
-    { text: 'D', value: 'draws', class: 'text-right' },
-    { text: 'L', value: 'losses', class: 'text-right' },
-    { text: 'GF', value: 'goalsFor', class: 'text-right' },
-    { text: 'GA', value: 'goalsAgainst', class: 'text-right' },
-    { text: 'GD', value: 'goalDifference', class: 'text-right' }
+    { text: 'Competition', value: 'name', class: 'sticky' },
+    { text: 'Status', value: 'status', align: 'center' },
+    { text: 'GP', value: 'matchesPlayed', align: 'end' },
+    { text: 'W', value: 'wins', align: 'end' },
+    { text: 'D', value: 'draws', align: 'end' },
+    { text: 'L', value: 'losses', align: 'end' },
+    { text: 'GF', value: 'goalsFor', align: 'end' },
+    { text: 'GA', value: 'goalsAgainst', align: 'end' },
+    { text: 'GD', value: 'goalDifference', align: 'end' }
   ]
 
   const { team } = useTeam()

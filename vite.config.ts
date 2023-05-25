@@ -50,7 +50,12 @@ export default defineConfig({
         },
         {
           from: './src/types',
-          imports: ['CapAttributes', 'StageAttributes', 'MatchFilters'],
+          imports: [
+            'TableHeader',
+            'CapAttributes',
+            'StageAttributes',
+            'MatchFilters'
+          ],
           type: true
         }
       ],
