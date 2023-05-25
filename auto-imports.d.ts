@@ -5,6 +5,7 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
+  const _get: typeof import('lodash.get')['default']
   const _groupBy: typeof import('lodash.groupby')['default']
   const _keyBy: typeof import('lodash.keyby')['default']
   const _omit: typeof import('lodash.omit')['default']
@@ -368,6 +369,7 @@ import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly _get: UnwrapRef<typeof import('lodash.get')['default']>
     readonly _groupBy: UnwrapRef<typeof import('lodash.groupby')['default']>
     readonly _keyBy: UnwrapRef<typeof import('lodash.keyby')['default']>
     readonly _omit: UnwrapRef<typeof import('lodash.omit')['default']>

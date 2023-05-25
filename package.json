@@ -24,6 +24,7 @@
     "date-fns": "^2.29.3",
     "graphql": "^16.6.0",
     "lodash.camelcase": "^4.3.0",
+    "lodash.get": "^4.4.2",
     "lodash.groupby": "^4.6.0",
     "lodash.keyby": "^4.6.0",
     "lodash.mapkeys": "^4.6.0",

@@ -1,7 +1,9 @@
 export default ({
   mutation,
   variables = () => ({}),
-  onSuccess = data => { data },
+  onSuccess = data => {
+    data
+  },
   onReset = () => {
     // do nothing
   },

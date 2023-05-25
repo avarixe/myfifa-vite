@@ -42,21 +42,21 @@
     const columns = [
       {
         text: 'Name',
-        value: 'name',
+        value: 'player.name',
         width: 200,
         class: 'sticky',
         cellClass: 'sticky'
       },
       {
         text: 'Nationality',
-        value: 'nationality',
+        value: 'player.nationality',
         class: 'text-center',
         cellClass: 'text-center',
         width: 120
       },
       {
         text: 'Pos',
-        value: 'pos',
+        value: 'player.pos',
         class: 'text-center',
         cellClass: 'text-center',
         width: 100,
@@ -64,7 +64,21 @@
       },
       {
         text: `Start ${metric.value}`,
-        value: `start${metric.value.toLowerCase()}`,
+        value: `start${capitalize(metric.value.toLowerCase())}`,
+        class: 'text-right',
+        cellClass: 'text-right',
+        width: 120
+      },
+      {
+        text: `Last ${metric.value}`,
+        value: `player.${metric.value.toLowerCase()}`,
+        class: 'text-right',
+        cellClass: 'text-right',
+        width: 120
+      },
+      {
+        text: `${metric.value} Change`,
+        value: `${metric.value.toLowerCase()}Diff.total`,
         class: 'text-right',
         cellClass: 'text-right',
         width: 120
@@ -81,16 +95,21 @@
       })
     }
 
-    columns.push({
-      text: `Last ${metric.value}`,
-      value: metric.value,
-      class: 'text-right',
-      cellClass: 'text-right',
-      width: 120
-    })
-
     return columns
   })
+
+  interface StatDiff {
+    total?: number
+    [key: string]: number
+  }
+
+  interface PlayerWithStats {
+    player: Player
+    startOvr: number
+    ovrDiff: StatDiff
+    startValue: number
+    valueDiff: StatDiff
+  }
 
   const playerRepo = useRepo(Player)
   const players = computed(() =>
@@ -109,10 +128,8 @@
         }
       })
       .map(player => {
-        const playerWithStats = {
-          ...player,
-          posIdx: player.posIdx,
-          flag: player.flag,
+        const playerWithStats: PlayerWithStats = {
+          player,
           ovrDiff: {},
           startOvr: 0,
           valueDiff: {},
@@ -121,8 +138,8 @@
 
         const stats = statsByPlayerId[player.id]
         if (stats) {
-          const ovrDiff = {}
-          const valueDiff = {}
+          const ovrDiff: StatDiff = {}
+          const valueDiff: StatDiff = {}
           stats.forEach(stat => {
             ovrDiff[stat.season] = stat.ovr[1] - stat.ovr[0]
             valueDiff[stat.season] =
@@ -130,15 +147,18 @@
           })
           playerWithStats.ovrDiff = ovrDiff
           playerWithStats.startOvr = stats[0].ovr[0]
+          ovrDiff.total = playerWithStats.player.ovr - playerWithStats.startOvr
           playerWithStats.valueDiff = valueDiff
           playerWithStats.startValue = stats[0].value[0]
+          valueDiff.total =
+            playerWithStats.player.value - playerWithStats.startValue
         }
 
         return playerWithStats
       })
   )
 
-  function ovrColor(ovrDiff) {
+  function ovrColor(ovrDiff: number) {
     switch (true) {
       case ovrDiff > 6:
         return 'text-green-darken-2'
@@ -157,7 +177,7 @@
     }
   }
 
-  function valueColor(valueDiff) {
+  function valueColor(valueDiff: number) {
     switch (true) {
       case valueDiff > 100:
         return 'text-green-darken-2'
@@ -221,17 +241,19 @@
     :items="rows"
     item-key="id"
     sort-by="pos"
+    :items-per-page="-1"
+    density="compact"
     class="mt-4"
   >
-    <template #header-nationality>
+    <template #[`header-player.nationality`]>
       <v-icon>mdi-flag</v-icon>
     </template>
     <template #item="{ item, rowColor }">
       <td class="sticky">
         <v-sheet :class="`mx-n4 px-4 ${rowColor}`">
           <v-btn
-            :to="`/teams/${team.id}/players/${item.id}`"
-            :text="item.name"
+            :to="`/teams/${team.id}/players/${item.player.id}`"
+            :text="item.player.name"
             size="small"
             variant="text"
             color="primary"
@@ -240,11 +262,19 @@
         </v-sheet>
       </td>
       <td class="text-center">
-        <flag :iso="item.flag" :title="item.nationality" class="mr-2" />
+        <flag
+          :iso="item.player.flag"
+          :title="item.player.nationality"
+          class="mr-2"
+        />
       </td>
-      <td class="text-center">{{ item.pos }}</td>
+      <td class="text-center">{{ item.player.pos }}</td>
       <template v-if="metric === 'OVR'">
         <td class="text-right">{{ item.startOvr }}</td>
+        <td class="text-right">{{ item.player.ovr }}</td>
+        <td :class="`text-right ${ovrColor(item.ovrDiff.total)}`">
+          {{ item.ovrDiff.total }}
+        </td>
         <td
           v-for="(_, season) in new Array(currentSeason + 1)"
           :key="season"
@@ -253,11 +283,18 @@
           {{ item.ovrDiff[season] > 0 ? '+' : '' }}
           {{ item.ovrDiff[season] }}
         </td>
-        <td class="text-right">{{ item.ovr }}</td>
       </template>
       <template v-else>
         <td class="text-right">
           {{ formatMoney(item.startValue, team.currency) }}
+        </td>
+        <td class="text-right">
+          {{ formatMoney(item.player.value, team.currency) }}
+        </td>
+        <td
+          :class="{ 'text-right': true, 'text-red': item.valueDiff.total < 0 }"
+        >
+          {{ formatMoney(item.valueDiff.total, team.currency, '-') }}
         </td>
         <td
           v-for="(_, season) in new Array(currentSeason + 1)"
@@ -268,9 +305,6 @@
             {{ item.valueDiff[season] > 0 ? '+' : '' }}
             {{ item.valueDiff[season].toFixed(2) }}%
           </span>
-        </td>
-        <td class="text-right">
-          {{ formatMoney(item.value, team.currency) }}
         </td>
       </template>
     </template>

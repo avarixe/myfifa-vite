@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T">
   interface Header {
     text: string
     value: string
@@ -22,7 +22,7 @@
 
   interface Props {
     headers: Header[]
-    items: object[]
+    items: T[]
     options?: TableOptions
     itemKey?: string
     loading?: boolean
@@ -76,13 +76,19 @@
       sortDesc.value = false
     }
   }
-  function defaultSort(a, b) {
+  function defaultSort(a: T, b: T) {
     const sortHeader = props.headers[sortIndex.value]
     const attr = sortHeader.sortBy || sortBy.value
-    if (sortDesc.value) {
-      return +(b[attr] > a[attr]) - +(a[attr] > b[attr])
+    const aValue = _get(a, attr)
+    const bValue = _get(b, attr)
+    if (bValue == null || (Array.isArray(bValue) && bValue.length < 1)) {
+      return -1
+    } else if (aValue == null || (Array.isArray(aValue) && aValue.length < 1)) {
+      return 1
+    } else if (sortDesc.value) {
+      return (bValue > aValue ? 1 : 0) - (aValue > bValue ? 1 : 0)
     } else {
-      return +(a[attr] > b[attr]) - +(b[attr] > a[attr])
+      return (aValue > bValue ? 1 : 0) - (bValue > aValue ? 1 : 0)
     }
   }
   const sortedItems = computed(() => {
@@ -113,8 +119,7 @@
       return index > total.value ? total.value : index
     }
   })
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const pageItems: Ref<any[]> = computed(() => {
+  const pageItems: Ref<T[]> = computed(() => {
     if (props.serverItemsLength) {
       return props.items
     } else {
@@ -210,7 +215,7 @@
                   :class="`mx-n4 px-4 ${isHovering ? rowHoverColor : ''}`"
                 >
                   <slot :name="`item-${header.value}`" :item="item">
-                    {{ item[header.value] }}
+                    {{ _get(item, header.value) }}
                   </slot>
                 </v-sheet>
               </td>
