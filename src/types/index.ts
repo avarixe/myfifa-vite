@@ -1,3 +1,14 @@
+export interface TableHeader {
+  text: string
+  value: string
+  sortBy?: string
+  width?: number
+  align?: 'start' | 'center' | 'end'
+  class?: string
+  style?: string
+  sortable?: boolean
+}
+
 export interface CapAttributes {
   pos?: string
   playerId?: number

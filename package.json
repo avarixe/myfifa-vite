@@ -24,6 +24,7 @@
     "date-fns": "^2.29.3",
     "graphql": "^16.6.0",
     "lodash.camelcase": "^4.3.0",
+    "lodash.get": "^4.4.2",
     "lodash.groupby": "^4.6.0",
     "lodash.keyby": "^4.6.0",
     "lodash.mapkeys": "^4.6.0",
@@ -32,11 +33,11 @@
     "lodash.pick": "^4.4.0",
     "pinia": "^2.0.35",
     "pinia-orm": "^1.6.7",
-    "vue": "^3.2.47",
+    "vue": "^3.3.4",
     "vue-currency-input": "^3.0.4",
     "vue-router": "^4.1.6",
     "vue3-apexcharts": "^1.4.1",
-    "vuetify": "^3.2.3",
+    "vuetify": "^3.3.1",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
   },
   "devDependencies": {

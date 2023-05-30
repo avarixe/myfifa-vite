@@ -14,10 +14,10 @@
   const { team } = useTeam()
 
   const headers = [
-    { value: 'name', text: 'Match', class: 'text-center', sortable: false },
+    { value: 'name', text: 'Match', align: 'center', sortable: false },
     { value: 'competition', text: 'Competition' },
     { value: 'playedOn', text: 'Date Played' },
-    { value: 'link', text: 'Link', class: 'text-center', sortable: false }
+    { value: 'link', text: 'Link', align: 'center', sortable: false }
   ]
 
   const options = ref({

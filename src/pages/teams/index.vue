@@ -19,9 +19,9 @@
 
   const headers = [
     { value: 'name', text: 'Name' },
-    { value: 'badgeUrl', text: 'Badge', class: 'text-center', sortable: false },
-    { value: 'startedOn', text: 'Start Date', class: 'text-center' },
-    { value: 'currentlyOn', text: 'Current Date', class: 'text-center' }
+    { value: 'badgeUrl', text: 'Badge', align: 'center', sortable: false },
+    { value: 'startedOn', text: 'Start Date', align: 'center' },
+    { value: 'currentlyOn', text: 'Current Date', align: 'center' }
   ]
 </script>
 

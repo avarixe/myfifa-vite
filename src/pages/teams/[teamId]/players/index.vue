@@ -74,80 +74,24 @@
   const rows = computed(() => {
     return players.value.map(player => {
       return {
-        ...player,
-        flag: player.flag,
-        statusColor: player.statusColor,
-        statusIcon: player.statusIcon,
-        posIdx: player.posIdx,
-        wage: currentContractsByPlayerId.value[player.id]?.wage,
-        endDate: currentContractsByPlayerId.value[player.id]?.endedOn
+        player,
+        contract: currentContractsByPlayerId.value[player.id]
       }
     })
   })
 
   const headers = [
-    {
-      value: 'name',
-      text: 'Name',
-      class: 'sticky',
-      cellClass: 'sticky'
-    },
-    {
-      value: 'nationality',
-      text: 'Nationality',
-      class: 'text-center',
-      cellClass: 'text-center'
-    },
-    {
-      value: 'status',
-      text: 'Status',
-      class: 'text-center',
-      cellClass: 'text-center'
-    },
-    {
-      value: 'age',
-      text: 'Age',
-      class: 'text-center',
-      cellClass: 'text-center'
-    },
-    {
-      value: 'pos',
-      text: 'Pos',
-      sortBy: 'posIdx',
-      class: 'text-center',
-      cellClass: 'text-center'
-    },
-    { value: 'secPos', text: '2nd Pos' },
-    {
-      value: 'kitNo',
-      text: 'Kit No',
-      class: 'text-center',
-      cellClass: 'text-center'
-    },
-    {
-      value: 'ovr',
-      text: 'OVR',
-      class: 'text-center',
-      cellClass: 'text-center'
-    },
-    {
-      value: 'value',
-      text: 'Value',
-      class: 'text-right',
-      cellClass: 'text-right'
-    },
-    {
-      value: 'wage',
-      text: 'Wage',
-      class: 'text-right',
-      cellClass: 'text-right'
-    },
-    {
-      value: 'endDate',
-      text: 'Contract Ends',
-      class: 'text-right',
-      cellClass: 'text-right'
-    }
+    { value: 'player.name', text: 'Name', class: 'sticky' },
+    { value: 'player.nationality', text: 'Nationality', align: 'center' },
+    { value: 'player.status', text: 'Status', align: 'center' },
+    { value: 'player.age', text: 'Age', align: 'center' },
+    { value: 'player.pos', text: 'Pos', sortBy: 'posIdx', align: 'center' },
+    { value: 'player.secPos', text: '2nd Pos' },
+    { value: 'player.kitNo', text: 'Kit No', align: 'center' },
+    { value: 'player.ovr', text: 'OVR', align: 'center' },
+    { value: 'player.value', text: 'Value', align: 'end' },
+    { value: 'contract.wage', text: 'Wage', align: 'end' },
+    { value: 'contract.endedOn', text: 'Contract Ends', align: 'end' }
   ]
 </script>
 
@@ -187,10 +131,10 @@
   </div>
 
   <data-table :headers="headers" :items="rows" sort-by="pos">
-    <template #header-nationality>
+    <template #[`header-player.nationality`]>
       <v-icon>mdi-flag</v-icon>
     </template>
-    <template #item-name="{ item: player }">
+    <template #[`item-player.name`]="{ item: { player } }">
       <v-btn
         :to="`/teams/${team.id}/players/${player.id}`"
         :text="player.name"
@@ -199,22 +143,22 @@
         class="text-capitalize"
       />
     </template>
-    <template #item-nationality="{ item: player }">
+    <template #[`item-player.nationality`]="{ item: { player } }">
       <flag :iso="player.flag" :title="player.nationality" class="mr-2" />
     </template>
-    <template #item-status="{ item: player }">
+    <template #[`item-player.status`]="{ item: { player } }">
       <v-icon :color="player.statusColor"> mdi-{{ player.statusIcon }} </v-icon>
     </template>
-    <template #item-secPos="{ item: player }">
+    <template #[`item-player.secPos`]="{ item: { player } }">
       {{ player.secPos.join(', ') }}
     </template>
-    <template #item-kitNo="{ item: player }">
+    <template #[`item-player.kitNo`]="{ item: { player } }">
       <player-attribute :player="player" attribute="kitNo" label="Kit No" />
     </template>
-    <template #item-ovr="{ item: player }">
+    <template #[`item-player.ovr`]="{ item: { player } }">
       <player-attribute :player="player" attribute="ovr" label="OVR" />
     </template>
-    <template #item-value="{ item: player }">
+    <template #[`item-player.value`]="{ item: { player } }">
       <player-attribute :player="player" attribute="value" label="Value">
         <template #display>
           {{ formatMoney(player.value, team.currency) }}
@@ -235,13 +179,13 @@
         </template>
       </player-attribute>
     </template>
-    <template #item-wage="{ item: player }">
-      <span v-if="player.wage">
-        {{ formatMoney(player.wage, team.currency) }}
+    <template #[`item-contract.wage`]="{ item: { contract } }">
+      <span v-if="contract?.wage">
+        {{ formatMoney(contract.wage, team.currency) }}
       </span>
     </template>
-    <template #item-endDate="{ item: player }">
-      {{ formatDate(player.endDate) }}
+    <template #[`item-contract.endedOn`]="{ item: { contract } }">
+      {{ formatDate(contract?.endedOn) }}
     </template>
   </data-table>
 </template>

@@ -38,8 +38,9 @@ export default defineConfig({
         {
           '@urql/vue': ['useQuery', 'useMutation', 'gql'],
           'pinia-orm': ['useRepo'],
-          'lodash.keyby': [['default', '_keyBy']],
+          'lodash.get': [['default', '_get']],
           'lodash.groupby': [['default', '_groupBy']],
+          'lodash.keyby': [['default', '_keyBy']],
           'lodash.omit': [['default', '_omit']],
           'lodash.orderby': [['default', '_orderBy']],
           'lodash.pick': [['default', '_pick']],
@@ -49,7 +50,12 @@ export default defineConfig({
         },
         {
           from: './src/types',
-          imports: ['CapAttributes', 'StageAttributes', 'MatchFilters'],
+          imports: [
+            'TableHeader',
+            'CapAttributes',
+            'StageAttributes',
+            'MatchFilters'
+          ],
           type: true
         }
       ],

@@ -1,16 +1,4 @@
-<script setup lang="ts">
-  interface Header {
-    text: string
-    value: string
-    sortBy?: string
-    width?: number
-    class?: string
-    style?: string
-    sortable?: boolean
-    cellClass?: string
-    cellStyle?: string
-  }
-
+<script setup lang="ts" generic="T">
   interface TableOptions {
     itemKey?: string
     itemsPerPage?: number
@@ -21,8 +9,8 @@
   }
 
   interface Props {
-    headers: Header[]
-    items: object[]
+    headers: TableHeader[]
+    items: T[]
     options?: TableOptions
     itemKey?: string
     loading?: boolean
@@ -48,11 +36,7 @@
     itemsPerPageOptions: props =>
       props.options.itemsPerPageOptions ?? [10, 20, 50, -1],
     sortBy: props => props.options.sortBy,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     sortDesc: props => props.options.sortDesc ?? false,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     mustSort: props => props.options.mustSort ?? false,
     serverItemsLength: null,
     showPaginationOptions: true
@@ -80,13 +64,19 @@
       sortDesc.value = false
     }
   }
-  function defaultSort(a, b) {
+  function defaultSort(a: T, b: T) {
     const sortHeader = props.headers[sortIndex.value]
     const attr = sortHeader.sortBy || sortBy.value
-    if (sortDesc.value) {
-      return +(b[attr] > a[attr]) - +(a[attr] > b[attr])
+    const aValue = _get(a, attr)
+    const bValue = _get(b, attr)
+    if (bValue == null || (Array.isArray(bValue) && bValue.length < 1)) {
+      return -1
+    } else if (aValue == null || (Array.isArray(aValue) && aValue.length < 1)) {
+      return 1
+    } else if (sortDesc.value) {
+      return (bValue > aValue ? 1 : 0) - (aValue > bValue ? 1 : 0)
     } else {
-      return +(a[attr] > b[attr]) - +(b[attr] > a[attr])
+      return (aValue > bValue ? 1 : 0) - (bValue > aValue ? 1 : 0)
     }
   }
   const sortedItems = computed(() => {
@@ -117,8 +107,7 @@
       return index > total.value ? total.value : index
     }
   })
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const pageItems: Ref<any[]> = computed(() => {
+  const pageItems: Ref<T[]> = computed(() => {
     if (props.serverItemsLength) {
       return props.items
     } else {
@@ -156,7 +145,7 @@
           <th
             v-for="header in headers"
             :key="header.value"
-            :class="header.class"
+            :class="`${header.class} text-${header.align || 'start'}`"
             :style="header.style"
           >
             <v-sheet class="mx-n4 px-4">
@@ -169,20 +158,31 @@
                   :style="{ textTransform: 'inherit' }"
                   @click="changeSortColumn(header)"
                 >
-                  <slot :name="`header-${header.value}`" :header="header">
-                    {{ header.text }}
-                  </slot>
-                  <v-icon v-if="sortBy === header.value" end>
-                    mdi-chevron-{{ sortDesc ? 'down' : 'up' }}
-                  </v-icon>
-                  <v-icon
-                    v-else-if="header.sortable !== false"
-                    class="text-medium-emphasis"
-                    end
-                    :style="{ visibility: isHovering ? 'inherit' : 'hidden' }"
+                  <div
+                    :class="`d-flex flex-row ${
+                      header.align === 'end' ? 'flex-row-reverse' : ''
+                    }`"
                   >
-                    mdi-chevron-up
-                  </v-icon>
+                    <slot :name="`header-${header.value}`" :header="header">
+                      {{ header.text }}
+                    </slot>
+                    <v-icon
+                      v-if="sortBy === header.value"
+                      :start="header.align === 'end'"
+                      :end="header.align !== 'end'"
+                    >
+                      mdi-chevron-{{ sortDesc ? 'down' : 'up' }}
+                    </v-icon>
+                    <v-icon
+                      v-else-if="header.sortable !== false"
+                      class="text-medium-emphasis"
+                      :start="header.align === 'end'"
+                      :end="header.align !== 'end'"
+                      :style="{ visibility: isHovering ? 'inherit' : 'hidden' }"
+                    >
+                      mdi-chevron-up
+                    </v-icon>
+                  </div>
                 </v-btn>
               </v-hover>
             </v-sheet>
@@ -207,14 +207,14 @@
               <td
                 v-for="(header, j) in headers"
                 :key="j"
-                :class="header.cellClass"
-                :style="header.cellStyle"
+                :class="`${header.class} text-${header.align || 'start'}`"
+                :style="header.style"
               >
                 <v-sheet
                   :class="`mx-n4 px-4 ${isHovering ? rowHoverColor : ''}`"
                 >
                   <slot :name="`item-${header.value}`" :item="item">
-                    {{ item[header.value] }}
+                    {{ _get(item, header.value) }}
                   </slot>
                 </v-sheet>
               </td>

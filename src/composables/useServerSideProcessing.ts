@@ -1,8 +1,9 @@
 export default ({
   url,
   options = ref({ page: 0, itemsPerPage: 10 }),
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-  onFetch = _ => {},
+  onFetch = data => {
+    data
+  },
   formatOptions = options => ({
     page: options.page + 1,
     page_length: options.itemsPerPage,
