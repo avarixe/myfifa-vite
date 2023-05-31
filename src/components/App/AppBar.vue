@@ -8,7 +8,12 @@
 </script>
 
 <template>
-  <v-app-bar app>
+  <v-app-bar app theme="dark" image="/app-bar-background.jpg">
+    <template #image>
+      <v-img
+        gradient="to top right, rgba(19,84,122,.5), rgba(128,208,199,.8)"
+      />
+    </template>
     <v-app-bar-nav-icon v-if="mobile && !!team" @click="drawer = !drawer" />
     <v-img :src="logo" class="ml-2" :style="{ maxWidth: '48px' }" />
     <v-app-bar-title v-if="smAndUp">MyFIFA Manager</v-app-bar-title>

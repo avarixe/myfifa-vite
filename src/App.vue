@@ -27,7 +27,11 @@
 
   const theme = useTheme()
   watchEffect(() => {
-    theme.global.name.value = currentUser.value?.darkMode ? 'dark' : 'light'
+    if (currentUser.value) {
+      theme.global.name.value = currentUser.value.darkMode ? 'dark' : 'light'
+    } else {
+      theme.global.name.value = 'dark'
+    }
   })
 </script>
 
@@ -71,9 +75,33 @@
   <team-channel v-if="team" :team="team" />
 </template>
 
-<style>
+<style lang="scss">
   html {
     overflow-y: auto;
+  }
+
+  .v-application {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+
+    &.v-theme--light {
+      background-image: linear-gradient(
+          to right top,
+          rgba(207, 216, 220, 0.5),
+          rgba(176, 190, 197, 0.95)
+        ),
+        url('/background.jpg');
+    }
+    &.v-theme--dark {
+      background-image: linear-gradient(
+          to right top,
+          rgba(55, 71, 79, 0.7),
+          rgba(38, 50, 56, 0.95)
+        ),
+        url('/background.jpg');
+    }
   }
 
   .sticky {

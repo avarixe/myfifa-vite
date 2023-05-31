@@ -36,10 +36,11 @@
     :style="{ minHeight: '90vh' }"
   >
     <v-form ref="form" @submit.prevent="submitForm">
-      <v-card>
-        <v-card-title class="text-center">
-          <app-entry-header />
-        </v-card-title>
+      <div class="text-center mb-4">
+        <app-entry-header />
+      </div>
+      <v-card color="transparent">
+        <v-card-title class="text-center"> </v-card-title>
         <v-card-text>
           <v-text-field v-model="attributes.fullName" label="Name" />
           <v-text-field v-model="attributes.username" label="Username" />
