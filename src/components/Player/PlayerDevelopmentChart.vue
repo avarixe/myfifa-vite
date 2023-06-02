@@ -51,10 +51,9 @@
     }
   ])
 
-  const theme = useTheme()
   const options = computed(() => ({
     chart: { type: 'area' },
-    theme: { mode: theme.global.current.value.dark ? 'dark' : 'light' },
+    theme: { mode: 'dark' },
     xaxis: {
       type: 'datetime'
     },

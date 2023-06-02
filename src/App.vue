@@ -6,7 +6,7 @@
     fetchExchange
   } from '@urql/vue'
 
-  const { token, currentUser } = useSession()
+  const { token } = useSession()
   const client = createClient({
     url: `${import.meta.env.VITE_API_URL}/graphql`,
     exchanges: [cacheExchange, fetchExchange],
@@ -24,15 +24,10 @@
   const inPublicPage = computed(() =>
     ['login', 'register'].includes(route.name?.toString())
   )
-
-  const theme = useTheme()
-  watchEffect(() => {
-    theme.global.name.value = currentUser.value?.darkMode ? 'dark' : 'light'
-  })
 </script>
 
 <template>
-  <v-app>
+  <v-app theme="dark">
     <app-bar v-if="token" />
     <v-main>
       <v-container>
@@ -60,8 +55,8 @@
           </v-alert>
         </div>
 
-        <div>
-          <suspense v-if="token || inPublicPage">
+        <div v-if="token || inPublicPage">
+          <suspense>
             <router-view />
           </suspense>
         </div>
@@ -71,9 +66,25 @@
   <team-channel v-if="team" :team="team" />
 </template>
 
-<style>
+<style lang="scss">
   html {
     overflow-y: auto;
+  }
+
+  .v-application {
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: cover !important;
+    background-attachment: fixed !important;
+
+    &.v-theme--dark {
+      background-image: linear-gradient(
+          to right top,
+          rgba(55, 71, 79, 0.7),
+          rgba(38, 50, 56, 0.95)
+        ),
+        url('/background.jpg');
+    }
   }
 
   .sticky {

@@ -55,7 +55,15 @@
 </script>
 
 <template>
-  <v-navigation-drawer v-bind="$attrs">
+  <v-navigation-drawer theme="dark">
+    <template #image>
+      <v-img
+        src="/background.jpg"
+        gradient="to top right, rgba(19,84,122,.7), rgba(128,208,199,.9)"
+        height="100%"
+      />
+    </template>
+
     <v-list nav density="compact">
       <v-list-item
         :prepend-avatar="team.badgeUrl"
@@ -85,6 +93,7 @@
           :to="`/teams/${team.id}/${item.to}`"
           density="compact"
           flat
+          color="rgba(0, 0, 0, 0.3)"
           class="text-center w-100"
         >
           <v-card-text class="pa-3">

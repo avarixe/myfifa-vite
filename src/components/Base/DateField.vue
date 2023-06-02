@@ -10,8 +10,6 @@
     return formatDate(props.modelValue, 'MMM d, yyyy')
   })
 
-  const theme = useTheme()
-
   const menu = ref(false)
 
   const emit = defineEmits(['update:modelValue'])
@@ -37,7 +35,7 @@
         week-start="0"
         :min-date="minDate"
         :max-date="maxDate"
-        :dark="theme.global.current.value.dark"
+        dark
         :enable-time-picker="false"
         :model-value="modelValue"
         @update:model-value="onCalendarUpdate"

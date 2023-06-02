@@ -11,7 +11,10 @@
 </script>
 
 <template>
-  <div class="pa-2 elevation-5 rounded-lg w-100">
+  <div
+    class="pa-2 elevation-5 rounded-lg w-100"
+    :style="{ background: 'rgba(0, 0, 0, 0.3)' }"
+  >
     <div class="match-side-label font-weight-bold">TEAM</div>
     <div class="match-side-team">
       {{ match[side] }}
