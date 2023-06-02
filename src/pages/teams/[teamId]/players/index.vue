@@ -85,7 +85,12 @@
     { value: 'player.nationality', text: 'Nationality', align: 'center' },
     { value: 'player.status', text: 'Status', align: 'center' },
     { value: 'player.age', text: 'Age', align: 'center' },
-    { value: 'player.pos', text: 'Pos', sortBy: 'posIdx', align: 'center' },
+    {
+      value: 'player.pos',
+      text: 'Pos',
+      sortBy: 'player.posIdx',
+      align: 'center'
+    },
     { value: 'player.secPos', text: '2nd Pos' },
     { value: 'player.kitNo', text: 'Kit No', align: 'center' },
     { value: 'player.ovr', text: 'OVR', align: 'center' },
@@ -130,7 +135,7 @@
     </v-btn-toggle>
   </div>
 
-  <data-table :headers="headers" :items="rows" sort-by="pos">
+  <data-table :headers="headers" :items="rows" sort-by="player.pos">
     <template #[`header-player.nationality`]>
       <v-icon>mdi-flag</v-icon>
     </template>

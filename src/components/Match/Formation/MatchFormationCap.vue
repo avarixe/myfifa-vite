@@ -66,7 +66,10 @@
 </script>
 
 <template>
-  <div :class="`pa-2 elevation-${readonly ? 0 : 5} rounded-lg w-100`">
+  <div
+    :class="`pa-2 elevation-${readonly ? 0 : 5} rounded-lg w-100`"
+    :style="{ background: 'rgba(0, 0, 0, 0.3)' }"
+  >
     <v-btn
       :loading="posLoading"
       variant="text"

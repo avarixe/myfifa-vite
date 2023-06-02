@@ -19,7 +19,6 @@
     <v-app-bar-title v-if="smAndUp">MyFIFA Manager</v-app-bar-title>
     <v-spacer />
     <v-btn icon="mdi-account" to="/account" />
-    <dark-mode-toggle />
     <v-btn icon>
       <v-icon>mdi-information-outline</v-icon>
       <app-info />

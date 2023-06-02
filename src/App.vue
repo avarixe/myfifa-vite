@@ -6,7 +6,7 @@
     fetchExchange
   } from '@urql/vue'
 
-  const { token, currentUser } = useSession()
+  const { token } = useSession()
   const client = createClient({
     url: `${import.meta.env.VITE_API_URL}/graphql`,
     exchanges: [cacheExchange, fetchExchange],
@@ -24,19 +24,10 @@
   const inPublicPage = computed(() =>
     ['login', 'register'].includes(route.name?.toString())
   )
-
-  const theme = useTheme()
-  watchEffect(() => {
-    if (currentUser.value) {
-      theme.global.name.value = currentUser.value.darkMode ? 'dark' : 'light'
-    } else {
-      theme.global.name.value = 'dark'
-    }
-  })
 </script>
 
 <template>
-  <v-app>
+  <v-app theme="dark">
     <app-bar v-if="token" />
     <v-main>
       <v-container>
@@ -64,8 +55,8 @@
           </v-alert>
         </div>
 
-        <div>
-          <suspense v-if="token || inPublicPage">
+        <div v-if="token || inPublicPage">
+          <suspense>
             <router-view />
           </suspense>
         </div>
@@ -81,19 +72,11 @@
   }
 
   .v-application {
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    background-attachment: fixed;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: cover !important;
+    background-attachment: fixed !important;
 
-    &.v-theme--light {
-      background-image: linear-gradient(
-          to right top,
-          rgba(207, 216, 220, 0.5),
-          rgba(176, 190, 197, 0.95)
-        ),
-        url('/background.jpg');
-    }
     &.v-theme--dark {
       background-image: linear-gradient(
           to right top,

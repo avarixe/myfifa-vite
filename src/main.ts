@@ -3,7 +3,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import routes from '~pages'
 
 import { createVuetify } from 'vuetify'
-import * as directives from 'vuetify/directives'
 import 'vuetify/styles'
 
 import { User } from './models'
@@ -60,7 +59,7 @@ router.beforeEach(async to => {
 
 const pinia = createPinia().use(createORM())
 
-const vuetify = createVuetify({ directives })
+const vuetify = createVuetify()
 
 const app = createApp(App)
   .use(router)
