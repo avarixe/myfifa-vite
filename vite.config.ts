@@ -65,5 +65,16 @@ export default defineConfig({
     Components(),
     vuetify(),
     eslint()
-  ]
+  ],
+  optimizeDeps: {
+    exclude: ['vuetify', 'vue-currency-input'],
+    include: [
+      'lodash.get',
+      'lodash.groupby',
+      'lodash.keyby',
+      'lodash.omit',
+      'lodash.orderby',
+      'lodash.pick'
+    ]
+  }
 })

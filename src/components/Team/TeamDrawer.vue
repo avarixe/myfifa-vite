@@ -55,7 +55,7 @@
 </script>
 
 <template>
-  <v-navigation-drawer theme="dark">
+  <v-navigation-drawer>
     <template #image>
       <v-img
         src="/background.jpg"

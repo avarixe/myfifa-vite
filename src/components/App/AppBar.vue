@@ -8,7 +8,7 @@
 </script>
 
 <template>
-  <v-app-bar app theme="dark" image="/app-bar-background.jpg">
+  <v-app-bar app image="/app-bar-background.jpg">
     <template #image>
       <v-img
         gradient="to top right, rgba(19,84,122,.5), rgba(128,208,199,.8)"

@@ -114,6 +114,12 @@
       return sortedItems.value.slice(pageStart.value - 1, pageStop.value)
     }
   })
+  watch(sortBy, () => {
+    page.value = 0
+  })
+  watch(sortDesc, () => {
+    page.value = 0
+  })
 
   // Server Side Processing
   const options = computed(() => ({

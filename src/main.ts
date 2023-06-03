@@ -59,7 +59,11 @@ router.beforeEach(async to => {
 
 const pinia = createPinia().use(createORM())
 
-const vuetify = createVuetify()
+const vuetify = createVuetify({
+  theme: {
+    defaultTheme: 'dark'
+  }
+})
 
 const app = createApp(App)
   .use(router)
