@@ -27,7 +27,7 @@
 </script>
 
 <template>
-  <v-app theme="dark">
+  <v-app>
     <app-bar v-if="token" />
     <v-main>
       <v-container>

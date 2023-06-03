@@ -51,7 +51,7 @@
       color="transparent"
     >
       <template #badge>
-        <div class="counter font-weight-black">{{ cap.start }}'</div>
+        <div class="text-white font-weight-black">{{ cap.start }}'</div>
       </template>
       <v-icon color="green" size="small" icon="mdi-subdirectory-arrow-right" />
     </v-badge>
@@ -62,7 +62,7 @@
       color="transparent"
     >
       <template #badge>
-        <div class="counter font-weight-black">{{ numGoals }}</div>
+        <div class="text-white font-weight-black">{{ numGoals }}</div>
       </template>
       <v-icon color="blue" size="small" icon="mdi-soccer" />
     </v-badge>
@@ -73,7 +73,7 @@
       color="transparent"
     >
       <template #badge>
-        <div class="counter font-weight-black">{{ numOwnGoals }}</div>
+        <div class="text-white font-weight-black">{{ numOwnGoals }}</div>
       </template>
       <v-icon color="red" size="small" icon="mdi-soccer" />
     </v-badge>
@@ -84,7 +84,7 @@
       color="transparent"
     >
       <template #badge>
-        <div class="counter font-weight-black">{{ numAssists }}</div>
+        <div class="text-white font-weight-black">{{ numAssists }}</div>
       </template>
       <v-icon
         color="light-blue accent-1"
@@ -106,18 +106,8 @@
         icon="mdi-subdirectory-arrow-left"
       />
       <template #badge>
-        <div class="counter font-weight-black">{{ cap.stop }}'</div>
+        <div class="text-white font-weight-black">{{ cap.stop }}'</div>
       </template>
     </v-badge>
   </div>
 </template>
-
-<style scoped lang="scss">
-  .counter {
-    color: black;
-
-    .v-theme--dark & {
-      color: white;
-    }
-  }
-</style>
