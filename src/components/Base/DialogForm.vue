@@ -15,7 +15,7 @@
   )
 
   const dialog = ref(false)
-  const emit = defineEmits(['open', 'close'])
+  const emit = defineEmits(['open', 'close', 'success'])
   watch(dialog, () => {
     emit(dialog.value ? 'open' : 'close')
   })
@@ -31,8 +31,9 @@
   } = useForm({
     mutation: props.mutation,
     variables: props.variables,
-    onSuccess() {
+    onSuccess(data) {
       dialog.value = false
+      emit('success', data)
     },
     broadcastErrors: false
   })

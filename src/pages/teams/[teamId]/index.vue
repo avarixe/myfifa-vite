@@ -56,7 +56,20 @@
 </script>
 
 <template>
-  <div class="text-h4">{{ team.name }}</div>
+  <div class="d-flex align-center text-h4">
+    <v-btn icon variant="text" class="mr-2">
+      <v-avatar>
+        <v-img v-if="team.badgePath" :src="team.badgeUrl" />
+        <v-icon v-else>mdi-shield-off-outline</v-icon>
+        <v-tooltip location="top" activator="parent">
+          Click to change Badge
+        </v-tooltip>
+      </v-avatar>
+
+      <team-badge-uploader :team="team" />
+    </v-btn>
+    {{ team.name }}
+  </div>
 
   <div class="mt-2">
     <v-btn :to="`/teams/${team.id}/edit`">Edit</v-btn>

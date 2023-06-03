@@ -33,7 +33,6 @@
   const posMenu = ref(false)
   const posLoading = ref(false)
   async function selectPos(pos) {
-    console.log(pos)
     try {
       posLoading.value = true
       attributes.pos = pos
