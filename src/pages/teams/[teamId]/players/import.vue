@@ -128,7 +128,7 @@
         >
           Download Template
         </v-btn>
-        <v-btn class="ma-1" @click="uploader.click()"> Upload File </v-btn>
+        <v-btn class="ma-1" @click="uploader.click()">Upload File</v-btn>
       </v-col>
       <v-col cols="12">
         <v-form ref="form" @submit.prevent="submitted++">

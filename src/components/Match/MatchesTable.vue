@@ -82,7 +82,6 @@
 
   const fetchTimeout = ref(null)
   function onTableUpdate() {
-    console.log('triggered table update')
     clearTimeout(fetchTimeout.value)
     fetchTimeout.value = setTimeout(fetchPage, 300)
   }
