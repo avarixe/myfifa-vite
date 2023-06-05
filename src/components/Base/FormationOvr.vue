@@ -18,11 +18,13 @@
   const formationOvr = computed(() =>
     props.data.reduce(
       (ovrs, data) => {
-        ovrs[data.type].total += data.value * data.weight
-        ovrs[data.type].weight += data.weight
-        ovrs[data.type].average = Math.round(
-          ovrs[data.type].total / ovrs[data.type].weight
-        )
+        if (data) {
+          ovrs[data.type].total += data.value * data.weight
+          ovrs[data.type].weight += data.weight
+          ovrs[data.type].average = Math.round(
+            ovrs[data.type].total / ovrs[data.type].weight
+          )
+        }
         return ovrs
       },
       {
