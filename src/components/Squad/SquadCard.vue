@@ -143,11 +143,15 @@
   }
 
   const ovrData = computed(() =>
-    attributes.squadPlayersAttributes.map(attr => ({
-      type: matchPositions[attr.pos],
-      value: playerRepo.find(parseInt(attr.playerId)).ovr,
-      weight: 1
-    }))
+    attributes.squadPlayersAttributes.map(attr =>
+      attr.pos && attr.playerId
+        ? {
+            type: matchPositions[attr.pos],
+            value: playerRepo.find(parseInt(attr.playerId)).ovr,
+            weight: 1
+          }
+        : null
+    )
   )
 
   const drawer = ref(false)
