@@ -233,6 +233,7 @@
                 <div>
                   <v-card-title>
                     <v-btn
+                      :to="`/teams/${team.id}`"
                       :text="team.name"
                       variant="text"
                       color="primary"
