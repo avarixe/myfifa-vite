@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  const { team, currentSeason, seasonLabel } = useTeam()
+  const { team, currentSeason } = useTeam()
 
   const currentlyOn = ref(team.value.currentlyOn)
   const { submitForm } = useForm({
@@ -52,6 +52,12 @@
       title: 'Statistics'
     }
   ]
+
+  const subtitle = computed(() =>
+    team.value.game
+      ? `${team.value.managerName} · ${team.value.game}`
+      : team.value.managerName
+  )
 </script>
 
 <template>
@@ -68,7 +74,7 @@
       <v-list-item
         :prepend-avatar="team.badgeUrl"
         :title="team.name"
-        :subtitle="seasonLabel(currentSeason)"
+        :subtitle="subtitle"
       />
       <v-divider />
     </v-list>

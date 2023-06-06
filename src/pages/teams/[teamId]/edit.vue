@@ -1,16 +1,24 @@
 <script setup lang="ts">
+  import { Team } from '~/models'
+
   defineProps<{ teamId: string }>()
 
-  const { team } = await useTeamQuery({
+  // load all Teams for previous Team dropdown
+  const { data } = await useQuery({
     query: gql`
-      query fetchTeam($teamId: ID!) {
-        team(id: $teamId) {
+      query fetchTeams {
+        teams {
           ...TeamData
         }
       }
       ${teamFragment}
     `
   })
+
+  const teamRepo = useRepo(Team)
+  teamRepo.save(data.value.teams)
+
+  const { team } = useTeam()
 </script>
 
 <template>

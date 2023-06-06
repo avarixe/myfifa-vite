@@ -4,12 +4,12 @@
   defineProps<{ teamId: string; matchId: string }>()
 
   const route = useRoute()
-  const teamId = computed(() => parseInt(route.params.teamId.toString()))
+  const teamId = computed(() => parseInt(route.params.teamId?.toString()))
 
   const matchId = ref(parseInt(route.params.matchId.toString()))
   watch(route, () => {
     if (route.params.matchId) {
-      matchId.value = parseInt(route.params.matchId.toString())
+      matchId.value = parseInt(route.params.matchId?.toString())
     }
   })
 
