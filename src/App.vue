@@ -43,7 +43,9 @@
           class="mb-2"
         >
           <v-alert type="info" variant="tonal" border="start">
-            <v-alert-title>Welcome to {{ team.name }}!</v-alert-title>
+            <v-alert-title>
+              Welcome to {{ team.name }}, {{ team.managerName }}!
+            </v-alert-title>
             Click
             <v-btn
               :to="`/teams/${team.id}/players/import`"

@@ -56,7 +56,7 @@
 </script>
 
 <template>
-  <div class="d-flex align-center text-h4">
+  <div class="d-flex align-center">
     <v-btn icon variant="text" class="mr-2">
       <v-avatar>
         <v-img v-if="team.badgePath" :src="team.badgeUrl" />
@@ -68,7 +68,11 @@
 
       <team-badge-uploader :team="team" />
     </v-btn>
-    {{ team.name }}
+    <div>
+      <div class="text-h4">{{ team.name }}</div>
+      <div class="text-body-1">Manager: {{ team.managerName }}</div>
+      <div v-if="team.game" class="text-body-1">Game: {{ team.game }}</div>
+    </div>
   </div>
 
   <div class="mt-2">
