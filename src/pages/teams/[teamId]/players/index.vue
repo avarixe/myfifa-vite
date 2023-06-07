@@ -3,7 +3,8 @@
 
   defineProps<{ teamId: string }>()
 
-  const { team, data } = await useTeamQuery({
+  const contractRepo = useRepo(Contract)
+  const { team, ready } = useTeamQuery({
     query: gql`
       query fetchPlayersPage($teamId: ID!) {
         team(id: $teamId) {
@@ -19,14 +20,14 @@
       ${teamFragment}
       ${playerFragment}
       ${contractFragment}
-    `
+    `,
+    onTeamQuery(data) {
+      const contracts = data.team.players
+        .map(player => player.currentContract)
+        .filter(contract => contract)
+      contractRepo.save(contracts)
+    }
   })
-
-  const contractRepo = useRepo(Contract)
-  const contracts = data.value.team.players
-    .map(player => player.currentContract)
-    .filter(contract => contract)
-  contractRepo.save(contracts)
 
   const filter = ref('Active')
   const filterOptions = [
@@ -42,7 +43,7 @@
   const playerRepo = useRepo(Player)
   const players = computed(() =>
     playerRepo
-      .where('teamId', team.value.id)
+      .where('teamId', team.value?.id)
       .where('status', status => {
         switch (filter.value) {
           case 'Active':
@@ -103,7 +104,7 @@
 <template>
   <div class="text-h4">Players</div>
 
-  <div class="my-2">
+  <div v-if="ready" class="my-2">
     <v-btn :to="`/teams/${team.id}/players/new`">
       <v-icon start>mdi-plus</v-icon>
       Player

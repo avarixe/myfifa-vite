@@ -58,9 +58,7 @@
         </div>
 
         <div v-if="token || inPublicPage">
-          <suspense>
-            <router-view />
-          </suspense>
+          <router-view />
         </div>
       </v-container>
     </v-main>

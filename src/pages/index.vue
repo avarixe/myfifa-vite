@@ -2,7 +2,9 @@
   import { differenceInYears } from 'date-fns'
   import { Team } from '~/models'
 
-  const { data } = await useQuery({
+  const teamRepo = useRepo(Team)
+  const topTeam = ref(null)
+  const { ready } = usePageQuery({
     query: gql`
       query fetchTeams {
         teams {
@@ -17,23 +19,15 @@
         }
       }
       ${teamFragment}
-    `
+    `,
+    onQuery(data) {
+      teamRepo.save(data.teams)
+      topTeam.value = data.teams[0]
+    }
   })
-
-  const teamRepo = useRepo(Team)
-  teamRepo.save(data.value.teams)
-
-  const lastMatchByTeam = data.value.teams.reduce((dict, team) => {
-    dict[team.id] = team.lastMatch
-    return dict
-  }, {})
-
-  const teamId = ref(parseInt(data.value.teams[0]?.id))
-  const lastMatch = computed(() => lastMatchByTeam[teamId.value])
 
   const teams = computed(() => teamRepo.orderBy('createdAt', 'desc').get())
   const teamsById = computed(() => _keyBy(teams.value, 'id'))
-  const currentTeam = computed(() => teamsById.value[teamId.value])
   const teamFiles = computed(() =>
     teams.value.reduce((files, team) => {
       if (team.previousId) {
@@ -52,10 +46,11 @@
     }, [])
   )
 
+  const lastMatch = computed(() => topTeam.value?.lastMatch)
   const currentSeason = computed(() =>
     differenceInYears(
-      parseISO(currentTeam.value.currentlyOn),
-      parseISO(currentTeam.value.startedOn)
+      parseISO(topTeam.value?.currentlyOn),
+      parseISO(topTeam.value?.startedOn)
     )
   )
 
@@ -93,7 +88,7 @@
 
 <template>
   <v-container>
-    <v-row>
+    <v-row v-if="ready">
       <v-col cols="12">
         <v-btn to="/teams">
           <v-icon start>mdi-shield-search</v-icon>
@@ -106,12 +101,12 @@
         </v-btn>
       </v-col>
       <v-col cols="12">
-        <v-card v-if="currentTeam" class="rounded-xl">
+        <v-card v-if="topTeam" class="rounded-xl">
           <div class="d-sm-flex flex-no-wrap align-center text-center">
             <v-avatar class="ma-3" size="250" rounded="0">
               <v-img
-                v-if="currentTeam.badgePath"
-                :src="badgeUrl(currentTeam)"
+                v-if="topTeam.badgePath"
+                :src="badgeUrl(topTeam)"
               />
               <v-icon v-else size="100">
                 mdi-shield-off-outline
@@ -122,11 +117,11 @@
             </v-avatar>
             <div class="w-100">
               <v-card-title class="d-flex align-center">
-                <div class="text-h5">{{ currentTeam.name }}</div>
+                <div class="text-h5">{{ topTeam.name }}</div>
                 <v-spacer />
                 <v-hover v-slot="{ isHovering, props }">
                   <v-btn
-                    :to="`/teams/${currentTeam.id}`"
+                    :to="`/teams/${topTeam.id}`"
                     variant="text"
                     class="my-2"
                     v-bind="props"
@@ -140,25 +135,25 @@
               <v-card-text>
                 <v-row dense>
                   <v-col cols="12" lg="6" class="text-left">
-                    <div v-show="currentTeam.game">
+                    <div v-show="topTeam.game">
                       <span class="text-grey">Game: </span>
-                      <b>{{ currentTeam.game }}</b>
+                      <b>{{ topTeam.game }}</b>
                     </div>
                     <div>
                       <span class="text-grey">Manager Name: </span>
-                      <b>{{ currentTeam.managerName }}</b>
+                      <b>{{ topTeam.managerName }}</b>
                     </div>
                     <div>
                       <span class="text-grey">Started Date: </span>
-                      <b>{{ formatDate(currentTeam.startedOn) }}</b>
+                      <b>{{ formatDate(topTeam.startedOn) }}</b>
                     </div>
                     <div>
                       <span class="text-grey">Current Date: </span>
-                      <b>{{ formatDate(currentTeam.currentlyOn) }}</b>
+                      <b>{{ formatDate(topTeam.currentlyOn) }}</b>
                     </div>
                     <div>
                       <span class="text-grey">Currency: </span>
-                      <b>{{ currentTeam.currency }}</b>
+                      <b>{{ topTeam.currency }}</b>
                     </div>
                   </v-col>
                   <v-col
@@ -178,7 +173,7 @@
                       </div>
                       <v-hover v-slot="{ isHovering, props }">
                         <v-btn
-                          :to="`/teams/${currentTeam.id}/matches/${lastMatch.id}`"
+                          :to="`/teams/${topTeam.id}/matches/${lastMatch.id}`"
                           variant="outlined"
                           color="info"
                           class="my-2"
@@ -194,7 +189,7 @@
               </v-card-text>
               <v-card-actions class="justify-space-around">
                 <v-hover
-                  v-for="(link, i) in teamLinks(currentTeam)"
+                  v-for="(link, i) in teamLinks(topTeam)"
                   :key="i"
                   v-slot="{ isHovering, props }"
                 >

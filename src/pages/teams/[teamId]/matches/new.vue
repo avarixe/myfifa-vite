@@ -1,7 +1,7 @@
 <script setup lang="ts">
   defineProps<{ teamId: string }>()
 
-  const { teamId } = await useTeamQuery({
+  const { teamId, ready } = useTeamQuery({
     query: gql`
       query fetchTeam($teamId: ID!) {
         team(id: $teamId) {
@@ -24,5 +24,5 @@
 <template>
   <div class="text-h4 mb-2">New Match</div>
 
-  <match-form :team-id="teamId" />
+  <match-form v-if="ready" :team-id="teamId" />
 </template>

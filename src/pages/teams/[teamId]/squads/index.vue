@@ -3,7 +3,7 @@
 
   defineProps<{ teamId: string }>()
 
-  const { team } = await useTeamQuery({
+  const { team, ready } = useTeamQuery({
     query: gql`
       query fetchSquadsPage($teamId: ID!) {
         team(id: $teamId) {
@@ -37,7 +37,7 @@
 <template>
   <div class="text-h4">Squads</div>
 
-  <v-row class="mt-2">
+  <v-row v-if="ready" class="mt-2">
     <v-col cols="12">
       <v-btn @click="startNewSquad">
         <v-icon start>mdi-plus</v-icon>

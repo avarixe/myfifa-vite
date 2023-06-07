@@ -3,7 +3,8 @@
 
   defineProps<{ teamId: string }>()
 
-  const { data, team, seasonLabel, currentSeason } = await useTeamQuery({
+  const statsByPlayerId = ref({})
+  const { team, seasonLabel, currentSeason, ready } = useTeamQuery({
     query: gql`
       query fetchPlayersPage($teamId: ID!) {
         team(id: $teamId) {
@@ -19,11 +20,14 @@
       ${teamFragment}
       ${playerFragment}
       ${playerDevelopmentStatsFragment}
-    `
+    `,
+    onTeamQuery(data) {
+      statsByPlayerId.value = _groupBy(
+        data.team.playerDevelopmentStats,
+        'playerId'
+      )
+    }
   })
-
-  const { playerDevelopmentStats } = data.value.team
-  const statsByPlayerId = _groupBy(playerDevelopmentStats, 'playerId')
 
   const filter = ref('Active')
   const filterOptions = [
@@ -110,7 +114,7 @@
           startValue: 0
         }
 
-        const stats = statsByPlayerId[player.id]
+        const stats = statsByPlayerId.value[player.id]
         if (stats) {
           const ovrDiff: StatDiff = {}
           const valueDiff: StatDiff = {}
@@ -172,115 +176,117 @@
 </script>
 
 <template>
-  <div class="text-h4 mb-2">Player Development</div>
+  <template v-if="ready">
+    <div class="text-h4 mb-2">Player Development</div>
 
-  <v-btn :to="`/teams/${team.id}/players/statistics`">Statistics</v-btn>
+    <v-btn :to="`/teams/${team.id}/players/statistics`">Statistics</v-btn>
 
-  <div class="d-flex mt-2">
-    <v-btn-toggle v-model="filter" variant="outlined">
-      <v-btn
-        v-for="option in filterOptions"
-        :key="option.text"
-        icon
-        :color="option.color"
-        :value="option.text"
-      >
-        <v-icon>mdi-{{ option.icon }}</v-icon>
-        <v-tooltip
-          activator="parent"
-          :text="`${option.text} Players`"
-          location="bottom"
-        />
-      </v-btn>
-    </v-btn-toggle>
-
-    <v-spacer />
-
-    <v-btn-toggle v-model="metric" variant="outlined">
-      <v-btn
-        v-for="option in metrics"
-        :key="option.text"
-        icon
-        :color="option.color"
-        :value="option.text"
-      >
-        <v-icon>mdi-{{ option.icon }}</v-icon>
-        <v-tooltip activator="parent" :text="option.text" location="bottom" />
-      </v-btn>
-    </v-btn-toggle>
-  </div>
-
-  <data-table
-    :headers="headers"
-    :items="rows"
-    item-key="id"
-    sort-by="pos"
-    :items-per-page="-1"
-    density="compact"
-    class="mt-4"
-  >
-    <template #[`header-player.nationality`]>
-      <v-icon>mdi-flag</v-icon>
-    </template>
-    <template #item="{ item, rowColor }">
-      <td class="sticky">
-        <v-sheet :class="`mx-n4 px-4 ${rowColor}`">
-          <v-btn
-            :to="`/teams/${team.id}/players/${item.player.id}`"
-            :text="item.player.name"
-            size="small"
-            variant="text"
-            color="primary"
-            class="text-capitalize"
+    <div class="d-flex mt-2">
+      <v-btn-toggle v-model="filter" variant="outlined">
+        <v-btn
+          v-for="option in filterOptions"
+          :key="option.text"
+          icon
+          :color="option.color"
+          :value="option.text"
+        >
+          <v-icon>mdi-{{ option.icon }}</v-icon>
+          <v-tooltip
+            activator="parent"
+            :text="`${option.text} Players`"
+            location="bottom"
           />
-        </v-sheet>
-      </td>
-      <td class="text-center">
-        <flag
-          :iso="item.player.flag"
-          :title="item.player.nationality"
-          class="mr-2"
-        />
-      </td>
-      <td class="text-center">{{ item.player.pos }}</td>
-      <template v-if="metric === 'OVR'">
-        <td class="text-right">{{ item.startOvr }}</td>
-        <td class="text-right">{{ item.player.ovr }}</td>
-        <td :class="`text-right ${ovrColor(item.ovrDiff.total)}`">
-          {{ item.ovrDiff.total }}
-        </td>
-        <td
-          v-for="(_, season) in new Array(currentSeason + 1)"
-          :key="season"
-          :class="`text-right ${ovrColor(item.ovrDiff[season])}`"
+        </v-btn>
+      </v-btn-toggle>
+
+      <v-spacer />
+
+      <v-btn-toggle v-model="metric" variant="outlined">
+        <v-btn
+          v-for="option in metrics"
+          :key="option.text"
+          icon
+          :color="option.color"
+          :value="option.text"
         >
-          {{ item.ovrDiff[season] > 0 ? '+' : '' }}
-          {{ item.ovrDiff[season] }}
-        </td>
+          <v-icon>mdi-{{ option.icon }}</v-icon>
+          <v-tooltip activator="parent" :text="option.text" location="bottom" />
+        </v-btn>
+      </v-btn-toggle>
+    </div>
+
+    <data-table
+      :headers="headers"
+      :items="rows"
+      item-key="id"
+      sort-by="pos"
+      :items-per-page="-1"
+      density="compact"
+      class="mt-4"
+    >
+      <template #[`header-player.nationality`]>
+        <v-icon>mdi-flag</v-icon>
       </template>
-      <template v-else>
-        <td class="text-right">
-          {{ formatMoney(item.startValue, team.currency) }}
+      <template #item="{ item, rowColor }">
+        <td class="sticky">
+          <v-sheet :class="`mx-n4 px-4 ${rowColor}`">
+            <v-btn
+              :to="`/teams/${team.id}/players/${item.player.id}`"
+              :text="item.player.name"
+              size="small"
+              variant="text"
+              color="primary"
+              class="text-capitalize"
+            />
+          </v-sheet>
         </td>
-        <td class="text-right">
-          {{ formatMoney(item.player.value, team.currency) }}
+        <td class="text-center">
+          <flag
+            :iso="item.player.flag"
+            :title="item.player.nationality"
+            class="mr-2"
+          />
         </td>
-        <td
-          :class="{ 'text-right': true, 'text-red': item.valueDiff.total < 0 }"
-        >
-          {{ formatMoney(item.valueDiff.total, team.currency, '-') }}
-        </td>
-        <td
-          v-for="(_, season) in new Array(currentSeason + 1)"
-          :key="season"
-          :class="`text-right ${valueColor(item.valueDiff[season])}`"
-        >
-          <span v-if="item.valueDiff[season] !== undefined">
-            {{ item.valueDiff[season] > 0 ? '+' : '' }}
-            {{ item.valueDiff[season].toFixed(2) }}%
-          </span>
-        </td>
+        <td class="text-center">{{ item.player.pos }}</td>
+        <template v-if="metric === 'OVR'">
+          <td class="text-right">{{ item.startOvr }}</td>
+          <td class="text-right">{{ item.player.ovr }}</td>
+          <td :class="`text-right ${ovrColor(item.ovrDiff.total)}`">
+            {{ item.ovrDiff.total }}
+          </td>
+          <td
+            v-for="(_, season) in new Array(currentSeason + 1)"
+            :key="season"
+            :class="`text-right ${ovrColor(item.ovrDiff[season])}`"
+          >
+            {{ item.ovrDiff[season] > 0 ? '+' : '' }}
+            {{ item.ovrDiff[season] }}
+          </td>
+        </template>
+        <template v-else>
+          <td class="text-right">
+            {{ formatMoney(item.startValue, team.currency) }}
+          </td>
+          <td class="text-right">
+            {{ formatMoney(item.player.value, team.currency) }}
+          </td>
+          <td
+            :class="{ 'text-right': true, 'text-red': item.valueDiff.total < 0 }"
+          >
+            {{ formatMoney(item.valueDiff.total, team.currency, '-') }}
+          </td>
+          <td
+            v-for="(_, season) in new Array(currentSeason + 1)"
+            :key="season"
+            :class="`text-right ${valueColor(item.valueDiff[season])}`"
+          >
+            <span v-if="item.valueDiff[season] !== undefined">
+              {{ item.valueDiff[season] > 0 ? '+' : '' }}
+              {{ item.valueDiff[season].toFixed(2) }}%
+            </span>
+          </td>
+        </template>
       </template>
-    </template>
-  </data-table>
+    </data-table>
+  </template>
 </template>

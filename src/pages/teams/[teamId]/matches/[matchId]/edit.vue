@@ -3,7 +3,10 @@
 
   const props = defineProps<{ teamId: string; matchId: string }>()
 
-  const { data } = await useTeamQuery({
+  const matchRepo = useRepo(Match)
+  const match = computed(() => matchRepo.find(parseInt(props.matchId)))
+
+  const { ready } = useTeamQuery({
     query: gql`
       query fetchMatchPage($teamId: ID!, $matchId: ID!) {
         match(id: $matchId) {
@@ -24,18 +27,18 @@
       ${competitionFragment}
       ${baseStageFragment}
     `,
-    variables: {
-      teamId: props.teamId,
-      matchId: props.matchId
+    variables: () => ({
+      teamId: parseInt(props.teamId),
+      matchId: parseInt(props.matchId)
+    }),
+    onQuery(data) {
+      matchRepo.save(data.match)
     }
   })
-  const matchRepo = useRepo(Match)
-  matchRepo.save(data.value?.match)
-  const match = computed(() => matchRepo.find(parseInt(props.matchId)))
 </script>
 
 <template>
   <div class="text-h4 mb-2">Edit Match</div>
 
-  <match-form :record="match" />
+  <match-form v-if="ready" :record="match" />
 </template>

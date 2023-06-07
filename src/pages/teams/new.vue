@@ -2,7 +2,8 @@
   import { Team } from '~/models'
 
   // load all Teams for previous Team dropdown
-  const { data } = await useQuery({
+  const teamRepo = useRepo(Team)
+  usePageQuery({
     query: gql`
       query fetchTeams {
         teams {
@@ -10,11 +11,11 @@
         }
       }
       ${teamFragment}
-    `
+    `,
+    onQuery(data) {
+      teamRepo.save(data.teams)
+    }
   })
-
-  const teamRepo = useRepo(Team)
-  teamRepo.save(data.value.teams)
 </script>
 
 <template>

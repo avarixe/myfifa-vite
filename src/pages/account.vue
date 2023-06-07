@@ -1,7 +1,9 @@
 <script setup lang="ts">
   import { User } from '~/models'
 
-  const { data } = await useQuery({
+  const userRepo = useRepo(User)
+  const userId = ref(null)
+  const { ready } = usePageQuery({
     query: gql`
       query fetchUser {
         user {
@@ -9,16 +11,18 @@
         }
       }
       ${userFragment}
-    `
+    `,
+    onQuery(data) {
+      userRepo.save(data.user)
+      userId.value = parseInt(data.user.id)
+    }
   })
 
-  const userRepo = useRepo(User)
-  userRepo.save(data.value.user)
-  const user = computed(() => userRepo.find(parseInt(data.value.user.id)))
+  const user = computed(() => userRepo.find(userId.value))
 </script>
 
 <template>
-  <v-row>
+  <v-row v-if="ready">
     <v-col>
       <user-profile :user="user" />
     </v-col>

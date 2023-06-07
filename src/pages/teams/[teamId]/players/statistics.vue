@@ -3,7 +3,8 @@
 
   defineProps<{ teamId: string }>()
 
-  const { data, team, currentSeason, seasonLabel } = await useTeamQuery({
+  const statsByPlayerId = ref({})
+  const { team, currentSeason, seasonLabel } = useTeamQuery({
     query: gql`
       query fetchPlayersPage($teamId: ID!) {
         team(id: $teamId) {
@@ -23,11 +24,11 @@
       ${playerFragment}
       ${playerPerformanceStatsFragment}
       ${competitionFragment}
-    `
+    `,
+    onTeamQuery(data) {
+      statsByPlayerId.value = _groupBy(data.team.playerPerformanceStats, 'playerId')
+    }
   })
-
-  const { playerPerformanceStats } = data.value.team
-  const statsByPlayerId = _groupBy(playerPerformanceStats, 'playerId')
 
   const filter = ref('Active')
   const filterOptions = [
@@ -122,7 +123,7 @@
     const rows = []
     players.value.forEach(player => {
       const filteredStats =
-        statsByPlayerId[player.id]?.filter(
+        statsByPlayerId.value[player.id]?.filter(
           data =>
             [null, data.season].includes(filters.season) &&
             [null, data.competition].includes(filters.competition)

@@ -1,7 +1,7 @@
 <script setup lang="ts">
   defineProps<{ teamId: string }>()
 
-  const { currentSeason } = await useTeamQuery({
+  const { currentSeason, ready } = useTeamQuery({
     query: gql`
       query fetchCompetitionsPage($teamId: ID!) {
         team(id: $teamId) {
@@ -22,7 +22,7 @@
 <template>
   <div class="text-h4 mb-2">Competitions</div>
 
-  <v-timeline :side="smAndDown ? 'end' : null">
+  <v-timeline v-if="ready" :side="smAndDown ? 'end' : null">
     <v-timeline-item
       v-for="season in [...Array(currentSeason + 1).keys()].reverse()"
       :key="season"

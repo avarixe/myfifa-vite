@@ -1,7 +1,11 @@
 <script setup lang="ts">
   defineProps<{ teamId: string }>()
 
-  const { data, team, currentSeason } = await useTeamQuery({
+  const lastMatch = ref(null)
+  const injuredPlayers = ref([])
+  const loanedPlayers = ref([])
+  const expiringPlayers = ref([])
+  const { ready, team, currentSeason } = useTeamQuery({
     query: gql`
       query loadTeamDashboard($teamId: ID!) {
         team(id: $teamId) {
@@ -46,17 +50,20 @@
       ${teamFragment}
       ${matchFragment}
       ${competitionFragment}
-    `
+    `,
+    onLoad(data) {
+      lastMatch.value = data.team.lastMatch
+      injuredPlayers.value = data.team.injuredPlayers
+      loanedPlayers.value = data.team.loanedPlayers
+      expiringPlayers.value = data.team.expiringPlayers
+    }
   })
-
-  const { lastMatch, injuredPlayers, loanedPlayers, expiringPlayers } =
-    data.value.team
 
   const router = useRouter()
 </script>
 
 <template>
-  <div class="d-flex align-center">
+  <div v-if="ready" class="d-flex align-center">
     <v-btn icon variant="text" class="mr-2">
       <v-avatar>
         <v-img v-if="team.badgePath" :src="team.badgeUrl" />
@@ -75,7 +82,7 @@
     </div>
   </div>
 
-  <div class="mt-2">
+  <div v-if="ready" class="mt-2">
     <v-btn :to="`/teams/${team.id}/edit`">Edit</v-btn>
     &nbsp;
     <remove-button
@@ -86,7 +93,7 @@
     />
   </div>
 
-  <v-row dense>
+  <v-row v-if="ready" dense>
     <v-col cols="12" md="6">
       <v-card class="mt-4">
         <v-card-title>Current Season</v-card-title>

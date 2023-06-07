@@ -3,7 +3,7 @@
 
   defineProps<{ teamId: string }>()
 
-  await useTeamQuery({
+  useTeamQuery({
     query: gql`
       query fetchPlayersImportPage($teamId: ID!) {
         team(id: $teamId) {

@@ -6,7 +6,7 @@
     competitionId: string
   }>()
 
-  const { data } = await useTeamQuery({
+  const { data } = useTeamQuery({
     query: gql`
       query fetchCompetitionPage($teamId: ID!, $competitionId: ID!) {
         competition(id: $competitionId) {
@@ -26,10 +26,10 @@
       ${stageFragment}
       ${teamFragment}
     `,
-    variables: {
-      teamId: props.teamId,
-      competitionId: props.competitionId
-    }
+    variables: () => ({
+      teamId: parseInt(props.teamId),
+      competitionId: parseInt(props.competitionId)
+    })
   })
 
   const competitionRepo = useRepo(Competition)
