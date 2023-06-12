@@ -1,8 +1,6 @@
 <script setup lang="ts">
   import { read, utils } from 'xlsx'
 
-  defineProps<{ teamId: string }>()
-
   await useTeamQuery({
     query: gql`
       query fetchPlayersImportPage($teamId: ID!) {

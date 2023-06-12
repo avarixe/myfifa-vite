@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { Match } from '~/models'
 
-  const props = defineProps<{ teamId: string; matchId: string }>()
+  const route = useRoute<'/teams/[teamId]/matches/[matchId]/edit'>()
 
   const { data } = await useTeamQuery({
     query: gql`
@@ -25,13 +25,13 @@
       ${baseStageFragment}
     `,
     variables: {
-      teamId: props.teamId,
-      matchId: props.matchId
+      teamId: route.params.teamId,
+      matchId: route.params.matchId
     }
   })
   const matchRepo = useRepo(Match)
   matchRepo.save(data.value?.match)
-  const match = computed(() => matchRepo.find(parseInt(props.matchId)))
+  const match = computed(() => matchRepo.find(parseInt(route.params.matchId)))
 </script>
 
 <template>

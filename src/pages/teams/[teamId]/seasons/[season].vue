@@ -1,8 +1,7 @@
 <script setup lang="ts">
-  defineProps<{ teamId: string; season: string }>()
+  const route = useRoute<'/teams/[teamId]/seasons/[season]'>()
 
-  const route = useRoute()
-  const season = computed(() => parseInt(route.params.season?.toString()))
+  const season = computed(() => parseInt(route.params.season))
   const { data, team, seasonLabel, currentSeason } = await useTeamQuery({
     query: gql`
       query fetchSeason($teamId: ID!, $season: Int!) {
@@ -50,7 +49,7 @@
       ${loanFragment}
     `,
     variables: {
-      teamId: parseInt(route.params.teamId.toString()),
+      teamId: route.params.teamId,
       season
     }
   })

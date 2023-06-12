@@ -9,7 +9,9 @@
   const route = useRoute()
   const { seasonLabel } = useTeam()
   const breadcrumbs = computed(() => {
-    const routeSteps = route.name === 'index' ? [''] : route.path.split('/')
+    const routeSteps = route.name === '/' ? [''] : route.path.split('/')
+    console.log(route)
+    console.log(routeSteps)
     return routeSteps.map((step, i) => {
       const to = `${routeSteps.slice(0, i + 1).join('/')}`
       const prevStep = routeSteps[i - 1]

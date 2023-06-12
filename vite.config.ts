@@ -1,8 +1,9 @@
 import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
-import Pages from 'vite-plugin-pages'
+import VueRouter from 'unplugin-vue-router/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
+import { VueRouterAutoImports } from 'unplugin-vue-router'
 import vuetify from 'vite-plugin-vuetify'
 import eslint from 'vite-plugin-eslint'
 import path from 'path'
@@ -19,8 +20,10 @@ export default defineConfig({
     }
   },
   plugins: [
+    VueRouter({
+      // options
+    }),
     Vue(),
-    Pages(),
     AutoImport({
       dirs: [
         './src/composables',
@@ -31,7 +34,7 @@ export default defineConfig({
       ],
       imports: [
         'vue',
-        'vue-router',
+        VueRouterAutoImports,
         '@vueuse/core',
         '@vueuse/head',
         'pinia',

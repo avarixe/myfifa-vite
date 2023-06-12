@@ -1,6 +1,4 @@
 <script setup lang="ts">
-  defineProps<{ teamId: string }>()
-
   const {
     team,
     currentSeason,

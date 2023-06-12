@@ -1,10 +1,7 @@
 <script setup lang="ts">
   import { Player } from '~/models'
 
-  const props = defineProps<{
-    teamId: string
-    playerId: string
-  }>()
+  const route = useRoute<'/teams/[teamId]/players/[playerId]/'>()
 
   const { data, team } = await useTeamQuery({
     query: gql`
@@ -44,14 +41,14 @@
       ${playerPerformanceStatsFragment}
     `,
     variables: {
-      teamId: props.teamId,
-      playerId: props.playerId
+      teamId: route.params.teamId,
+      playerId: route.params.playerId
     }
   })
   const playerRepo = useRepo(Player)
   playerRepo.save(data.value?.player)
   const player: Ref<Player> = computed(() =>
-    playerRepo.withAll().find(parseInt(props.playerId))
+    playerRepo.withAll().find(parseInt(route.params.playerId))
   )
 
   const {

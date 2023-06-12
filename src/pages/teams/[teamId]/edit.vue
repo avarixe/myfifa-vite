@@ -1,8 +1,6 @@
 <script setup lang="ts">
   import { Team } from '~/models'
 
-  defineProps<{ teamId: string }>()
-
   // load all Teams for previous Team dropdown
   const { data } = await useQuery({
     query: gql`

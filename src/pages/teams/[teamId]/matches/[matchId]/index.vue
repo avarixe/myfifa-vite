@@ -1,17 +1,9 @@
 <script setup lang="ts">
   import { Match } from '~/models'
 
-  defineProps<{ teamId: string; matchId: string }>()
-
-  const route = useRoute()
-  const teamId = computed(() => parseInt(route.params.teamId?.toString()))
-
-  const matchId = ref(parseInt(route.params.matchId.toString()))
-  watch(route, () => {
-    if (route.params.matchId) {
-      matchId.value = parseInt(route.params.matchId?.toString())
-    }
-  })
+  const route = useRoute<'/teams/[teamId]/matches/[matchId]/'>()
+  const teamId = computed(() => parseInt(route.params.teamId))
+  const matchId = computed(() => parseInt(route.params.matchId))
 
   const { data, team } = await useTeamQuery({
     query: gql`

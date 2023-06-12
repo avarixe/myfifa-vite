@@ -90,10 +90,8 @@
     }
   })
 
-  const route = useRoute()
-  const { teamColor } = useCompetition(
-    parseInt(route.params.competitionId.toString())
-  )
+  const route = useRoute<'/teams/[teamId]/competitions/[competitionId]/'>()
+  const { teamColor } = useCompetition(parseInt(route.params.competitionId))
 
   function scoreDiff(fixture) {
     let homeScore = 0
