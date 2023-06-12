@@ -5,14 +5,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node_version: '18'
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.6.2
       - name: Install
-        run: yarn install
+        run: pnpm install
       - name: ESLint
-        run: yarn lint
+        run: pnpm run lint
       - name: Prettier
-        run: yarn format:check
+        run: pnpm run format:check
       - name: Vue TSC
-        run: yarn lint:tsc
+        run: pnpm run lint:tsc
