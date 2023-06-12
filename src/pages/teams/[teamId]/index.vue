@@ -1,6 +1,4 @@
 <script setup lang="ts">
-  defineProps<{ teamId: string }>()
-
   const { data, team, currentSeason } = await useTeamQuery({
     query: gql`
       query loadTeamDashboard($teamId: ID!) {

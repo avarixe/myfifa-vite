@@ -22,7 +22,7 @@
 
   const route = useRoute()
   const inPublicPage = computed(() =>
-    ['login', 'register'].includes(route.name?.toString())
+    ['/login', '/register'].includes(route.name?.toString())
   )
 </script>
 
@@ -38,7 +38,7 @@
           v-if="
             team &&
             team.startedOn === team.currentlyOn &&
-            route.name !== 'teams-teamId-players-import'
+            route.name !== '/teams/[teamId]/players/import'
           "
           class="mb-2"
         >
@@ -57,11 +57,25 @@
           </v-alert>
         </div>
 
-        <div v-if="token || inPublicPage">
-          <suspense>
-            <router-view />
-          </suspense>
-        </div>
+        <router-view v-slot="{ Component }">
+          <template v-if="(token || inPublicPage) && Component">
+            <v-fade-transition mode="out-in">
+              <keep-alive>
+                <div :key="route.path">
+                  <suspense :timeout="0">
+                    <component :is="Component" />
+
+                    <template #fallback>
+                      <v-fade-transition mode="out-in">
+                        <div>Loading...</div>
+                      </v-fade-transition>
+                    </template>
+                  </suspense>
+                </div>
+              </keep-alive>
+            </v-fade-transition>
+          </template>
+        </router-view>
       </v-container>
     </v-main>
   </v-app>

@@ -2,8 +2,8 @@ import { addYears, differenceInYears } from 'date-fns'
 import { Team } from '~/models'
 
 export default () => {
-  const route = useRoute()
-  const teamId = computed(() => parseInt(route.params.teamId?.toString()))
+  const route = useRoute<'/teams/[teamId]/'>()
+  const teamId = computed(() => parseInt(route.params.teamId))
 
   const teamRepo = useRepo(Team)
   const team: Ref<Team> = computed(() => teamRepo.find(teamId.value))

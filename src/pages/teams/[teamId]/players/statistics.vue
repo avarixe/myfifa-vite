@@ -1,8 +1,6 @@
 <script setup lang="ts">
   import { Player, Competition } from '~/models'
 
-  defineProps<{ teamId: string }>()
-
   const { data, team, currentSeason, seasonLabel } = await useTeamQuery({
     query: gql`
       query fetchPlayersPage($teamId: ID!) {

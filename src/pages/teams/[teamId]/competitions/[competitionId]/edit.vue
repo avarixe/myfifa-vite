@@ -1,10 +1,7 @@
 <script setup lang="ts">
   import { Competition } from '~/models'
 
-  const props = defineProps<{
-    teamId: string
-    competitionId: string
-  }>()
+  const route = useRoute<'/teams/[teamId]/competitions/[competitionId]/edit'>()
 
   const { data } = await useTeamQuery({
     query: gql`
@@ -27,14 +24,14 @@
       ${teamFragment}
     `,
     variables: {
-      teamId: props.teamId,
-      competitionId: props.competitionId
+      teamId: route.params.teamId,
+      competitionId: route.params.competitionId
     }
   })
 
   const competitionRepo = useRepo(Competition)
   competitionRepo.save(data.value?.competition)
-  const { competition } = useCompetition(parseInt(props.competitionId))
+  const { competition } = useCompetition(parseInt(route.params.competitionId))
 </script>
 
 <template>

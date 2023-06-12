@@ -1,6 +1,5 @@
 import { createORM } from 'pinia-orm'
-import { createRouter, createWebHistory } from 'vue-router'
-import routes from '~pages'
+import { createRouter, createWebHistory } from 'vue-router/auto'
 
 import { createVuetify } from 'vuetify'
 import 'vuetify/styles'
@@ -13,8 +12,7 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import VueApexCharts from 'vue3-apexcharts'
 
 const router = createRouter({
-  history: createWebHistory(),
-  routes
+  history: createWebHistory()
 })
 
 router.beforeEach(async to => {
@@ -48,10 +46,10 @@ router.beforeEach(async to => {
       }
     }
 
-    if (['login', 'register'].includes(to.name?.toString())) {
+    if (['/login', '/register'].includes(to.name?.toString())) {
       return sessionStore.redirectUrl || '/'
     }
-  } else if (!['login', 'register'].includes(to.name?.toString())) {
+  } else if (!['/login', '/register'].includes(to.name?.toString())) {
     sessionStore.redirectUrl = to
     return '/login'
   }
