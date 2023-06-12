@@ -4,6 +4,5 @@ export const userFragment = gql`
     email
     username
     fullName
-    darkMode
   }
 `

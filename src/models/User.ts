@@ -13,5 +13,4 @@ export default class User extends Model {
   @Str('') declare username: string
   @Str('') declare email: string
   @Bool(false) declare admin: boolean
-  @Bool(false) declare darkMode: boolean
 }

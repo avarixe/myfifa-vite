@@ -122,7 +122,7 @@
   })
 
   // Server Side Processing
-  const options = computed(() => ({
+  const tableState = computed(() => ({
     page: page.value,
     itemsPerPage: itemsPerPage.value,
     sortBy: sortBy.value,
@@ -130,16 +130,11 @@
   }))
   const emit = defineEmits(['update:options'])
   watch(
-    options,
+    tableState,
     () => {
-      emit('update:options', { ...props.options, ...options.value })
+      emit('update:options', { ...props.options, ...tableState.value })
     },
     { deep: true }
-  )
-
-  const { currentUser } = useSession()
-  const rowHoverColor = computed(
-    () => `bg-grey-${currentUser.value.darkMode ? 'darken' : 'lighten'}-3`
   )
 </script>
 
@@ -204,11 +199,11 @@
     <tbody>
       <v-hover v-for="item in pageItems" :key="item[itemKey]">
         <template #default="{ isHovering, props: hoverProps }">
-          <tr v-bind="hoverProps" :class="isHovering ? rowHoverColor : ''">
+          <tr v-bind="hoverProps" :class="isHovering ? 'bg-grey-darken-3' : ''">
             <slot
               name="item"
               :item="item"
-              :row-color="isHovering ? rowHoverColor : ''"
+              :row-color="isHovering ? 'bg-grey-darken-3' : ''"
             >
               <td
                 v-for="(header, j) in headers"
@@ -217,7 +212,7 @@
                 :style="header.style"
               >
                 <v-sheet
-                  :class="`mx-n4 px-4 ${isHovering ? rowHoverColor : ''}`"
+                  :class="`mx-n4 px-4 ${isHovering ? 'bg-grey-darken-3' : ''}`"
                 >
                   <slot :name="`item-${header.value}`" :item="item">
                     {{ _get(item, header.value) }}

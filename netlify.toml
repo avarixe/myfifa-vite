@@ -1,5 +1,5 @@
 [build]
-  command = "pnpm run build"
+  command = "vite build"
   functions = "netlify/functions"
   publish = "dist"
 
