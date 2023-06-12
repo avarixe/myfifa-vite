@@ -1,4 +1,8 @@
 <script setup lang="ts">
+  useHead({
+    title: `${__APP_TITLE__} - Register`
+  })
+
   const attributes = reactive({
     fullName: '',
     username: '',

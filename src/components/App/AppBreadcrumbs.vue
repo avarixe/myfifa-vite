@@ -75,6 +75,18 @@
       }
     })
   })
+
+  const { team } = useTeam()
+  useHead({
+    title: () => {
+      const title = breadcrumbs.value[breadcrumbs.value.length - 1].title
+      if (team.value && team.value.name !== title) {
+        return `${title} - ${team.value.name}`
+      } else {
+        return title
+      }
+    }
+  })
 </script>
 
 <template>
