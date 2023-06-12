@@ -79,5 +79,8 @@ export default defineConfig({
       'lodash.orderby',
       'lodash.pick'
     ]
+  },
+  define: {
+    __APP_VERSION__: JSON.stringify(process.env.npm_package_version)
   }
 })
