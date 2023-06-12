@@ -8,6 +8,13 @@ import vuetify from 'vite-plugin-vuetify'
 import eslint from 'vite-plugin-eslint'
 import path from 'path'
 
+import { readFileSync } from 'fs'
+import { fileURLToPath } from 'url'
+
+const file = fileURLToPath(new URL('package.json', import.meta.url))
+const json = readFileSync(file, 'utf8')
+const pkg = JSON.parse(json)
+
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
@@ -81,6 +88,6 @@ export default defineConfig({
     ]
   },
   define: {
-    __APP_VERSION__: JSON.stringify(process.env.npm_package_version)
+    __APP_VERSION__: JSON.stringify(pkg.version)
   }
 })
