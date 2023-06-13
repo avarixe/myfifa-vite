@@ -21,6 +21,18 @@
     badge: badge.value[0]
   })
 
+  const dragging = ref(false)
+  function onDragOver() {
+    dragging.value = true
+  }
+  function onDragLeave() {
+    dragging.value = false
+  }
+  function onDrop(e) {
+    badge.value = [...e.dataTransfer.files]
+    dragging.value = false
+  }
+
   watch(badge, () => {
     if (badge.value?.[0]) {
       preview.value = URL.createObjectURL(badge.value[0])
@@ -72,11 +84,14 @@
           />
           <v-sheet
             v-ripple
-            color="grey-darken-3"
+            :color="dragging ? 'grey-darken-2' : 'grey-darken-3'"
             :height="150"
             class="rounded-xl d-flex align-center justify-center"
             :style="{ cursor: 'pointer' }"
             @click="input.click()"
+            @drop.prevent="onDrop"
+            @dragover.prevent="onDragOver"
+            @dragleave.prevent="onDragLeave"
           >
             <v-img
               v-if="preview"
