@@ -1,5 +1,6 @@
 import { createORM } from 'pinia-orm'
 import { createRouter, createWebHistory } from 'vue-router/auto'
+import { createHead } from '@vueuse/head'
 
 import { createVuetify } from 'vuetify'
 import 'vuetify/styles'
@@ -63,9 +64,12 @@ const vuetify = createVuetify({
   }
 })
 
+const head = createHead()
+
 const app = createApp(App)
   .use(router)
   .use(pinia)
+  .use(head)
   .use(vuetify)
   .use(VueApexCharts)
 

@@ -2,6 +2,10 @@
   import { differenceInYears } from 'date-fns'
   import { Team } from '~/models'
 
+  useHead({
+    title: __APP_TITLE__
+  })
+
   const { data } = await useQuery({
     query: gql`
       query fetchTeams {

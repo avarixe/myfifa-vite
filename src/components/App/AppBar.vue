@@ -5,6 +5,8 @@
   const drawer = ref(!mobile.value)
 
   const { team } = useTeam()
+
+  const appTitle = __APP_TITLE__
 </script>
 
 <template>
@@ -16,7 +18,7 @@
     </template>
     <v-app-bar-nav-icon v-if="mobile && !!team" @click="drawer = !drawer" />
     <v-img :src="logo" class="ml-2" :style="{ maxWidth: '48px' }" />
-    <v-app-bar-title v-if="smAndUp">MyFIFA Manager</v-app-bar-title>
+    <v-app-bar-title v-if="smAndUp">{{ appTitle }}</v-app-bar-title>
     <v-spacer />
     <v-btn icon="mdi-account" to="/account" />
     <v-btn icon>

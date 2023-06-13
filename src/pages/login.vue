@@ -1,6 +1,10 @@
 <script setup lang="ts">
   import { User } from '~/models'
 
+  useHead({
+    title: `${__APP_TITLE__} - Login`
+  })
+
   const username = ref('')
   const password = ref('')
 
