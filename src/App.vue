@@ -103,9 +103,9 @@
     }
   }
 
-  .sticky {
-    position: sticky;
-    left: 0;
-    z-index: 1;
+  .v-table.v-table--hover > .v-table__wrapper > table > tbody > tr:hover {
+    td.v-data-table-column--fixed {
+      background: rgb(var(--v-theme-surface));
+    }
   }
 </style>

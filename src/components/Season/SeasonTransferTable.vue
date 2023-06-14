@@ -198,77 +198,75 @@
   )
 
   const headers = [
-    { text: 'Player', value: 'name', class: 'sticky' },
-    { text: 'Pos', value: 'pos', align: 'center', sortBy: 'posIdx' },
-    { text: 'Date', value: 'date', align: 'center', width: 120 },
-    { text: '', value: 'icon', align: 'center', sortable: false, width: 40 },
-    { text: 'From/To', value: 'fromTo', width: 170 },
-    { text: 'Value', value: 'value', align: 'end', width: 150 },
-    { text: 'Fee', value: 'fee', align: 'end', width: 150 },
-    { text: 'Net Value', value: 'netValue', align: 'end', width: 150 }
+    { title: 'Player', key: 'name', fixed: true },
+    { title: 'Pos', key: 'pos', align: 'center' },
+    { title: 'Date', key: 'date', align: 'center', width: 140 },
+    { title: '', key: 'icon', align: 'center', sortable: false, width: 40 },
+    { title: 'From/To', key: 'fromTo', width: 170 },
+    { title: 'Value', key: 'value', align: 'end', width: 150 },
+    { title: 'Fee', key: 'fee', align: 'end', width: 150 },
+    { title: 'Net Value', key: 'netValue', align: 'end', width: 150 }
   ]
 </script>
 
 <template>
-  <data-table
+  <v-data-table
     :headers="headers"
     :items="rows"
-    item-key="id"
+    :custom-key-sort="{ pos: sortByPosition }"
+    :sort-by="[{ key: 'date', order: 'asc' }]"
     :items-per-page="-1"
-    :show-pagination-options="false"
-    sort-by="date"
-    class="mt-2"
+    density="compact"
+    class="rounded mt-2"
   >
-    <template
-      #item="{ item, rowColor }: { item: TransferTableRow, rowColor: string }"
-    >
-      <td class="sticky">
-        <v-sheet :class="`mx-n4 px-4 ${rowColor}`">
-          <v-btn
-            :to="`/teams/${team.id}/players/${item.playerId}`"
-            :text="item.name"
-            size="small"
-            variant="text"
-            color="primary"
-            class="text-capitalize"
-          />
-        </v-sheet>
-      </td>
-      <td class="text-center">{{ item.pos }}</td>
-      <td class="text-center">{{ formatDate(item.date) }}</td>
-      <td class="text-center">
-        <v-icon :color="item.iconColor" :icon="item.icon" />
-      </td>
-      <td>{{ item.fromTo }}</td>
-      <td
-        class="text-right"
-        :class="`text-${item.value > 0 ? 'green' : 'red'}`"
+    <template #[`item.name`]="{ item }">
+      <v-btn
+        :to="`/teams/${team.id}/players/${item.raw.playerId}`"
+        :text="item.raw.name"
+        size="small"
+        variant="text"
+        color="primary"
+        class="text-capitalize"
+      />
+    </template>
+    <template #[`item.date`]="{ item }">
+      {{ formatDate(item.raw.date) }}
+    </template>
+    <template #[`item.icon`]="{ item }">
+      <v-icon :color="item.raw.iconColor" :icon="item.raw.icon" />
+    </template>
+    <template #[`item.value`]="{ item }">
+      <div :class="`text-${item.raw.value > 0 ? 'green' : 'red'}`">
+        <span v-if="item.raw.value">{{ item.raw.value > 0 ? '+' : '-' }}</span>
+        {{ formatMoney(Math.abs(item.raw.value), team.currency, ' ') }}
+      </div>
+    </template>
+    <template #[`item.fee`]="{ item }">
+      <div
+        v-if="item.raw.fee"
+        :class="`text-${item.raw.fee > 0 ? 'green' : 'red'}`"
       >
-        <span v-if="item.value">{{ item.value > 0 ? '+' : '-' }}</span>
-        {{ formatMoney(Math.abs(item.value), team.currency, ' ') }}
-      </td>
-      <td class="text-right">
-        <span v-if="item.fee" :class="`text-${item.fee > 0 ? 'green' : 'red'}`">
-          {{ item.fee > 0 ? '+' : '-' }}
-          {{ formatMoney(Math.abs(item.fee), team.currency, ' ') }}
-          <span v-if="item.addonClause">(+{{ item.addonClause }}%)</span>
-        </span>
-      </td>
-      <td
-        class="text-right"
-        :class="`text-${item.netValue > 0 ? 'green' : 'red'}`"
-      >
-        <span v-if="item.netValue">{{ item.netValue > 0 ? '+' : '-' }}</span>
-        {{ formatMoney(Math.abs(item.netValue), team.currency, ' ') }}
-      </td>
+        {{ item.raw.fee > 0 ? '+' : '-' }}
+        {{ formatMoney(Math.abs(item.raw.fee), team.currency, ' ') }}
+        <span v-if="item.raw.addonClause">(+{{ item.raw.addonClause }}%)</span>
+      </div>
+    </template>
+    <template #[`item.netValue`]="{ item }">
+      <div :class="`text-${item.raw.netValue > 0 ? 'green' : 'red'}`">
+        <span v-if="item.raw.netValue">{{
+          item.raw.netValue > 0 ? '+' : '-'
+        }}</span>
+        {{ formatMoney(Math.abs(item.raw.netValue), team.currency, ' ') }}
+      </div>
     </template>
     <template #tfoot>
       <tfoot class="font-weight-bold">
         <tr v-if="rows.length">
-          <td class="sticky">
-            <v-sheet class="mx-n4 px-4 my-n2 py-2">
-              <span class="pl-3">Summary</span>
-            </v-sheet>
+          <td
+            class="v-data-table-column--fixed v-data-table-column--last-fixed"
+            :style="{ background: 'rgb(var(--v-theme-surface))' }"
+          >
+            <span class="pl-3">Summary</span>
           </td>
           <td colspan="2" />
           <td colspan="2" class="py-2">
@@ -309,5 +307,6 @@
         </tr>
       </tfoot>
     </template>
-  </data-table>
+    <template #bottom />
+  </v-data-table>
 </template>

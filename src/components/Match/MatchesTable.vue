@@ -14,18 +14,25 @@
   const { team } = useTeam()
 
   const headers = [
-    { value: 'name', text: 'Match', align: 'center', sortable: false },
-    { value: 'competition', text: 'Competition' },
-    { value: 'playedOn', text: 'Date Played' },
-    { value: 'link', text: 'Link', align: 'center', sortable: false }
+    { key: 'name', title: 'Match', align: 'center', sortable: false },
+    { key: 'competition', title: 'Competition' },
+    { key: 'playedOn', title: 'Date Played' },
+    { key: 'link', title: 'Link', align: 'center', sortable: false }
   ]
 
-  const options = ref({
+  const sortBy = ref([{ key: 'playedOn', order: 'desc' }])
+  const options = reactive({
     page: 0,
-    itemsPerPage: 10,
+    itemsPerPage: 0,
     sortBy: 'playedOn',
     sortDesc: true
   })
+  function onTableUpdate({ page, itemsPerPage, sortBy }) {
+    options.page = page - 1
+    options.itemsPerPage = itemsPerPage
+    options.sortBy = sortBy[0]?.key
+    options.sortDesc = sortBy[0]?.order === 'desc'
+  }
 
   const { data, executeQuery } = useQuery({
     query: gql`
@@ -54,10 +61,10 @@
   })
 
   const matchRepo = useRepo(Match)
-  const matches = ref([])
-  const serverItemsLength = ref(0)
+  const items = ref([])
+  const totalItems = ref(0)
   const loading = ref(false)
-  async function fetchPage() {
+  async function loadItems() {
     try {
       loading.value = true
       await executeQuery()
@@ -66,60 +73,60 @@
       } = data.value
       matchRepo.save(matchSet.matches)
       const matchIds = matchSet.matches.map(match => parseInt(match.id))
-      matches.value = matchRepo
+      items.value = matchRepo
         .with('team')
         .where('id', matchIds)
         .orderBy(match => matchIds.indexOf(match.id))
         .get()
-      serverItemsLength.value = matchSet.total
+      totalItems.value = matchSet.total
     } catch (e) {
       console.error(e)
     } finally {
       loading.value = false
     }
   }
-  onMounted(fetchPage)
 
-  const fetchTimeout = ref(null)
-  function onTableUpdate() {
-    clearTimeout(fetchTimeout.value)
-    fetchTimeout.value = setTimeout(fetchPage, 300)
+  const loadTimeout = ref(null)
+  function triggerLoad() {
+    clearTimeout(loadTimeout.value)
+    loadTimeout.value = setTimeout(loadItems, 300)
   }
 
-  watch(options, onTableUpdate, { deep: true })
-  watch(() => props.filters, onTableUpdate, { deep: true })
+  watch(options, triggerLoad, { deep: true })
+  watch(() => props.filters, triggerLoad, { deep: true })
 </script>
 
 <template>
-  <data-table
-    v-model:options="options"
+  <v-data-table-server
+    v-model:sort-by="sortBy"
     :headers="headers"
-    :items="matches"
+    :items="items"
+    :items-length="totalItems"
     :loading="loading"
-    :server-items-length="serverItemsLength"
+    @update:options="onTableUpdate"
   >
-    <template #item="{ item: match }">
-      <td :style="{ textAlign: 'center' }">
-        <div>{{ match.home }} v {{ match.away }}</div>
-        <div :class="`text-${match.resultColor}`">
-          {{ match.score }}
-          <span v-if="match.extraTime" class="text-caption">aet.</span>
-        </div>
-      </td>
-      <td>
-        <div>{{ match.competition }}</div>
-        <i v-if="match.stage">{{ match.stage }}</i>
-      </td>
-      <td>{{ formatDate(match.playedOn) }}</td>
-      <td>
-        <v-btn
-          color="primary"
-          block
-          :to="`/teams/${team.id}/matches/${match.id}`"
-        >
-          <v-icon>mdi-play</v-icon>
-        </v-btn>
-      </td>
+    <template #[`item.name`]="{ item }">
+      <div>{{ item.raw.home }} v {{ item.raw.away }}</div>
+      <div :class="`text-${item.raw.resultColor}`">
+        {{ item.raw.score }}
+        <span v-if="item.raw.extraTime" class="text-caption">aet.</span>
+      </div>
     </template>
-  </data-table>
+    <template #[`item.competition`]="{ item }">
+      <div>{{ item.raw.competition }}</div>
+      <i v-if="item.raw.stage">{{ item.raw.stage }}</i>
+    </template>
+    <template #[`item.playedOn`]="{ item }">
+      {{ formatDate(item.raw.playedOn) }}
+    </template>
+    <template #[`item.link`]="{ item }">
+      <v-btn
+        :to="`/teams/${team.id}/matches/${item.raw.id}`"
+        color="primary"
+        block
+      >
+        <v-icon>mdi-play</v-icon>
+      </v-btn>
+    </template>
+  </v-data-table-server>
 </template>

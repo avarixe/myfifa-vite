@@ -3,6 +3,11 @@ import { createRouter, createWebHistory } from 'vue-router/auto'
 import { createHead } from '@vueuse/head'
 
 import { createVuetify } from 'vuetify'
+import {
+  VDataTable,
+  VDataTableVirtual,
+  VDataTableServer
+} from 'vuetify/labs/VDataTable'
 import 'vuetify/styles'
 
 import { User } from './models'
@@ -61,6 +66,25 @@ const pinia = createPinia().use(createORM())
 const vuetify = createVuetify({
   theme: {
     defaultTheme: 'dark'
+  },
+  components: {
+    VDataTable,
+    VDataTableVirtual,
+    VDataTableServer
+  },
+  defaults: {
+    VDataTable: {
+      fixedHeader: true,
+      hover: true
+    },
+    VDataTableVirtual: {
+      fixedHeader: true,
+      hover: true
+    },
+    VDataTableServer: {
+      fixedHeader: true,
+      hover: true
+    }
   }
 })
 

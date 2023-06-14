@@ -36,45 +36,46 @@
 
   const headers = computed(() => {
     const playerHeaders: TableHeader[] = [
-      { text: 'Name', value: 'player.name', width: 200, class: 'sticky' },
-      { text: 'Nationality', value: 'player.nationality', align: 'center' },
+      { title: 'Name', key: 'player.name', width: 200, fixed: true },
       {
-        text: 'Pos',
-        value: 'player.pos',
+        title: 'Nationality',
+        key: 'player.nationality',
         align: 'center',
-        sortBy: 'player.posIdx'
-      }
+        width: 80
+      },
+      { title: 'Pos', key: 'player.pos', align: 'center' }
     ]
 
     if (splitSeason.value) {
       playerHeaders.push({
-        text: 'Season',
-        value: 'season',
-        width: 400,
-        style: { minWidth: '120px' }
+        title: 'Season',
+        key: 'season',
+        width: 120
       })
     }
     if (splitCompetition.value) {
       playerHeaders.push({
-        text: 'Season',
-        value: 'season',
-        style: { minWidth: '250px' }
+        title: 'Competition',
+        key: 'competition',
+        width: 200
       })
     }
 
     return [
       ...playerHeaders,
-      { text: 'GP', value: 'numMatches', align: 'end' },
-      { text: 'Minutes', value: 'numMinutes', align: 'end' },
-      { text: 'G', value: 'numGoals', align: 'end' },
-      { text: 'A', value: 'numAssists', align: 'end' },
-      { text: 'CS', value: 'numCleanSheets', align: 'end' },
-      { text: 'Rating', value: 'avgRating' },
-      { text: 'xG + xA', value: 'xGAndxA', align: 'end' },
-      { text: 'xG', value: 'xG', align: 'end' },
-      { text: 'xA', value: 'xA', align: 'end' }
+      { title: 'GP', key: 'numMatches', align: 'end' },
+      { title: 'Minutes', key: 'numMinutes', align: 'end' },
+      { title: 'G', key: 'numGoals', align: 'end' },
+      { title: 'A', key: 'numAssists', align: 'end' },
+      { title: 'CS', key: 'numCleanSheets', align: 'end' },
+      { title: 'Rating', key: 'avgRating' },
+      { title: 'xG + xA', key: 'xGAndxA', align: 'end' },
+      { title: 'xG', key: 'xG', align: 'end' },
+      { title: 'xA', key: 'xA', align: 'end' }
     ]
   })
+
+  const sortBy = ref([{ key: 'player.pos', order: 'asc' }])
 
   const filters = reactive({
     season: null,
@@ -275,60 +276,63 @@
     </div>
   </div>
 
-  <data-table
+  <v-data-table-virtual
+    v-model:sort-by="sortBy"
     :headers="headers"
     :items="items"
-    item-key="id"
-    sort-by="pos"
-    :items-per-page="50"
+    :custom-key-sort="{ 'player.pos': sortByPosition }"
     density="compact"
-    class="mt-4"
+    height="50vh"
+    class="rounded mt-4"
   >
-    <template #[`header-player.nationality`]>
-      <v-icon>mdi-flag</v-icon>
+    <template #[`column.player.nationality`]="{ column, getSortIcon }">
+      <span>
+        <v-icon>mdi-flag</v-icon>
+      </span>
+      <v-icon
+        class="v-data-table-header__sort-icon"
+        :icon="getSortIcon(column)"
+      />
     </template>
-    <template #item="{ item, rowColor }">
-      <td class="sticky">
-        <v-sheet :class="`mx-n4 px-4 ${rowColor}`">
-          <v-btn
-            :to="`/teams/${team.id}/players/${item.player.id}`"
-            :text="item.player.name"
-            size="small"
-            variant="text"
-            color="primary"
-            class="text-capitalize"
-          />
-        </v-sheet>
-      </td>
-      <td class="text-center">
-        <flag
-          :iso="item.player.flag"
-          :title="item.player.nationality"
-          class="mr-2"
-        />
-      </td>
-      <td class="text-center">{{ item.player.pos }}</td>
-      <td v-if="splitSeason">{{ seasonLabel(item.season) }}</td>
-      <td v-if="splitCompetition">{{ item.competition }}</td>
-      <td class="text-right">{{ item.numMatches }}</td>
-      <td class="text-right">{{ item.numMinutes }}</td>
-      <td class="text-right">{{ item.numGoals }}</td>
-      <td class="text-right">{{ item.numAssists }}</td>
-      <td class="text-right">{{ item.numCleanSheets }}</td>
-      <td>
-        <v-progress-linear
-          :model-value="(item.avgRating / 5) * 100"
-          :color="ratingColor(item.avgRating)"
-          size="x-small"
-          striped
-          height="25"
-        >
-          <strong class="text-black">{{ item.avgRating.toFixed(2) }}</strong>
-        </v-progress-linear>
-      </td>
-      <td class="text-right">{{ item.xGAndxA?.toFixed(2) }}</td>
-      <td class="text-right">{{ item.xG?.toFixed(2) }}</td>
-      <td class="text-right">{{ item.xA?.toFixed(2) }}</td>
+    <template #[`item.player.name`]="{ item }">
+      <v-btn
+        :to="`/teams/${team.id}/players/${item.raw.player.id}`"
+        :text="item.raw.player.name"
+        size="small"
+        variant="text"
+        color="primary"
+        class="text-capitalize"
+      />
     </template>
-  </data-table>
+    <template #[`item.player.nationality`]="{ item }">
+      <flag
+        :iso="item.raw.player.flag"
+        :title="item.raw.player.nationality"
+        class="mr-2"
+      />
+    </template>
+    <template #[`item.season`]="{ item }">
+      {{ seasonLabel(item.raw.season) }}
+    </template>
+    <template #[`item.avgRating`]="{ item }">
+      <v-progress-linear
+        :model-value="(item.raw.avgRating / 5) * 100"
+        :color="ratingColor(item.raw.avgRating)"
+        size="x-small"
+        striped
+        height="25"
+      >
+        <strong class="text-black">{{ item.raw.avgRating.toFixed(2) }}</strong>
+      </v-progress-linear>
+    </template>
+    <template #[`item.xGAndxA`]="{ item }">
+      {{ item.raw.xGAndxA?.toFixed(2) }}
+    </template>
+    <template #[`item.xG`]="{ item }">
+      {{ item.raw.xG?.toFixed(2) }}
+    </template>
+    <template #[`item.xA`]="{ item }">
+      {{ item.raw.xA?.toFixed(2) }}
+    </template>
+  </v-data-table-virtual>
 </template>

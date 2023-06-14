@@ -17,15 +17,15 @@
   }>()
 
   const headers = [
-    { text: 'Competition', value: 'name', class: 'sticky' },
-    { text: 'Status', value: 'status', align: 'center' },
-    { text: 'GP', value: 'matchesPlayed', align: 'end' },
-    { text: 'W', value: 'wins', align: 'end' },
-    { text: 'D', value: 'draws', align: 'end' },
-    { text: 'L', value: 'losses', align: 'end' },
-    { text: 'GF', value: 'goalsFor', align: 'end' },
-    { text: 'GA', value: 'goalsAgainst', align: 'end' },
-    { text: 'GD', value: 'goalDifference', align: 'end' }
+    { title: 'Competition', key: 'name', fixed: true },
+    { title: 'Status', key: 'status', align: 'center' },
+    { title: 'GP', key: 'matchesPlayed', align: 'end' },
+    { title: 'W', key: 'wins', align: 'end' },
+    { title: 'D', key: 'draws', align: 'end' },
+    { title: 'L', key: 'losses', align: 'end' },
+    { title: 'GF', key: 'goalsFor', align: 'end' },
+    { title: 'GA', key: 'goalsAgainst', align: 'end' },
+    { title: 'GD', key: 'goalDifference', align: 'end' }
   ]
 
   const { team } = useTeam()
@@ -74,41 +74,30 @@
 </script>
 
 <template>
-  <data-table
+  <v-data-table
     :headers="headers"
     :items="rows"
-    item-key="id"
     :items-per-page="-1"
-    :show-pagination-options="false"
-    class="mt-2"
+    density="compact"
+    class="rounded mt-2"
   >
-    <template #item="{ item, rowColor }">
-      <td class="sticky">
-        <v-sheet :class="`mx-n4 px-4 ${rowColor}`">
-          <v-btn
-            :to="`/teams/${team.id}/competitions/${item.id}`"
-            :text="item.name"
-            size="small"
-            variant="text"
-            color="primary"
-            class="text-capitalize"
-          />
-        </v-sheet>
-      </td>
-      <td class="text-center">
-        <v-icon
-          :color="item.statusColor"
-          size="small"
-          :icon="item.statusIcon"
-        />
-      </td>
-      <td class="text-right">{{ item.matchesPlayed }}</td>
-      <td class="text-right">{{ item.wins }}</td>
-      <td class="text-right">{{ item.draws }}</td>
-      <td class="text-right">{{ item.losses }}</td>
-      <td class="text-right">{{ item.goalsFor }}</td>
-      <td class="text-right">{{ item.goalsAgainst }}</td>
-      <td class="text-right">{{ item.goalDifference }}</td>
+    <template #[`item.name`]="{ item }">
+      <v-btn
+        :to="`/teams/${team.id}/competitions/${item.raw.id}`"
+        :text="item.raw.name"
+        size="small"
+        variant="text"
+        color="primary"
+        class="text-capitalize"
+      />
     </template>
-  </data-table>
+    <template #[`item.status`]="{ item }">
+      <v-icon
+        :color="item.raw.statusColor"
+        size="small"
+        :icon="item.raw.statusIcon"
+      />
+    </template>
+    <template #bottom />
+  </v-data-table>
 </template>

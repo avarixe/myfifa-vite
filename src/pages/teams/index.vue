@@ -18,14 +18,16 @@
   const teams = computed(() => teamRepo.orderBy('id', 'desc').get())
 
   const headers = [
-    { value: 'badgeUrl', text: 'Badge', align: 'center', sortable: false },
-    { value: 'name', text: 'Name' },
-    { value: 'managerName', text: 'Manager' },
-    { value: 'game', text: 'Game' },
-    { value: 'startedOn', text: 'Start Date', align: 'center' },
-    { value: 'currentlyOn', text: 'Current Date', align: 'center' },
-    { value: 'createdAt', text: 'Created At', align: 'center' }
+    { key: 'badgeUrl', title: 'Badge', align: 'center', sortable: false },
+    { key: 'name', title: 'Name' },
+    { key: 'managerName', title: 'Manager' },
+    { key: 'game', title: 'Game' },
+    { key: 'startedOn', title: 'Start Date', align: 'center' },
+    { key: 'currentlyOn', title: 'Current Date', align: 'center' },
+    { key: 'createdAt', title: 'Created At', align: 'center' }
   ]
+
+  const sortBy = ref([{ key: 'createdAt', order: 'desc' }])
 </script>
 
 <template>
@@ -36,33 +38,34 @@
     Team
   </v-btn>
 
-  <data-table
+  <v-data-table
+    v-model:sort-by="sortBy"
     :headers="headers"
     :items="teams"
-    item-key="id"
-    sort-by="createdAt"
-    sort-desc
+    class="rounded"
   >
-    <template #item-badgeUrl="{ item }">
-      <img :src="item.badgeUrl" width="50" />
+    <template #[`item.badgeUrl`]="{ item }">
+      <v-avatar>
+        <v-img :src="item.raw.badgeUrl" />
+      </v-avatar>
     </template>
-    <template #item-name="{ item }">
+    <template #[`item.name`]="{ item }">
       <v-btn
-        :to="`/teams/${item.id}`"
-        :text="item.name"
+        :to="`/teams/${item.raw.id}`"
+        :text="item.raw.name"
         variant="text"
         color="primary"
         class="text-capitalize"
       />
     </template>
-    <template #item-startedOn="{ item }">
-      {{ formatDate(item.startedOn) }}
+    <template #[`item.startedOn`]="{ item }">
+      {{ formatDate(item.raw.startedOn) }}
     </template>
-    <template #item-currentlyOn="{ item }">
-      {{ formatDate(item.currentlyOn) }}
+    <template #[`item.currentlyOn`]="{ item }">
+      {{ formatDate(item.raw.currentlyOn) }}
     </template>
-    <template #item-createdAt="{ item }">
-      {{ formatDate(item.createdAt, 'yyyy-MM-dd hh:mm a') }}
+    <template #[`item.createdAt`]="{ item }">
+      {{ formatDate(item.raw.createdAt, 'yyyy-MM-dd hh:mm a') }}
     </template>
-  </data-table>
+  </v-data-table>
 </template>

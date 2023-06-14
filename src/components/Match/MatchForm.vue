@@ -60,6 +60,7 @@
       const names = competitionRepo
         .where('teamId', team.value.id)
         .where('season', seasonOn(attributes.playedOn))
+        .where('champion', null)
         .orderBy('name')
         .get()
         .map(comp => comp.name)
