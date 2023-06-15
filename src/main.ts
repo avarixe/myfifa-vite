@@ -11,6 +11,7 @@ import App from './App.vue'
 import Datepicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import VueApexCharts from 'vue3-apexcharts'
+import Vue3GoogleLogin from 'vue3-google-login'
 
 const router = createRouter({
   history: createWebHistory()
@@ -72,6 +73,9 @@ const app = createApp(App)
   .use(head)
   .use(vuetify)
   .use(VueApexCharts)
+  .use(Vue3GoogleLogin, {
+    clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID
+  })
 
 app.component('date-picker', Datepicker)
 

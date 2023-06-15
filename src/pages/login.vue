@@ -39,6 +39,10 @@
   })
 
   const showPassword = ref(false)
+
+  function onGoogleLogin(response) {
+    console.log(response)
+  }
 </script>
 
 <template>
@@ -74,5 +78,6 @@
         </v-card-actions>
       </v-card>
     </v-form>
+    <google-login :callback="onGoogleLogin" />
   </div>
 </template>
