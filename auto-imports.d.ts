@@ -137,6 +137,7 @@ declare global {
   const shallowReactive: typeof import('vue')['shallowReactive']
   const shallowReadonly: typeof import('vue')['shallowReadonly']
   const shallowRef: typeof import('vue')['shallowRef']
+  const sortByPosition: typeof import('./src/helpers/sort')['sortByPosition']
   const squadFragment: typeof import('./src/fragments/squad')['squadFragment']
   const squadPlayerFragment: typeof import('./src/fragments/squad')['squadPlayerFragment']
   const stageFragment: typeof import('./src/fragments/competition')['stageFragment']
@@ -501,6 +502,7 @@ declare module 'vue' {
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
+    readonly sortByPosition: UnwrapRef<typeof import('./src/helpers/sort')['sortByPosition']>
     readonly squadFragment: UnwrapRef<typeof import('./src/fragments/squad')['squadFragment']>
     readonly squadPlayerFragment: UnwrapRef<typeof import('./src/fragments/squad')['squadPlayerFragment']>
     readonly stageFragment: UnwrapRef<typeof import('./src/fragments/competition')['stageFragment']>

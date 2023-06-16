@@ -39,36 +39,47 @@
   const headers = computed(() => {
     const lMetric = metric.value.toLowerCase()
     const columns = [
-      { text: 'Name', value: 'player.name', width: 200, class: 'sticky' },
-      { text: 'Nationality', value: 'player.nationality', align: 'center' },
-      { text: 'Pos', value: 'player.pos', align: 'center', sortBy: 'posIdx' },
+      { title: 'Name', key: 'player.name', width: 200, fixed: true },
       {
-        text: `Start ${metric.value}`,
-        value: `start${capitalize(lMetric)}`,
-        align: 'end'
+        title: 'Nationality',
+        key: 'player.nationality',
+        align: 'center',
+        width: 80
+      },
+      { title: 'Pos', key: 'player.pos', align: 'center' },
+      {
+        title: `Start ${metric.value}`,
+        key: `start${capitalize(lMetric)}`,
+        align: 'end',
+        width: 150
       },
       {
-        text: `Last ${metric.value}`,
-        value: `player.${lMetric}`,
-        align: 'end'
+        title: `Last ${metric.value}`,
+        key: `player.${lMetric}`,
+        align: 'end',
+        width: 150
       },
       {
-        text: `${metric.value} Change`,
-        value: `${lMetric}Diff.total`,
-        align: 'end'
+        title: `${metric.value} Change`,
+        key: `${lMetric}Diff.total`,
+        align: 'end',
+        width: 150
       }
     ]
 
     for (let i = 0; i <= currentSeason.value; i++) {
       columns.push({
-        text: seasonLabel(i),
-        value: `${lMetric}Diff.${i}`,
-        align: 'end'
+        title: seasonLabel(i),
+        key: `${lMetric}Diff.${i}`,
+        align: 'end',
+        width: 150
       })
     }
 
     return columns
   })
+
+  const sortBy = ref([{ key: 'player.pos', order: 'asc' }])
 
   interface StatDiff {
     total?: number
@@ -208,77 +219,81 @@
     </v-btn-toggle>
   </div>
 
-  <data-table
+  <v-data-table-virtual
+    v-model:sort-by="sortBy"
     :headers="headers"
     :items="rows"
-    item-key="id"
-    sort-by="pos"
-    :items-per-page="-1"
+    :custom-key-sort="{ 'player.pos': sortByPosition }"
     density="compact"
-    class="mt-4"
+    height="50vh"
+    class="rounded mt-4"
   >
-    <template #[`header-player.nationality`]>
-      <v-icon>mdi-flag</v-icon>
+    <template #[`column.player.nationality`]="{ column, getSortIcon }">
+      <span>
+        <v-icon>mdi-flag</v-icon>
+      </span>
+      <v-icon
+        class="v-data-table-header__sort-icon"
+        :icon="getSortIcon(column)"
+      />
     </template>
-    <template #item="{ item, rowColor }">
-      <td class="sticky">
-        <v-sheet :class="`mx-n4 px-4 ${rowColor}`">
-          <v-btn
-            :to="`/teams/${team.id}/players/${item.player.id}`"
-            :text="item.player.name"
-            size="small"
-            variant="text"
-            color="primary"
-            class="text-capitalize"
-          />
-        </v-sheet>
-      </td>
-      <td class="text-center">
-        <flag
-          :iso="item.player.flag"
-          :title="item.player.nationality"
-          class="mr-2"
-        />
-      </td>
-      <td class="text-center">{{ item.player.pos }}</td>
-      <template v-if="metric === 'OVR'">
-        <td class="text-right">{{ item.startOvr }}</td>
-        <td class="text-right">{{ item.player.ovr }}</td>
-        <td :class="`text-right ${ovrColor(item.ovrDiff.total)}`">
-          {{ item.ovrDiff.total }}
-        </td>
-        <td
-          v-for="(_, season) in new Array(currentSeason + 1)"
-          :key="season"
-          :class="`text-right ${ovrColor(item.ovrDiff[season])}`"
-        >
-          {{ item.ovrDiff[season] > 0 ? '+' : '' }}
-          {{ item.ovrDiff[season] }}
-        </td>
-      </template>
-      <template v-else>
-        <td class="text-right">
-          {{ formatMoney(item.startValue, team.currency) }}
-        </td>
-        <td class="text-right">
-          {{ formatMoney(item.player.value, team.currency) }}
-        </td>
-        <td
-          :class="{ 'text-right': true, 'text-red': item.valueDiff.total < 0 }"
-        >
-          {{ formatMoney(item.valueDiff.total, team.currency, '-') }}
-        </td>
-        <td
-          v-for="(_, season) in new Array(currentSeason + 1)"
-          :key="season"
-          :class="`text-right ${valueColor(item.valueDiff[season])}`"
-        >
-          <span v-if="item.valueDiff[season] !== undefined">
-            {{ item.valueDiff[season] > 0 ? '+' : '' }}
-            {{ item.valueDiff[season].toFixed(2) }}%
-          </span>
-        </td>
-      </template>
+    <template #[`item.player.name`]="{ item }">
+      <v-btn
+        :to="`/teams/${team.id}/players/${item.raw.player.id}`"
+        :text="item.raw.player.name"
+        size="small"
+        variant="text"
+        color="primary"
+        class="text-capitalize"
+      />
     </template>
-  </data-table>
+    <template #[`item.player.nationality`]="{ item }">
+      <flag
+        :iso="item.raw.player.flag"
+        :title="item.raw.player.nationality"
+        class="mr-2"
+      />
+    </template>
+    <template #[`item.ovrDiff.total`]="{ item }">
+      <div :class="ovrColor(item.raw.ovrDiff.total)">
+        {{ item.raw.ovrDiff.total }}
+      </div>
+    </template>
+    <template
+      v-for="(_, season) in new Array(currentSeason + 1)"
+      :key="season"
+      #[`item.ovrDiff.${season}`]="{ item }"
+    >
+      <div :class="ovrColor(item.raw.ovrDiff[season])">
+        {{ item.raw.ovrDiff[season] > 0 ? '+' : '' }}
+        {{ item.raw.ovrDiff[season] }}
+      </div>
+    </template>
+    <template #[`item.startValue`]="{ item }">
+      {{ formatMoney(item.raw.startValue, team.currency) }}
+    </template>
+    <template #[`item.player.value`]="{ item }">
+      {{ formatMoney(item.raw.player.value, team.currency) }}
+    </template>
+    <template #[`item.valueDiff.total`]="{ item }">
+      <div
+        :class="{ 'text-end': true, 'text-red': item.raw.valueDiff.total < 0 }"
+      >
+        {{ formatMoney(item.raw.valueDiff.total, team.currency, '-') }}
+      </div>
+    </template>
+    <template
+      v-for="(_, season) in new Array(currentSeason + 1)"
+      :key="season"
+      #[`item.valueDiff.${season}`]="{ item }"
+    >
+      <div
+        v-if="item.raw.valueDiff[season] !== undefined"
+        :class="valueColor(item.raw.valueDiff[season])"
+      >
+        {{ item.raw.valueDiff[season] > 0 ? '+' : '' }}
+        {{ item.raw.valueDiff[season].toFixed(2) }}%
+      </div>
+    </template>
+  </v-data-table-virtual>
 </template>

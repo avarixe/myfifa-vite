@@ -79,23 +79,30 @@
   })
 
   const headers = [
-    { value: 'player.name', text: 'Name', class: 'sticky' },
-    { value: 'player.nationality', text: 'Nationality', align: 'center' },
-    { value: 'player.status', text: 'Status', align: 'center' },
-    { value: 'player.age', text: 'Age', align: 'center' },
+    { key: 'player.name', title: 'Name', fixed: true },
     {
-      value: 'player.pos',
-      text: 'Pos',
-      sortBy: 'player.posIdx',
-      align: 'center'
+      key: 'player.nationality',
+      title: 'Nationality',
+      align: 'center',
+      width: 80
     },
-    { value: 'player.secPos', text: '2nd Pos' },
-    { value: 'player.kitNo', text: 'Kit No', align: 'center' },
-    { value: 'player.ovr', text: 'OVR', align: 'center' },
-    { value: 'player.value', text: 'Value', align: 'end' },
-    { value: 'contract.wage', text: 'Wage', align: 'end' },
-    { value: 'contract.endedOn', text: 'Contract Ends', align: 'end' }
+    { key: 'player.status', title: 'Status', align: 'center' },
+    { key: 'player.age', title: 'Age', align: 'center' },
+    { key: 'player.pos', title: 'Pos', align: 'center' },
+    { key: 'player.secPos', title: '2nd Pos', width: 120 },
+    { key: 'player.kitNo', title: 'Kit No', align: 'center', width: 100 },
+    { key: 'player.ovr', title: 'OVR', align: 'center' },
+    { key: 'player.value', title: 'Value', align: 'end' },
+    { key: 'contract.wage', title: 'Wage', align: 'end' },
+    {
+      key: 'contract.endedOn',
+      title: 'Contract Ends',
+      align: 'end',
+      width: 180
+    }
   ]
+
+  const sortBy = ref([{ key: 'player.pos', order: 'asc' }])
 </script>
 
 <template>
@@ -133,38 +140,64 @@
     </v-btn-toggle>
   </div>
 
-  <data-table :headers="headers" :items="rows" sort-by="player.pos">
-    <template #[`header-player.nationality`]>
-      <v-icon>mdi-flag</v-icon>
+  <v-data-table
+    v-model:sort-by="sortBy"
+    :headers="headers"
+    :items="rows"
+    :custom-key-sort="{ 'player.pos': sortByPosition }"
+    class="rounded"
+  >
+    <template #[`column.player.nationality`]="{ column, getSortIcon }">
+      <span>
+        <v-icon>mdi-flag</v-icon>
+      </span>
+      <v-icon
+        class="v-data-table-header__sort-icon"
+        :icon="getSortIcon(column)"
+      />
     </template>
-    <template #[`item-player.name`]="{ item: { player } }">
+    <template #[`item.player.name`]="{ item }">
       <v-btn
-        :to="`/teams/${team.id}/players/${player.id}`"
-        :text="player.name"
+        :to="`/teams/${team.id}/players/${item.raw.player.id}`"
+        :text="item.raw.player.name"
         variant="text"
         color="primary"
         class="text-capitalize"
       />
     </template>
-    <template #[`item-player.nationality`]="{ item: { player } }">
-      <flag :iso="player.flag" :title="player.nationality" class="mr-2" />
+    <template #[`item.player.nationality`]="{ item }">
+      <flag
+        :iso="item.raw.player.flag"
+        :title="item.raw.player.nationality"
+        class="mr-2"
+      />
     </template>
-    <template #[`item-player.status`]="{ item: { player } }">
-      <v-icon :color="player.statusColor"> mdi-{{ player.statusIcon }} </v-icon>
+    <template #[`item.player.status`]="{ item }">
+      <v-icon :color="item.raw.player.statusColor">
+        mdi-{{ item.raw.player.statusIcon }}
+      </v-icon>
     </template>
-    <template #[`item-player.secPos`]="{ item: { player } }">
-      {{ player.secPos.join(', ') }}
+    <template #[`item.player.secPos`]="{ item }">
+      {{ item.raw.player.secPos.join(', ') }}
     </template>
-    <template #[`item-player.kitNo`]="{ item: { player } }">
-      <player-attribute :player="player" attribute="kitNo" label="Kit No" />
+    <template #[`item.player.kitNo`]="{ item }">
+      <player-attribute
+        :player="item.raw.player"
+        attribute="kitNo"
+        label="Kit No"
+      />
     </template>
-    <template #[`item-player.ovr`]="{ item: { player } }">
-      <player-attribute :player="player" attribute="ovr" label="OVR" />
+    <template #[`item.player.ovr`]="{ item }">
+      <player-attribute :player="item.raw.player" attribute="ovr" label="OVR" />
     </template>
-    <template #[`item-player.value`]="{ item: { player } }">
-      <player-attribute :player="player" attribute="value" label="Value">
+    <template #[`item.player.value`]="{ item }">
+      <player-attribute
+        :player="item.raw.player"
+        attribute="value"
+        label="Value"
+      >
         <template #display>
-          {{ formatMoney(player.value, team.currency) }}
+          {{ formatMoney(item.raw.player.value, team.currency) }}
         </template>
         <template #form="{ modelValue, updateModelValue, closeMenu }">
           <money-field
@@ -182,13 +215,13 @@
         </template>
       </player-attribute>
     </template>
-    <template #[`item-contract.wage`]="{ item: { contract } }">
-      <span v-if="contract?.wage">
-        {{ formatMoney(contract.wage, team.currency) }}
+    <template #[`item.contract.wage`]="{ item }">
+      <span v-if="item.raw.contract?.wage">
+        {{ formatMoney(item.raw.contract.wage, team.currency) }}
       </span>
     </template>
-    <template #[`item-contract.endedOn`]="{ item: { contract } }">
-      {{ formatDate(contract?.endedOn) }}
+    <template #[`item.contract.endedOn`]="{ item }">
+      {{ formatDate(item.raw.contract?.endedOn) }}
     </template>
-  </data-table>
+  </v-data-table>
 </template>
