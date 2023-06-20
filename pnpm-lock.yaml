@@ -75,7 +75,7 @@ dependencies:
     specifier: ^1.4.1
     version: 1.4.1(apexcharts@3.39.0)(vue@3.3.4)
   vuetify:
-    specifier: ^3.3.2
+    specifier: 3.3.2
     version: 3.3.2(typescript@5.1.3)(vite-plugin-vuetify@1.0.2)(vue@3.3.4)
   xlsx:
     specifier: https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz
