@@ -32,7 +32,6 @@ declare module '@vue/runtime-core' {
     ConfirmDialog: typeof import('./src/components/Base/ConfirmDialog.vue')['default']
     ContractForm: typeof import('./src/components/Contract/ContractForm.vue')['default']
     ContractTimelineEvent: typeof import('./src/components/Contract/ContractTimelineEvent.vue')['default']
-    DataTable: typeof import('./src/components/Base/DataTable.vue')['default']
     DateField: typeof import('./src/components/Base/DateField.vue')['default']
     DialogForm: typeof import('./src/components/Base/DialogForm.vue')['default']
     Flag: typeof import('./src/components/Base/Flag.vue')['default']
