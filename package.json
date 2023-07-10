@@ -15,7 +15,8 @@
     "format": "prettier .  --write",
     "format:check": "prettier .  --check",
     "prepare": "husky install",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "commitlint": "commitlint --edit"
   },
   "dependencies": {
     "@urql/vue": "^1.1.2",
@@ -45,6 +46,8 @@
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.6.6",
+    "@commitlint/config-conventional": "^17.6.6",
     "@types/node": "^18.16.19",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",

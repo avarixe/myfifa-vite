@@ -9,11 +9,11 @@
 pnpm install
 
 # serve with hot reload at localhost:3000
-pnpm run dev [--open] [--port PORT]
+pnpm dev [--open] [--port PORT]
 
 # build for production with minification
-pnpm run build
+pnpm build
 
 # preview production build
-pnpm run serve
+pnpm serve
 ```
