@@ -31,7 +31,7 @@
       :close-on-content-click="false"
     >
       <v-card>
-        <slot name="form" :close-menu="() => { menu = false }" />
+        <slot name="form" :close-menu="() => (menu = false)" />
       </v-card>
     </v-menu>
   </v-badge>
