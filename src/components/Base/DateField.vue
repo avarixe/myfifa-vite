@@ -26,6 +26,7 @@
     readonly
     :append-icon="prefill ? 'mdi-calendar-arrow-left' : null"
     @click:append="emit('update:modelValue', prefill)"
+    @click:clear="emit('update:modelValue', null)"
   >
     <v-menu v-model="menu" activator="parent">
       <date-picker
