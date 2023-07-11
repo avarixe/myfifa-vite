@@ -14,8 +14,8 @@ jobs:
       - name: Install
         run: pnpm install
       - name: ESLint
-        run: pnpm run lint
+        run: pnpm lint
       - name: Prettier
-        run: pnpm run format:check
+        run: pnpm format:check
       - name: Vue TSC
-        run: pnpm run lint:tsc
+        run: pnpm lint:tsc
