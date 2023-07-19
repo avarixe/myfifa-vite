@@ -17,8 +17,46 @@
     value: props.record?.value,
     kitNo: props.record?.kitNo,
     age: props.record?.age,
-    youth: props.record?.youth || false
+    youth: props.record?.youth || false,
+    coverage: _omit(props.record?.coverage, '__typename')
   })
+
+  watch(
+    () => attributes.pos,
+    () => {
+      attributes.coverage[attributes.pos] = 1
+    }
+  )
+  watch(
+    () => attributes.secPos,
+    () => {
+      attributes.secPos.forEach(pos => {
+        attributes.coverage[pos] ??= 2
+      })
+    },
+    { deep: true }
+  )
+  watch(
+    () => attributes.coverage,
+    () => {
+      for (const pos in attributes.coverage) {
+        switch (attributes.coverage[pos]) {
+          case 1:
+            attributes.pos ??= pos
+            break
+          case 2:
+            if (
+              attributes.pos !== pos &&
+              !attributes.secPos.includes(pos) &&
+              positions.includes(pos)
+            ) {
+              attributes.secPos.push(pos)
+            }
+        }
+      }
+    },
+    { deep: true }
+  )
 
   const mutation = props.record
     ? gql`
@@ -60,16 +98,14 @@
 
 <template>
   <v-form ref="form" @submit.prevent="submitForm">
-    <v-text-field v-model="attributes.name" label="Name" />
     <v-row dense>
       <v-col cols="12" md="6" class="py-0">
+        <v-text-field v-model="attributes.name" label="Name" />
         <v-autocomplete
           v-model="attributes.pos"
           label="Position"
           :items="positions"
         />
-      </v-col>
-      <v-col cols="12" md="6" class="py-0">
         <v-autocomplete
           v-model="attributes.secPos"
           label="Secondary Position(s)"
@@ -78,6 +114,11 @@
           chips
           closable-chips
         />
+      </v-col>
+      <v-col cols="12" md="6" class="py-0 mb-2">
+        <div class="pl-4 text-caption">Coverage</div>
+        <player-coverage-legend class="pl-4" />
+        <player-coverage-field v-model="attributes.coverage" />
       </v-col>
       <v-col cols="12" md="6" class="py-0">
         <v-text-field

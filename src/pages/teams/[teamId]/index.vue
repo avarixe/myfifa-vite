@@ -7,6 +7,9 @@
           lastMatch {
             ...MatchData
           }
+          coverage {
+            ${Object.keys(matchPositions).join(' ')}
+          }
           injuredPlayers {
             id
             name
@@ -47,8 +50,13 @@
     `
   })
 
-  const { lastMatch, injuredPlayers, loanedPlayers, expiringPlayers } =
-    data.value.team
+  const {
+    lastMatch,
+    injuredPlayers,
+    loanedPlayers,
+    expiringPlayers,
+    coverage
+  } = data.value.team
 
   const router = useRouter()
 </script>
@@ -116,6 +124,16 @@
       </v-card>
     </v-col>
     <v-col cols="12" md="6">
+      <v-card class="mt-4">
+        <v-card-title>
+          <v-icon start color="info" icon="mdi-vector-polygon-variant" />
+          Current Coverage
+        </v-card-title>
+        <v-card-text>
+          <team-coverage :coverage="coverage" />
+        </v-card-text>
+      </v-card>
+
       <v-card class="mt-4">
         <v-card-title>
           <v-icon start color="pink" icon="mdi-hospital" />
