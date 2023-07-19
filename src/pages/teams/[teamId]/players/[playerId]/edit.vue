@@ -8,6 +8,9 @@
       query fetchPlayerPage($teamId: ID!, $playerId: ID!) {
         player(id: $playerId) {
           ...PlayerData
+          coverage {
+            ${Object.keys(matchPositions).join(' ')}
+          }
         }
         team(id: $teamId) {
           ...TeamData
