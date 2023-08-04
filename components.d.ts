@@ -73,6 +73,7 @@ declare module '@vue/runtime-core' {
     PlayerDevelopmentChart: typeof import('./src/components/Player/PlayerDevelopmentChart.vue')['default']
     PlayerForm: typeof import('./src/components/Player/PlayerForm.vue')['default']
     PlayerImportRow: typeof import('./src/components/Player/PlayerImportRow.vue')['default']
+    PlayerRatingHeatmap: typeof import('./src/components/Player/PlayerRatingHeatmap.vue')['default']
     PlayerReleaseButton: typeof import('./src/components/Player/PlayerReleaseButton.vue')['default']
     PlayerRetireButton: typeof import('./src/components/Player/PlayerRetireButton.vue')['default']
     PlayerSelect: typeof import('./src/components/Player/PlayerSelect.vue')['default']

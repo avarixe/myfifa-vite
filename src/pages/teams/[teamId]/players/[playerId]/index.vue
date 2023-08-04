@@ -241,6 +241,9 @@
         </div>
         <div class="subheading">Rating</div>
       </v-col>
+      <v-col cols="12">
+        <player-rating-heatmap :player="player" />
+      </v-col>
     </v-row>
   </section>
 
