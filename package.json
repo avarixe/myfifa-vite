@@ -20,7 +20,6 @@
   },
   "dependencies": {
     "@urql/vue": "^1.1.2",
-    "@vuepic/vue-datepicker": "^5.4.0",
     "@vueuse/core": "^10.2.1",
     "@vueuse/head": "^1.1.26",
     "axios": "^1.4.0",
@@ -40,7 +39,7 @@
     "vue": "^3.3.4",
     "vue-currency-input": "^3.0.5",
     "vue-router": "^4.2.4",
-    "vuetify": "3.3.2"
+    "vuetify": "^3.3.12"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.6",
