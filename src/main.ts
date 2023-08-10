@@ -15,7 +15,6 @@ import App from './App.vue'
 
 import Datepicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
-import VueApexCharts from 'vue3-apexcharts'
 
 const router = createRouter({
   history: createWebHistory()
@@ -90,12 +89,7 @@ const vuetify = createVuetify({
 
 const head = createHead()
 
-const app = createApp(App)
-  .use(router)
-  .use(pinia)
-  .use(head)
-  .use(vuetify)
-  .use(VueApexCharts)
+const app = createApp(App).use(router).use(pinia).use(head).use(vuetify)
 
 app.component('date-picker', Datepicker)
 

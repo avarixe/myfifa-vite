@@ -25,6 +25,8 @@
         case 'development':
         case 'statistics':
           return { to, title: capitalize(step), exact: true }
+        case 'import':
+          return { to, title: 'Import Players', exact: true }
         case 'seasons':
           return {
             to: to.replace(/seasons/, 'competitions'),

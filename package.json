@@ -23,7 +23,6 @@
     "@vuepic/vue-datepicker": "^5.4.0",
     "@vueuse/core": "^10.2.1",
     "@vueuse/head": "^1.1.26",
-    "apexcharts": "^3.41.0",
     "axios": "^1.4.0",
     "date-fns": "^2.30.0",
     "graphql": "^16.7.1",
@@ -41,7 +40,6 @@
     "vue": "^3.3.4",
     "vue-currency-input": "^3.0.5",
     "vue-router": "^4.2.4",
-    "vue3-apexcharts": "^1.4.1",
     "vuetify": "3.3.2"
   },
   "devDependencies": {
