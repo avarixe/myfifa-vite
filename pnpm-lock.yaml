@@ -23,9 +23,6 @@ dependencies:
   graphql:
     specifier: ^16.7.1
     version: 16.7.1
-  lodash.camelcase:
-    specifier: ^4.3.0
-    version: 4.3.0
   lodash.get:
     specifier: ^4.4.2
     version: 4.4.2
@@ -33,9 +30,6 @@ dependencies:
     specifier: ^4.6.0
     version: 4.6.0
   lodash.keyby:
-    specifier: ^4.6.0
-    version: 4.6.0
-  lodash.mapkeys:
     specifier: ^4.6.0
     version: 4.6.0
   lodash.omit:
@@ -2720,6 +2714,7 @@ packages:
 
   /lodash.camelcase@4.3.0:
     resolution: {integrity: sha512-TwuEnCnxbc3rAvhf/LbG7tJUDzhqXyFnv3dtzLOPgCG/hODL7WFnsbwktkD7yUV0RrreP/l1PALq/YSg6VvjlA==}
+    dev: true
 
   /lodash.get@4.4.2:
     resolution: {integrity: sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==}
@@ -2749,10 +2744,6 @@ packages:
   /lodash.map@4.6.0:
     resolution: {integrity: sha512-worNHGKLDetmcEYDvh2stPCrrQRkP20E4l0iIS7F8EvzMqBBi7ltvFN5m1HvTf1P7Jk1txKhvFcmYsCr8O2F1Q==}
     dev: true
-
-  /lodash.mapkeys@4.6.0:
-    resolution: {integrity: sha512-0Al+hxpYvONWtg+ZqHpa/GaVzxuN3V7Xeo2p+bY06EaK/n+Y9R7nBePPN2o1LxmL0TWQSwP8LYZ008/hc9JzhA==}
-    dev: false
 
   /lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}

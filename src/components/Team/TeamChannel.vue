@@ -1,6 +1,4 @@
 <script setup lang="ts">
-  import _mapKeys from 'lodash.mapkeys'
-  import _camelCase from 'lodash.camelcase'
   import * as models from '../../models'
 
   const props = defineProps<{
@@ -55,6 +53,12 @@
     timeout.value = setTimeout(updateStore, 300)
   }
 
+  function camelize(str) {
+    return str
+      .toLowerCase()
+      .replace(/([-_][a-z])/g, group => group.slice(-1).toUpperCase())
+  }
+
   function updateStore() {
     Object.keys(deleteBuffer).forEach(async type => {
       const ids = deleteBuffer[type].map(data => data.id)
@@ -64,7 +68,13 @@
 
     Object.keys(insertBuffer).forEach(async type => {
       const data = insertBuffer[type].map(record =>
-        _mapKeys(record, (_v, k) => _camelCase(k))
+        Object.entries(record).reduce(
+          (acc, [key, value]) => ({
+            ...acc,
+            [camelize(key)]: value
+          }),
+          {}
+        )
       )
       await useRepo(models[type]).save(data)
       delete insertBuffer[type]
