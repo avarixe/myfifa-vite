@@ -23,11 +23,9 @@ router.beforeEach(async to => {
   if (token.value) {
     // check if user is authenticated
     if (!sessionStore.userId) {
-      const {
-        data: { data }
-      } = await axios.post(
-        `${import.meta.env.VITE_API_URL}/graphql`,
-        {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/graphql`, {
+        method: 'POST',
+        body: JSON.stringify({
           query: gql`
             query fetchUser {
               user {
@@ -36,9 +34,13 @@ router.beforeEach(async to => {
             }
             ${userFragment}
           `.loc.source.body
-        },
-        { headers: { authorization: `Bearer ${token.value}` } }
-      )
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token.value}`
+        }
+      })
+      const { data } = await response.json()
       if (data.user) {
         await useRepo(User).save(data.user)
         sessionStore.userId = parseInt(data.user.id)
