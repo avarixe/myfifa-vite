@@ -1,6 +1,10 @@
 <script setup lang="ts">
   import { Player } from '~/models'
 
+  useHead({
+    script: [{ src: 'https://cdn.jsdelivr.net/npm/apexcharts' }]
+  })
+
   const route = useRoute<'/teams/[teamId]/players/[playerId]/'>()
 
   const { data, team } = await useTeamQuery({

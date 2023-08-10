@@ -1,3 +1,10 @@
+declare global {
+  interface Window {
+    XLSX: any
+    ApexCharts: any
+  }
+}
+
 export interface TableHeader {
   text: string
   value: string

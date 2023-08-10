@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import ApexChart from 'vue3-apexcharts'
   import { Contract, Player } from '~/models'
 
   const props = defineProps<{
@@ -84,8 +83,34 @@
       x: { format: 'MMM d, yyyy' }
     }
   }))
+
+  const container = ref(null)
+  const chart = ref(null)
+  onMounted(() => {
+    chart.value = new window.ApexCharts(container.value, {
+      ...options.value,
+      series: series.value
+    })
+    chart.value.render()
+  })
+
+  watch(
+    series,
+    () => {
+      chart.value.updateSeries(series.value)
+    },
+    { deep: true }
+  )
+
+  watch(
+    options,
+    () => {
+      chart.value.updateOptions(options.value)
+    },
+    { deep: true }
+  )
 </script>
 
 <template>
-  <apex-chart :series="series" :options="options" />
+  <div ref="container" />
 </template>
