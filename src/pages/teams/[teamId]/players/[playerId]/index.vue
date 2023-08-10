@@ -2,7 +2,17 @@
   import { Player } from '~/models'
 
   useHead({
-    script: [{ src: 'https://cdn.jsdelivr.net/npm/apexcharts' }]
+    script: [
+      { src: 'https://cdn.jsdelivr.net/npm/apexcharts' },
+      { src: 'https://d3js.org/d3.v7.min.js' },
+      { src: 'https://unpkg.com/cal-heatmap/dist/cal-heatmap.min.js' }
+    ],
+    link: [
+      {
+        rel: 'stylesheet',
+        href: 'https://unpkg.com/cal-heatmap/dist/cal-heatmap.css'
+      }
+    ]
   })
 
   const route = useRoute<'/teams/[teamId]/players/[playerId]/'>()

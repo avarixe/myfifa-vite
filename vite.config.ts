@@ -86,8 +86,7 @@ export default defineConfig({
       'lodash.keyby',
       'lodash.omit',
       'lodash.orderby',
-      'lodash.pick',
-      'cal-heatmap'
+      'lodash.pick'
     ]
   },
   define: {

@@ -1,7 +1,8 @@
 declare global {
   interface Window {
-    XLSX: any
     ApexCharts: any
+    CalHeatmap: any
+    XLSX: any
   }
 }
 

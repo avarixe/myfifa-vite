@@ -1,8 +1,6 @@
 <script setup lang="ts">
   import { Player } from '~/models'
   import { differenceInMonths } from 'date-fns'
-  import CalHeatmap from 'cal-heatmap'
-  import 'cal-heatmap/cal-heatmap.css'
 
   const props = defineProps<{ player: Player }>()
 
@@ -65,7 +63,7 @@
       ) + 1
   )
 
-  const cal = new CalHeatmap()
+  const cal = new window.CalHeatmap()
   watch(data, () => {
     if (data.value) {
       cal.paint({
