@@ -42,8 +42,7 @@
     "vue-currency-input": "^3.0.5",
     "vue-router": "^4.2.4",
     "vue3-apexcharts": "^1.4.1",
-    "vuetify": "3.3.2",
-    "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
+    "vuetify": "3.3.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.6",

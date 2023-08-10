@@ -1,5 +1,11 @@
 <script setup lang="ts">
-  import { read, utils } from 'xlsx'
+  useHead({
+    script: [
+      {
+        src: 'https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js'
+      }
+    ]
+  })
 
   await useTeamQuery({
     query: gql`
@@ -55,12 +61,12 @@
     reader.onload = e => {
       // Parse data
       const bstr = e.target.result
-      const wb = read(bstr, { type: 'binary', cellDates: true })
+      const wb = window.XLSX.read(bstr, { type: 'binary', cellDates: true })
       // Get first worksheet
       const wsname = wb.SheetNames[0]
       const ws = wb.Sheets[wsname]
       // Convert array of arrays
-      const data = utils.sheet_to_json(ws)
+      const data = window.XLSX.utils.sheet_to_json(ws)
       // Update state
       data.forEach(player => importPlayer(player))
     }

@@ -1,3 +1,9 @@
+declare global {
+  interface Window {
+    XLSX: any
+  }
+}
+
 export interface TableHeader {
   text: string
   value: string

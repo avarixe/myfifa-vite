@@ -77,9 +77,6 @@ dependencies:
   vuetify:
     specifier: 3.3.2
     version: 3.3.2(typescript@5.1.6)(vite-plugin-vuetify@1.0.2)(vue@3.3.4)
-  xlsx:
-    specifier: https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz
-    version: '@cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz'
 
 devDependencies:
   '@commitlint/cli':
@@ -4265,12 +4262,4 @@ packages:
 
   /zhead@2.0.9:
     resolution: {integrity: sha512-Y3g6EegQc6PVrYXPq2OS7/s27UGVS5Y6NY6SY3XGH4Hg+yQWbQTtWsjCgmpR8kZnYrv8auB54sz+x5FEDrvqzQ==}
-    dev: false
-
-  '@cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz':
-    resolution: {tarball: https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz}
-    name: xlsx
-    version: 0.19.3
-    engines: {node: '>=0.8'}
-    hasBin: true
     dev: false
