@@ -6,6 +6,7 @@ import Components from 'unplugin-vue-components/vite'
 import { VueRouterAutoImports } from 'unplugin-vue-router'
 import vuetify from 'vite-plugin-vuetify'
 import eslint from 'vite-plugin-eslint'
+import { visualizer } from 'rollup-plugin-visualizer'
 import path from 'path'
 
 import { readFileSync } from 'fs'
@@ -74,7 +75,8 @@ export default defineConfig({
     }),
     Components(),
     vuetify(),
-    eslint()
+    eslint(),
+    visualizer()
   ],
   optimizeDeps: {
     exclude: ['vuetify', 'vue-currency-input'],
