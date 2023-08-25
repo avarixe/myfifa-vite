@@ -7,14 +7,17 @@ declare global {
 }
 
 export interface TableHeader {
-  text: string
-  value: string
-  sortBy?: string
-  width?: number
-  align?: 'start' | 'center' | 'end'
-  class?: string
-  style?: string
+  key: string
+  title: string
+  align?: 'start' | 'end' | 'center'
   sortable?: boolean
+  width?: number
+  fixed?: boolean
+}
+
+export interface TableSortItem {
+  key: string
+  order: boolean | 'asc' | 'desc'
 }
 
 export interface CapAttributes {

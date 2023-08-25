@@ -16,7 +16,7 @@
     competitionStats: CompetitionStats[]
   }>()
 
-  const headers = [
+  const headers: TableHeader[] = [
     { title: 'Competition', key: 'name', fixed: true },
     { title: 'Status', key: 'status', align: 'center' },
     { title: 'GP', key: 'matchesPlayed', align: 'end' },

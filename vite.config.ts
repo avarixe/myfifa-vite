@@ -61,6 +61,7 @@ export default defineConfig({
           from: './src/types',
           imports: [
             'TableHeader',
+            'TableSortItem',
             'CapAttributes',
             'StageAttributes',
             'MatchFilters'

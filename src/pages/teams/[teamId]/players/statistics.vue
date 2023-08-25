@@ -75,7 +75,9 @@
     ]
   })
 
-  const sortBy = ref([{ key: 'player.pos', order: 'asc' }])
+  const sortBy: Ref<TableSortItem[]> = ref([
+    { key: 'player.pos', order: 'asc' }
+  ])
 
   const filters = reactive({
     season: null,

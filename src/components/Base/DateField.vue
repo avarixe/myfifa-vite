@@ -6,9 +6,9 @@
     max?: string
   }>()
 
-  const humanizedValue = computed(() => {
-    return formatDate(props.modelValue, 'MMM d, yyyy')
-  })
+  const humanizedValue = computed(() =>
+    formatDate(props.modelValue, 'MMM d, yyyy')
+  )
 
   const menu = ref(false)
 
@@ -36,7 +36,7 @@
         :hide-actions="inputMode === 'calendar'"
         :min="min"
         :max="max"
-        :model-value="modelValue"
+        :model-value="[modelValue]"
         @update:model-value="onCalendarUpdate"
         @click:cancel="menu = false"
       />

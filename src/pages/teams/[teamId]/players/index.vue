@@ -78,7 +78,7 @@
     })
   })
 
-  const headers = [
+  const headers: TableHeader[] = [
     { key: 'player.name', title: 'Name', fixed: true },
     {
       key: 'player.nationality',
@@ -102,7 +102,9 @@
     }
   ]
 
-  const sortBy = ref([{ key: 'player.pos', order: 'asc' }])
+  const sortBy: Ref<TableSortItem[]> = ref([
+    { key: 'player.pos', order: 'asc' }
+  ])
 </script>
 
 <template>

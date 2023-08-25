@@ -36,7 +36,7 @@
     { text: 'Value', color: 'red', icon: 'cash-multiple' }
   ]
 
-  const headers = computed(() => {
+  const headers: Ref<TableHeader[]> = computed(() => {
     const lMetric = metric.value.toLowerCase()
     const columns = [
       { title: 'Name', key: 'player.name', width: 200, fixed: true },
@@ -79,7 +79,9 @@
     return columns
   })
 
-  const sortBy = ref([{ key: 'player.pos', order: 'asc' }])
+  const sortBy: Ref<TableSortItem[]> = ref([
+    { key: 'player.pos', order: 'asc' }
+  ])
 
   interface StatDiff {
     total?: number

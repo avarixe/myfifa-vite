@@ -13,14 +13,14 @@
 
   const { team } = useTeam()
 
-  const headers = [
+  const headers: TableHeader[] = [
     { key: 'name', title: 'Match', align: 'center', sortable: false },
     { key: 'competition', title: 'Competition' },
     { key: 'playedOn', title: 'Date Played' },
     { key: 'link', title: 'Link', align: 'center', sortable: false }
   ]
 
-  const sortBy = ref([{ key: 'playedOn', order: 'desc' }])
+  const sortBy: Ref<TableSortItem[]> = ref([{ key: 'playedOn', order: 'desc' }])
   const options = reactive({
     page: 0,
     itemsPerPage: 0,

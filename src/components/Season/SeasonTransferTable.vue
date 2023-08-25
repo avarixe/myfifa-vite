@@ -197,7 +197,7 @@
       transfers.value.filter(transfer => transfer.iconColor === 'green').length
   )
 
-  const headers = [
+  const headers: TableHeader[] = [
     { title: 'Player', key: 'name', fixed: true },
     { title: 'Pos', key: 'pos', align: 'center' },
     { title: 'Date', key: 'date', align: 'center', width: 140 },
