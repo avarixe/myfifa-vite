@@ -31,22 +31,24 @@
   const { team } = useTeam()
 
   const competitionRepo = useRepo(Competition)
-  const competitions = computed(() =>
-    competitionRepo
-      .with('team')
-      .where('teamId', team.value.id)
-      .where('season', props.season)
-      .get()
+  const competitions = computed(
+    () =>
+      competitionRepo
+        .with('team')
+        .where('teamId', team.value.id)
+        .where('season', props.season)
+        .get() as Competition[]
   )
 
-  const results = computed(() =>
-    props.competitionStats.reduce(
-      (obj, stats) => ({
-        ...obj,
-        [stats.competition]: stats
-      }),
-      {}
-    )
+  const results = computed(
+    () =>
+      props.competitionStats.reduce(
+        (obj, stats) => ({
+          ...obj,
+          [stats.competition]: stats
+        }),
+        {}
+      ) as { [key: string]: CompetitionStats }
   )
 
   const rows = computed(() =>

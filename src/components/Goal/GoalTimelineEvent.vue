@@ -1,18 +1,19 @@
 <script setup lang="ts">
   import { Goal, Match } from '~/models'
 
-  withDefaults(
-    defineProps<{
-      match: Match
-      event: Goal
-      readonly: boolean
-    }>(),
-    { readonly: false }
-  )
+  const props = defineProps<{
+    match: Match
+    event: Goal
+    readonly?: boolean
+  }>()
 </script>
 
 <template>
-  <match-timeline-event :match="match" :event="event" :readonly="readonly">
+  <match-timeline-event
+    :match="match"
+    :event="event"
+    :readonly="props.readonly"
+  >
     <div>
       <v-icon
         :color="event.ownGoal ? 'red' : 'blue'"

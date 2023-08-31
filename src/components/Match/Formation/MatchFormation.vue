@@ -28,7 +28,7 @@
     Math.floor(substitutes.value.length / substitutesRowLength.value)
   )
 
-  function substitutesRow(i) {
+  function substitutesRow(i: number) {
     return substitutes.value.slice(
       i * substitutesRowLength.value,
       (i + 1) * substitutesRowLength.value
@@ -39,7 +39,11 @@
 <template>
   <formation-grid :cells="formationCells" hide-empty-cells>
     <template #filled-pos="{ cell }">
-      <match-formation-cap :cap="cell" :match="match" :readonly="readonly" />
+      <match-formation-cap
+        :cap="cell"
+        :match="match"
+        :readonly="props.readonly"
+      />
     </template>
   </formation-grid>
 
@@ -47,7 +51,7 @@
     <v-col cols="10" class="px-0">
       <div class="text-caption text-grey lighten-2">Substitutes</div>
     </v-col>
-    <v-col v-if="!readonly" cols="2" class="px-0">
+    <v-col v-if="!props.readonly" cols="2" class="px-0">
       <div class="text-caption text-grey lighten-2">vs</div>
     </v-col>
   </v-row>
@@ -58,7 +62,11 @@
       cols="2"
       class="text-center"
     >
-      <match-formation-cap :cap="cap" :match="match" :readonly="readonly" />
+      <match-formation-cap
+        :cap="cap"
+        :match="match"
+        :readonly="props.readonly"
+      />
     </v-col>
     <template v-if="substitutes.length < substitutesRowLength">
       <v-col
@@ -67,7 +75,7 @@
         cols="2"
       />
     </template>
-    <v-col v-if="!readonly" cols="2" class="text-center">
+    <v-col v-if="!props.readonly" cols="2" class="text-center">
       <match-formation-side :match="match" />
     </v-col>
   </v-row>
@@ -84,7 +92,11 @@
       cols="2"
       class="text-center"
     >
-      <match-formation-cap :cap="cap" :match="match" :readonly="readonly" />
+      <match-formation-cap
+        :cap="cap"
+        :match="match"
+        :readonly="props.readonly"
+      />
     </v-col>
     <v-col
       v-for="index in 5 - substitutesRow(row).length"

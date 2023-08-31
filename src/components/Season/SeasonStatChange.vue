@@ -1,14 +1,12 @@
 <script setup lang="ts">
   const props = withDefaults(
     defineProps<{
-      formatter: (any) => number | string
-      startValue?: number
-      endValue?: number
+      formatter: (x: number) => number | string
+      startValue: number
+      endValue: number
     }>(),
     {
-      formatter: x => x,
-      startValue: null,
-      endValue: null
+      formatter: (x: number) => x
     }
   )
 

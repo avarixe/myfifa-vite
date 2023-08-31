@@ -361,7 +361,7 @@ declare global {
   // @ts-ignore
   export type { Component, ComponentPublicInstance, ComputedRef, InjectionKey, PropType, Ref, VNode } from 'vue'
   // @ts-ignore
-  export type { TableHeader, TableSortItem, CapAttributes, StageAttributes, MatchFilters } from './src/types'
+  export type { TableHeader, TableSortItem, CapAttributes, GoalAttributes, StageAttributes, MatchFilters } from './src/types'
 }
 // for vue template auto import
 import { UnwrapRef } from 'vue'

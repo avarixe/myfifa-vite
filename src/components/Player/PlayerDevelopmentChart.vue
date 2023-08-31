@@ -21,7 +21,7 @@
       : team.value.currentlyOn
   })
 
-  function attributeData(attribute) {
+  function attributeData(attribute: string) {
     return props.player.histories.reduce(
       (data, history) => {
         data.splice(-1, 0, {
@@ -66,7 +66,7 @@
         opposite: true,
         title: { text: 'Value' },
         labels: {
-          formatter: v => formatMoney(v, team.value.currency)
+          formatter: (v: number) => formatMoney(v, team.value.currency)
         }
       }
     ],
@@ -84,8 +84,8 @@
     }
   }))
 
-  const container = ref(null)
-  const chart = ref(null)
+  const container = ref(null as HTMLDivElement | null)
+  const chart = ref(null as typeof window.ApexCharts | null)
   onMounted(() => {
     chart.value = new window.ApexCharts(container.value, {
       ...options.value,

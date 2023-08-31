@@ -25,7 +25,7 @@
     squadRepo.withAll().where('teamId', team.value.id).get()
   )
 
-  const newSquads = ref([])
+  const newSquads = ref([] as number[])
   let index = 0
   function startNewSquad() {
     newSquads.value.push(++index)

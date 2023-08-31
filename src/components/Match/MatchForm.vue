@@ -12,8 +12,8 @@
     playedOn: props.record?.playedOn || team.value.currentlyOn,
     competition: props.record?.competition,
     stage: props.record?.stage,
-    home: props.record?.home,
-    away: props.record?.away,
+    home: props.record?.home ?? null,
+    away: props.record?.away ?? null,
     extraTime: props.record?.extraTime || false
   })
 
@@ -88,7 +88,7 @@
     }
   })
 
-  function setTeamAs(side) {
+  function setTeamAs(side: 'home' | 'away') {
     const otherSide = side === 'home' ? 'away' : 'home'
     attributes[side] = team.value.name
     if (attributes[otherSide] === team.value.name) {

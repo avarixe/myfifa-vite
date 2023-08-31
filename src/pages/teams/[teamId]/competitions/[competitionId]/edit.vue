@@ -3,7 +3,7 @@
 
   const route = useRoute<'/teams/[teamId]/competitions/[competitionId]/edit'>()
 
-  const { data } = await useTeamQuery({
+  const { data } = await useTeamQuery<{ team: object; competition: object }>({
     query: gql`
       query fetchCompetitionPage($teamId: ID!, $competitionId: ID!) {
         competition(id: $competitionId) {
@@ -30,7 +30,9 @@
   })
 
   const competitionRepo = useRepo(Competition)
-  competitionRepo.save(data.value?.competition)
+  if (data.value?.competition) {
+    competitionRepo.save(data.value.competition)
+  }
   const { competition } = useCompetition(parseInt(route.params.competitionId))
 </script>
 

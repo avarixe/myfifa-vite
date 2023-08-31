@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Goal, Match } from '~/models'
+  import { Goal, Match, Cap } from '~/models'
 
   const props = defineProps<{
     match: Match
@@ -7,16 +7,6 @@
   }>()
 
   const { minute, unsubbedPlayers } = useMatch(props.match)
-
-  interface GoalAttributes {
-    home?: boolean
-    playerId?: number
-    playerName?: string
-    assistId?: number
-    assistedBy?: string
-    ownGoal?: boolean
-    penalty?: boolean
-  }
 
   const attributes: GoalAttributes = reactive({})
   function onOpen() {
@@ -27,7 +17,7 @@
     attributes.assistedBy = props.record?.assistedBy
     attributes.ownGoal = props.record?.ownGoal ?? false
     attributes.penalty = props.record?.penalty ?? false
-    minute.value = props.record?.minute
+    minute.value = props.record?.minute || null
   }
 
   const rulesFor = {
@@ -37,11 +27,15 @@
   const title = computed(() => `${props.record ? 'Edit' : 'Record'} Goal`)
 
   const scorerOptions = computed(() =>
-    unsubbedPlayers.value.filter(cap => cap.playerId !== attributes.assistId)
+    unsubbedPlayers.value.filter(
+      (cap: Cap) => cap.playerId !== attributes.assistId
+    )
   )
 
   const assistOptions = computed(() =>
-    unsubbedPlayers.value.filter(cap => cap.playerId !== attributes.playerId)
+    unsubbedPlayers.value.filter(
+      (cap: Cap) => cap.playerId !== attributes.playerId
+    )
   )
 
   const { team } = useTeam()
@@ -63,13 +57,17 @@
   watch(minute, () => {
     if (
       attributes.playerId &&
-      scorerOptions.value.every(cap => cap.playerId !== attributes.playerId)
+      scorerOptions.value.every(
+        (cap: Cap) => cap.playerId !== attributes.playerId
+      )
     ) {
       attributes.playerId = null
     }
     if (
       attributes.assistId &&
-      assistOptions.value.every(cap => cap.playerId !== attributes.assistId)
+      assistOptions.value.every(
+        (cap: Cap) => cap.playerId !== attributes.assistId
+      )
     ) {
       attributes.assistId = null
     }

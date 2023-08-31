@@ -68,7 +68,7 @@
     return [...new Set(names)]
   })
 
-  const { championOptions } = useCompetition(props.record?.id)
+  const { championOptions } = useCompetition(props.record?.id ?? null)
 
   const presetFormats = ['League', 'Knockout', 'Group + Knockout']
 </script>

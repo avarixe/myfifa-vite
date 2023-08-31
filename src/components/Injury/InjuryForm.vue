@@ -11,8 +11,8 @@
     endedOn?: string
     description?: string
     duration?: {
-      length: number
-      timespan: string
+      length: number | null
+      timespan: string | null
     }
   }
 
@@ -104,7 +104,7 @@
           required
         />
       </v-col>
-      <template v-if="durationOn">
+      <template v-if="durationOn && attributes.duration">
         <v-col cols="6">
           <v-text-field
             v-model.number="attributes.duration['length']"

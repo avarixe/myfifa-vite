@@ -5,7 +5,13 @@
   const teamId = computed(() => parseInt(route.params.teamId))
   const matchId = computed(() => parseInt(route.params.matchId))
 
-  const { data, team } = await useTeamQuery({
+  const { data, team } = await useTeamQuery<{
+    team: object
+    match: {
+      nextMatch: { id: string }
+      previousMatch: { id: string }
+    }
+  }>({
     query: gql`
       query fetchMatchPage($matchId: ID!, $teamId: ID!) {
         match(id: $matchId) {
@@ -56,13 +62,14 @@
   })
 
   const matchRepo = useRepo(Match)
-  const match: Ref<Match> = computed(() =>
-    matchRepo
-      .withAll()
-      .with('caps', query => query.with('player'))
-      .find(matchId.value)
+  const match = computed(
+    () =>
+      matchRepo
+        .withAll()
+        .with('caps', query => query.with('player'))
+        .find(matchId.value) as Match
   )
-  const readonly = ref(false)
+  const readonlyMode = ref(false)
 
   watch(
     data,
@@ -70,7 +77,7 @@
       if (data.value) {
         matchRepo.save(data.value.match)
       }
-      readonly.value = match.value.playedOn < team.value?.currentlyOn
+      readonlyMode.value = match.value.playedOn < team.value?.currentlyOn
     },
     { immediate: true }
   )
@@ -105,7 +112,7 @@
   <div class="my-2">
     <div>
       <v-switch
-        v-model="readonly"
+        v-model="readonlyMode"
         label="Readonly Mode"
         color="primary"
         hide-details
@@ -123,7 +130,7 @@
     </v-btn>
     <v-btn v-else :to="`/teams/${team?.id}/matches/new`">New</v-btn>
     &nbsp;
-    <template v-if="!readonly">
+    <template v-if="!readonlyMode">
       <v-btn :to="`/teams/${team?.id}/matches/${match.id}/edit`">Edit</v-btn>
       &nbsp;
       <remove-button
@@ -176,7 +183,7 @@
       <v-btn icon="mdi-format-list-bulleted" :value="false" />
     </v-btn-toggle>
 
-    <div v-if="!readonly" class="my-2">
+    <div v-if="!readonlyMode" class="my-2">
       <template v-if="match.caps.length < 11">
         <v-btn>
           <v-icon start>mdi-account-plus</v-icon>
@@ -202,8 +209,12 @@
     </div>
 
     <formation-ovr :data="ovrData" />
-    <match-formation v-if="showFormation" :match="match" :readonly="readonly" />
-    <match-lineup v-else :match="match" :readonly="readonly" />
+    <match-formation
+      v-if="showFormation"
+      :match="match"
+      :readonly="readonlyMode"
+    />
+    <match-lineup v-else :match="match" :readonly="readonlyMode" />
   </section>
 
   <section id="timeline" class="mt-4">
@@ -212,6 +223,6 @@
       Timeline
     </div>
 
-    <match-timeline :match="match" :readonly="readonly" />
+    <match-timeline :match="match" :readonly="readonlyMode" />
   </section>
 </template>

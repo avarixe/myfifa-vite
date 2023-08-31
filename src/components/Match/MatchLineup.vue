@@ -24,7 +24,7 @@
   )
 
   const nonTeamSides = computed(() => {
-    const nonTeamSides = []
+    const nonTeamSides = [] as string[]
     const sides = ['home', 'away']
     sides.forEach(side => {
       if (props.match[side] !== team.value.name) {
@@ -43,7 +43,7 @@
         v-for="cap in sortedCaps"
         :key="cap.id"
         v-ripple="!cap.subbedOut"
-        :disabled="readonly || cap.subbedOut"
+        :disabled="props.readonly || cap.subbedOut"
       >
         <template #prepend>
           <span
@@ -56,17 +56,17 @@
         <cap-events :cap="cap" :match="match" />
 
         <template #append>
-          <cap-rating :cap="cap" :readonly="readonly" />
+          <cap-rating :cap="cap" :readonly="props.readonly" />
         </template>
 
         <cap-card
-          v-if="!readonly && !cap.subbedOut"
+          v-if="!props.readonly && !cap.subbedOut"
           :cap="cap"
           :match="match"
         />
       </v-list-item>
     </template>
-    <template v-if="!readonly">
+    <template v-if="!props.readonly">
       <v-list-subheader>Teams</v-list-subheader>
       <v-list-item v-for="side in nonTeamSides" :key="side" v-ripple>
         <template #prepend>

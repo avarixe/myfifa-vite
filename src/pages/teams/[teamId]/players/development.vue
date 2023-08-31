@@ -1,7 +1,18 @@
 <script setup lang="ts">
   import { Player } from '~/models'
 
-  const { data, team, seasonLabel, currentSeason } = await useTeamQuery({
+  interface PlayerStats {
+    playerId: string
+    season: number
+    ovr: number[]
+    value: number[]
+  }
+
+  const { data, team, seasonLabel, currentSeason } = await useTeamQuery<{
+    team: {
+      playerDevelopmentStats: PlayerStats[]
+    }
+  }>({
     query: gql`
       query fetchPlayersPage($teamId: ID!) {
         team(id: $teamId) {
@@ -20,8 +31,11 @@
     `
   })
 
-  const { playerDevelopmentStats } = data.value.team
-  const statsByPlayerId = _groupBy(playerDevelopmentStats, 'playerId')
+  const { playerDevelopmentStats } = data.value?.team || {}
+  const statsByPlayerId: { [key: string]: PlayerStats[] } = _groupBy(
+    playerDevelopmentStats,
+    'playerId'
+  )
 
   const filter = ref('Active')
   const filterOptions = [
@@ -85,7 +99,7 @@
 
   interface StatDiff {
     total?: number
-    [key: string]: number
+    [key: number]: number
   }
 
   interface PlayerWithStats {

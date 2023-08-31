@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Match, Booking } from '~/models'
+  import { Match, Booking, Cap } from '~/models'
 
   const props = defineProps<{
     match: Match
@@ -11,8 +11,8 @@
 
   interface BookingAttributes {
     home?: boolean
-    playerId?: number
-    playerName?: string
+    playerId?: number | null
+    playerName?: string | null
     redCard?: boolean
   }
 
@@ -22,7 +22,7 @@
     attributes.playerId = props.record?.playerId
     attributes.playerName = props.record?.playerName
     attributes.redCard = props.record?.redCard ?? false
-    minute.value = props.record?.minute
+    minute.value = props.record?.minute ?? null
   }
 
   const rulesFor = {
@@ -34,7 +34,9 @@
   watch(minute, () => {
     if (
       attributes.playerId &&
-      unsubbedPlayers.value.every(cap => cap.playerId !== attributes.playerId)
+      unsubbedPlayers.value.every(
+        (cap: Cap) => cap.playerId !== attributes.playerId
+      )
     ) {
       attributes.playerId = null
     }

@@ -1,14 +1,15 @@
-import { Competition, Stage, TableRow, Fixture } from '~/models'
+import { Competition, Stage, TableRow, Fixture, FixtureLeg } from '~/models'
 
-export default competitionId => {
+export default (competitionId: number | null) => {
   const competitionRepo = useRepo(Competition)
-  const competition: Ref<Competition> = computed(() =>
-    competitionRepo
-      .with('team')
-      .with('stages', query => {
-        query.with('tableRows')
-      })
-      .find(competitionId)
+  const competition = computed(
+    () =>
+      competitionRepo
+        .with('team')
+        .with('stages', query => {
+          query.with('tableRows')
+        })
+        .find(Number(competitionId)) as Competition
   )
 
   const tableRowRepo = useRepo(TableRow)
@@ -19,11 +20,11 @@ export default competitionId => {
       })
       .orderBy('name')
       .get()
-      .map(row => row.name)
+      .map(row => row.name || '')
   )
 
   const fixtureRepo = useRepo(Fixture)
-  function stageFixtureTeams(stage): string[] {
+  function stageFixtureTeams(stage: Stage): string[] {
     const names = fixtureRepo
       .with('legs')
       .where('stageId', stage.id)
@@ -41,12 +42,12 @@ export default competitionId => {
     return [...new Set(names.flat())].sort()
   }
 
-  function fixtureScoreDiff(fixture): number {
+  function fixtureScoreDiff(fixture: Fixture): number {
     let homeScore = 0
     let awayScore = 0
 
     const scoreRegex = /^(\d+)(?: \((\d+)\))?$/
-    fixture.legs.forEach(leg => {
+    fixture.legs.forEach((leg: FixtureLeg) => {
       if (!leg.homeScore || !leg.awayScore) {
         return
       }
@@ -69,18 +70,19 @@ export default competitionId => {
   }
 
   const stageRepo = useRepo(Stage)
-  const orderedRounds: Ref<Stage[]> = computed(() =>
-    stageRepo
-      .with('fixtures', query => {
-        query.with('legs')
-      })
-      .where('competitionId', competitionId)
-      .where('table', false)
-      .orderBy('numFixtures', 'desc')
-      .get()
+  const orderedRounds = computed(
+    () =>
+      stageRepo
+        .with('fixtures', query => {
+          query.with('legs')
+        })
+        .where('competitionId', competitionId)
+        .where('table', false)
+        .orderBy('numFixtures', 'desc')
+        .get() as Stage[]
   )
 
-  function previousRoundTeams(stage): string[] {
+  function previousRoundTeams(stage: Stage): string[] {
     const stageIndex = orderedRounds.value.findIndex(
       round => round.id === stage.id
     )

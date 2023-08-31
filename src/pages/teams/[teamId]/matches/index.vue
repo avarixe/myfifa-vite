@@ -4,7 +4,14 @@
     currentSeason,
     seasonLabel,
     data: queryData
-  } = await useTeamQuery({
+  } = await useTeamQuery<{
+    team: {
+      competitions: {
+        name: string
+        stages: { table: boolean; name: string }[]
+      }[]
+    }
+  }>({
     query: gql`
       query fetchMatchesPage($teamId: ID!) {
         team(id: $teamId) {
@@ -40,19 +47,29 @@
   )
 
   const matchCompetitions = computed(() =>
-    [...new Set(queryData.value.team.competitions.map(comp => comp.name))]
+    [
+      ...new Set(
+        queryData.value?.team?.competitions?.map(
+          (comp: { name: string }) => comp.name
+        ) || []
+      )
+    ]
       .filter(comp => !!comp)
       .sort()
   )
 
   const matchStages = computed(() => {
-    const stageNames = queryData.value.team.competitions.reduce(
-      (names, comp) => [
-        ...names,
-        ...comp.stages.filter(stage => !stage.table).map(stage => stage.name)
-      ],
-      []
-    )
+    const stageNames =
+      queryData.value?.team?.competitions?.reduce(
+        (
+          names: string[],
+          comp: { stages: { table: boolean; name: string }[] }
+        ) => [
+          ...names,
+          ...comp.stages.filter(stage => !stage.table).map(stage => stage.name)
+        ],
+        []
+      ) || []
     return [...new Set(stageNames)].filter(stage => !!stage).sort()
   })
 </script>

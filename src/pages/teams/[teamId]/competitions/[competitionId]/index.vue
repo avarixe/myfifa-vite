@@ -3,7 +3,10 @@
 
   const route = useRoute<'/teams/[teamId]/competitions/[competitionId]/edit'>()
 
-  const { data, team, seasonLabel } = await useTeamQuery({
+  const { data, team, seasonLabel } = await useTeamQuery<{
+    team: object
+    competition: object
+  }>({
     query: gql`
       query fetchCompetitionPage($teamId: ID!, $competitionId: ID!) {
         team(id: $teamId) {
@@ -26,7 +29,9 @@
     }
   })
   const competitionRepo = useRepo(Competition)
-  competitionRepo.save(data.value?.competition)
+  if (data.value?.competition) {
+    competitionRepo.save(data.value.competition)
+  }
   const { competition, orderedRounds } = useCompetition(
     parseInt(route.params.competitionId)
   )
@@ -39,9 +44,9 @@
 
   const expansionPanels = ref([0, 1])
 
-  const readonly = ref(false)
+  const readonlyMode = ref(false)
   watchEffect(() => {
-    readonly.value = !!competition.value?.champion
+    readonlyMode.value = !!competition.value?.champion
   })
 
   const matchesFilters: Ref<MatchFilters> = computed(() => ({
@@ -71,14 +76,14 @@
   <div class="my-2">
     <div>
       <v-switch
-        v-model="readonly"
+        v-model="readonlyMode"
         label="Readonly Mode"
         color="primary"
         hide-details
         class="d-inline-block"
       />
     </div>
-    <template v-if="!readonly">
+    <template v-if="!readonlyMode">
       <v-btn :to="`/teams/${team.id}/competitions/${competition.id}/edit`">
         Edit
       </v-btn>
@@ -106,7 +111,7 @@
     <v-expansion-panels v-model="expansionPanels" multiple>
       <v-expansion-panel v-if="tableStages.length > 0" title="Group Stages">
         <v-expansion-panel-text>
-          <stage-grid :stages="tableStages" :readonly="readonly" />
+          <stage-grid :stages="tableStages" :readonly="readonlyMode" />
         </v-expansion-panel-text>
       </v-expansion-panel>
       <v-expansion-panel
@@ -114,7 +119,7 @@
         title="Knockout Stages"
       >
         <v-expansion-panel-text>
-          <stage-grid :stages="orderedRounds" :readonly="readonly" />
+          <stage-grid :stages="orderedRounds" :readonly="readonlyMode" />
         </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>

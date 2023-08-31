@@ -21,12 +21,12 @@ export default class Transfer extends Model {
   @Str('') declare createdAt: string
 
   // Static fields
-  @Str('Transfer') declare timelineType: string
+  @Str('Transfer') declare timelineType: 'Transfer'
 
   // Associations
   @BelongsTo(() => Player, 'playerId') declare player: Player
 
-  get startedOn(): string {
+  get startedOn(): string | null {
     return this.movedOn
   }
 }

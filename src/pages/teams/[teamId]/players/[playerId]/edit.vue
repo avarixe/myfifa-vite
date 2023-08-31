@@ -3,7 +3,7 @@
 
   const route = useRoute<'/teams/[teamId]/players/[playerId]/edit'>()
 
-  const { data } = await useTeamQuery({
+  const { data } = await useTeamQuery<{ team: object; player: object }>({
     query: gql`
       query fetchPlayerPage($teamId: ID!, $playerId: ID!) {
         player(id: $playerId) {
@@ -25,7 +25,9 @@
     }
   })
   const playerRepo = useRepo(Player)
-  playerRepo.save(data.value?.player)
+  if (data.value) {
+    playerRepo.save(data.value.player)
+  }
   const player = computed(() =>
     playerRepo.find(parseInt(route.params.playerId))
   )

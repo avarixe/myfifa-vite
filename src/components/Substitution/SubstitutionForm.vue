@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Match, Substitution } from '~/models'
+  import { Match, Substitution, Cap, Player } from '~/models'
 
   const props = defineProps<{
     match: Match
@@ -7,7 +7,7 @@
   }>()
 
   interface SubstitutionAttributes {
-    playerId?: number
+    playerId?: number | null
     replacementId?: number
     injury?: boolean
   }
@@ -17,7 +17,7 @@
     attributes.playerId = props.record?.playerId
     attributes.replacementId = props.record?.replacementId
     attributes.injury = props.record?.injury ?? false
-    minute.value = props.record?.minute
+    minute.value = props.record?.minute ?? null
   }
 
   const title = computed(
@@ -28,8 +28,8 @@
   const { minute, sortedCaps } = useMatch(props.match)
 
   const availablePlayers = computed(() => {
-    const selectedIds = sortedCaps.value.map(cap => cap.playerId)
-    return activePlayers.value.filter(player => {
+    const selectedIds = sortedCaps.value.map((cap: Cap) => cap.playerId)
+    return activePlayers.value.filter((player: Player) => {
       if (!selectedIds.includes(player.id)) {
         return true
       } else if (props.record) {
@@ -40,7 +40,7 @@
 
   const unsubbedPlayers = computed(() =>
     sortedCaps.value.filter(
-      cap =>
+      (cap: Cap) =>
         (cap.playerId !== attributes.replacementId && !cap.subbedOut) ||
         (props.record && cap.playerId === props.record.playerId)
     )
@@ -49,7 +49,7 @@
   watch(minute, () => {
     if (
       attributes.playerId &&
-      sortedCaps.value.every(cap => cap.playerId !== attributes.playerId)
+      sortedCaps.value.every((cap: Cap) => cap.playerId !== attributes.playerId)
     ) {
       attributes.playerId = null
     }

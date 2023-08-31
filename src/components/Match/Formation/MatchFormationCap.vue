@@ -32,7 +32,7 @@
 
   const posMenu = ref(false)
   const posLoading = ref(false)
-  async function selectPos(pos) {
+  async function selectPos(pos: string) {
     try {
       posLoading.value = true
       attributes.pos = pos
@@ -49,7 +49,7 @@
   const { activePlayers } = useActivePlayers()
   const playerMenu = ref(false)
   const playerLoading = ref(false)
-  async function selectPlayerId(playerId) {
+  async function selectPlayerId(playerId: number) {
     try {
       playerLoading.value = true
       attributes.playerId = playerId
@@ -66,7 +66,7 @@
 
 <template>
   <div
-    :class="`pa-2 elevation-${readonly ? 0 : 5} rounded-lg w-100`"
+    :class="`pa-2 elevation-${props.readonly ? 0 : 5} rounded-lg w-100`"
     :style="{ background: 'rgba(0, 0, 0, 0.3)' }"
   >
     <v-btn
@@ -74,12 +74,12 @@
       variant="text"
       block
       density="compact"
-      :ripple="!readonly"
+      :ripple="!props.readonly"
       class="font-weight-bold"
     >
       {{ cap.pos }}
 
-      <v-menu v-if="!readonly" v-model="posMenu" activator="parent">
+      <v-menu v-if="!props.readonly" v-model="posMenu" activator="parent">
         <v-list density="compact" max-height="50vh">
           <v-list-item
             v-for="pos in Object.keys(matchPositions)"
@@ -100,7 +100,7 @@
       variant="text"
       block
       density="compact"
-      :ripple="!readonly"
+      :ripple="!props.readonly"
       class="font-weight-bold px-2"
       :style="{ textTransform: 'inherit' }"
     >
@@ -109,7 +109,7 @@
         :style="{ fontSize: '0.8em', lineHeight: 1.5 }"
       />
 
-      <v-menu v-if="!readonly" v-model="playerMenu" activator="parent">
+      <v-menu v-if="!props.readonly" v-model="playerMenu" activator="parent">
         <v-list density="compact" max-height="50vh">
           <v-list-item
             v-for="player in activePlayers"
@@ -131,10 +131,10 @@
     </v-btn>
 
     <div>
-      <cap-rating :cap="cap" :readonly="readonly" />
+      <cap-rating :cap="cap" :readonly="props.readonly" />
     </div>
     <cap-events :cap="cap" :match="match" />
-    <div v-if="!readonly" class="hidden-sm-and-down">
+    <div v-if="!props.readonly" class="hidden-sm-and-down">
       <v-divider class="my-2 mx-n2" />
       <cap-event-actions :cap="cap" :match="match" />
     </div>

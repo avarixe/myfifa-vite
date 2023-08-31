@@ -10,15 +10,15 @@
   const transferOut = computed(() =>
     props.record
       ? team.value.name === props.record.origin
-      : props.player.status?.length > 0
+      : props.player.status !== null
   )
 
   interface TransferAttributes {
-    signedOn?: string
+    signedOn?: string | null
     movedOn?: string
     origin?: string
     destination?: string
-    fee?: number
+    fee?: number | null
     addonClause?: number
   }
 

@@ -32,7 +32,7 @@
       {{ event.awayScore }} - {{ match.away }}
     </div>
 
-    <div v-if="!readonly">
+    <div v-if="!props.readonly">
       <v-btn variant="text" color="orange">
         Edit
         <penalty-shootout-form :match="match" />

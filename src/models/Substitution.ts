@@ -30,7 +30,7 @@ export default class Substitution extends Model {
   @Bool(true) declare home: boolean
 
   // Static fields
-  @Str('Substitution') declare timelineType: string
+  @Str('Substitution') declare timelineType: 'Substitution'
 
   // Associations
   @BelongsTo(() => Player, 'replacementId') declare replacement: Player

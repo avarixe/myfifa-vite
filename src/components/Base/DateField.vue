@@ -6,15 +6,16 @@
     max?: string
   }>()
 
-  const humanizedValue = computed(() =>
-    formatDate(props.modelValue, 'MMM d, yyyy')
-  )
+  const humanizedValue = computed(() => {
+    props.modelValue ? formatDate(props.modelValue, 'MMM d, yyyy') : ''
+  })
 
   const menu = ref(false)
 
   const emit = defineEmits(['update:modelValue'])
-  function onCalendarUpdate(value) {
-    emit('update:modelValue', format(value, 'yyyy-MM-dd'))
+  // TODO: set type when vuetify fixes event typing
+  function onCalendarUpdate(value: unknown) {
+    emit('update:modelValue', format(value as Date, 'yyyy-MM-dd'))
     menu.value = false
   }
 
@@ -26,7 +27,7 @@
     v-bind="$attrs"
     :model-value="humanizedValue"
     readonly
-    :append-icon="prefill ? 'mdi-calendar-arrow-left' : null"
+    :append-icon="prefill ? 'mdi-calendar-arrow-left' : undefined"
     @click:append="emit('update:modelValue', prefill)"
     @click:clear="emit('update:modelValue', null)"
   >

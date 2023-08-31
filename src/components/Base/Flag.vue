@@ -12,7 +12,7 @@
     const iso = props.iso?.toUpperCase()
     return iso
       ? `//cdn.jsdelivr.net/gh/avarixe/flagpack-core/svg/${size}/${iso}.svg`
-      : null
+      : undefined
   })
 </script>
 

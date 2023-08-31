@@ -1,10 +1,13 @@
 <script setup lang="ts">
   import { Stage } from '~/models'
 
-  withDefaults(defineProps<{ stages: Stage[]; readonly: boolean }>(), {
-    stages: () => [],
-    readonly: false
-  })
+  const props = withDefaults(
+    defineProps<{ stages: Stage[]; readonly: boolean }>(),
+    {
+      stages: () => [],
+      readonly: false
+    }
+  )
 </script>
 
 <template>
@@ -19,13 +22,13 @@
       <stage-group-table
         v-if="stage.table"
         :stage="stage"
-        :readonly="readonly"
+        :readonly="props.readonly"
         :is-named="stages.length > 1"
       />
       <stage-round-table
         v-else
         :stage="stage"
-        :readonly="readonly"
+        :readonly="props.readonly"
         :is-named="stages.length > 1"
       />
     </v-col>

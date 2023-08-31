@@ -7,50 +7,48 @@
     { text: '', speed: 6 }
   )
 
-  const textClass = ref('truncated')
-  const resizeListener = ref(null)
-
   onBeforeUnmount(() => {
-    window.removeEventListener('resize', resizeListener.value)
+    window.removeEventListener('resize', toggleScroll)
   })
 
   function onEnter() {
     toggleScroll()
-    resizeListener.value = window.addEventListener('resize', toggleScroll)
+    window.addEventListener('resize', toggleScroll)
   }
 
   function onLeave() {
-    window.removeEventListener('resize', resizeListener.value)
+    window.removeEventListener('resize', toggleScroll)
     textClass.value = 'truncated'
   }
 
-  const overflowWidth = ref(null)
-  const duration = ref(null)
+  const overflowWidth = ref(0)
+  const hasOverflow = computed(() => overflowWidth.value > 0)
+  const cssOverflowWidth = computed(() =>
+    hasOverflow.value ? `-${overflowWidth.value + 4}px` : null
+  )
+  const textContainer: Ref<HTMLDivElement | null> = ref(null)
+  const scroller: Ref<HTMLDivElement | null> = ref(null)
+  function setOverflowWidth() {
+    overflowWidth.value =
+      textContainer.value && scroller.value
+        ? textContainer.value.clientWidth - scroller.value.clientWidth
+        : 0
+  }
+
+  const textClass = ref('truncated')
   async function toggleScroll() {
-    textClass.value = null
+    textClass.value = ''
     await nextTick()
-    if (getOverflowWidth() > 0) {
-      textClass.value = 'scrolling'
-      overflowWidth.value = `-${getOverflowWidth() + 4}px`
-      duration.value = `${computeScrollDuration()}s`
-    } else {
-      textClass.value = 'truncated'
-    }
+    setOverflowWidth()
+    textClass.value = hasOverflow.value ? 'scrolling' : 'truncated'
   }
 
-  const textContainer = ref(null)
-  const scroller = ref(null)
-  function getOverflowWidth() {
-    return textContainer.value
-      ? textContainer.value.clientWidth - scroller.value.clientWidth
-      : 0
-  }
-
-  function computeScrollDuration() {
-    // distance in pixels divided by desired scroll speed
-    // pad with 2 if overflow is small
-    return getOverflowWidth() / props.speed + 2
-  }
+  // distance in pixels divided by desired scroll speed
+  // pad with 2 if overflow is small
+  const scrollDuration = computed(() => overflowWidth.value / props.speed + 2)
+  const cssDuration = computed(() =>
+    hasOverflow.value ? `${scrollDuration.value}s` : null
+  )
 </script>
 
 <template>
@@ -65,7 +63,7 @@
     div {
       width: max-content;
       &.scrolling {
-        animation: text-scroll v-bind(duration) linear infinite;
+        animation: text-scroll v-bind(cssDuration) linear infinite;
       }
       &.truncated {
         text-overflow: ellipsis;
@@ -81,10 +79,10 @@
       transform: translateX(0);
     }
     40% {
-      transform: translateX(v-bind(overflowWidth));
+      transform: translateX(v-bind(cssOverflowWidth));
     }
     50% {
-      transform: translateX(v-bind(overflowWidth));
+      transform: translateX(v-bind(cssOverflowWidth));
     }
     80% {
       transform: translateX(0);

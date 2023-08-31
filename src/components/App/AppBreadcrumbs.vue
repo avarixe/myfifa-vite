@@ -6,9 +6,15 @@
   const matchRepo = useRepo(Match)
   const competitionRepo = useRepo(Competition)
 
+  interface BreadcrumbItem {
+    to: string
+    title: string
+    exact?: boolean
+  }
+
   const route = useRoute()
   const { seasonLabel } = useTeam()
-  const breadcrumbs = computed(() => {
+  const breadcrumbs: Ref<BreadcrumbItem[]> = computed(() => {
     const routeSteps = route.name === '/' ? [''] : route.path.split('/')
     return routeSteps.map((step, i) => {
       const to = `${routeSteps.slice(0, i + 1).join('/')}`
@@ -51,11 +57,11 @@
           switch (prevStep) {
             case 'teams': {
               const team = teamRepo.find(parseInt(step))
-              return { to, title: team?.name, exact: true }
+              return { to, title: team?.name || '', exact: true }
             }
             case 'players': {
               const player = playerRepo.find(parseInt(step))
-              return { to, title: player?.name, exact: true }
+              return { to, title: player?.name || '', exact: true }
             }
             case 'matches': {
               const match = matchRepo.find(parseInt(step))
@@ -67,7 +73,7 @@
             }
             case 'competitions': {
               const competition = competitionRepo.find(parseInt(step))
-              return { to, title: competition?.name, exact: true }
+              return { to, title: competition?.name || '', exact: true }
             }
             case 'seasons':
               return { to, title: seasonLabel(parseInt(step)), exact: true }
@@ -80,12 +86,12 @@
 
   const { team } = useTeam()
   useHead({
-    title: () => {
+    title: (): string => {
       const title = breadcrumbs.value[breadcrumbs.value.length - 1].title
       if (team.value && team.value.name !== title) {
         return `${title} - ${team.value.name}`
       } else {
-        return title
+        return title || ''
       }
     }
   })

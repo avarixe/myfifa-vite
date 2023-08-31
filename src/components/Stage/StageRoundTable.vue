@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Stage } from '~/models'
+  import { Stage, Fixture, FixtureLeg } from '~/models'
 
   const props = withDefaults(
     defineProps<{
@@ -56,14 +56,14 @@
     }
   }
 
-  function addLeg(fixtureIndex) {
+  function addLeg(fixtureIndex: number) {
     attributes.fixturesAttributes[fixtureIndex].legsAttributes.push({
       homeScore: '',
       awayScore: '',
       _destroy: false
     })
   }
-  function removeLeg(fixtureIndex) {
+  function removeLeg(fixtureIndex: number) {
     const fixtureAttr = attributes.fixturesAttributes[fixtureIndex]
     for (let i = fixtureAttr.legsAttributes.length - 1; i >= 0; i--) {
       if (!fixtureAttr.legsAttributes[i]._destroy) {
@@ -93,12 +93,12 @@
   const route = useRoute<'/teams/[teamId]/competitions/[competitionId]/'>()
   const { teamColor } = useCompetition(parseInt(route.params.competitionId))
 
-  function scoreDiff(fixture) {
+  function scoreDiff(fixture: Fixture) {
     let homeScore = 0
     let awayScore = 0
 
     const scoreRegex = /^(\d+)(?: \((\d+)\))?$/
-    fixture.legsAttributes.forEach(leg => {
+    fixture.legsAttributes.forEach((leg: FixtureLeg) => {
       if (!leg.homeScore || !leg.awayScore) {
         return
       }
@@ -126,14 +126,14 @@
     <v-text-field
       v-if="isNamed"
       v-model="attributes.name"
-      :variant="editing ? 'outlined' : null"
+      :variant="editing ? 'outlined' : undefined"
       density="compact"
       hide-details
       :readonly="!editing"
     />
     <v-spacer v-else />
 
-    <template v-if="!readonly">
+    <template v-if="!props.readonly">
       <v-btn
         :icon="`mdi-${editing ? 'close' : 'pencil'}`"
         variant="text"

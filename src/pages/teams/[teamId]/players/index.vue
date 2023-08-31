@@ -1,7 +1,9 @@
 <script setup lang="ts">
   import { Contract, Player } from '~/models'
 
-  const { team, data } = await useTeamQuery({
+  const { team, data } = await useTeamQuery<{
+    team: { players: { currentContract: object }[] }
+  }>({
     query: gql`
       query fetchPlayersPage($teamId: ID!) {
         team(id: $teamId) {
@@ -21,10 +23,12 @@
   })
 
   const contractRepo = useRepo(Contract)
-  const contracts = data.value.team.players
-    .map(player => player.currentContract)
-    .filter(contract => contract)
-  contractRepo.save(contracts)
+  if (data.value?.team) {
+    const contracts = data.value.team.players
+      .map(player => player.currentContract)
+      .filter((contract: object | null) => contract)
+    contractRepo.save(contracts)
+  }
 
   const filter = ref('Active')
   const filterOptions = [
@@ -41,7 +45,7 @@
   const players = computed(() =>
     playerRepo
       .where('teamId', team.value.id)
-      .where('status', status => {
+      .where('status', (status: string | null) => {
         switch (filter.value) {
           case 'Active':
             return status !== null && status !== 'Pending'
@@ -53,7 +57,7 @@
             return true
         }
       })
-      .where('youth', youth => filter.value !== 'Youth' || youth)
+      .where('youth', (youth: boolean) => filter.value !== 'Youth' || youth)
       .get()
   )
 
@@ -61,11 +65,11 @@
     const playerIds = players.value.map(player => player.id)
     return _keyBy(
       contractRepo
-        .where('playerId', id => playerIds.includes(id))
-        .where('startedOn', date => date <= team.value.currentlyOn)
-        .where('endedOn', date => team.value.currentlyOn < date)
+        .where('playerId', (id: number) => playerIds.includes(id))
+        .where('startedOn', (date: string) => date <= team.value.currentlyOn)
+        .where('endedOn', (date: string) => team.value.currentlyOn < date)
         .get(),
-      contract => contract.playerId
+      (contract: Contract) => contract.playerId
     )
   })
 

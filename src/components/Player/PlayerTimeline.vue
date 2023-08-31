@@ -1,16 +1,5 @@
 <script setup lang="ts">
-  import ContractTimelineEvent from '~/components/Contract/ContractTimelineEvent.vue'
-  import InjuryTimelineEvent from '~/components/Injury/InjuryTimelineEvent.vue'
-  import LoanTimelineEvent from '~/components/Loan/LoanTimelineEvent.vue'
-  import TransferTimelineEvent from '~/components/Transfer/TransferTimelineEvent.vue'
   import { Player } from '~/models'
-
-  const eventComponent = {
-    Contract: ContractTimelineEvent,
-    Injury: InjuryTimelineEvent,
-    Loan: LoanTimelineEvent,
-    Transfer: TransferTimelineEvent
-  }
 
   const props = defineProps<{ player: Player }>()
 
@@ -80,8 +69,23 @@
         </v-timeline-item>
         <template v-if="events.length > 0">
           <template v-for="event in events" :key="`${event.type}-${event.id}`">
-            <component
-              :is="eventComponent[event.timelineType]"
+            <contract-timeline-event
+              v-if="event.timelineType === 'Contract'"
+              :player="player"
+              :event="event"
+            />
+            <injury-timeline-event
+              v-else-if="event.timelineType === 'Injury'"
+              :player="player"
+              :event="event"
+            />
+            <loan-timeline-event
+              v-else-if="event.timelineType === 'Loan'"
+              :player="player"
+              :event="event"
+            />
+            <transfer-timeline-event
+              v-else-if="event.timelineType === 'Transfer'"
               :player="player"
               :event="event"
             />

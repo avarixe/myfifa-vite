@@ -1,5 +1,46 @@
 <script setup lang="ts">
-  const { data, team, currentSeason } = await useTeamQuery({
+  const { data, team, currentSeason } = await useTeamQuery<{
+    team: {
+      lastMatch: {
+        id: string
+        home: string
+        away: string
+        score: string
+        playedOn: string
+        competition: string
+        stage: string | null
+      }
+      injuredPlayers: {
+        id: string
+        name: string
+        pos: string
+        currentInjury: {
+          description: string
+          endedOn: string
+        }
+      }[]
+      loanedPlayers: {
+        id: string
+        name: string
+        pos: string
+        value: number
+        currentLoan: {
+          transferFee: number | null
+          addonClause: number | null
+        }
+      }[]
+      expiringPlayers: {
+        id: string
+        name: string
+        pos: string
+        value: number
+        currentContract: {
+          wage: number
+        }
+      }[]
+      coverage: object
+    }
+  }>({
     query: gql`
       query loadTeamDashboard($teamId: ID!) {
         team(id: $teamId) {
@@ -56,7 +97,7 @@
     loanedPlayers,
     expiringPlayers,
     coverage
-  } = data.value.team
+  } = data.value?.team || {}
 
   const router = useRouter()
 </script>
@@ -165,7 +206,7 @@
                 {{ formatDate(player.currentInjury.endedOn) }}
               </td>
             </tr>
-            <tr v-if="injuredPlayers.length === 0">
+            <tr v-if="!injuredPlayers || injuredPlayers.length === 0">
               <td colspan="4" class="text-caption text-center text-disabled">
                 No Injured Players
               </td>
@@ -222,7 +263,7 @@
                 </span>
               </td>
             </tr>
-            <tr v-if="loanedPlayers.length === 0">
+            <tr v-if="!loanedPlayers || loanedPlayers.length === 0">
               <td colspan="4" class="text-caption text-center text-disabled">
                 No Loaned Players
               </td>
@@ -264,7 +305,7 @@
                 {{ formatMoney(player.currentContract.wage, team.currency) }}
               </td>
             </tr>
-            <tr v-if="expiringPlayers.length === 0">
+            <tr v-if="!expiringPlayers || expiringPlayers.length === 0">
               <td colspan="4" class="text-caption text-center text-disabled">
                 No Expiring Contracts
               </td>

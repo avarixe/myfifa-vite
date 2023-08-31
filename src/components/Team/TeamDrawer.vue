@@ -18,7 +18,7 @@
       attributes: { currentlyOn: currentlyOn.value }
     })
   })
-  function onDateChange(date) {
+  function onDateChange(date: string) {
     currentlyOn.value = date
     submitForm()
   }

@@ -21,5 +21,5 @@ export default class Loan extends Model {
   @Str('') declare createdAt: string
 
   // Static fields
-  @Str('Loan') declare timelineType: string
+  @Str('Loan') declare timelineType: 'Loan'
 }

@@ -27,13 +27,15 @@
       username: username.value,
       password: password.value
     }),
-    onSuccess(data) {
+    onSuccess(data: {
+      grantAccessToken: { token: string; user: { id: string } }
+    }) {
       const {
         grantAccessToken: { token, user }
       } = data
       useRepo(User).save(user)
       sessionStore.token = token
-      sessionStore.userId = parseInt(user.id)
+      sessionStore.userId = Number(user.id)
       router.push(sessionStore.redirectUrl || '/')
     }
   })

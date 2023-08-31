@@ -6,10 +6,10 @@
     readonly?: boolean
   }>()
 
-  const rating = ref(props.cap.rating)
+  const rating = ref(props.cap.rating ?? undefined)
   const hoverRating = ref(props.cap.rating)
 
-  const color = {
+  const color: { [key: number]: string } = {
     1: 'red',
     2: 'orange',
     3: 'lime',
@@ -18,7 +18,7 @@
   }
 
   watchEffect(() => {
-    rating.value = props.cap.rating
+    rating.value = props.cap.rating ?? undefined
     hoverRating.value = props.cap.rating
   })
 
@@ -39,8 +39,8 @@
     })
   })
 
-  function setRating(value) {
-    rating.value = value
+  function setRating(value: number | null) {
+    rating.value = value ?? undefined
     submitForm()
   }
 </script>
@@ -50,12 +50,17 @@
     class="text-caption"
     size="x-small"
     variant="outlined"
-    :color="color[rating] || 'grey'"
+    :color="rating ? color[rating] : 'grey'"
   >
     <v-icon size="x-small">mdi-star-four-points</v-icon>
     {{ cap.rating || 'N/A' }}
 
-    <v-menu v-if="!readonly" open-on-hover location="center" activator="parent">
+    <v-menu
+      v-if="!props.readonly"
+      open-on-hover
+      location="center"
+      activator="parent"
+    >
       <v-card
         class="d-flex align-center px-2 py-1"
         :style="{ overflowX: 'hidden' }"
@@ -63,14 +68,14 @@
         <v-rating
           :model-value="rating"
           hover
-          :color="color[rating] || 'grey'"
-          @update:model-value="setRating"
+          :color="rating ? color[rating] : 'grey'"
+          @update:model-value="v => setRating(v as number)"
         >
           <template #item="{ index, props: ratingProps }">
             <v-icon
-              :color="color[hoverRating] || 'grey'"
+              :color="hoverRating ? color[hoverRating] : 'grey'"
               :icon="`mdi-star-four-points${
-                hoverRating > index ? '' : '-outline'
+                hoverRating && hoverRating > index ? '' : '-outline'
               }`"
               @mouseenter.prevent="hoverRating = index + 1"
               @click="ratingProps.onClick"

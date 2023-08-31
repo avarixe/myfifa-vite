@@ -3,7 +3,7 @@
 
   const props = withDefaults(defineProps<{ caps: Cap[] }>(), { caps: () => [] })
 
-  const playerPositions = computed(() =>
+  const playerPositions: Ref<{ [key: number]: string }> = computed(() =>
     props.caps.reduce(
       (obj: object, cap) => ({
         ...obj,

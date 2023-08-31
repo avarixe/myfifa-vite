@@ -3,7 +3,7 @@
 
   const route = useRoute<'/teams/[teamId]/matches/[matchId]/edit'>()
 
-  const { data } = await useTeamQuery({
+  const { data } = await useTeamQuery<{ team: object; match: object }>({
     query: gql`
       query fetchMatchPage($teamId: ID!, $matchId: ID!) {
         match(id: $matchId) {
@@ -30,7 +30,9 @@
     }
   })
   const matchRepo = useRepo(Match)
-  matchRepo.save(data.value?.match)
+  if (data.value?.match) {
+    matchRepo.save(data.value.match)
+  }
   const match = computed(() => matchRepo.find(parseInt(route.params.matchId)))
 </script>
 

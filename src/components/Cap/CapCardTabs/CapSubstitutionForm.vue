@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Cap, Match } from '~/models'
+  import { Cap, Match, Player } from '~/models'
 
   const props = defineProps<{
     cap: Cap
@@ -20,9 +20,9 @@
   const { activePlayers } = useActivePlayers()
 
   const availablePlayers = computed(() => {
-    const selectedIds = sortedCaps.value.map(cap => cap.playerId)
+    const selectedIds = sortedCaps.value.map((cap: Cap) => cap.playerId)
     return activePlayers.value.filter(
-      player => selectedIds.indexOf(player.id) < 0
+      (player: Player) => selectedIds.indexOf(player.id) < 0
     )
   })
 

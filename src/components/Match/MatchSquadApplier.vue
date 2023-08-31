@@ -10,7 +10,7 @@
   const squadRepo = useRepo(Squad)
   const squads = computed(() => squadRepo.where('teamId', team.value.id).get())
 
-  const squadId = ref(null)
+  const squadId = ref(null as number | null)
   const { submitForm } = useForm({
     mutation: gql`
       mutation applySquadToMatch($matchId: ID!, $squadId: ID!) {

@@ -80,14 +80,14 @@
     <v-text-field
       v-if="isNamed"
       v-model="attributes.name"
-      :variant="editing ? 'outlined' : null"
+      :variant="editing ? 'outlined' : undefined"
       density="compact"
       hide-details
       :readonly="!editing"
     />
     <v-spacer v-else />
 
-    <template v-if="!readonly">
+    <template v-if="!props.readonly">
       <v-btn
         :icon="`mdi-${editing ? 'close' : 'pencil'}`"
         variant="text"

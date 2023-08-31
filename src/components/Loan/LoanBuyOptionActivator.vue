@@ -3,7 +3,7 @@
 
   const props = defineProps<{
     player: Player
-    loan?: Loan
+    loan: Loan
   }>()
 
   const { team } = useTeam()

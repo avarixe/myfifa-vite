@@ -4,11 +4,11 @@ export const useBroadcastStore = defineStore('broadcast', {
     color: ''
   }),
   actions: {
-    info(text): void {
+    info(text: string): void {
       this.text = text
       this.color = 'info'
     },
-    error(text): void {
+    error(text: string): void {
       this.text = text
       this.color = 'error'
     },

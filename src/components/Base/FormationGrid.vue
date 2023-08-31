@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T">
   defineProps<{
-    cells: object
+    cells: { [key: string]: T }
     hideEmptyCells?: boolean
     noPadding?: boolean
   }>()

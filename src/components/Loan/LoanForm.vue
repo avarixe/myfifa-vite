@@ -13,9 +13,9 @@
     endedOn?: string
     origin?: string
     destination?: string
-    wagePercentage?: number
-    transferFee?: number
-    addonClause?: number
+    wagePercentage?: number | null
+    transferFee?: number | null
+    addonClause?: number | null
   }
 
   const { team, endOfCurrentSeason } = useTeam()
@@ -53,7 +53,7 @@
   const loanOut = computed(() =>
     props.record
       ? team.value.name === props.record.origin
-      : props.player.status?.length > 0
+      : (props.player?.status ?? '').length > 0
   )
   const title = computed(() => `${props.record ? 'Update' : 'Record New'} Loan`)
 

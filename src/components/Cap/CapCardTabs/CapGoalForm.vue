@@ -8,7 +8,7 @@
 
   const { team } = useTeam()
 
-  const attributes = reactive({
+  const attributes: GoalAttributes = reactive({
     home: props.match.home === team.value.name,
     playerId: props.cap.playerId,
     playerName: props.cap.name,
@@ -31,7 +31,9 @@
 
   const { minute, unsubbedPlayers } = useMatch(props.match)
   const assistOptions = computed(() =>
-    unsubbedPlayers.value.filter(cap => cap.playerId !== attributes.playerId)
+    unsubbedPlayers.value.filter(
+      (cap: Cap) => cap.playerId !== attributes.playerId
+    )
   )
 
   const emit = defineEmits(['submitted'])

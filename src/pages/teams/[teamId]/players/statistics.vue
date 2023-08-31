@@ -1,7 +1,21 @@
 <script setup lang="ts">
   import { Player, Competition } from '~/models'
 
-  const { data, team, currentSeason, seasonLabel } = await useTeamQuery({
+  interface PlayerPerformanceStat {
+    avgRating: number
+    competition: string
+    numAssists: number
+    numCleanSheets: number
+    numGoals: number
+    numMatches: number
+    numMinutes: number
+    playerId: string
+    season: number
+  }
+
+  const { data, team, currentSeason, seasonLabel } = await useTeamQuery<{
+    team: { playerPerformanceStats: PlayerPerformanceStat[] }
+  }>({
     query: gql`
       query fetchPlayersPage($teamId: ID!) {
         team(id: $teamId) {
@@ -24,8 +38,11 @@
     `
   })
 
-  const { playerPerformanceStats } = data.value.team
-  const statsByPlayerId = _groupBy(playerPerformanceStats, 'playerId')
+  const { playerPerformanceStats } = data.value?.team || {}
+  const statsByPlayerId: { [key: string]: PlayerPerformanceStat[] } = _groupBy(
+    playerPerformanceStats,
+    'playerId'
+  )
 
   const filter = ref('Active')
   const filterOptions = [
@@ -104,11 +121,7 @@
       })
   )
 
-  interface PlayerWithStats {
-    id: string | number
-    player: Player
-    season?: number
-    competition?: string
+  interface PlayerStats {
     numMatches: number
     numMinutes: number
     numGoals: number
@@ -119,26 +132,34 @@
     xA: number
     xGAndxA: number
   }
+  interface PlayerWithStats extends PlayerStats {
+    id: string | number
+    player: Player
+    season?: number
+    competition?: string
+  }
   const items: Ref<PlayerWithStats[]> = computed(() => {
-    const rows = []
+    const rows: PlayerWithStats[] = []
     players.value.forEach(player => {
-      const filteredStats =
+      const filteredStats: PlayerPerformanceStat[] =
         statsByPlayerId[player.id]?.filter(
           data =>
             [null, data.season].includes(filters.season) &&
             [null, data.competition].includes(filters.competition)
         ) || []
 
-      const splitStats = _groupBy(filteredStats, stats =>
-        [
-          stats.playerId,
-          splitSeason.value ? stats.season : null,
-          splitCompetition.value ? stats.competition : null
-        ].join('_')
+      const splitStats: { [key: string]: PlayerPerformanceStat[] } = _groupBy(
+        filteredStats,
+        (stats: PlayerPerformanceStat) =>
+          [
+            stats.playerId,
+            splitSeason.value ? stats.season : null,
+            splitCompetition.value ? stats.competition : null
+          ].join('_')
       )
 
       for (const key in splitStats) {
-        const matchStats = {
+        const matchStats: PlayerStats = {
           numMatches: 0,
           numMinutes: 0,
           numGoals: 0,
@@ -151,7 +172,7 @@
         }
         let numRatedMinutes = 0
 
-        splitStats[key].forEach(data => {
+        splitStats[key].forEach((data: PlayerPerformanceStat) => {
           for (const metric in matchStats) {
             if (metric === 'avgRating') {
               if (data.avgRating > 0) {
@@ -159,7 +180,9 @@
                 matchStats.avgRating += data.avgRating * data.numMinutes
               }
             } else {
-              matchStats[metric] += data[metric]
+              matchStats[metric as keyof PlayerStats] += data[
+                metric as keyof PlayerPerformanceStat
+              ] as number
             }
           }
         })
@@ -195,14 +218,17 @@
     ...new Set(
       competitionRepo
         .where('teamId', team.value.id)
-        .where('season', season => !filters.season || filters.season === season)
+        .where(
+          'season',
+          (season: number) => !filters.season || filters.season === season
+        )
         .orderBy('name')
         .get()
         .map(comp => comp.name)
     )
   ])
 
-  function ratingColor(rating) {
+  function ratingColor(rating: number) {
     switch (Math.round(rating)) {
       case 1:
         return 'red'

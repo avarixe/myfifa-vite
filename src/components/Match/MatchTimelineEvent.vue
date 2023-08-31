@@ -1,23 +1,11 @@
 <script setup lang="ts">
-  import BookingForm from '~/components/Booking/BookingForm.vue'
-  import GoalForm from '~/components/Goal/GoalForm.vue'
-  import SubstitutionForm from '~/components/Substitution/SubstitutionForm.vue'
   import { Match, Goal, Booking, Substitution } from '~/models'
 
-  const eventForm = {
-    Booking: BookingForm,
-    Goal: GoalForm,
-    Substitution: SubstitutionForm
-  }
-
-  const props = withDefaults(
-    defineProps<{
-      match: Match
-      event: Goal | Booking | Substitution
-      readonly: boolean
-    }>(),
-    { readonly: false }
-  )
+  const props = defineProps<{
+    match: Match
+    event: Goal | Booking | Substitution
+    readonly?: boolean
+  }>()
 
   const { team } = useTeam()
 
@@ -51,11 +39,21 @@
 
       <slot />
 
-      <div v-if="!readonly">
+      <div v-if="!props.readonly">
         <v-btn variant="text" color="warning">
           Edit
-          <component
-            :is="eventForm[event.timelineType]"
+          <booking-form
+            v-if="event.timelineType === 'Booking'"
+            :match="match"
+            :record="event"
+          />
+          <goal-form
+            v-else-if="event.timelineType === 'Goal'"
+            :match="match"
+            :record="event"
+          />
+          <substitution-form
+            v-else-if="event.timelineType === 'Substitution'"
             :match="match"
             :record="event"
           />

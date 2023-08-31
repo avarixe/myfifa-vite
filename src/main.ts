@@ -33,7 +33,7 @@ router.beforeEach(async to => {
               }
             }
             ${userFragment}
-          `.loc.source.body
+          `?.loc?.source?.body
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -46,16 +46,16 @@ router.beforeEach(async to => {
         sessionStore.userId = parseInt(data.user.id)
       } else {
         sessionStore.clearSession()
-        sessionStore.redirectUrl = to
+        sessionStore.redirectUrl = to.fullPath
         return '/login'
       }
     }
 
-    if (['/login', '/register'].includes(to.name?.toString())) {
+    if (['/login', '/register'].includes(String(to.name))) {
       return sessionStore.redirectUrl || '/'
     }
-  } else if (!['/login', '/register'].includes(to.name?.toString())) {
-    sessionStore.redirectUrl = to
+  } else if (!['/login', '/register'].includes(String(to.name))) {
+    sessionStore.redirectUrl = to.fullPath
     return '/login'
   }
 })
