@@ -4,7 +4,18 @@
 
   const props = defineProps<{ player: Player }>()
 
-  const { data } = useQuery({
+  const { data } = useQuery<{
+    player: {
+      capSet: {
+        caps: {
+          rating: number
+          match: {
+            playedOn: string
+          }
+        }[]
+      }
+    }
+  }>({
     query: gql`
       query (
         $playerId: ID!

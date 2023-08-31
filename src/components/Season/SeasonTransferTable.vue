@@ -306,7 +306,7 @@
             </div>
           </td>
           <td
-            v-for="attr in (['value', 'fee', 'netValue'] as (keyof TotalStats)[])"
+            v-for="attr in ['value', 'fee', 'netValue'] as (keyof TotalStats)[]"
             :key="attr"
             :class="`text-right text-${totals[attr] > 0 ? 'green' : 'red'}`"
           >
