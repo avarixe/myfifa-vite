@@ -1,16 +1,5 @@
 <script setup lang="ts">
-  import ContractForm from '~/components/Contract/ContractForm.vue'
-  import InjuryForm from '~/components/Injury/InjuryForm.vue'
-  import LoanForm from '~/components/Loan/LoanForm.vue'
-  import TransferForm from '~/components/Transfer/TransferForm.vue'
   import { Player, Contract, Injury, Loan, Transfer } from '~/models'
-
-  const eventForm = {
-    Contract: ContractForm,
-    Injury: InjuryForm,
-    Loan: LoanForm,
-    Transfer: TransferForm
-  }
 
   defineProps<{
     player: Player
@@ -42,8 +31,23 @@
       <v-card-actions>
         <v-btn variant="text" size="small" color="orange">
           Edit
-          <component
-            :is="eventForm[event.timelineType]"
+          <contract-form
+            v-if="event.timelineType === 'Contract'"
+            :player="player"
+            :record="event"
+          />
+          <injury-form
+            v-else-if="event.timelineType === 'Injury'"
+            :player="player"
+            :record="event"
+          />
+          <loan-form
+            v-else-if="event.timelineType === 'Loan'"
+            :player="player"
+            :record="event"
+          />
+          <transfer-form
+            v-else-if="event.timelineType === 'Transfer'"
             :player="player"
             :record="event"
           />

@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { Match, Substitution } from '~/models'
 
-  defineProps<{
+  const props = defineProps<{
     match: Match
     event: Substitution
     readonly?: boolean
@@ -9,7 +9,11 @@
 </script>
 
 <template>
-  <match-timeline-event :match="match" :event="event" :readonly="readonly">
+  <match-timeline-event
+    :match="match"
+    :event="event"
+    :readonly="props.readonly"
+  >
     <div>
       <v-icon
         :color="event.injury ? 'pink' : 'orange'"

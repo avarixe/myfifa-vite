@@ -9,16 +9,16 @@
   }>()
 
   interface ContractAttributes {
-    signedOn?: string
-    startedOn?: string
-    endedOn?: string
-    wage?: number
-    signingBonus?: number
-    releaseClause?: number
-    performanceBonus?: number
-    bonusReq?: number
-    bonusReqType?: string
-    numSeasons?: number
+    signedOn?: string | null
+    startedOn?: string | null
+    endedOn?: string | null
+    wage?: number | null
+    signingBonus?: number | null
+    releaseClause?: number | null
+    performanceBonus?: number | null
+    bonusReq?: number | null
+    bonusReqType?: string | null
+    numSeasons?: number | null
   }
 
   const attributes: ContractAttributes = reactive({})

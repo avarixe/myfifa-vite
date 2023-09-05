@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { VCombobox } from 'vuetify/components'
+
   const props = withDefaults(
     defineProps<{
       modelValue?: string
@@ -9,7 +11,7 @@
 
   defineEmits(['update:modelValue'])
 
-  const items = ref([])
+  const items = ref([] as string[])
   watch(
     () => props.defaultItems,
     defaultItems => {
@@ -18,17 +20,17 @@
     { deep: true, immediate: true }
   )
 
-  const timeout = ref(null)
+  let timeout: ReturnType<typeof setTimeout>
   onBeforeUnmount(() => {
-    clearTimeout(timeout.value)
+    clearTimeout(timeout)
   })
 
   async function onSearchInputUpdate() {
-    clearTimeout(timeout.value)
+    clearTimeout(timeout)
     if (items.value.includes(search.value)) {
       items.value = []
     } else if (search.value?.length >= 3) {
-      timeout.value = setTimeout(() => searchItems(), 300)
+      timeout = setTimeout(() => searchItems(), 300)
     } else {
       items.value = props.defaultItems
     }
@@ -51,7 +53,7 @@
   })
 
   const loading = ref(false)
-  const combobox = ref(null)
+  const combobox = ref(VCombobox)
   async function searchItems() {
     try {
       loading.value = true

@@ -57,11 +57,11 @@ export default class Player extends Model {
   @HasMany(() => Goal, 'assistId') declare assists: Goal[]
   @HasMany(() => Booking, 'playerId') declare bookings: Booking[]
 
-  get isActive(): boolean {
-    return this.status && this.status.length > 0
+  get isActive() {
+    return this.status === null
   }
 
-  get statusColor(): string {
+  get statusColor() {
     switch (this.status) {
       case 'Active':
         return 'light-green'
@@ -72,11 +72,11 @@ export default class Player extends Model {
       case 'Pending':
         return 'orange'
       default:
-        return null
+        return ''
     }
   }
 
-  get statusIcon(): string {
+  get statusIcon() {
     switch (this.status) {
       case 'Active':
         return 'account-check'

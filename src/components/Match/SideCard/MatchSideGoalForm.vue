@@ -19,7 +19,7 @@
     attributes.home = props.side === 'home'
 
     if (attributes.ownGoal || attributes.penalty) {
-      attributes.assistedBy = null
+      attributes.assistedBy = ''
     }
   })
 

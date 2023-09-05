@@ -29,7 +29,7 @@ export default class Goal extends Model {
   @Str('') declare createdAt: string
 
   // Static fields
-  @Str('Goal') declare timelineType: string
+  @Str('Goal') declare timelineType: 'Goal'
 
   // Associations
   @BelongsTo(() => Player, 'playerId') declare player: Player

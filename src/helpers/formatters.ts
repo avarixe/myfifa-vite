@@ -1,9 +1,9 @@
-export function formatDate(date: string, dateFormat = 'MMM dd, yyyy') {
+export function formatDate(date: string | null, dateFormat = 'MMM dd, yyyy') {
   return date ? format(parseISO(date), dateFormat) : null
 }
 
 export function formatMoney(
-  amount: number | string,
+  amount: number | string | null,
   currency = '$',
   emptyString = ''
 ) {

@@ -4,8 +4,12 @@
     cellColor: (pos: string, cell: T) => string
   }>()
 
-  const coverage = computed(() =>
-    Object.keys(matchPositions).reduce((obj, pos) => {
+  interface CoverageMap {
+    [key: string]: { value: T | null }
+  }
+
+  const coverage: Ref<CoverageMap> = computed(() =>
+    Object.keys(matchPositions).reduce((obj: CoverageMap, pos) => {
       obj[pos] = {
         value: props.coverageData[pos] || null
       }
@@ -13,7 +17,7 @@
     }, {})
   )
 
-  function cellBorderRadius(coordinates) {
+  function cellBorderRadius(coordinates: string[]) {
     switch (coordinates.join('-')) {
       case '0-1':
       case '3-0':

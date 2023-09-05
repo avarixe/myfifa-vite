@@ -1,21 +1,12 @@
 <script setup lang="ts">
-  import BookingTimelineEvent from '~/components/Booking/BookingTimelineEvent.vue'
-  import GoalTimelineEvent from '~/components/Goal/GoalTimelineEvent.vue'
-  import SubstitutionTimelineEvent from '~/components/Substitution/SubstitutionTimelineEvent.vue'
   import { Match } from '~/models'
-
-  const eventComponent = {
-    Booking: BookingTimelineEvent,
-    Goal: GoalTimelineEvent,
-    Substitution: SubstitutionTimelineEvent
-  }
 
   const props = defineProps<{
     match: Match
     readonly?: boolean
   }>()
 
-  const events: Ref<{ timelineType: string }[]> = computed(() =>
+  const events = computed(() =>
     _orderBy(
       [
         ...props.match.bookings,
@@ -42,7 +33,7 @@
       </template>
       <div class="text-h4 text-blue-grey">{{ match.away }}</div>
     </v-timeline-item>
-    <v-timeline-item v-if="!readonly" icon="mdi-plus" dot-color="primary">
+    <v-timeline-item v-if="!props.readonly" icon="mdi-plus" dot-color="primary">
       <template #opposite>
         <v-row v-if="mdAndUp" dense>
           <v-col>
@@ -98,23 +89,35 @@
       </v-row>
     </v-timeline-item>
     <template v-for="event in events" :key="`${event.type}-${event.id}`">
-      <component
-        :is="eventComponent[event.timelineType]"
+      <booking-timeline-event
+        v-if="event.timelineType === 'Booking'"
         :event="event"
         :match="match"
-        :readonly="readonly"
+        :readonly="props.readonly"
+      />
+      <goal-timeline-event
+        v-else-if="event.timelineType === 'Goal'"
+        :event="event"
+        :match="match"
+        :readonly="props.readonly"
+      />
+      <substitution-timeline-event
+        v-else-if="event.timelineType === 'Substitution'"
+        :event="event"
+        :match="match"
+        :readonly="props.readonly"
       />
     </template>
     <penalty-shootout-timeline-event
       v-if="match.penaltyShootout"
       :match="match"
       :event="match.penaltyShootout"
-      :readonly="readonly"
+      :readonly="props.readonly"
     />
     <v-timeline-item dot-color="grey" icon="mdi-timer">
       <div class="mt-2">End of Match</div>
       <match-extra-time-switch
-        v-if="!readonly"
+        v-if="!props.readonly"
         :match="match"
         label="After Extra Time"
         color="primary"

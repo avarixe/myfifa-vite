@@ -8,13 +8,14 @@ import {
   VDataTableVirtual,
   VDataTableServer
 } from 'vuetify/labs/VDataTable'
+// import { VDatePicker } from 'vuetify/labs/VDatePicker'
 import 'vuetify/styles'
-
-import { User } from './models'
-import App from './App.vue'
 
 import Datepicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
+
+import { User } from './models'
+import App from './App.vue'
 
 const router = createRouter({
   history: createWebHistory()
@@ -25,11 +26,9 @@ router.beforeEach(async to => {
   if (token.value) {
     // check if user is authenticated
     if (!sessionStore.userId) {
-      const {
-        data: { data }
-      } = await axios.post(
-        `${import.meta.env.VITE_API_URL}/graphql`,
-        {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/graphql`, {
+        method: 'POST',
+        body: JSON.stringify({
           query: gql`
             query fetchUser {
               user {
@@ -37,25 +36,29 @@ router.beforeEach(async to => {
               }
             }
             ${userFragment}
-          `.loc.source.body
-        },
-        { headers: { authorization: `Bearer ${token.value}` } }
-      )
+          `?.loc?.source?.body
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token.value}`
+        }
+      })
+      const { data } = await response.json()
       if (data.user) {
         await useRepo(User).save(data.user)
         sessionStore.userId = parseInt(data.user.id)
       } else {
         sessionStore.clearSession()
-        sessionStore.redirectUrl = to
+        sessionStore.redirectUrl = to.fullPath
         return '/login'
       }
     }
 
-    if (['/login', '/register'].includes(to.name?.toString())) {
+    if (['/login', '/register'].includes(String(to.name))) {
       return sessionStore.redirectUrl || '/'
     }
-  } else if (!['/login', '/register'].includes(to.name?.toString())) {
-    sessionStore.redirectUrl = to
+  } else if (!['/login', '/register'].includes(String(to.name))) {
+    sessionStore.redirectUrl = to.fullPath
     return '/login'
   }
 })
@@ -70,6 +73,7 @@ const vuetify = createVuetify({
     VDataTable,
     VDataTableVirtual,
     VDataTableServer
+    // VDatePicker
   },
   defaults: {
     VDataTable: {

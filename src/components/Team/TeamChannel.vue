@@ -1,7 +1,5 @@
 <script setup lang="ts">
-  import _mapKeys from 'lodash.mapkeys'
-  import _camelCase from 'lodash.camelcase'
-  import * as models from '../../models'
+  import * as models from '~/models'
 
   const props = defineProps<{
     team: models.Team
@@ -31,15 +29,26 @@
       case 'Disconnected':
         return 'error'
       default:
-        return null
+        return undefined
     }
   })
 
-  const insertBuffer = reactive({})
-  const deleteBuffer = reactive({})
-  const timeout = ref(null)
+  type modelKey = keyof typeof models
+  type modelType = typeof models.Team
 
-  function addToBuffer({ type, data, destroyed }) {
+  const insertBuffer: { [key: string]: object[] } = reactive({})
+  const deleteBuffer: { [key: string]: { id: number }[] } = reactive({})
+  let timeout: ReturnType<typeof setTimeout>
+
+  function addToBuffer({
+    type,
+    data,
+    destroyed
+  }: {
+    type: modelKey
+    data: object
+    destroyed?: boolean
+  }) {
     const buffer = destroyed ? deleteBuffer : insertBuffer
 
     if (type in buffer) {
@@ -48,39 +57,51 @@
       buffer[type] = [data]
     }
 
-    if (timeout.value) {
-      clearTimeout(timeout.value)
+    if (timeout) {
+      clearTimeout(timeout)
     }
 
-    timeout.value = setTimeout(updateStore, 300)
+    timeout = setTimeout(updateStore, 300)
+  }
+
+  function camelize(str: string) {
+    return str
+      .toLowerCase()
+      .replace(/([-_][a-z])/g, group => group.slice(-1).toUpperCase())
   }
 
   function updateStore() {
     Object.keys(deleteBuffer).forEach(async type => {
       const ids = deleteBuffer[type].map(data => data.id)
-      await useRepo(models[type]).destroy(ids)
+      useRepo(models[type as modelKey] as modelType).destroy(ids)
       delete deleteBuffer[type]
     })
 
     Object.keys(insertBuffer).forEach(async type => {
       const data = insertBuffer[type].map(record =>
-        _mapKeys(record, (_v, k) => _camelCase(k))
+        Object.entries(record).reduce(
+          (acc, [key, value]) => ({
+            ...acc,
+            [camelize(key)]: value
+          }),
+          {}
+        )
       )
-      await useRepo(models[type]).save(data)
+      useRepo(models[type as modelKey] as modelType).save(data)
       delete insertBuffer[type]
     })
   }
 
   const { token } = useSession()
-  const socket = ref(null)
+  let socket: WebSocket
 
   function connectToWebSocket() {
     if (token.value) {
       connectionState.value = 'Connecting'
 
-      socket.value = new WebSocket(`${cableURL}?access_token=${token.value}`)
+      socket = new WebSocket(`${cableURL}?access_token=${token.value}`)
 
-      socket.value.onmessage = event => {
+      socket.onmessage = event => {
         const { message } = JSON.parse(event.data)
         const { type, data, destroyed } = message || {}
         if (type) {
@@ -89,8 +110,8 @@
         }
       }
 
-      socket.value.onopen = () => {
-        socket.value.send(
+      socket.onopen = () => {
+        socket.send(
           JSON.stringify({
             command: 'subscribe',
             identifier: JSON.stringify({
@@ -103,7 +124,7 @@
         connectionState.value = 'Connected'
       }
 
-      socket.value.onclose = () => {
+      socket.onclose = () => {
         connectionState.value = 'Disconnected'
       }
     }
@@ -114,7 +135,7 @@
   })
 
   onUnmounted(() => {
-    socket.value.close()
+    socket.close()
   })
 
   const snackbar = ref(false)

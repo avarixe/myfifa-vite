@@ -1,7 +1,9 @@
-export default ({
+import { VForm } from 'vuetify/components'
+
+export default <T>({
   mutation,
   variables = () => ({}),
-  onSuccess = data => {
+  onSuccess = (data: T) => {
     data
   },
   onReset = () => {
@@ -9,8 +11,15 @@ export default ({
   },
   resetAfterSubmit = true,
   broadcastErrors = true
+}: {
+  mutation: ReturnType<typeof gql>
+  variables?: () => object
+  onSuccess?: (data: T) => void
+  onReset?: () => void
+  resetAfterSubmit?: boolean
+  broadcastErrors?: boolean
 }) => {
-  const form = ref(null)
+  const form = ref(VForm)
   const formKey = ref(0)
   const formIsLoading = ref(false)
   const formIsValid = ref(false)
@@ -36,7 +45,7 @@ export default ({
           broadcastStore.error(formError.value)
         }
       } else {
-        await onSuccess(data)
+        await onSuccess(data as T)
         if (form.value && resetAfterSubmit) {
           resetForm()
           onReset()

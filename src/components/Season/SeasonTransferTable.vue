@@ -9,7 +9,7 @@
       transfers: Transfer[]
       loans: Loan[]
     }
-    playerValues: object
+    playerValues: { [key: number]: number[] }
     season: number
   }>()
 
@@ -18,6 +18,7 @@
   const playerRepo = useRepo(Player)
 
   interface TransferTableRow {
+    id: string
     playerId: number
     name: string
     pos: string
@@ -53,7 +54,7 @@
         )
       })
       .map((arrival, i) => {
-        const player = playerRepo.find(parseInt(arrival.playerId.toString()))
+        const player = playerRepo.find(Number(arrival.playerId)) as Player
 
         return {
           ..._pick(player, ['name', 'pos']),
@@ -72,7 +73,7 @@
 
   const departures: Ref<TransferTableRow[]> = computed(() =>
     props.transferActivity.departures.map((departure, i) => {
-      const player = playerRepo.find(parseInt(departure.playerId.toString()))
+      const player = playerRepo.find(Number(departure.playerId)) as Player
 
       return {
         ..._pick(player, ['name', 'pos']),
@@ -91,7 +92,7 @@
 
   const transfers: Ref<TransferTableRow[]> = computed(() =>
     props.transferActivity.transfers.map((transfer, i) => {
-      const player = playerRepo.find(parseInt(transfer.playerId.toString()))
+      const player = playerRepo.find(Number(transfer.playerId)) as Player
       const playerValues =
         props.playerValues[transfer.playerId] || Array(2).fill(player.value)
       const transferOut = team.value.name === transfer.origin
@@ -105,11 +106,11 @@
         iconColor: transferOut ? 'red' : 'green',
         posIdx: player.posIdx,
         fromTo: transferOut ? transfer.destination : transfer.origin,
-        fee: (transferOut ? 1 : -1) * transfer.fee,
+        fee: (transferOut ? 1 : -1) * (transfer.fee ?? 0),
         value: transferOut ? -playerValues[1] : playerValues[0],
         netValue: transferOut
-          ? transfer.fee - playerValues[1]
-          : playerValues[0] - transfer.fee
+          ? (transfer.fee ?? 0) - playerValues[1]
+          : playerValues[0] - (transfer.fee ?? 0)
       }
     })
   )
@@ -122,18 +123,18 @@
     const date = parseISO(seasonStart.value)
     return format(addYears(date, 1), 'yyyy-MM-dd')
   })
-  const loans: Ref<TransferTableRow[]> = computed(() =>
-    props.transferActivity.loans.reduce((loans, loan) => {
-      const player = playerRepo.find(parseInt(loan.playerId.toString()))
+  const loans = computed(() =>
+    props.transferActivity.loans.reduce((rows: TransferTableRow[], loan) => {
+      const player = playerRepo.find(Number(loan.playerId)) as Player
       const loanOut = team.value.name === loan.origin
-      const row = {
+      const row: TransferTableRow = {
         ..._pick(player, ['name', 'pos']),
         posIdx: player.posIdx,
         playerId: loan.playerId,
         fromTo: loanOut ? loan.destination : loan.origin
       }
       if (loan.startedOn >= seasonStart.value) {
-        loans.push({
+        rows.push({
           ...row,
           id: `loan-start-${loan.id}`,
           date: loan.startedOn,
@@ -149,7 +150,7 @@
             transfer.date === loan.endedOn
         )
       ) {
-        loans.push({
+        rows.push({
           ...row,
           id: `loan-end-${loan.id}`,
           date: loan.endedOn,
@@ -157,7 +158,7 @@
           iconColor: `${loanOut ? 'light-green' : 'orange'}`
         })
       }
-      return loans
+      return rows
     }, [])
   )
 
@@ -173,18 +174,26 @@
     )
   )
 
-  const totals = computed(() =>
-    rows.value.reduce(
-      (totals, row) => {
-        ;['value', 'fee', 'netValue'].forEach(attr => {
-          if (row[attr]) {
-            totals[attr] += row[attr]
-          }
-        })
-        return totals
-      },
-      { value: 0, fee: 0, netValue: 0 }
-    )
+  interface TotalStats {
+    value: number
+    fee: number
+    netValue: number
+  }
+
+  const totals = computed(
+    () =>
+      rows.value.reduce(
+        (totals, row) => {
+          ;['value', 'fee', 'netValue'].forEach(attr => {
+            const key = attr as keyof TotalStats
+            if (row[key]) {
+              totals[key] += row[key]
+            }
+          })
+          return totals
+        },
+        { value: 0, fee: 0, netValue: 0 }
+      ) as TotalStats
   )
 
   const numYouthPlayers: Ref<number> = computed(
@@ -197,7 +206,7 @@
       transfers.value.filter(transfer => transfer.iconColor === 'green').length
   )
 
-  const headers = [
+  const headers: TableHeader[] = [
     { title: 'Player', key: 'name', fixed: true },
     { title: 'Pos', key: 'pos', align: 'center' },
     { title: 'Date', key: 'date', align: 'center', width: 140 },
@@ -297,7 +306,7 @@
             </div>
           </td>
           <td
-            v-for="attr in ['value', 'fee', 'netValue']"
+            v-for="attr in ['value', 'fee', 'netValue'] as (keyof TotalStats)[]"
             :key="attr"
             :class="`text-right text-${totals[attr] > 0 ? 'green' : 'red'}`"
           >

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { VFileInput } from 'vuetify/components'
   import { Team } from '~/models'
 
   const props = defineProps<{ team: Team }>()
@@ -13,12 +14,12 @@
     }
   `
 
-  const input = ref(null)
-  const preview = ref(null)
-  const badge = ref(null)
+  const input = ref(VFileInput)
+  const preview = ref(null as string | null)
+  const badge = ref(undefined as File[] | undefined)
   const variables = () => ({
     teamId: props.team.id,
-    badge: badge.value[0]
+    badge: badge.value?.[0]
   })
 
   const dragging = ref(false)
@@ -28,8 +29,8 @@
   function onDragLeave() {
     dragging.value = false
   }
-  function onDrop(e) {
-    badge.value = [...e.dataTransfer.files]
+  function onDrop(e: DragEvent) {
+    badge.value = [...(e.dataTransfer?.files ?? [])]
     dragging.value = false
   }
 
@@ -40,7 +41,7 @@
   })
 
   const teamRepo = useRepo(Team)
-  function onSuccess(data) {
+  function onSuccess(data: { uploadBadge: { team: object } }) {
     teamRepo.save({ ...data.uploadBadge.team, id: props.team.id })
   }
 </script>

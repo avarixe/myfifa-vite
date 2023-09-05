@@ -1,7 +1,18 @@
 <script setup lang="ts">
   import { Player } from '~/models'
 
-  const { data, team, seasonLabel, currentSeason } = await useTeamQuery({
+  interface PlayerStats {
+    playerId: string
+    season: number
+    ovr: number[]
+    value: number[]
+  }
+
+  const { data, team, seasonLabel, currentSeason } = await useTeamQuery<{
+    team: {
+      playerDevelopmentStats: PlayerStats[]
+    }
+  }>({
     query: gql`
       query fetchPlayersPage($teamId: ID!) {
         team(id: $teamId) {
@@ -20,8 +31,11 @@
     `
   })
 
-  const { playerDevelopmentStats } = data.value.team
-  const statsByPlayerId = _groupBy(playerDevelopmentStats, 'playerId')
+  const { playerDevelopmentStats } = data.value?.team || {}
+  const statsByPlayerId: { [key: string]: PlayerStats[] } = _groupBy(
+    playerDevelopmentStats,
+    'playerId'
+  )
 
   const filter = ref('Active')
   const filterOptions = [
@@ -36,7 +50,7 @@
     { text: 'Value', color: 'red', icon: 'cash-multiple' }
   ]
 
-  const headers = computed(() => {
+  const headers: Ref<TableHeader[]> = computed(() => {
     const lMetric = metric.value.toLowerCase()
     const columns = [
       { title: 'Name', key: 'player.name', width: 200, fixed: true },
@@ -79,11 +93,13 @@
     return columns
   })
 
-  const sortBy = ref([{ key: 'player.pos', order: 'asc' }])
+  const sortBy: Ref<TableSortItem[]> = ref([
+    { key: 'player.pos', order: 'asc' }
+  ])
 
   interface StatDiff {
     total?: number
-    [key: string]: number
+    [key: number]: number
   }
 
   interface PlayerWithStats {

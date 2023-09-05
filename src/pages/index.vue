@@ -27,21 +27,37 @@
   const teamRepo = useRepo(Team)
   teamRepo.save(data.value.teams)
 
-  const lastMatchByTeam = data.value.teams.reduce((dict, team) => {
-    dict[team.id] = team.lastMatch
-    return dict
-  }, {})
+  interface TeamData {
+    id: number
+    previousId: number
+    badgePath: string | null
+    lastMatch: {
+      id: string
+      home: string
+      away: string
+      competition: string
+      playedOn: string
+    }
+  }
 
-  const teamId = ref(parseInt(data.value.teams[0]?.id))
+  const lastMatchByTeam = data.value.teams.reduce(
+    (dict: { [key: number]: object }, team: TeamData) => {
+      dict[team.id] = team.lastMatch
+      return dict
+    },
+    {}
+  )
+
+  const teamId = ref(data.value.teams[0]?.id)
   const lastMatch = computed(() => lastMatchByTeam[teamId.value])
 
   const teams = computed(() => teamRepo.orderBy('createdAt', 'desc').get())
   const teamsById = computed(() => _keyBy(teams.value, 'id'))
   const currentTeam = computed(() => teamsById.value[teamId.value])
   const teamFiles = computed(() =>
-    teams.value.reduce((files, team) => {
+    teams.value.reduce((files: number[][], team) => {
       if (team.previousId) {
-        const file = files.find(f => f.includes(team.previousId))
+        const file = files.find(f => f.includes(Number(team.previousId)))
         if (file) {
           file.push(team.id)
         } else {
@@ -63,7 +79,7 @@
     )
   )
 
-  function teamLinks(team) {
+  function teamLinks(team: TeamData) {
     return [
       {
         to: `/teams/${team.id}/seasons/${currentSeason.value}`,
@@ -88,10 +104,10 @@
     ]
   }
 
-  function badgeUrl(team) {
+  function badgeUrl(team: TeamData) {
     return team.badgePath
       ? `${import.meta.env.VITE_API_URL.replace(/\/api/, '')}${team.badgePath}`
-      : null
+      : undefined
   }
 </script>
 

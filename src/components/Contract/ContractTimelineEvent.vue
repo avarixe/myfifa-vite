@@ -40,13 +40,13 @@
       <tr>
         <td class="font-weight-bold">Wage</td>
         <td class="pl-1">
-          {{ formatMoney(event.wage, team.currency) }}
+          {{ formatMoney(event.wage ?? 0, team.currency) }}
         </td>
       </tr>
       <tr>
         <td class="font-weight-bold">Signing Bonus</td>
         <td class="pl-1">
-          {{ formatMoney(event.signingBonus, team.currency) }}
+          {{ formatMoney(event.signingBonus ?? 0, team.currency) }}
         </td>
       </tr>
       <tr v-if="event.performanceBonus">

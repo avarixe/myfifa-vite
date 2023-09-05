@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { isDate } from 'date-fns'
+
   useHead({
     script: [
       {
@@ -19,10 +21,39 @@
   })
   const { team, endOfCurrentSeason } = useTeam()
 
+  interface PlayerAttributes {
+    name: string | null
+    pos: string | null
+    nationality: string | null
+    secPos: string[]
+    ovr: number | null
+    value: number | null
+    kitNo: number | null
+    age?: number | null
+  }
+
+  interface ContractAttributes {
+    signedOn?: string | null
+    startedOn?: string | null
+    endedOn?: string | null
+    wage?: number | null
+    signingBonus?: number | null
+    releaseClause?: number | null
+    performanceBonus?: number | null
+    bonusReq?: number | null
+    bonusReqType?: string | null
+    numSeasons?: number | null
+  }
+
+  interface PlayerRow extends PlayerAttributes {
+    rowId: number
+    contractsAttributes: ContractAttributes[]
+  }
+
   const numPlayers = ref(0)
   const submitted = ref(0)
   const cleared = ref(0)
-  const players = ref([])
+  const players = ref([] as PlayerRow[])
 
   function addPlayer() {
     players.value.push({
@@ -51,16 +82,16 @@
     })
   }
 
-  function removePlayer(row) {
+  function removePlayer(row: PlayerRow) {
     players.value = players.value.filter(player => player.rowId !== row.rowId)
   }
 
-  const uploader = ref(null)
-  function upload(event) {
+  const uploader = ref(null as HTMLInputElement | null)
+  function upload(event: Event) {
     const reader = new FileReader()
     reader.onload = e => {
       // Parse data
-      const bstr = e.target.result
+      const bstr = e.target?.result
       const wb = window.XLSX.read(bstr, { type: 'binary', cellDates: true })
       // Get first worksheet
       const wsname = wb.SheetNames[0]
@@ -68,42 +99,60 @@
       // Convert array of arrays
       const data = window.XLSX.utils.sheet_to_json(ws)
       // Update state
-      data.forEach(player => importPlayer(player))
+      data.forEach((player: { [key: string]: string | number | Date | null }) =>
+        importPlayer(player)
+      )
     }
 
-    const files = event.target.files
+    if (event.target) {
+      const files = (event.target as HTMLInputElement).files
 
-    if (files?.length > 0) {
-      reader.readAsBinaryString(files[0])
+      if (files && files.length > 0) {
+        reader.readAsBinaryString(files[0])
+      }
     }
 
-    uploader.value.value = null
+    if (uploader.value) {
+      uploader.value.value = ''
+    }
   }
 
-  function importPlayer(player) {
+  function importPlayer(player: {
+    [key: string]: string | number | Date | null
+  }) {
     players.value.push({
       rowId: numPlayers.value++,
-      name: player['Name'],
-      pos: player['Position'],
-      nationality: player['Nationality'],
-      secPos: player['Secondary Position(s)']?.split(','),
-      ovr: player['OVR'],
-      value: player['Value'],
-      kitNo: player['Kit Number'],
-      age: player['Age'],
+      name: player['Name'] ? String(player['Name']) : null,
+      pos: player['Position'] ? String(player['Position']) : null,
+      nationality: player['Nationality'] ? String(player['Nationality']) : null,
+      secPos: player['Secondary Position(s)']
+        ? String(player['Secondary Position(s)']).split(',')
+        : [],
+      ovr: player['OVR'] ? Number(player['OVR']) : null,
+      value: player['Value'] ? Number(player['Value']) : null,
+      kitNo: player['Kit Number'] ? Number(player['Kit Number']) : null,
+      age: player['Age'] ? Number(player['Age']) : null,
       contractsAttributes: [
         {
           signedOn: team.value.currentlyOn,
           startedOn: team.value.currentlyOn,
-          endedOn: player['Contract Ends']
-            ? format(player['Contract Ends'], 'yyyy-MM-dd')
+          endedOn: isDate(player['Contract Ends'])
+            ? format(player['Contract Ends'] as Date, 'yyyy-MM-dd')
             : null,
-          wage: player['Wage'],
-          releaseClause: player['Release Clause'],
-          signingBonus: player['Signing Bonus'],
-          performanceBonus: player['Performance Bonus'],
-          bonusReq: player['Bonus Req'],
+          wage: player['Wage'] ? Number(player['Wage']) : null,
+          releaseClause: player['Release Clause']
+            ? Number(player['Release Clause'])
+            : null,
+          signingBonus: player['Signing Bonus']
+            ? Number(player['Signing Bonus'])
+            : null,
+          performanceBonus: player['Performance Bonus']
+            ? Number(player['Performance Bonus'])
+            : null,
+          bonusReq: player['Bonus Req'] ? Number(player['Bonus Req']) : null,
           bonusReqType: player['Bonus Req. Type']
+            ? String(player['Bonus Req. Type'])
+            : null
         }
       ]
     })
@@ -132,7 +181,7 @@
         >
           Download Template
         </v-btn>
-        <v-btn class="ma-1" @click="uploader.click()">Upload File</v-btn>
+        <v-btn class="ma-1" @click="uploader?.click()">Upload File</v-btn>
       </v-col>
       <v-col cols="12">
         <v-form ref="form" @submit.prevent="submitted++">

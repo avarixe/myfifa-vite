@@ -29,7 +29,7 @@ export default class Booking extends Model {
   @Bool(true) declare home: boolean
 
   // Static fields
-  @Str('Booking') declare timelineType: string
+  @Str('Booking') declare timelineType: 'Booking'
 
   // Associations
   @BelongsTo(() => Match, 'matchId') declare match: Match

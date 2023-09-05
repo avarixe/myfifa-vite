@@ -8,8 +8,8 @@
   const { currentUser } = useSession()
   const attributes = reactive({
     name: props.record?.name || '',
-    managerName: props.record?.managerName || currentUser.value.fullName,
-    game: props.record?.game || '',
+    managerName: props.record?.managerName || currentUser.value?.fullName,
+    game: props.record?.game,
     previousId: props.record?.previousId,
     startedOn: props.record?.startedOn || format(new Date(), 'yyyy-MM-dd'),
     currentlyOn: props.record?.currentlyOn || format(new Date(), 'yyyy-MM-dd'),
@@ -54,7 +54,7 @@
   const teamRepo = useRepo(Team)
   const teams = computed(() =>
     teamRepo
-      .where('id', id => id !== props.record?.id)
+      .where('id', (id: number) => id !== props.record?.id)
       .orderBy('createdAt', 'desc')
       .get()
   )
@@ -63,11 +63,13 @@
     () => {
       if (attributes.previousId) {
         const prevTeam = teamRepo.find(attributes.previousId)
-        attributes.game = prevTeam.game
-        attributes.managerName = prevTeam.managerName
-        if (!props.record) {
-          attributes.startedOn = prevTeam.currentlyOn
-          attributes.currentlyOn = prevTeam.currentlyOn
+        if (prevTeam) {
+          attributes.game = prevTeam.game
+          attributes.managerName = prevTeam.managerName
+          if (!props.record) {
+            attributes.startedOn = prevTeam.currentlyOn
+            attributes.currentlyOn = prevTeam.currentlyOn
+          }
         }
       }
     }

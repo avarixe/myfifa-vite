@@ -42,7 +42,7 @@
       v-for="competition in competitions"
       :key="competition.id"
       :title="competition.name"
-      :subtitle="competition.champion"
+      :subtitle="competition.champion ?? undefined"
       :to="`/teams/${team.id}/competitions/${competition.id}`"
     >
       <template #prepend>

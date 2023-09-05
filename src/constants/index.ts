@@ -1,4 +1,4 @@
-export const positions = [
+export const positions: string[] = [
   'GK',
   'LB',
   'LWB',
@@ -16,7 +16,7 @@ export const positions = [
   'RW'
 ]
 
-export const matchPositions = {
+export const matchPositions: { [key: string]: 'FWD' | 'MID' | 'DEF' } = {
   LW: 'FWD',
   LS: 'FWD',
   ST: 'FWD',
@@ -46,14 +46,14 @@ export const matchPositions = {
   GK: 'DEF'
 }
 
-export const bonusRequirementTypes = [
+export const bonusRequirementTypes: string[] = [
   'Appearances',
   'Goals',
   'Assists',
   'Clean Sheets'
 ]
 
-export const nationalities = {
+export const nationalities: { [key: string]: string } = {
   // Africa
   Algeria: 'dz',
   Angola: 'ao',

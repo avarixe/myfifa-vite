@@ -1,10 +1,10 @@
 <script setup lang="ts">
   const props = withDefaults(
     defineProps<{
-      mutation: object
+      mutation: ReturnType<typeof gql>
       variables: () => object
       title: string
-      titleIcon?: string
+      titleIcon?: string | null
       validateOnOpen?: boolean
     }>(),
     {

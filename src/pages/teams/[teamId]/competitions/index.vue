@@ -20,7 +20,7 @@
 <template>
   <div class="text-h4 mb-2">Competitions</div>
 
-  <v-timeline :side="smAndDown ? 'end' : null">
+  <v-timeline :side="smAndDown ? 'end' : undefined">
     <v-timeline-item
       v-for="season in [...Array(currentSeason + 1).keys()].reverse()"
       :key="season"

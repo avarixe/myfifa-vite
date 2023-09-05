@@ -17,7 +17,7 @@
 
   const teams = computed(() => teamRepo.orderBy('id', 'desc').get())
 
-  const headers = [
+  const headers: TableHeader[] = [
     { key: 'badgeUrl', title: 'Badge', align: 'center', sortable: false },
     { key: 'name', title: 'Name' },
     { key: 'managerName', title: 'Manager' },
@@ -27,7 +27,9 @@
     { key: 'createdAt', title: 'Created At', align: 'center' }
   ]
 
-  const sortBy = ref([{ key: 'createdAt', order: 'desc' }])
+  const sortBy: Ref<TableSortItem[]> = ref([
+    { key: 'createdAt', order: 'desc' }
+  ])
 </script>
 
 <template>

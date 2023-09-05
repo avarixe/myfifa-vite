@@ -2,18 +2,18 @@
   const props = defineProps<{
     modelValue?: string
     prefill?: string
-    minDate?: string
-    maxDate?: string
+    min?: string
+    max?: string
   }>()
 
-  const humanizedValue = computed(() => {
-    return formatDate(props.modelValue, 'MMM d, yyyy')
-  })
+  const humanizedValue = computed(() =>
+    props.modelValue ? formatDate(props.modelValue, 'MMM d, yyyy') : ''
+  )
 
   const menu = ref(false)
 
   const emit = defineEmits(['update:modelValue'])
-  function onCalendarUpdate(value) {
+  function onCalendarUpdate(value: string) {
     emit('update:modelValue', value)
     menu.value = false
   }
@@ -24,7 +24,7 @@
     v-bind="$attrs"
     :model-value="humanizedValue"
     readonly
-    :append-icon="prefill ? 'mdi-calendar-arrow-left' : null"
+    :append-icon="prefill ? 'mdi-calendar-arrow-left' : undefined"
     @click:append="emit('update:modelValue', prefill)"
     @click:clear="emit('update:modelValue', null)"
   >
@@ -34,8 +34,8 @@
         auto-apply
         model-type="yyyy-MM-dd"
         week-start="0"
-        :min-date="minDate"
-        :max-date="maxDate"
+        :min-date="min"
+        :max-date="max"
         dark
         :enable-time-picker="false"
         :model-value="modelValue"

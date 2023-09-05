@@ -7,9 +7,7 @@ export default () => {
   const { clearSession } = sessionStore
 
   const userRepo = useRepo(User)
-  const currentUser = computed(() =>
-    userRepo.find(parseInt(sessionStore.userId))
-  )
+  const currentUser = computed(() => userRepo.find(Number(sessionStore.userId)))
 
   return {
     token,

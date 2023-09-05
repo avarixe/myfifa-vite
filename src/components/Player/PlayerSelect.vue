@@ -15,7 +15,7 @@
     item-title="name"
     item-value="id"
   >
-    <template #item="{ item, props }: { item: { raw: PlayerItem }, props: {} }">
+    <template #item="{ item, props }: { item: { raw: PlayerItem }; props: {} }">
       <v-list-item v-bind="props">
         <template #prepend>
           <small class="text-disabled font-weight-bold mr-4">

@@ -49,21 +49,21 @@ export default defineConfig({
         {
           '@urql/vue': ['useQuery', 'useMutation', 'gql'],
           'pinia-orm': ['useRepo'],
-          'lodash.get': [['default', '_get']],
           'lodash.groupby': [['default', '_groupBy']],
           'lodash.keyby': [['default', '_keyBy']],
           'lodash.omit': [['default', '_omit']],
           'lodash.orderby': [['default', '_orderBy']],
           'lodash.pick': [['default', '_pick']],
           'date-fns': ['format', 'parseISO'],
-          vuetify: ['useDisplay'],
-          axios: [['default', 'axios']]
+          vuetify: ['useDisplay']
         },
         {
           from: './src/types',
           imports: [
             'TableHeader',
+            'TableSortItem',
             'CapAttributes',
+            'GoalAttributes',
             'StageAttributes',
             'MatchFilters'
           ],
@@ -81,7 +81,6 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['vuetify', 'vue-currency-input'],
     include: [
-      'lodash.get',
       'lodash.groupby',
       'lodash.keyby',
       'lodash.omit',

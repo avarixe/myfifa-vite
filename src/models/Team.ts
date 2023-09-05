@@ -33,9 +33,9 @@ export default class Team extends Model {
   @HasMany(() => Squad, 'teamId') declare squads: Squad[]
   @HasMany(() => Competition, 'teamId') declare competitions: Competition[]
 
-  get badgeUrl(): string {
+  get badgeUrl() {
     return this.badgePath
       ? `${import.meta.env.VITE_API_URL.replace(/\/api/, '')}${this.badgePath}`
-      : null
+      : undefined
   }
 }

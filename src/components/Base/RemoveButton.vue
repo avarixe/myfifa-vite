@@ -13,6 +13,7 @@
   const recordType = `${props.store[0].toLowerCase()}${props.store.slice(1)}`
 
   const emit = defineEmits(['removed'])
+  const fragmentKey = `${recordType}Fragment` as keyof typeof fragments
   const { submitForm, formIsLoading } = useForm({
     mutation: gql`
       mutation ($id: ID!) {
@@ -20,7 +21,7 @@
           ${recordType} { ...${props.store}Data }
         }
       }
-      ${fragments[`${recordType}Fragment`]}
+      ${fragments[fragmentKey]}
     `,
     variables: () => ({ id: props.record.id }),
     onSuccess() {

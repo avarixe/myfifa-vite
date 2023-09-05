@@ -11,10 +11,10 @@
   const squads = computed(() => squadRepo.where('teamId', team.value.id).get())
 
   const menu = ref(false)
-  const squadName = ref(null)
+  const squadName = ref(null as string | null)
   const starters = computed(() => props.match.caps.filter(c => c.start === 0))
 
-  const squadId = ref(null)
+  const squadId = ref(null as number | null)
   watch(squadId, () => {
     if (squadId.value) {
       storeLineup()

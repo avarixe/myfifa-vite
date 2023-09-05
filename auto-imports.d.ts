@@ -5,7 +5,6 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
-  const _get: typeof import('lodash.get')['default']
   const _groupBy: typeof import('lodash.groupby')['default']
   const _keyBy: typeof import('lodash.keyby')['default']
   const _omit: typeof import('lodash.omit')['default']
@@ -14,7 +13,6 @@ declare global {
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
-  const axios: typeof import('axios')['default']
   const baseCapFragment: typeof import('./src/fragments/match')['baseCapFragment']
   const baseSquadFragment: typeof import('./src/fragments/squad')['baseSquadFragment']
   const baseSquadPlayerFragment: typeof import('./src/fragments/squad')['baseSquadPlayerFragment']
@@ -293,7 +291,6 @@ declare global {
   const useScroll: typeof import('@vueuse/core')['useScroll']
   const useScrollLock: typeof import('@vueuse/core')['useScrollLock']
   const useSeoMeta: typeof import('@vueuse/head')['useSeoMeta']
-  const useServerSideProcessing: typeof import('./src/composables/useServerSideProcessing')['default']
   const useSession: typeof import('./src/composables/useSession')['default']
   const useSessionStorage: typeof import('@vueuse/core')['useSessionStorage']
   const useSessionStore: typeof import('./src/store/session')['useSessionStore']
@@ -364,14 +361,13 @@ declare global {
   // @ts-ignore
   export type { Component, ComponentPublicInstance, ComputedRef, InjectionKey, PropType, Ref, VNode } from 'vue'
   // @ts-ignore
-  export type { TableHeader, CapAttributes, StageAttributes, MatchFilters } from './src/types'
+  export type { TableHeader, TableSortItem, CapAttributes, GoalAttributes, StageAttributes, MatchFilters } from './src/types'
 }
 // for vue template auto import
 import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
-    readonly _get: UnwrapRef<typeof import('lodash.get')['default']>
     readonly _groupBy: UnwrapRef<typeof import('lodash.groupby')['default']>
     readonly _keyBy: UnwrapRef<typeof import('lodash.keyby')['default']>
     readonly _omit: UnwrapRef<typeof import('lodash.omit')['default']>
@@ -380,7 +376,6 @@ declare module 'vue' {
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
-    readonly axios: UnwrapRef<typeof import('axios')['default']>
     readonly baseCapFragment: UnwrapRef<typeof import('./src/fragments/match')['baseCapFragment']>
     readonly baseSquadFragment: UnwrapRef<typeof import('./src/fragments/squad')['baseSquadFragment']>
     readonly baseSquadPlayerFragment: UnwrapRef<typeof import('./src/fragments/squad')['baseSquadPlayerFragment']>
@@ -659,7 +654,6 @@ declare module 'vue' {
     readonly useScroll: UnwrapRef<typeof import('@vueuse/core')['useScroll']>
     readonly useScrollLock: UnwrapRef<typeof import('@vueuse/core')['useScrollLock']>
     readonly useSeoMeta: UnwrapRef<typeof import('@vueuse/head')['useSeoMeta']>
-    readonly useServerSideProcessing: UnwrapRef<typeof import('./src/composables/useServerSideProcessing')['default']>
     readonly useSession: UnwrapRef<typeof import('./src/composables/useSession')['default']>
     readonly useSessionStorage: UnwrapRef<typeof import('@vueuse/core')['useSessionStorage']>
     readonly useSessionStore: UnwrapRef<typeof import('./src/store/session')['useSessionStore']>
@@ -729,7 +723,6 @@ declare module 'vue' {
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
-    readonly _get: UnwrapRef<typeof import('lodash.get')['default']>
     readonly _groupBy: UnwrapRef<typeof import('lodash.groupby')['default']>
     readonly _keyBy: UnwrapRef<typeof import('lodash.keyby')['default']>
     readonly _omit: UnwrapRef<typeof import('lodash.omit')['default']>
@@ -738,7 +731,6 @@ declare module '@vue/runtime-core' {
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
-    readonly axios: UnwrapRef<typeof import('axios')['default']>
     readonly baseCapFragment: UnwrapRef<typeof import('./src/fragments/match')['baseCapFragment']>
     readonly baseSquadFragment: UnwrapRef<typeof import('./src/fragments/squad')['baseSquadFragment']>
     readonly baseSquadPlayerFragment: UnwrapRef<typeof import('./src/fragments/squad')['baseSquadPlayerFragment']>
@@ -1017,7 +1009,6 @@ declare module '@vue/runtime-core' {
     readonly useScroll: UnwrapRef<typeof import('@vueuse/core')['useScroll']>
     readonly useScrollLock: UnwrapRef<typeof import('@vueuse/core')['useScrollLock']>
     readonly useSeoMeta: UnwrapRef<typeof import('@vueuse/head')['useSeoMeta']>
-    readonly useServerSideProcessing: UnwrapRef<typeof import('./src/composables/useServerSideProcessing')['default']>
     readonly useSession: UnwrapRef<typeof import('./src/composables/useSession')['default']>
     readonly useSessionStorage: UnwrapRef<typeof import('@vueuse/core')['useSessionStorage']>
     readonly useSessionStore: UnwrapRef<typeof import('./src/store/session')['useSessionStore']>

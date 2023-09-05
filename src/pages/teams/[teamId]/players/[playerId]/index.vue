@@ -4,7 +4,7 @@
   useHead({
     script: [
       { src: 'https://cdn.jsdelivr.net/npm/apexcharts' },
-      { src: 'https://d3js.org/d3.v7.min.js' },
+      { src: 'https://d3js.org/d3.v6.min.js' },
       { src: 'https://unpkg.com/cal-heatmap/dist/cal-heatmap.min.js' }
     ],
     link: [
@@ -15,9 +15,25 @@
     ]
   })
 
-  const route = useRoute<'/teams/[teamId]/players/[playerId]/'>()
+  interface PlayerStats {
+    numMatches: number
+    numMinutes: number
+    numGoals: number
+    numAssists: number
+    numCleanSheets: number
+    avgRating: number
+    xG: number
+    xA: number
+    xGAndxA: number
+  }
 
-  const { data, team } = await useTeamQuery({
+  const route = useRoute<'/teams/[teamId]/players/[playerId]/'>()
+  const { data, team } = await useTeamQuery<{
+    team: {
+      playerPerformanceStats: PlayerStats[]
+    }
+    player: object
+  }>({
     query: gql`
       query fetchPlayerPage($teamId: ID!, $playerId: ID!) {
         player(id: $playerId) {
@@ -63,14 +79,14 @@
     }
   })
   const playerRepo = useRepo(Player)
-  playerRepo.save(data.value?.player)
-  const player: Ref<Player> = computed(() =>
-    playerRepo.withAll().find(parseInt(route.params.playerId))
+  if (data.value) {
+    playerRepo.save(data.value.player)
+  }
+  const player = computed(
+    () => playerRepo.withAll().find(parseInt(route.params.playerId)) as Player
   )
 
-  const {
-    team: { playerPerformanceStats }
-  } = data.value
+  const playerPerformanceStats = data.value?.team?.playerPerformanceStats || []
   const playerStats = {
     numMatches: 0,
     numCleanSheets: 0,
@@ -79,12 +95,13 @@
     numMinutes: 0,
     avgRating: 0
   }
-  playerPerformanceStats.forEach(stats => {
+  playerPerformanceStats.forEach((stats: PlayerStats) => {
     for (const stat in playerStats) {
       if (stat === 'avgRating') {
         playerStats.avgRating += stats.avgRating * stats.numMinutes
       } else {
-        playerStats[stat] += stats[stat]
+        playerStats[stat as keyof typeof playerStats] +=
+          stats[stat as keyof PlayerStats]
       }
     }
   })

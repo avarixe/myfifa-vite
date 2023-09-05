@@ -8,13 +8,24 @@
 
   const inEditMode = ref(!props.record)
 
+  interface SquadPlayerAttributes {
+    id?: number | null
+    playerId: number | null
+    pos: string | null
+  }
+
+  interface SquadAttributes {
+    name: string | null
+    squadPlayersAttributes: SquadPlayerAttributes[]
+  }
+
   const attributes = reactive({
     name: props.record?.name,
     squadPlayersAttributes:
       props.record?.squadPlayers?.map(squadPlayer =>
         _pick(squadPlayer, ['id', 'playerId', 'pos'])
       ) || new Array(11).fill(0).map(() => ({ playerId: null, pos: null }))
-  })
+  } as SquadAttributes)
 
   const formationCells = computed(() =>
     Object.keys(matchPositions).reduce((map, pos) => {
@@ -26,9 +37,10 @@
   )
 
   function resetCard() {
-    attributes.squadPlayersAttributes = props.record?.squadPlayers?.map(
-      squadPlayer => _pick(squadPlayer, ['id', 'playerId', 'pos'])
-    )
+    attributes.squadPlayersAttributes =
+      props.record?.squadPlayers?.map(squadPlayer =>
+        _pick(squadPlayer, ['id', 'playerId', 'pos'])
+      ) || []
     selectedPlayerId.value = null
     inEditMode.value = false
   }
@@ -77,19 +89,21 @@
   })
 
   const playerRepo = useRepo(Player)
-  const players = computed(() =>
-    _orderBy(
-      playerRepo.where('status', status => !!status).get(),
-      ['posIdx', 'ovr'],
-      ['asc', 'desc']
-    )
+  const players = computed(
+    () =>
+      _orderBy(
+        playerRepo.where('status', (status: string | null) => !!status).get(),
+        ['posIdx', 'ovr'],
+        ['asc', 'desc']
+      ) as Player[]
   )
-  const unselectedPlayers: Ref<Player[]> = computed(() =>
-    players.value.filter(player =>
-      attributes.squadPlayersAttributes.every(
-        attr => attr.playerId !== player.id
-      )
-    )
+  const unselectedPlayers = computed(
+    () =>
+      players.value.filter(player =>
+        attributes.squadPlayersAttributes.every(
+          attr => attr.playerId !== player.id
+        )
+      ) as Player[]
   )
   const inactivePlayerIds = computed(() =>
     players.value
@@ -97,15 +111,17 @@
       .map(player => player.id)
   )
 
-  const selectedPlayerId = ref(null)
-  const selectedPlayer = computed(() => playerRepo.find(selectedPlayerId.value))
-  function selectPlayer(playerId) {
+  const selectedPlayerId = ref(null as number | null)
+  const selectedPlayer = computed(() =>
+    playerRepo.find(Number(selectedPlayerId.value))
+  )
+  function selectPlayer(playerId: number) {
     if (inEditMode.value) {
       selectedPlayerId.value =
         selectedPlayerId.value === playerId ? null : playerId
     }
   }
-  function selectPosition(pos) {
+  function selectPosition(pos: string) {
     if (inEditMode.value) {
       if (selectedPlayerId.value) {
         const cell = attributes.squadPlayersAttributes.find(
@@ -137,7 +153,7 @@
         const cell = attributes.squadPlayersAttributes.find(
           attr => attr.pos === pos
         )
-        selectedPlayerId.value = cell?.playerId
+        selectedPlayerId.value = cell?.playerId ?? null
       }
     }
   }
@@ -147,7 +163,7 @@
       attr.pos && attr.playerId
         ? {
             type: matchPositions[attr.pos],
-            value: playerRepo.find(parseInt(attr.playerId)).ovr,
+            value: playerRepo.find(Number(attr.playerId))?.ovr,
             weight: 1
           }
         : null
@@ -201,7 +217,7 @@
                 <v-icon start>mdi-menu</v-icon>
                 Available Players
               </v-btn>
-              <div v-if="!!selectedPlayerId" class="text-button text-disabled">
+              <div v-if="selectedPlayer" class="text-button text-disabled">
                 Currently Selected: {{ selectedPlayer.name }}
               </div>
             </div>
@@ -282,8 +298,10 @@
 
     &:hover {
       transform: scale(1.1);
-      box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%),
-        0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+      box-shadow:
+        0px 2px 1px -1px rgb(0 0 0 / 20%),
+        0px 1px 1px 0px rgb(0 0 0 / 14%),
+        0px 1px 3px 0px rgb(0 0 0 / 12%);
     }
   }
 </style>

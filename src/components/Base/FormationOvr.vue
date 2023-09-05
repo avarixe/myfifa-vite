@@ -5,6 +5,12 @@
     weight: number
   }
 
+  interface OvrStat {
+    total: number
+    weight: number
+    average: number
+  }
+
   const props = withDefaults(defineProps<{ data: OvrData[] }>(), {
     data: () => []
   })
@@ -17,7 +23,7 @@
 
   const formationOvr = computed(() =>
     props.data.reduce(
-      (ovrs, data) => {
+      (ovrs: { [key: string]: OvrStat }, data) => {
         if (data) {
           ovrs[data.type].total += data.value * data.weight
           ovrs[data.type].weight += data.weight

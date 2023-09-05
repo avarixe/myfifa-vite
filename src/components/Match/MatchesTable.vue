@@ -13,21 +13,29 @@
 
   const { team } = useTeam()
 
-  const headers = [
+  const headers: TableHeader[] = [
     { key: 'name', title: 'Match', align: 'center', sortable: false },
     { key: 'competition', title: 'Competition' },
     { key: 'playedOn', title: 'Date Played' },
     { key: 'link', title: 'Link', align: 'center', sortable: false }
   ]
 
-  const sortBy = ref([{ key: 'playedOn', order: 'desc' }])
+  const sortBy: Ref<TableSortItem[]> = ref([{ key: 'playedOn', order: 'desc' }])
   const options = reactive({
     page: 0,
     itemsPerPage: 0,
     sortBy: 'playedOn',
     sortDesc: true
   })
-  function onTableUpdate({ page, itemsPerPage, sortBy }) {
+  function onTableUpdate({
+    page,
+    itemsPerPage,
+    sortBy
+  }: {
+    page: number
+    itemsPerPage: number
+    sortBy: { key: string; order: string }[]
+  }) {
     options.page = page - 1
     options.itemsPerPage = itemsPerPage
     options.sortBy = sortBy[0]?.key
@@ -61,7 +69,7 @@
   })
 
   const matchRepo = useRepo(Match)
-  const items = ref([])
+  const items = ref([] as Match[])
   const totalItems = ref(0)
   const loading = ref(false)
   async function loadItems() {
@@ -72,7 +80,9 @@
         team: { matchSet }
       } = data.value
       matchRepo.save(matchSet.matches)
-      const matchIds = matchSet.matches.map(match => parseInt(match.id))
+      const matchIds = matchSet.matches.map((match: { id: string }) =>
+        parseInt(match.id)
+      )
       items.value = matchRepo
         .with('team')
         .where('id', matchIds)
@@ -86,10 +96,10 @@
     }
   }
 
-  const loadTimeout = ref(null)
+  let loadTimeout: ReturnType<typeof setTimeout>
   function triggerLoad() {
-    clearTimeout(loadTimeout.value)
-    loadTimeout.value = setTimeout(loadItems, 300)
+    clearTimeout(loadTimeout)
+    loadTimeout = setTimeout(loadItems, 300)
   }
 
   watch(options, triggerLoad, { deep: true })

@@ -1,12 +1,14 @@
 <script setup lang="ts">
+  interface CompetitionStats {
+    wins: number
+    draws: number
+    losses: number
+    goalsFor: number
+    goalsAgainst: number
+  }
+
   const props = defineProps<{
-    competitionStats: {
-      wins: number
-      draws: number
-      losses: number
-      goalsFor: number
-      goalsAgainst: number
-    }[]
+    competitionStats: CompetitionStats[]
     teamDevelopmentStats: {
       startOvr: number
       endOvr: number
@@ -17,8 +19,12 @@
 
   const { team } = useTeam()
 
-  const statTotal = key =>
-    props.competitionStats.reduce((total, stats) => total + stats[key], 0)
+  function statTotal(key: keyof CompetitionStats) {
+    return props.competitionStats.reduce(
+      (total, stats) => total + stats[key],
+      0
+    )
+  }
 </script>
 
 <template>
@@ -37,7 +43,7 @@
       <v-col cols="12" sm="6">
         <div class="text-h4">
           <season-stat-change
-            :formatter="x => formatMoney(x, team.currency)"
+            :formatter="(x: number) => formatMoney(x, team.currency)"
             :start-value="parseInt(teamDevelopmentStats.startValue)"
             :end-value="parseInt(teamDevelopmentStats.endValue)"
           />
