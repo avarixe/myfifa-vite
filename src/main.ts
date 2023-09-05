@@ -8,8 +8,11 @@ import {
   VDataTableVirtual,
   VDataTableServer
 } from 'vuetify/labs/VDataTable'
-import { VDatePicker } from 'vuetify/labs/VDatePicker'
+// import { VDatePicker } from 'vuetify/labs/VDatePicker'
 import 'vuetify/styles'
+
+import Datepicker from '@vuepic/vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
 
 import { User } from './models'
 import App from './App.vue'
@@ -69,8 +72,8 @@ const vuetify = createVuetify({
   components: {
     VDataTable,
     VDataTableVirtual,
-    VDataTableServer,
-    VDatePicker
+    VDataTableServer
+    // VDatePicker
   },
   defaults: {
     VDataTable: {
@@ -91,5 +94,7 @@ const vuetify = createVuetify({
 const head = createHead()
 
 const app = createApp(App).use(router).use(pinia).use(head).use(vuetify)
+
+app.component('date-picker', Datepicker)
 
 app.mount('#app')

@@ -4,7 +4,7 @@
       mutation: ReturnType<typeof gql>
       variables: () => object
       title: string
-      titleIcon: string | null
+      titleIcon?: string | null
       validateOnOpen?: boolean
     }>(),
     {
