@@ -4,7 +4,7 @@
   useHead({
     script: [
       { src: 'https://cdn.jsdelivr.net/npm/apexcharts' },
-      { src: 'https://d3js.org/d3.v7.min.js' },
+      { src: 'https://d3js.org/d3.v6.min.js' },
       { src: 'https://unpkg.com/cal-heatmap/dist/cal-heatmap.min.js' }
     ],
     link: [
