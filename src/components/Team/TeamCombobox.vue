@@ -53,13 +53,15 @@
   })
 
   const loading = ref(false)
-  const combobox = ref(VCombobox)
+  const combobox = ref(null as VCombobox | null)
   async function searchItems() {
     try {
       loading.value = true
       await executeQuery()
       const { options } = data.value
-      combobox.value.menu = true
+      if (combobox.value) {
+        combobox.value.menu = true
+      }
       items.value = options
     } catch (e) {
       console.error(e)

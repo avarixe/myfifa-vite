@@ -14,7 +14,7 @@
     }
   `
 
-  const input = ref(VFileInput)
+  const input = ref(null as VFileInput | null)
   const preview = ref(null as string | null)
   const badge = ref(undefined as File[] | undefined)
   const variables = () => ({
@@ -89,7 +89,7 @@
             :height="150"
             class="rounded-xl d-flex align-center justify-center"
             :style="{ cursor: 'pointer' }"
-            @click="input.click()"
+            @click="input?.click()"
             @drop.prevent="onDrop"
             @dragover.prevent="onDragOver"
             @dragleave.prevent="onDragLeave"

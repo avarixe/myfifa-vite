@@ -19,7 +19,7 @@ export default <T>({
   resetAfterSubmit?: boolean
   broadcastErrors?: boolean
 }) => {
-  const form = ref(VForm)
+  const form = ref(null as VForm | null)
   const formKey = ref(0)
   const formIsLoading = ref(false)
   const formIsValid = ref(false)
@@ -27,14 +27,14 @@ export default <T>({
 
   function resetForm() {
     formKey.value++
-    form.value.reset()
+    form.value?.reset()
   }
 
   const { executeMutation } = useMutation(mutation)
 
   const broadcastStore = useBroadcastStore()
   async function submitForm() {
-    if (form.value === null || form.value.validate()) {
+    if (form.value === null || (await form.value.validate())) {
       formIsLoading.value = true
       formError.value = ''
       broadcastStore.clear()
