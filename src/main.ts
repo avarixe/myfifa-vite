@@ -46,7 +46,7 @@ router.beforeEach(async to => {
       const { data } = await response.json()
       if (data.user) {
         await useRepo(User).save(data.user)
-        sessionStore.userId = parseInt(data.user.id)
+        sessionStore.userId = Number(data.user.id)
       } else {
         sessionStore.clearSession()
         sessionStore.redirectUrl = to.fullPath

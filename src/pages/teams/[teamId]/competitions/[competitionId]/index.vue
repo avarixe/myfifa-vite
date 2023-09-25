@@ -33,7 +33,7 @@
     competitionRepo.save(data.value.competition)
   }
   const { competition, orderedRounds } = useCompetition(
-    parseInt(route.params.competitionId)
+    Number(route.params.competitionId)
   )
 
   const tableStages = computed(() =>

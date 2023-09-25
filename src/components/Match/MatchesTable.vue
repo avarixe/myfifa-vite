@@ -81,7 +81,7 @@
       } = data.value
       matchRepo.save(matchSet.matches)
       const matchIds = matchSet.matches.map((match: { id: string }) =>
-        parseInt(match.id)
+        Number(match.id)
       )
       items.value = matchRepo
         .with('team')

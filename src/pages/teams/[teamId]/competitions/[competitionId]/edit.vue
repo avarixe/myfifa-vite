@@ -33,7 +33,7 @@
   if (data.value?.competition) {
     competitionRepo.save(data.value.competition)
   }
-  const { competition } = useCompetition(parseInt(route.params.competitionId))
+  const { competition } = useCompetition(Number(route.params.competitionId))
 </script>
 
 <template>

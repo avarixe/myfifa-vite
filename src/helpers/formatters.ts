@@ -8,7 +8,7 @@ export function formatMoney(
   emptyString = ''
 ) {
   return amount
-    ? `${currency}${parseInt(amount.toString()).toLocaleString()}`
+    ? `${currency}${Number(amount).toLocaleString()}`
     : emptyString || 'N/A'
 }
 

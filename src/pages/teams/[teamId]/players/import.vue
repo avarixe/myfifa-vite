@@ -23,26 +23,25 @@
 
   interface PlayerAttributes {
     name: string | null
-    pos: string | null
     nationality: string | null
+    pos: string | null
     secPos: string[]
+    age: number | null
     ovr: number | null
     value: number | null
     kitNo: number | null
-    age?: number | null
   }
 
   interface ContractAttributes {
-    signedOn?: string | null
-    startedOn?: string | null
-    endedOn?: string | null
-    wage?: number | null
-    signingBonus?: number | null
-    releaseClause?: number | null
-    performanceBonus?: number | null
-    bonusReq?: number | null
-    bonusReqType?: string | null
-    numSeasons?: number | null
+    signedOn: string | null
+    startedOn: string | null
+    endedOn: string | null
+    wage: number | null
+    signingBonus: number | null
+    releaseClause: number | null
+    performanceBonus: number | null
+    bonusReq: number | null
+    bonusReqType: string | null
   }
 
   interface PlayerRow extends PlayerAttributes {

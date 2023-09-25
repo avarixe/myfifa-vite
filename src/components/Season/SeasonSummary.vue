@@ -33,7 +33,6 @@
       <v-col cols="12" sm="6">
         <div class="text-h4">
           <season-stat-change
-            :formatter="parseInt"
             :start-value="teamDevelopmentStats.startOvr"
             :end-value="teamDevelopmentStats.endOvr"
           />

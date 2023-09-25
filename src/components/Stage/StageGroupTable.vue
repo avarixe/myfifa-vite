@@ -72,7 +72,7 @@
   })
 
   const route = useRoute<'/teams/[teamId]/competitions/[competitionId]/'>()
-  const { teamColor } = useCompetition(parseInt(route.params.competitionId))
+  const { teamColor } = useCompetition(Number(route.params.competitionId))
 </script>
 
 <template>

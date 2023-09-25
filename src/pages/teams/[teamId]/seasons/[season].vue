@@ -1,13 +1,32 @@
 <script setup lang="ts">
-  const route = useRoute<'/teams/[teamId]/seasons/[season]'>()
+  import { Contract, Loan, Transfer } from '~/models'
 
-  const season = computed(() => parseInt(route.params.season))
+  const route = useRoute<'/teams/[teamId]/seasons/[season]'>()
+  const season = computed(() => Number(route.params.season))
   const { data, team, seasonLabel, currentSeason } = await useTeamQuery<{
     team: {
-      competitionStats: object[]
+      competitionStats: {
+        name: string
+        competition: string
+        wins: number
+        draws: number
+        losses: number
+        goalsFor: number
+        goalsAgainst: number
+      }[]
       playerDevelopmentStats: { playerId: string; value: number[] }[]
-      teamDevelopmentStats: object
-      transferActivity: object
+      teamDevelopmentStats: {
+        startOvr: number
+        endOvr: number
+        startValue: string
+        endValue: string
+      }
+      transferActivity: {
+        arrivals: Contract[]
+        departures: Contract[]
+        transfers: Transfer[]
+        loans: Loan[]
+      }
     }
   }>({
     query: gql`

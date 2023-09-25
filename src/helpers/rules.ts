@@ -14,8 +14,6 @@ export function inRange(
 ): (v: number | string | null) => string | true {
   return v =>
     !v ||
-    (!isNaN(Number(String(v))) &&
-      min <= parseFloat(String(v)) &&
-      parseFloat(String(v)) <= max) ||
+    (!isNaN(Number(String(v))) && min <= Number(v) && Number(v) <= max) ||
     `${label || 'Field'} must be between ${min} and ${max}`
 }

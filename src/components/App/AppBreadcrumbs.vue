@@ -56,15 +56,15 @@
         default:
           switch (prevStep) {
             case 'teams': {
-              const team = teamRepo.find(parseInt(step))
+              const team = teamRepo.find(Number(step))
               return { to, title: team?.name || '', exact: true }
             }
             case 'players': {
-              const player = playerRepo.find(parseInt(step))
+              const player = playerRepo.find(Number(step))
               return { to, title: player?.name || '', exact: true }
             }
             case 'matches': {
-              const match = matchRepo.find(parseInt(step))
+              const match = matchRepo.find(Number(step))
               return {
                 to,
                 title: `${match?.home} v ${match?.away}`,
@@ -72,11 +72,11 @@
               }
             }
             case 'competitions': {
-              const competition = competitionRepo.find(parseInt(step))
+              const competition = competitionRepo.find(Number(step))
               return { to, title: competition?.name || '', exact: true }
             }
             case 'seasons':
-              return { to, title: seasonLabel(parseInt(step)), exact: true }
+              return { to, title: seasonLabel(Number(step)), exact: true }
             default:
               return { to, title: step, exact: true }
           }

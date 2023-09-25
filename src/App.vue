@@ -22,7 +22,7 @@
 
   const route = useRoute()
   const inPublicPage = computed(() =>
-    ['/login', '/register'].includes(route.name?.toString())
+    ['/login', '/register'].includes(String(route.name))
   )
 </script>
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { useCurrencyInput, CurrencyDisplay } from 'vue-currency-input'
 
-  defineProps<{ modelValue?: string | number }>()
+  defineProps<{ modelValue?: string | number | null }>()
 
   const { inputRef, formattedValue } = useCurrencyInput({
     currency: 'USD',

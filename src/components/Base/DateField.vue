@@ -1,9 +1,9 @@
 <script setup lang="ts">
   const props = defineProps<{
-    modelValue?: string
+    modelValue?: string | null
     prefill?: string
-    min?: string
-    max?: string
+    min?: string | null
+    max?: string | null
   }>()
 
   const humanizedValue = computed(() =>

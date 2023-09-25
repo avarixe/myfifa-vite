@@ -31,7 +31,7 @@
         nonTeamSides.push(side)
       }
     })
-    return nonTeamSides
+    return nonTeamSides as ('home' | 'away')[]
   })
 </script>
 
