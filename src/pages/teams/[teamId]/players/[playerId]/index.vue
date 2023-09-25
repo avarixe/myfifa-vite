@@ -83,7 +83,7 @@
     playerRepo.save(data.value.player)
   }
   const player = computed(
-    () => playerRepo.withAll().find(parseInt(route.params.playerId)) as Player
+    () => playerRepo.withAll().find(Number(route.params.playerId)) as Player
   )
 
   const playerPerformanceStats = data.value?.team?.playerPerformanceStats || []

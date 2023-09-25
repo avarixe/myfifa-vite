@@ -27,13 +27,16 @@
       ) || new Array(11).fill(0).map(() => ({ playerId: null, pos: null }))
   } as SquadAttributes)
 
-  const formationCells = computed(() =>
-    Object.keys(matchPositions).reduce((map, pos) => {
-      return {
-        ...map,
-        [pos]: attributes.squadPlayersAttributes.find(attr => attr.pos === pos)
-      }
-    }, {})
+  const formationCells = computed(
+    () =>
+      Object.keys(matchPositions).reduce((map, pos) => {
+        return {
+          ...map,
+          [pos]: attributes.squadPlayersAttributes.find(
+            attr => attr.pos === pos
+          )
+        }
+      }, {}) as { [key: string]: { playerId: number } }
   )
 
   function resetCard() {
@@ -163,7 +166,7 @@
       attr.pos && attr.playerId
         ? {
             type: matchPositions[attr.pos],
-            value: playerRepo.find(Number(attr.playerId))?.ovr,
+            value: playerRepo.find(Number(attr.playerId))?.ovr || 0,
             weight: 1
           }
         : null

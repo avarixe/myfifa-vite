@@ -35,7 +35,7 @@
           v-if="cells[position]"
           name="filled-pos"
           :pos="position"
-          :cell="cells[position]"
+          :cell="cells[position] as T"
           :coordinates="[i, j]"
         />
         <slot v-else-if="!hideEmptyCells" name="empty-pos" :pos="position" />

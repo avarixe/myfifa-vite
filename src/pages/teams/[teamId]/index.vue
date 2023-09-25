@@ -38,7 +38,7 @@
           wage: number
         }
       }[]
-      coverage: object
+      coverage: { [key: string]: number }
     }
   }>({
     query: gql`
@@ -164,7 +164,7 @@
         </v-card-actions>
       </v-card>
     </v-col>
-    <v-col cols="12" md="6">
+    <v-col v-if="coverage" cols="12" md="6">
       <v-card class="mt-4">
         <v-card-title>
           <v-icon start color="info" icon="mdi-vector-polygon-variant" />

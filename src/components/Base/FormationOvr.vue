@@ -11,7 +11,7 @@
     average: number
   }
 
-  const props = withDefaults(defineProps<{ data: OvrData[] }>(), {
+  const props = withDefaults(defineProps<{ data: (OvrData | null)[] }>(), {
     data: () => []
   })
 

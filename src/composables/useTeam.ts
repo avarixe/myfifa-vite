@@ -3,7 +3,7 @@ import { Team } from '~/models'
 
 export default () => {
   const route = useRoute<'/teams/[teamId]/'>()
-  const teamId = computed(() => parseInt(route.params.teamId))
+  const teamId = computed(() => Number(route.params.teamId))
 
   const teamRepo = useRepo(Team)
   const team = computed(() => teamRepo.find(teamId.value) as Team)

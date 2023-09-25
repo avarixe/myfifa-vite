@@ -1,23 +1,23 @@
 <script setup lang="ts" generic="T">
   const props = defineProps<{
     coverageData: { [key: string]: T }
-    cellColor: (pos: string, cell: T) => string
+    cellColor: (pos: string, cell: { value: T }) => string
   }>()
 
   interface CoverageMap {
-    [key: string]: { value: T | null }
+    [key: string]: { value: T }
   }
 
   const coverage: Ref<CoverageMap> = computed(() =>
     Object.keys(matchPositions).reduce((obj: CoverageMap, pos) => {
       obj[pos] = {
-        value: props.coverageData[pos] || null
+        value: props.coverageData[pos]
       }
       return obj
     }, {})
   )
 
-  function cellBorderRadius(coordinates: string[]) {
+  function cellBorderRadius(coordinates: number[]) {
     switch (coordinates.join('-')) {
       case '0-1':
       case '3-0':

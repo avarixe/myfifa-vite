@@ -3,7 +3,7 @@
 
   const props = withDefaults(
     defineProps<{
-      modelValue?: string
+      modelValue?: string | null
       defaultItems?: string[]
     }>(),
     { modelValue: '', defaultItems: () => [] }

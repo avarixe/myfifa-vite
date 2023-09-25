@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Match } from '~/models'
+  import { Match, Cap } from '~/models'
 
   const props = defineProps<{
     match: Match
@@ -7,13 +7,14 @@
   }>()
 
   const starters = computed(() => props.match.caps.filter(c => c.start === 0))
-  const formationCells = computed(() =>
-    Object.keys(matchPositions).reduce((map, pos) => {
-      return {
-        ...map,
-        [pos]: starters.value.find(cap => cap.pos === pos)
-      }
-    }, {})
+  const formationCells = computed(
+    () =>
+      Object.keys(matchPositions).reduce((map, pos) => {
+        return {
+          ...map,
+          [pos]: starters.value.find(cap => cap.pos === pos)
+        }
+      }, {}) as { [key: string]: Cap }
   )
 
   const substitutes = computed(() => props.match.caps.filter(c => c.start > 0))

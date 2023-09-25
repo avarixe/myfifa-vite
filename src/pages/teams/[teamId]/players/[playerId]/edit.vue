@@ -28,8 +28,8 @@
   if (data.value) {
     playerRepo.save(data.value.player)
   }
-  const player = computed(() =>
-    playerRepo.find(parseInt(route.params.playerId))
+  const player = computed(
+    () => playerRepo.find(Number(route.params.playerId)) as Player
   )
 </script>
 

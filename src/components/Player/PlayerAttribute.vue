@@ -7,7 +7,7 @@
     label: string
   }>()
 
-  const modelValue = ref(null as number | string | null)
+  const modelValue = ref(undefined as number | string | undefined)
   watchEffect(() => {
     modelValue.value = props.player[props.attribute]
   })
@@ -50,7 +50,7 @@
         name="form"
         :model-value="modelValue"
         :update-model-value="
-          (value: number | string | null) => {
+          (value: number | string | undefined) => {
             modelValue = value
           }
         "

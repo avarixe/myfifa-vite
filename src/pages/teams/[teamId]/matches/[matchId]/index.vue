@@ -2,8 +2,8 @@
   import { Match } from '~/models'
 
   const route = useRoute<'/teams/[teamId]/matches/[matchId]/'>()
-  const teamId = computed(() => parseInt(route.params.teamId))
-  const matchId = computed(() => parseInt(route.params.matchId))
+  const teamId = computed(() => Number(route.params.teamId))
+  const matchId = computed(() => Number(route.params.matchId))
 
   const { data, team } = await useTeamQuery<{
     team: object

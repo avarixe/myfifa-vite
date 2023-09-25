@@ -2,24 +2,24 @@
   const props = withDefaults(
     defineProps<{
       player: {
-        name: string
-        nationality: string
-        pos: string
+        name: string | null
+        nationality: string | null
+        pos: string | null
         secPos: string[]
-        age: number
-        ovr: number
-        value: number
-        kitNo: number
+        age: number | null
+        ovr: number | null
+        value: number | null
+        kitNo: number | null
         contractsAttributes: {
-          signedOn: string
-          startedOn: string
-          endedOn: string
-          wage: number
-          signingBonus: number
-          releaseClause: number
-          performanceBonus: number
-          bonusReq: string
-          bonusReqType: string
+          signedOn: string | null
+          startedOn: string | null
+          endedOn: string | null
+          wage: number | null
+          signingBonus: number | null
+          releaseClause: number | null
+          performanceBonus: number | null
+          bonusReq: number | null
+          bonusReqType: string | null
         }[]
       }
       submitted?: number
