@@ -7,20 +7,20 @@
   }>()
 
   const attributes = reactive({
-    playerId: props.cap.playerId,
+    capId: props.cap.id,
     replacementId: '',
     injury: false
   })
 
   watchEffect(() => {
-    attributes.playerId = props.cap.playerId
+    attributes.capId = props.cap.id
   })
 
   const { minute, sortedCaps } = useMatch(props.match)
   const { activePlayers } = useActivePlayers()
 
   const availablePlayers = computed(() => {
-    const selectedIds = sortedCaps.value.map((cap: Cap) => cap.playerId)
+    const selectedIds = sortedCaps.value.map(cap => cap.playerId)
     return activePlayers.value.filter(
       (player: Player) => selectedIds.indexOf(player.id) < 0
     )

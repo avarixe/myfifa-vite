@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { Player } from '~/models'
 
-  const props = defineProps<{ player: Player }>()
+  defineProps<{ player: Player }>()
 
   function cellColor(_pos: string, cell: { value: number | null }) {
     switch (cell.value) {

@@ -16,7 +16,9 @@ export default class Substitution extends Model {
   // Primary/Foreign keys
   @Cast(() => NumberCast) @Attr(0) declare id: number
   @Cast(() => NumberCast) @Attr(0) declare matchId: number
+  @Cast(() => NumberCast) @Attr(0) declare capId: number
   @Cast(() => NumberCast) @Attr(0) declare playerId: number
+  @Cast(() => NumberCast) @Attr(0) declare subCapId: number
   @Cast(() => NumberCast) @Attr(0) declare replacementId: number
 
   // Database fields

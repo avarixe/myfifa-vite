@@ -7,14 +7,14 @@
   }>()
 
   interface SubstitutionAttributes {
-    playerId?: number | null
+    capId?: number
     replacementId?: number
     injury?: boolean
   }
 
   const attributes: SubstitutionAttributes = reactive({})
   function onOpen() {
-    attributes.playerId = props.record?.playerId
+    attributes.capId = props.record?.playerId
     attributes.replacementId = props.record?.replacementId
     attributes.injury = props.record?.injury ?? false
     minute.value = props.record?.minute ?? null
@@ -40,18 +40,18 @@
 
   const unsubbedPlayers = computed(() =>
     sortedCaps.value.filter(
-      (cap: Cap) =>
+      cap =>
         (cap.playerId !== attributes.replacementId && !cap.subbedOut) ||
-        (props.record && cap.playerId === props.record.playerId)
+        (props.record && cap.id === props.record.capId)
     )
   )
 
   watch(minute, () => {
     if (
-      attributes.playerId &&
-      sortedCaps.value.every((cap: Cap) => cap.playerId !== attributes.playerId)
+      attributes.capId &&
+      sortedCaps.value.every(cap => cap.id !== attributes.capId)
     ) {
-      attributes.playerId = null
+      attributes.capId = undefined
     }
   })
 
@@ -106,7 +106,7 @@
       </v-col>
       <v-col cols="12">
         <cap-select
-          v-model="attributes.playerId"
+          v-model="attributes.capId"
           :caps="unsubbedPlayers"
           label="Player"
           prepend-icon="mdi-subdirectory-arrow-left"

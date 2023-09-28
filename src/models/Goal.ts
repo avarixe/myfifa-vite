@@ -16,7 +16,9 @@ export default class Goal extends Model {
   // Primary/Foreign keys
   @Cast(() => NumberCast) @Attr(0) declare id: number
   @Cast(() => NumberCast) @Attr(0) declare matchId: number
+  @Cast(() => NumberCast) @Attr(0) declare capId: number | null
   @Cast(() => NumberCast) @Attr(null) declare playerId: number | null
+  @Cast(() => NumberCast) @Attr(0) declare assistCapId: number | null
   @Cast(() => NumberCast) @Attr(null) declare assistId: number | null
 
   // Database fields

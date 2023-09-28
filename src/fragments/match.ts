@@ -55,8 +55,10 @@ export const goalFragment = gql`
     id
     createdAt
     matchId
+    capId
     playerId
     playerName
+    assistCapId
     assistId
     assistedBy
     minute
@@ -71,8 +73,10 @@ export const substitutionFragment = gql`
     id
     createdAt
     matchId
+    capId
     playerId
     playerName
+    subCapId
     replacementId
     replacedBy
     minute
@@ -85,6 +89,7 @@ export const bookingFragment = gql`
     id
     createdAt
     matchId
+    capId
     playerId
     playerName
     minute

@@ -1,46 +1,29 @@
 <script setup lang="ts">
-  import { Cap, Player } from '~/models'
+  import { Cap } from '~/models'
 
   const props = withDefaults(defineProps<{ caps: Cap[] }>(), { caps: () => [] })
 
-  const playerPositions: Ref<{ [key: number]: string }> = computed(() =>
-    props.caps.reduce(
-      (obj: object, cap) => ({
-        ...obj,
-        [cap.playerId]: cap.pos
-      }),
-      {}
-    )
-  )
-
-  const playerRepo = useRepo(Player)
   const matchPositionList = Object.keys(matchPositions)
-  const players = computed(() =>
-    _orderBy(
-      playerRepo
-        .where(
-          'id',
-          props.caps.map(cap => cap.playerId)
-        )
-        .get(),
-      (player: Player) =>
-        matchPositionList.indexOf(playerPositions.value[player.id])
-    )
+  const caps = computed(
+    () =>
+      _orderBy(props.caps, (cap: Cap) =>
+        matchPositionList.indexOf(cap.pos)
+      ) as Cap[]
   )
 </script>
 
 <template>
   <v-autocomplete
     v-bind="$attrs"
-    :items="players"
-    item-title="name"
+    :items="caps"
+    item-title="player.name"
     item-value="id"
   >
     <template #item="{ item, props: itemProps }">
       <v-list-item v-bind="itemProps">
         <template #prepend>
           <small class="text-disabled font-weight-bold mr-4">
-            {{ playerPositions[item.value] }}
+            {{ item.raw.pos }}
           </small>
         </template>
       </v-list-item>

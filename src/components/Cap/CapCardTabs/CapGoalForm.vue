@@ -10,30 +10,24 @@
 
   const attributes: GoalAttributes = reactive({
     home: props.match.home === team.value.name,
-    playerId: props.cap.playerId,
-    playerName: props.cap.name,
-    assistedBy: '',
-    assistId: '',
+    capId: props.cap.id,
+    assistCapId: null,
     ownGoal: false,
     penalty: false
   })
 
   watchEffect(() => {
     attributes.home = props.match.home === team.value.name
-    attributes.playerId = props.cap.playerId
-    attributes.playerName = props.cap.name
+    attributes.capId = props.cap.id
 
     if (attributes.penalty || attributes.ownGoal) {
-      attributes.assistId = null
-      attributes.assistedBy = null
+      attributes.assistCapId = null
     }
   })
 
   const { minute, unsubbedPlayers } = useMatch(props.match)
   const assistOptions = computed(() =>
-    unsubbedPlayers.value.filter(
-      (cap: Cap) => cap.playerId !== attributes.playerId
-    )
+    unsubbedPlayers.value.filter(cap => cap.id !== attributes.capId)
   )
 
   const emit = defineEmits(['submitted'])
@@ -73,7 +67,7 @@
       <div class="text-subtitle-2 pb-2">Add Goal</div>
       <v-text-field v-model.number="minute" label="Minute" type="number" />
       <cap-select
-        v-model="attributes.assistId"
+        v-model="attributes.assistCapId"
         label="Assisted By"
         :caps="assistOptions"
         :disabled="attributes.penalty || attributes.ownGoal"

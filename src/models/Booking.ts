@@ -16,6 +16,7 @@ export default class Booking extends Model {
 
   // Primary/Foreign keys
   @Cast(() => NumberCast) @Attr(0) declare id: number
+  @Cast(() => NumberCast) @Attr(0) declare capId: number
   @Cast(() => NumberCast) @Attr(0) declare matchId: number
   @Cast(() => NumberCast) @Attr(null) declare playerId: number | null
 
