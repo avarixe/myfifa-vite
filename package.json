@@ -2,7 +2,7 @@
   "type": "module",
   "name": "myfifa-vite",
   "title": "MyFIFA Manager",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "author": "Joon Lee <l33j00n325@gmail.com>",
   "private": true,
   "scripts": {
@@ -37,7 +37,7 @@
     "vue": "^3.3.4",
     "vue-currency-input": "^3.0.5",
     "vue-router": "^4.2.4",
-    "vuetify": "^3.3.14"
+    "vuetify": "^3.3.19"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.6",
@@ -64,7 +64,7 @@
     "vite": "^4.4.2",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-vuetify": "^1.0.2",
-    "vue-tsc": "^1.8.11"
+    "vue-tsc": "^1.8.15"
   },
   "config": {
     "commitizen": {

@@ -5,11 +5,13 @@
       variables: () => object
       title: string
       titleIcon?: string | null
+      maxWidth?: string
       validateOnOpen?: boolean
     }>(),
     {
       title: '',
       titleIcon: null,
+      maxWidth: '500px',
       validateOnOpen: false
     }
   )
@@ -50,7 +52,7 @@
     v-model="dialog"
     persistent
     scrollable
-    max-width="500px"
+    :max-width="maxWidth"
     activator="parent"
   >
     <v-form
@@ -80,11 +82,9 @@
         </v-toolbar>
         <v-divider />
         <v-card-text>
-          <v-container>
-            <v-row dense>
-              <slot name="form" />
-            </v-row>
-          </v-container>
+          <v-row dense>
+            <slot />
+          </v-row>
         </v-card-text>
         <v-divider />
         <v-card-actions>

@@ -1,15 +1,12 @@
 <script setup lang="ts" generic="T">
   const props = defineProps<{
-    coverageData: { [key: string]: T }
+    coverageData: Record<string, T>
     cellColor: (pos: string, cell: { value: T }) => string
   }>()
 
-  interface CoverageMap {
-    [key: string]: { value: T }
-  }
-
+  type CoverageMap = Record<string, { value: T }>
   const coverage: Ref<CoverageMap> = computed(() =>
-    Object.keys(matchPositions).reduce((obj: CoverageMap, pos) => {
+    matchPositions.reduce((obj: CoverageMap, pos) => {
       obj[pos] = {
         value: props.coverageData[pos]
       }

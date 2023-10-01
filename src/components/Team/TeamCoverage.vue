@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  defineProps<{ coverage: { [key: string]: number } }>()
+  defineProps<{ coverage: Record<string, number> }>()
 
   function cellColor(pos: string, cell: { value: number | null }) {
     if (!cell.value) {

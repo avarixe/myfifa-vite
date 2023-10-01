@@ -21,12 +21,13 @@ export const baseCapFragment = gql`
     id
     matchId
     playerId
+    nextId
     pos
     start
     stop
     ovr
     rating
-    subbedOut
+    injured
   }
 `
 
@@ -55,8 +56,10 @@ export const goalFragment = gql`
     id
     createdAt
     matchId
+    capId
     playerId
     playerName
+    assistCapId
     assistId
     assistedBy
     minute
@@ -66,25 +69,12 @@ export const goalFragment = gql`
   }
 `
 
-export const substitutionFragment = gql`
-  fragment SubstitutionData on Substitution {
-    id
-    createdAt
-    matchId
-    playerId
-    playerName
-    replacementId
-    replacedBy
-    minute
-    injury
-  }
-`
-
 export const bookingFragment = gql`
   fragment BookingData on Booking {
     id
     createdAt
     matchId
+    capId
     playerId
     playerName
     minute

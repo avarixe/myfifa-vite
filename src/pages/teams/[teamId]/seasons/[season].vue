@@ -84,7 +84,7 @@
     () =>
       data.value?.team?.playerDevelopmentStats?.reduce(
         (
-          obj: { [key: string]: number[] },
+          obj: Record<string, number[]>,
           stats: { playerId: string; value: number[] }
         ) => ({ ...obj, [stats.playerId]: stats.value }),
         {}

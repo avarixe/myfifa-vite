@@ -24,7 +24,7 @@
 <template>
   <v-timeline-item dot-color="indigo">
     <template #icon>
-      <small>{{ match.extraTime ? 120 : 90 }}'</small>
+      <small>{{ match.endOfMatch }}'</small>
     </template>
     <template #[slotName]>
       <h2

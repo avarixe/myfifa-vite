@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  const props = defineProps<{ modelValue: { [key: string]: number | null } }>()
+  const props = defineProps<{ modelValue: Record<string, number | null> }>()
   const emit = defineEmits(['update:modelValue'])
 
   function togglePos(pos: string) {

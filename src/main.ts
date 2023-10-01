@@ -8,6 +8,7 @@ import {
   VDataTableVirtual,
   VDataTableServer
 } from 'vuetify/labs/VDataTable'
+import { VStepper, VStepperHeader, VStepperItem } from 'vuetify/labs/VStepper'
 // import { VDatePicker } from 'vuetify/labs/VDatePicker'
 import 'vuetify/styles'
 
@@ -72,7 +73,10 @@ const vuetify = createVuetify({
   components: {
     VDataTable,
     VDataTableVirtual,
-    VDataTableServer
+    VDataTableServer,
+    VStepper,
+    VStepperHeader,
+    VStepperItem
     // VDatePicker
   },
   defaults: {

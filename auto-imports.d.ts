@@ -83,6 +83,7 @@ declare global {
   const mapWritableState: typeof import('pinia')['mapWritableState']
   const markRaw: typeof import('vue')['markRaw']
   const matchFragment: typeof import('./src/fragments/match')['matchFragment']
+  const matchPositionTypes: typeof import('./src/constants/index')['matchPositionTypes']
   const matchPositions: typeof import('./src/constants/index')['matchPositions']
   const nationalities: typeof import('./src/constants/index')['nationalities']
   const nextTick: typeof import('vue')['nextTick']
@@ -140,7 +141,6 @@ declare global {
   const squadPlayerFragment: typeof import('./src/fragments/squad')['squadPlayerFragment']
   const stageFragment: typeof import('./src/fragments/competition')['stageFragment']
   const storeToRefs: typeof import('pinia')['storeToRefs']
-  const substitutionFragment: typeof import('./src/fragments/match')['substitutionFragment']
   const syncRef: typeof import('@vueuse/core')['syncRef']
   const syncRefs: typeof import('@vueuse/core')['syncRefs']
   const tableRowFragment: typeof import('./src/fragments/competition')['tableRowFragment']
@@ -247,7 +247,7 @@ declare global {
   const useLocalStorage: typeof import('@vueuse/core')['useLocalStorage']
   const useMagicKeys: typeof import('@vueuse/core')['useMagicKeys']
   const useManualRefHistory: typeof import('@vueuse/core')['useManualRefHistory']
-  const useMatch: typeof import('./src/composables/useMatch')['default']
+  const useMatchState: typeof import('./src/composables/useMatchState')['default']
   const useMediaControls: typeof import('@vueuse/core')['useMediaControls']
   const useMediaQuery: typeof import('@vueuse/core')['useMediaQuery']
   const useMemoize: typeof import('@vueuse/core')['useMemoize']
@@ -446,6 +446,7 @@ declare module 'vue' {
     readonly mapWritableState: UnwrapRef<typeof import('pinia')['mapWritableState']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
     readonly matchFragment: UnwrapRef<typeof import('./src/fragments/match')['matchFragment']>
+    readonly matchPositionTypes: UnwrapRef<typeof import('./src/constants/index')['matchPositionTypes']>
     readonly matchPositions: UnwrapRef<typeof import('./src/constants/index')['matchPositions']>
     readonly nationalities: UnwrapRef<typeof import('./src/constants/index')['nationalities']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
@@ -503,7 +504,6 @@ declare module 'vue' {
     readonly squadPlayerFragment: UnwrapRef<typeof import('./src/fragments/squad')['squadPlayerFragment']>
     readonly stageFragment: UnwrapRef<typeof import('./src/fragments/competition')['stageFragment']>
     readonly storeToRefs: UnwrapRef<typeof import('pinia')['storeToRefs']>
-    readonly substitutionFragment: UnwrapRef<typeof import('./src/fragments/match')['substitutionFragment']>
     readonly syncRef: UnwrapRef<typeof import('@vueuse/core')['syncRef']>
     readonly syncRefs: UnwrapRef<typeof import('@vueuse/core')['syncRefs']>
     readonly tableRowFragment: UnwrapRef<typeof import('./src/fragments/competition')['tableRowFragment']>
@@ -610,7 +610,7 @@ declare module 'vue' {
     readonly useLocalStorage: UnwrapRef<typeof import('@vueuse/core')['useLocalStorage']>
     readonly useMagicKeys: UnwrapRef<typeof import('@vueuse/core')['useMagicKeys']>
     readonly useManualRefHistory: UnwrapRef<typeof import('@vueuse/core')['useManualRefHistory']>
-    readonly useMatch: UnwrapRef<typeof import('./src/composables/useMatch')['default']>
+    readonly useMatchState: UnwrapRef<typeof import('./src/composables/useMatchState')['default']>
     readonly useMediaControls: UnwrapRef<typeof import('@vueuse/core')['useMediaControls']>
     readonly useMediaQuery: UnwrapRef<typeof import('@vueuse/core')['useMediaQuery']>
     readonly useMemoize: UnwrapRef<typeof import('@vueuse/core')['useMemoize']>
@@ -801,6 +801,7 @@ declare module '@vue/runtime-core' {
     readonly mapWritableState: UnwrapRef<typeof import('pinia')['mapWritableState']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
     readonly matchFragment: UnwrapRef<typeof import('./src/fragments/match')['matchFragment']>
+    readonly matchPositionTypes: UnwrapRef<typeof import('./src/constants/index')['matchPositionTypes']>
     readonly matchPositions: UnwrapRef<typeof import('./src/constants/index')['matchPositions']>
     readonly nationalities: UnwrapRef<typeof import('./src/constants/index')['nationalities']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
@@ -858,7 +859,6 @@ declare module '@vue/runtime-core' {
     readonly squadPlayerFragment: UnwrapRef<typeof import('./src/fragments/squad')['squadPlayerFragment']>
     readonly stageFragment: UnwrapRef<typeof import('./src/fragments/competition')['stageFragment']>
     readonly storeToRefs: UnwrapRef<typeof import('pinia')['storeToRefs']>
-    readonly substitutionFragment: UnwrapRef<typeof import('./src/fragments/match')['substitutionFragment']>
     readonly syncRef: UnwrapRef<typeof import('@vueuse/core')['syncRef']>
     readonly syncRefs: UnwrapRef<typeof import('@vueuse/core')['syncRefs']>
     readonly tableRowFragment: UnwrapRef<typeof import('./src/fragments/competition')['tableRowFragment']>
@@ -965,7 +965,7 @@ declare module '@vue/runtime-core' {
     readonly useLocalStorage: UnwrapRef<typeof import('@vueuse/core')['useLocalStorage']>
     readonly useMagicKeys: UnwrapRef<typeof import('@vueuse/core')['useMagicKeys']>
     readonly useManualRefHistory: UnwrapRef<typeof import('@vueuse/core')['useManualRefHistory']>
-    readonly useMatch: UnwrapRef<typeof import('./src/composables/useMatch')['default']>
+    readonly useMatchState: UnwrapRef<typeof import('./src/composables/useMatchState')['default']>
     readonly useMediaControls: UnwrapRef<typeof import('@vueuse/core')['useMediaControls']>
     readonly useMediaQuery: UnwrapRef<typeof import('@vueuse/core')['useMediaQuery']>
     readonly useMemoize: UnwrapRef<typeof import('@vueuse/core')['useMemoize']>

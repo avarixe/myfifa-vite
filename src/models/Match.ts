@@ -14,7 +14,6 @@ import { NumberCast } from 'pinia-orm/dist/casts'
 import Team from './Team'
 import PenaltyShootout from './PenaltyShootout'
 import Goal from './Goal'
-import Substitution from './Substitution'
 import Booking from './Booking'
 import Cap from './Cap'
 import Player from './Player'
@@ -46,17 +45,20 @@ export default class Match extends Model {
   @HasOne(() => PenaltyShootout, 'matchId')
   declare penaltyShootout: PenaltyShootout | null
   @HasMany(() => Goal, 'matchId') declare goals: Goal[]
-  @HasMany(() => Substitution, 'matchId') declare substitutions: Substitution[]
   @HasMany(() => Booking, 'matchId') declare bookings: Booking[]
   @HasMany(() => Cap, 'matchId') declare caps: Cap[]
   @BelongsToMany(() => Player, () => Cap, 'matchId', 'playerId')
   declare players: Player[]
 
-  get opponent(): string {
+  get opponent() {
     return this.home === this.team.name ? this.away : this.home
   }
 
-  get resultColor(): string {
+  get endOfMatch() {
+    return this.extraTime ? 120 : 90
+  }
+
+  get resultColor() {
     switch (this.teamResult) {
       case 'win':
         return 'success'

@@ -1,13 +1,27 @@
 <script setup lang="ts">
   import { Player, Contract, Injury, Loan, Transfer } from '~/models'
 
-  defineProps<{
+  const props = defineProps<{
     player: Player
     event: Contract | Injury | Loan | Transfer
     title: string
     icon: string
     color: string
   }>()
+
+  const timelineType = computed(() => {
+    if (props.event instanceof Contract) {
+      return 'Contract'
+    } else if (props.event instanceof Injury) {
+      return 'Injury'
+    } else if (props.event instanceof Loan) {
+      return 'Loan'
+    } else if (props.event instanceof Transfer) {
+      return 'Transfer'
+    } else {
+      return ''
+    }
+  })
 </script>
 
 <template>
@@ -32,22 +46,22 @@
         <v-btn variant="text" size="small" color="orange">
           Edit
           <contract-form
-            v-if="event.timelineType === 'Contract'"
+            v-if="event instanceof Contract"
             :player="player"
             :record="event"
           />
           <injury-form
-            v-else-if="event.timelineType === 'Injury'"
+            v-else-if="event instanceof Injury"
             :player="player"
             :record="event"
           />
           <loan-form
-            v-else-if="event.timelineType === 'Loan'"
+            v-else-if="event instanceof Loan"
             :player="player"
             :record="event"
           />
           <transfer-form
-            v-else-if="event.timelineType === 'Transfer'"
+            v-else-if="event instanceof Transfer"
             :player="player"
             :record="event"
           />
@@ -55,8 +69,8 @@
         <slot name="additional-actions" />
         <remove-button
           :record="event"
-          :store="event.timelineType"
-          :label="event.timelineType"
+          :store="timelineType"
+          :label="timelineType"
         />
       </v-card-actions>
     </v-card>

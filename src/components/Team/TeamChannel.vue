@@ -36,8 +36,8 @@
   type modelKey = keyof typeof models
   type modelType = typeof models.Team
 
-  const insertBuffer: { [key: string]: object[] } = reactive({})
-  const deleteBuffer: { [key: string]: { id: number }[] } = reactive({})
+  const insertBuffer: Record<string, object[]> = reactive({})
+  const deleteBuffer: Record<string, { id: number }[]> = reactive({})
   let timeout: ReturnType<typeof setTimeout>
 
   function addToBuffer({

@@ -20,9 +20,6 @@ export default class Transfer extends Model {
   @Num(null) declare addonClause: number | null
   @Str('') declare createdAt: string
 
-  // Static fields
-  @Str('Transfer') declare timelineType: 'Transfer'
-
   // Associations
   @BelongsTo(() => Player, 'playerId') declare player: Player
 

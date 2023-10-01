@@ -9,7 +9,7 @@
         player(id: $playerId) {
           ...PlayerData
           coverage {
-            ${Object.keys(matchPositions).join(' ')}
+            ${matchPositions.join(' ')}
           }
         }
         team(id: $teamId) {

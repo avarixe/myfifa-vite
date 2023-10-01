@@ -22,9 +22,6 @@
           goals {
             ...GoalData
           }
-          substitutions {
-            ...SubstitutionData
-          }
           bookings {
             ...BookingData
           }
@@ -51,7 +48,6 @@
       ${matchFragment}
       ${capFragment}
       ${goalFragment}
-      ${substitutionFragment}
       ${bookingFragment}
       ${penaltyShootoutFragment}
       ${teamFragment}
@@ -93,7 +89,7 @@
 
   const ovrData = computed(() =>
     match.value.caps.map(cap => ({
-      type: matchPositions[cap.pos],
+      type: matchPositionTypes[cap.pos],
       value: cap.ovr,
       weight: cap.stop - cap.start
     }))
@@ -193,7 +189,7 @@
         </v-btn>
         &nbsp;
       </template>
-      <v-btn>
+      <v-btn :color="match.caps.length < 11 ? 'primary' : undefined">
         <v-icon start>mdi-download</v-icon>
         Apply Squad
 
@@ -205,6 +201,13 @@
         Save Lineup
 
         <match-squad-saver :match="match" />
+      </v-btn>
+      &nbsp;
+      <v-btn v-if="match.caps.length >= 11" color="primary">
+        <v-icon start>mdi-vector-polygon</v-icon>
+        Edit Formation
+
+        <match-formation-form :match="match" />
       </v-btn>
     </div>
 

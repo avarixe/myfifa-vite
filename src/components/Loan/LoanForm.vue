@@ -40,16 +40,6 @@
     }
   }
 
-  const rulesFor = {
-    origin: [isRequired('Origin')],
-    destination: [isRequired('Destination')],
-    wagePercentage: [
-      isNumber('Wage Percentage'),
-      inRange('Wage Percentage', [0, 100])
-    ],
-    addonClause: [isNumber('Add-On Clause'), inRange('Add-On Clause', [0, 25])]
-  }
-
   const loanOut = computed(() =>
     props.record
       ? team.value.name === props.record.origin
@@ -99,74 +89,83 @@
     :variables="variables"
     @open="onOpen"
   >
-    <template #form>
-      <v-col cols="12">
-        <date-field
-          v-model="attributes.signedOn"
-          label="Signed Date"
-          prepend-icon="mdi-calendar-edit"
-          :prefill="team.currentlyOn"
-          clearable
-        />
-      </v-col>
-      <v-col cols="12">
-        <date-field
-          v-model="attributes.startedOn"
-          label="Start Date"
-          prepend-icon="mdi-calendar-today"
-          :min="attributes.signedOn"
-          :max="attributes.endedOn"
-          :prefill="team.currentlyOn"
-          required
-        />
-      </v-col>
-      <v-col cols="12">
-        <date-field
-          v-model="attributes.endedOn"
-          label="Return Date"
-          prepend-icon="mdi-calendar"
-          :min="attributes.startedOn"
-          :prefill="team.currentlyOn"
-          required
-        />
-      </v-col>
-      <v-col cols="12">
-        <team-combobox
-          v-model="attributes.origin"
-          label="Origin"
-          prepend-icon="mdi-airplane-takeoff"
-          :rules="loanOut ? [] : rulesFor.origin"
-          :disabled="loanOut"
-        />
-      </v-col>
-      <v-col cols="12">
-        <team-combobox
-          v-model="attributes.destination"
-          label="Destination"
-          prepend-icon="mdi-airplane-landing"
-          :rules="loanOut ? rulesFor.destination : []"
-          :disabled="!loanOut"
-        />
-      </v-col>
-      <v-col cols="12">
-        <v-text-field
-          v-model.number="attributes.wagePercentage"
-          label="Wage Percentage (%)"
-          :rules="attributes.wagePercentage ? rulesFor.wagePercentage : []"
-          inputmode="numeric"
-        />
-      </v-col>
-      <v-col cols="12">
-        <money-field v-model="attributes.transferFee" label="Transfer Fee" />
-      </v-col>
-      <v-col cols="12">
-        <v-text-field
-          v-model.number="attributes.addonClause"
-          label="Add-On Clause (%)"
-          :rules="attributes.addonClause ? rulesFor.addonClause : []"
-          inputmode="numeric"
-        />
-      </v-col>
-    </template>
+    <v-col cols="12">
+      <date-field
+        v-model="attributes.signedOn"
+        label="Signed Date"
+        prepend-icon="mdi-calendar-edit"
+        :prefill="team.currentlyOn"
+        clearable
+      />
+    </v-col>
+    <v-col cols="12">
+      <date-field
+        v-model="attributes.startedOn"
+        label="Start Date"
+        prepend-icon="mdi-calendar-today"
+        :min="attributes.signedOn"
+        :max="attributes.endedOn"
+        :prefill="team.currentlyOn"
+        required
+      />
+    </v-col>
+    <v-col cols="12">
+      <date-field
+        v-model="attributes.endedOn"
+        label="Return Date"
+        prepend-icon="mdi-calendar"
+        :min="attributes.startedOn"
+        :prefill="team.currentlyOn"
+        required
+      />
+    </v-col>
+    <v-col cols="12">
+      <team-combobox
+        v-model="attributes.origin"
+        label="Origin"
+        prepend-icon="mdi-airplane-takeoff"
+        :rules="loanOut ? [] : [isRequired('Origin')]"
+        :disabled="loanOut"
+      />
+    </v-col>
+    <v-col cols="12">
+      <team-combobox
+        v-model="attributes.destination"
+        label="Destination"
+        prepend-icon="mdi-airplane-landing"
+        :rules="loanOut ? [isRequired('Destination')] : []"
+        :disabled="!loanOut"
+      />
+    </v-col>
+    <v-col cols="12">
+      <v-text-field
+        v-model.number="attributes.wagePercentage"
+        label="Wage Percentage (%)"
+        :rules="
+          attributes.wagePercentage
+            ? [
+                isNumber('Wage Percentage'),
+                inRange('Wage Percentage', [0, 100])
+              ]
+            : []
+        "
+        inputmode="numeric"
+      />
+    </v-col>
+    <v-col cols="12">
+      <money-field v-model="attributes.transferFee" label="Transfer Fee" />
+    </v-col>
+    <v-col cols="12">
+      <v-text-field
+        v-model.number="attributes.addonClause"
+        label="Add-On Clause (%)"
+        :rules="
+          attributes.addonClause
+            ? [isNumber('Add-On Clause'), inRange('Add-On Clause', [0, 25])]
+            : []
+        "
+        inputmode="numeric"
+      />
+    </v-col>
   </dialog-form>
 </template>

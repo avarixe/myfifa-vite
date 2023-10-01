@@ -98,7 +98,7 @@
       // Convert array of arrays
       const data = window.XLSX.utils.sheet_to_json(ws)
       // Update state
-      data.forEach((player: { [key: string]: string | number | Date | null }) =>
+      data.forEach((player: Record<string, string | number | Date | null>) =>
         importPlayer(player)
       )
     }

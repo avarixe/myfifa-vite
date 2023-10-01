@@ -9,7 +9,7 @@
 
 <template>
   <div class="d-flex justify-space-around align-center overflow-visible">
-    <v-btn size="x-small" icon variant="text" :disabled="cap.subbedOut">
+    <v-btn size="x-small" icon variant="text" :disabled="!!cap.nextId">
       <v-icon>mdi-soccer</v-icon>
       <cap-event-menu :cap="cap" :match="match">
         <template #default="{ close }">
@@ -17,7 +17,7 @@
         </template>
       </cap-event-menu>
     </v-btn>
-    <v-btn size="x-small" icon variant="text" :disabled="cap.subbedOut">
+    <v-btn size="x-small" icon variant="text" :disabled="!!cap.nextId">
       <v-icon>mdi-repeat</v-icon>
       <cap-event-menu :cap="cap" :match="match">
         <template #default="{ close }">
@@ -25,7 +25,7 @@
         </template>
       </cap-event-menu>
     </v-btn>
-    <v-btn size="x-small" icon variant="text" :disabled="cap.subbedOut">
+    <v-btn size="x-small" icon variant="text" :disabled="!!cap.nextId">
       <v-icon>mdi-book</v-icon>
       <cap-event-menu :cap="cap" :match="match">
         <template #default="{ close }">

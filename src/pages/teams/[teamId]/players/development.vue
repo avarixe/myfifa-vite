@@ -32,7 +32,7 @@
   })
 
   const { playerDevelopmentStats } = data.value?.team || {}
-  const statsByPlayerId: { [key: string]: PlayerStats[] } = _groupBy(
+  const statsByPlayerId: Record<string, PlayerStats[]> = _groupBy(
     playerDevelopmentStats,
     'playerId'
   )
@@ -255,8 +255,8 @@
     </template>
     <template #[`item.player.name`]="{ item }">
       <v-btn
-        :to="`/teams/${team.id}/players/${item.raw.player.id}`"
-        :text="item.raw.player.name"
+        :to="`/teams/${team.id}/players/${item.player.id}`"
+        :text="item.player.name"
         size="small"
         variant="text"
         color="primary"
@@ -265,14 +265,14 @@
     </template>
     <template #[`item.player.nationality`]="{ item }">
       <flag
-        :iso="item.raw.player.flag"
-        :title="item.raw.player.nationality"
+        :iso="item.player.flag"
+        :title="item.player.nationality"
         class="mr-2"
       />
     </template>
     <template #[`item.ovrDiff.total`]="{ item }">
-      <div :class="ovrColor(item.raw.ovrDiff.total)">
-        {{ item.raw.ovrDiff.total }}
+      <div :class="ovrColor(item.ovrDiff.total)">
+        {{ item.ovrDiff.total }}
       </div>
     </template>
     <template
@@ -280,22 +280,20 @@
       :key="season"
       #[`item.ovrDiff.${season}`]="{ item }"
     >
-      <div :class="ovrColor(item.raw.ovrDiff[season])">
-        {{ item.raw.ovrDiff[season] > 0 ? '+' : '' }}
-        {{ item.raw.ovrDiff[season] }}
+      <div :class="ovrColor(item.ovrDiff[season])">
+        {{ item.ovrDiff[season] > 0 ? '+' : '' }}
+        {{ item.ovrDiff[season] }}
       </div>
     </template>
     <template #[`item.startValue`]="{ item }">
-      {{ formatMoney(item.raw.startValue, team.currency) }}
+      {{ formatMoney(item.startValue, team.currency) }}
     </template>
     <template #[`item.player.value`]="{ item }">
-      {{ formatMoney(item.raw.player.value, team.currency) }}
+      {{ formatMoney(item.player.value, team.currency) }}
     </template>
     <template #[`item.valueDiff.total`]="{ item }">
-      <div
-        :class="{ 'text-end': true, 'text-red': item.raw.valueDiff.total < 0 }"
-      >
-        {{ formatMoney(item.raw.valueDiff.total, team.currency, '-') }}
+      <div :class="{ 'text-end': true, 'text-red': item.valueDiff.total < 0 }">
+        {{ formatMoney(item.valueDiff.total, team.currency, '-') }}
       </div>
     </template>
     <template
@@ -304,11 +302,11 @@
       #[`item.valueDiff.${season}`]="{ item }"
     >
       <div
-        v-if="item.raw.valueDiff[season] !== undefined"
-        :class="valueColor(item.raw.valueDiff[season])"
+        v-if="item.valueDiff[season] !== undefined"
+        :class="valueColor(item.valueDiff[season])"
       >
-        {{ item.raw.valueDiff[season] > 0 ? '+' : '' }}
-        {{ item.raw.valueDiff[season].toFixed(2) }}%
+        {{ item.valueDiff[season] > 0 ? '+' : '' }}
+        {{ item.valueDiff[season].toFixed(2) }}%
       </div>
     </template>
   </v-data-table-virtual>

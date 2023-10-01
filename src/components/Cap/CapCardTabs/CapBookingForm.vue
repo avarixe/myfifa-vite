@@ -11,14 +11,12 @@
   const attributes = reactive({
     home: props.match.home === team.value.name,
     minute: null,
-    playerId: props.cap.playerId,
-    playerName: props.cap.name,
+    capId: props.cap.id,
     redCard: false
   })
 
   watchEffect(() => {
-    attributes.playerId = props.cap.playerId
-    attributes.playerName = props.cap.name
+    attributes.capId = props.cap.id
     attributes.home = props.match.home === team.value.name
   })
 

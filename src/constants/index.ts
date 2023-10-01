@@ -1,4 +1,4 @@
-export const positions: string[] = [
+export const positions = [
   'GK',
   'LB',
   'LWB',
@@ -16,7 +16,7 @@ export const positions: string[] = [
   'RW'
 ]
 
-export const matchPositions: { [key: string]: 'FWD' | 'MID' | 'DEF' } = {
+export const matchPositionTypes: Record<string, 'FWD' | 'MID' | 'DEF'> = {
   LW: 'FWD',
   LS: 'FWD',
   ST: 'FWD',
@@ -46,14 +46,16 @@ export const matchPositions: { [key: string]: 'FWD' | 'MID' | 'DEF' } = {
   GK: 'DEF'
 }
 
-export const bonusRequirementTypes: string[] = [
+export const matchPositions = Object.keys(matchPositionTypes)
+
+export const bonusRequirementTypes = [
   'Appearances',
   'Goals',
   'Assists',
   'Clean Sheets'
 ]
 
-export const nationalities: { [key: string]: string } = {
+export const nationalities: Record<string, string> = {
   // Africa
   Algeria: 'dz',
   Angola: 'ao',

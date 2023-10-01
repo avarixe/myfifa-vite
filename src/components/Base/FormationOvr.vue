@@ -23,7 +23,7 @@
 
   const formationOvr = computed(() =>
     props.data.reduce(
-      (ovrs: { [key: string]: OvrStat }, data) => {
+      (ovrs: Record<string, OvrStat>, data) => {
         if (data) {
           ovrs[data.type].total += data.value * data.weight
           ovrs[data.type].weight += data.weight

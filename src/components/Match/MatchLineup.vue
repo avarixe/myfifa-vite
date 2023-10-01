@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Match } from '~/models'
+  import { Match, Cap } from '~/models'
 
   const props = defineProps<{
     match: Match
@@ -12,15 +12,21 @@
     [props.match.home, props.match.away].includes(team.value.name)
   )
 
-  const matchPosKeys = Object.keys(matchPositions)
+  const capRepo = useRepo(Cap)
   const sortedCaps = computed(() =>
-    [...props.match.caps].sort((a, b) => {
-      if (a.start !== b.start) {
-        return a.start - b.start
-      } else {
-        return matchPosKeys.indexOf(a.pos) - matchPosKeys.indexOf(b.pos)
-      }
-    })
+    capRepo
+      .with('next')
+      .with('player')
+      .where('matchId', props.match.id)
+      .get()
+      .filter(cap => !cap.nextId || cap.next?.playerId !== cap.playerId)
+      .sort((a, b) => {
+        if (a.posIdx !== b.posIdx) {
+          return a.posIdx - b.posIdx
+        } else {
+          return a.start - b.start
+        }
+      })
   )
 
   const nonTeamSides = computed(() => {
@@ -42,8 +48,8 @@
       <v-list-item
         v-for="cap in sortedCaps"
         :key="cap.id"
-        v-ripple="!cap.subbedOut"
-        :disabled="props.readonly || cap.subbedOut"
+        v-ripple="!cap.nextId"
+        :disabled="props.readonly || !!cap.nextId"
       >
         <template #prepend>
           <span
@@ -60,7 +66,7 @@
         </template>
 
         <cap-card
-          v-if="!props.readonly && !cap.subbedOut"
+          v-if="!props.readonly && !cap.nextId"
           :cap="cap"
           :match="match"
         />
