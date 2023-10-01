@@ -19,7 +19,4 @@ export default class Loan extends Model {
   @Num(null) declare transferFee: number | null
   @Num(null) declare addonClause: number | null
   @Str('') declare createdAt: string
-
-  // Static fields
-  @Str('Loan') declare timelineType: 'Loan'
 }

@@ -37,7 +37,7 @@
       v-model="attributes.pos"
       label="Position"
       prepend-icon="mdi-run"
-      :items="Object.keys(matchPositions)"
+      :items="matchPositions"
       @update:model-value="submitForm"
     />
     <player-select

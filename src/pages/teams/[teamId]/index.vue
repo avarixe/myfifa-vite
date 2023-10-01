@@ -38,7 +38,7 @@
           wage: number
         }
       }[]
-      coverage: { [key: string]: number }
+      coverage: Record<string, number>
     }
   }>({
     query: gql`
@@ -49,7 +49,7 @@
             ...MatchData
           }
           coverage {
-            ${Object.keys(matchPositions).join(' ')}
+            ${matchPositions.join(' ')}
           }
           injuredPlayers {
             id

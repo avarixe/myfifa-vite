@@ -39,12 +39,6 @@
     }
   }
 
-  const rulesFor = {
-    origin: [isRequired('Origin')],
-    destination: [isRequired('Destination')],
-    addonClause: [isNumber('Add-On Clause'), inRange('Add-On Clause', [0, 25])]
-  }
-
   // const transferColor = computed(() => transferOut.value ? 'red' : 'green')
 
   watchEffect(() => {
@@ -89,54 +83,56 @@
     :variables="variables"
     @open="onOpen"
   >
-    <template #form>
-      <v-col cols="12">
-        <date-field
-          v-model="attributes.signedOn"
-          label="Signed Date"
-          prepend-icon="mdi-calendar-edit"
-          :prefill="team.currentlyOn"
-          clearable
-        />
-      </v-col>
-      <v-col cols="12">
-        <date-field
-          v-model="attributes.movedOn"
-          label="Effective Date"
-          prepend-icon="mdi-calendar-today"
-          :min="attributes.signedOn"
-          :prefill="team.currentlyOn"
-        />
-      </v-col>
-      <v-col cols="12">
-        <team-combobox
-          v-model="attributes.origin"
-          label="Origin"
-          prepend-icon="mdi-airplane-takeoff"
-          :rules="transferOut ? [] : rulesFor.origin"
-          :disabled="transferOut"
-        />
-      </v-col>
-      <v-col cols="12">
-        <team-combobox
-          v-model="attributes.destination"
-          label="Destination"
-          prepend-icon="mdi-airplane-landing"
-          :rules="transferOut ? rulesFor.destination : []"
-          :disabled="!transferOut"
-        />
-      </v-col>
-      <v-col cols="12">
-        <money-field v-model="attributes.fee" label="Fee" />
-      </v-col>
-      <v-col cols="12">
-        <v-text-field
-          v-model.number="attributes.addonClause"
-          label="Add-On Clause (%)"
-          :rules="attributes.addonClause ? rulesFor.addonClause : []"
-          inputmode="numeric"
-        />
-      </v-col>
-    </template>
+    <v-col cols="12">
+      <date-field
+        v-model="attributes.signedOn"
+        label="Signed Date"
+        prepend-icon="mdi-calendar-edit"
+        :prefill="team.currentlyOn"
+        clearable
+      />
+    </v-col>
+    <v-col cols="12">
+      <date-field
+        v-model="attributes.movedOn"
+        label="Effective Date"
+        prepend-icon="mdi-calendar-today"
+        :min="attributes.signedOn"
+        :prefill="team.currentlyOn"
+      />
+    </v-col>
+    <v-col cols="12">
+      <team-combobox
+        v-model="attributes.origin"
+        label="Origin"
+        prepend-icon="mdi-airplane-takeoff"
+        :rules="transferOut ? [] : [isRequired('Origin')]"
+        :disabled="transferOut"
+      />
+    </v-col>
+    <v-col cols="12">
+      <team-combobox
+        v-model="attributes.destination"
+        label="Destination"
+        prepend-icon="mdi-airplane-landing"
+        :rules="transferOut ? [isRequired('Destination')] : []"
+        :disabled="!transferOut"
+      />
+    </v-col>
+    <v-col cols="12">
+      <money-field v-model="attributes.fee" label="Fee" />
+    </v-col>
+    <v-col cols="12">
+      <v-text-field
+        v-model.number="attributes.addonClause"
+        label="Add-On Clause (%)"
+        :rules="
+          attributes.addonClause
+            ? [isNumber('Add-On Clause'), inRange('Add-On Clause', [0, 25])]
+            : []
+        "
+        inputmode="numeric"
+      />
+    </v-col>
   </dialog-form>
 </template>

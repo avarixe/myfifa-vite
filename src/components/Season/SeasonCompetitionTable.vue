@@ -48,7 +48,7 @@
           [stats.competition]: stats
         }),
         {}
-      ) as { [key: string]: CompetitionStats }
+      ) as Record<string, CompetitionStats>
   )
 
   const rows = computed(() =>
@@ -85,8 +85,8 @@
   >
     <template #[`item.name`]="{ item }">
       <v-btn
-        :to="`/teams/${team.id}/competitions/${item.raw.id}`"
-        :text="item.raw.name"
+        :to="`/teams/${team.id}/competitions/${item.id}`"
+        :text="item.name"
         size="small"
         variant="text"
         color="primary"
@@ -94,11 +94,7 @@
       />
     </template>
     <template #[`item.status`]="{ item }">
-      <v-icon
-        :color="item.raw.statusColor"
-        size="small"
-        :icon="item.raw.statusIcon"
-      />
+      <v-icon :color="item.statusColor" size="small" :icon="item.statusIcon" />
     </template>
     <template #bottom />
   </v-data-table>

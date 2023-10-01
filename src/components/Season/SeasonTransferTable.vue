@@ -9,7 +9,7 @@
       transfers: Transfer[]
       loans: Loan[]
     }
-    playerValues: { [key: number]: number[] }
+    playerValues: Record<number, number[]>
     season: number
   }>()
 
@@ -230,8 +230,8 @@
   >
     <template #[`item.name`]="{ item }">
       <v-btn
-        :to="`/teams/${team.id}/players/${item.raw.playerId}`"
-        :text="item.raw.name"
+        :to="`/teams/${team.id}/players/${item.playerId}`"
+        :text="item.name"
         size="small"
         variant="text"
         color="primary"
@@ -239,33 +239,28 @@
       />
     </template>
     <template #[`item.date`]="{ item }">
-      {{ formatDate(item.raw.date) }}
+      {{ formatDate(item.date) }}
     </template>
     <template #[`item.icon`]="{ item }">
-      <v-icon :color="item.raw.iconColor" :icon="item.raw.icon" />
+      <v-icon :color="item.iconColor" :icon="item.icon" />
     </template>
     <template #[`item.value`]="{ item }">
-      <div :class="`text-${item.raw.value > 0 ? 'green' : 'red'}`">
-        <span v-if="item.raw.value">{{ item.raw.value > 0 ? '+' : '-' }}</span>
-        {{ formatMoney(Math.abs(item.raw.value), team.currency, ' ') }}
+      <div :class="`text-${item.value > 0 ? 'green' : 'red'}`">
+        <span v-if="item.value">{{ item.value > 0 ? '+' : '-' }}</span>
+        {{ formatMoney(Math.abs(item.value), team.currency, ' ') }}
       </div>
     </template>
     <template #[`item.fee`]="{ item }">
-      <div
-        v-if="item.raw.fee"
-        :class="`text-${item.raw.fee > 0 ? 'green' : 'red'}`"
-      >
-        {{ item.raw.fee > 0 ? '+' : '-' }}
-        {{ formatMoney(Math.abs(item.raw.fee), team.currency, ' ') }}
-        <span v-if="item.raw.addonClause">(+{{ item.raw.addonClause }}%)</span>
+      <div v-if="item.fee" :class="`text-${item.fee > 0 ? 'green' : 'red'}`">
+        {{ item.fee > 0 ? '+' : '-' }}
+        {{ formatMoney(Math.abs(item.fee), team.currency, ' ') }}
+        <span v-if="item.addonClause">(+{{ item.addonClause }}%)</span>
       </div>
     </template>
     <template #[`item.netValue`]="{ item }">
-      <div :class="`text-${item.raw.netValue > 0 ? 'green' : 'red'}`">
-        <span v-if="item.raw.netValue">{{
-          item.raw.netValue > 0 ? '+' : '-'
-        }}</span>
-        {{ formatMoney(Math.abs(item.raw.netValue), team.currency, ' ') }}
+      <div :class="`text-${item.netValue > 0 ? 'green' : 'red'}`">
+        <span v-if="item.netValue">{{ item.netValue > 0 ? '+' : '-' }}</span>
+        {{ formatMoney(Math.abs(item.netValue), team.currency, ' ') }}
       </div>
     </template>
     <template #tfoot>

@@ -14,7 +14,4 @@ export default class Injury extends Model {
   @Str('') declare endedOn: string
   @Str('') declare description: string
   @Str('') declare createdAt: string
-
-  // Static fields
-  @Str('Injury') declare timelineType: 'Injury'
 }

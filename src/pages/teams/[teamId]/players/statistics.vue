@@ -39,7 +39,7 @@
   })
 
   const { playerPerformanceStats } = data.value?.team || {}
-  const statsByPlayerId: { [key: string]: PlayerPerformanceStat[] } = _groupBy(
+  const statsByPlayerId: Record<string, PlayerPerformanceStat[]> = _groupBy(
     playerPerformanceStats,
     'playerId'
   )
@@ -148,7 +148,7 @@
             [null, data.competition].includes(filters.competition)
         ) || []
 
-      const splitStats: { [key: string]: PlayerPerformanceStat[] } = _groupBy(
+      const splitStats: Record<string, PlayerPerformanceStat[]> = _groupBy(
         filteredStats,
         (stats: PlayerPerformanceStat) =>
           [
@@ -324,8 +324,8 @@
     </template>
     <template #[`item.player.name`]="{ item }">
       <v-btn
-        :to="`/teams/${team.id}/players/${item.raw.player.id}`"
-        :text="item.raw.player.name"
+        :to="`/teams/${team.id}/players/${item.player.id}`"
+        :text="item.player.name"
         size="small"
         variant="text"
         color="primary"
@@ -334,33 +334,33 @@
     </template>
     <template #[`item.player.nationality`]="{ item }">
       <flag
-        :iso="item.raw.player.flag"
-        :title="item.raw.player.nationality"
+        :iso="item.player.flag"
+        :title="item.player.nationality"
         class="mr-2"
       />
     </template>
     <template #[`item.season`]="{ item }">
-      {{ seasonLabel(item.raw.season) }}
+      {{ seasonLabel(item.season) }}
     </template>
     <template #[`item.avgRating`]="{ item }">
       <v-progress-linear
-        :model-value="(item.raw.avgRating / 5) * 100"
-        :color="ratingColor(item.raw.avgRating)"
+        :model-value="(item.avgRating / 5) * 100"
+        :color="ratingColor(item.avgRating)"
         size="x-small"
         striped
         height="25"
       >
-        <strong class="text-black">{{ item.raw.avgRating.toFixed(2) }}</strong>
+        <strong class="text-black">{{ item.avgRating.toFixed(2) }}</strong>
       </v-progress-linear>
     </template>
     <template #[`item.xGAndxA`]="{ item }">
-      {{ item.raw.xGAndxA?.toFixed(2) }}
+      {{ item.xGAndxA?.toFixed(2) }}
     </template>
     <template #[`item.xG`]="{ item }">
-      {{ item.raw.xG?.toFixed(2) }}
+      {{ item.xG?.toFixed(2) }}
     </template>
     <template #[`item.xA`]="{ item }">
-      {{ item.raw.xA?.toFixed(2) }}
+      {{ item.xA?.toFixed(2) }}
     </template>
   </v-data-table-virtual>
 </template>

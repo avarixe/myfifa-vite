@@ -29,14 +29,14 @@
 
   const formationCells = computed(
     () =>
-      Object.keys(matchPositions).reduce((map, pos) => {
+      matchPositions.reduce((map, pos) => {
         return {
           ...map,
           [pos]: attributes.squadPlayersAttributes.find(
             attr => attr.pos === pos
           )
         }
-      }, {}) as { [key: string]: { playerId: number } }
+      }, {}) as Record<string, { playerId: number }>
   )
 
   function resetCard() {
@@ -165,7 +165,7 @@
     attributes.squadPlayersAttributes.map(attr =>
       attr.pos && attr.playerId
         ? {
-            type: matchPositions[attr.pos],
+            type: matchPositionTypes[attr.pos],
             value: playerRepo.find(Number(attr.playerId))?.ovr || 0,
             weight: 1
           }

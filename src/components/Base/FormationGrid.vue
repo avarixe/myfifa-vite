@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T">
   defineProps<{
-    cells: { [key: string]: T }
+    cells: Record<string, T>
     hideEmptyCells?: boolean
     noPadding?: boolean
   }>()

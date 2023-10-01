@@ -82,7 +82,7 @@
       <v-menu v-if="!props.readonly" v-model="posMenu" activator="parent">
         <v-list density="compact" max-height="50vh">
           <v-list-item
-            v-for="pos in Object.keys(matchPositions)"
+            v-for="pos in matchPositions"
             :key="pos"
             :title="pos"
             :value="pos"

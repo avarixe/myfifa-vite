@@ -23,9 +23,6 @@ export default class Contract extends Model {
   @Str(null) declare conclusion: string | null
   @Str('') declare createdAt: string
 
-  // Static fields
-  @Str('Contract') declare timelineType: 'Contract'
-
   // Associations
   @BelongsTo(() => Player, 'playerId') declare player: Player
 }

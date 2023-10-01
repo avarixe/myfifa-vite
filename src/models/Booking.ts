@@ -29,9 +29,6 @@ export default class Booking extends Model {
   // Calculated fields
   @Bool(true) declare home: boolean
 
-  // Static fields
-  @Str('Booking') declare timelineType: 'Booking'
-
   // Associations
   @BelongsTo(() => Match, 'matchId') declare match: Match
   @BelongsTo(() => Player, 'playerId') declare player: Player

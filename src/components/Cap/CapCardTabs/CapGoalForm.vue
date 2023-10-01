@@ -25,9 +25,9 @@
     }
   })
 
-  const { minute, unsubbedPlayers } = useMatch(props.match)
+  const { minute, capsAtMinute } = useMatchState(props.match)
   const assistOptions = computed(() =>
-    unsubbedPlayers.value.filter(cap => cap.id !== attributes.capId)
+    capsAtMinute.value.filter(cap => cap.id !== attributes.capId)
   )
 
   const emit = defineEmits(['submitted'])

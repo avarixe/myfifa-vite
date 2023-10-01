@@ -53,61 +53,59 @@
     :variables="variables"
     @success="onSuccess"
   >
-    <template #form>
-      <v-row dense class="align-center">
-        <v-col cols="5" class="text-center">
-          <v-sheet
-            color="grey-darken-3"
-            :height="150"
-            class="rounded-xl d-flex align-center justify-center"
-          >
-            <v-img
-              v-if="team.badgePath"
-              :src="team.badgeUrl"
-              height="100px"
-              contain
-              class="text-center"
-            />
-            <v-icon v-else size="100">mdi-shield-off-outline</v-icon>
-          </v-sheet>
-        </v-col>
-        <v-col cols="2" class="text-center">
-          <v-icon>mdi-arrow-right</v-icon>
-        </v-col>
-        <v-col cols="5">
-          <v-file-input
-            ref="input"
-            v-model="badge"
-            label="Badge"
-            :rules="[isRequired('Badge')]"
-            accept="image/*"
-            class="d-none"
+    <v-row dense class="align-center">
+      <v-col cols="5" class="text-center">
+        <v-sheet
+          color="grey-darken-3"
+          :height="150"
+          class="rounded-xl d-flex align-center justify-center"
+        >
+          <v-img
+            v-if="team.badgePath"
+            :src="team.badgeUrl"
+            height="100px"
+            contain
+            class="text-center"
           />
-          <v-sheet
-            v-ripple
-            :color="dragging ? 'grey-darken-2' : 'grey-darken-3'"
-            :height="150"
-            class="rounded-xl d-flex align-center justify-center"
-            :style="{ cursor: 'pointer' }"
-            @click="input?.click()"
-            @drop.prevent="onDrop"
-            @dragover.prevent="onDragOver"
-            @dragleave.prevent="onDragLeave"
-          >
-            <v-img
-              v-if="preview"
-              :src="preview"
-              height="100px"
-              contain
-              class="text-center"
-            />
-            <v-icon v-else size="100">mdi-upload</v-icon>
-            <v-tooltip location="bottom" activator="parent">
-              Click to upload File
-            </v-tooltip>
-          </v-sheet>
-        </v-col>
-      </v-row>
-    </template>
+          <v-icon v-else size="100">mdi-shield-off-outline</v-icon>
+        </v-sheet>
+      </v-col>
+      <v-col cols="2" class="text-center">
+        <v-icon>mdi-arrow-right</v-icon>
+      </v-col>
+      <v-col cols="5">
+        <v-file-input
+          ref="input"
+          v-model="badge"
+          label="Badge"
+          :rules="[isRequired('Badge')]"
+          accept="image/*"
+          class="d-none"
+        />
+        <v-sheet
+          v-ripple
+          :color="dragging ? 'grey-darken-2' : 'grey-darken-3'"
+          :height="150"
+          class="rounded-xl d-flex align-center justify-center"
+          :style="{ cursor: 'pointer' }"
+          @click="input?.click()"
+          @drop.prevent="onDrop"
+          @dragover.prevent="onDragOver"
+          @dragleave.prevent="onDragLeave"
+        >
+          <v-img
+            v-if="preview"
+            :src="preview"
+            height="100px"
+            contain
+            class="text-center"
+          />
+          <v-icon v-else size="100">mdi-upload</v-icon>
+          <v-tooltip location="bottom" activator="parent">
+            Click to upload File
+          </v-tooltip>
+        </v-sheet>
+      </v-col>
+    </v-row>
   </dialog-form>
 </template>

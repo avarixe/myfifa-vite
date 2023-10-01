@@ -21,12 +21,13 @@ export const baseCapFragment = gql`
     id
     matchId
     playerId
+    nextId
     pos
     start
     stop
     ovr
     rating
-    subbedOut
+    injured
   }
 `
 
@@ -65,22 +66,6 @@ export const goalFragment = gql`
     home
     penalty
     ownGoal
-  }
-`
-
-export const substitutionFragment = gql`
-  fragment SubstitutionData on Substitution {
-    id
-    createdAt
-    matchId
-    capId
-    playerId
-    playerName
-    subCapId
-    replacementId
-    replacedBy
-    minute
-    injury
   }
 `
 

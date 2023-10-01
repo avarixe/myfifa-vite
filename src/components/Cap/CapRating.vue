@@ -9,7 +9,7 @@
   const rating = ref(props.cap.rating ?? undefined)
   const hoverRating = ref(props.cap.rating)
 
-  const color: { [key: number]: string } = {
+  const color: Record<number, string> = {
     1: 'red',
     2: 'orange',
     3: 'lime',

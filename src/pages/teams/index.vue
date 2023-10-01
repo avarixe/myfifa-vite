@@ -48,26 +48,26 @@
   >
     <template #[`item.badgeUrl`]="{ item }">
       <v-avatar>
-        <v-img :src="item.raw.badgeUrl" />
+        <v-img :src="item.badgeUrl" />
       </v-avatar>
     </template>
     <template #[`item.name`]="{ item }">
       <v-btn
-        :to="`/teams/${item.raw.id}`"
-        :text="item.raw.name"
+        :to="`/teams/${item.id}`"
+        :text="item.name"
         variant="text"
         color="primary"
         class="text-capitalize"
       />
     </template>
     <template #[`item.startedOn`]="{ item }">
-      {{ formatDate(item.raw.startedOn) }}
+      {{ formatDate(item.startedOn) }}
     </template>
     <template #[`item.currentlyOn`]="{ item }">
-      {{ formatDate(item.raw.currentlyOn) }}
+      {{ formatDate(item.currentlyOn) }}
     </template>
     <template #[`item.createdAt`]="{ item }">
-      {{ formatDate(item.raw.createdAt, 'yyyy-MM-dd hh:mm a') }}
+      {{ formatDate(item.createdAt, 'MMM dd, yyyy hh:mm a') }}
     </template>
   </v-data-table>
 </template>

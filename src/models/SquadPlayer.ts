@@ -18,6 +18,6 @@ export default class SquadPlayer extends Model {
   @BelongsTo(() => Player, 'playerId') declare player: Player
 
   get positionType(): string {
-    return matchPositions[this.pos]
+    return matchPositionTypes[this.pos]
   }
 }

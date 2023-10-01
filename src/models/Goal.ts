@@ -30,9 +30,6 @@ export default class Goal extends Model {
   @Bool(false) declare penalty: boolean
   @Str('') declare createdAt: string
 
-  // Static fields
-  @Str('Goal') declare timelineType: 'Goal'
-
   // Associations
   @BelongsTo(() => Player, 'playerId') declare player: Player
   @BelongsTo(() => Player, 'assistId') declare assistingPlayer: Player

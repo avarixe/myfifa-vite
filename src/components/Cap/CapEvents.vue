@@ -6,6 +6,20 @@
     match: Match
   }>()
 
+  const capRepo = useRepo(Cap)
+  const allPlayerCaps = computed(
+    () =>
+      capRepo
+        .where('matchId', props.match.id)
+        .where('playerId', props.cap.playerId)
+        .orderBy('start')
+        .get() as Cap[]
+  )
+  const playerInAt = computed(() => allPlayerCaps.value[0].start)
+  const playerOutAt = computed(
+    () => allPlayerCaps.value[allPlayerCaps.value.length - 1].stop
+  )
+
   const numGoals = computed(
     () =>
       props.match.goals.filter(
@@ -35,23 +49,18 @@
       return null
     }
   })
-  const injured = computed(() =>
-    props.match.substitutions.some(
-      s => s.playerId === props.cap.playerId && s.injury
-    )
-  )
 </script>
 
 <template>
   <div>
     <v-badge
-      v-if="cap.start > 0"
+      v-if="playerInAt"
       location="bottom right"
       overlap
       color="transparent"
     >
       <template #badge>
-        <div class="text-white font-weight-black">{{ cap.start }}'</div>
+        <div class="text-white font-weight-black">{{ playerInAt }}'</div>
       </template>
       <v-icon color="green" size="small" icon="mdi-subdirectory-arrow-right" />
     </v-badge>
@@ -75,7 +84,7 @@
       <template #badge>
         <div class="text-white font-weight-black">{{ numOwnGoals }}</div>
       </template>
-      <v-icon color="red" size="small" icon="mdi-soccer" />
+      <v-icon color="red-darken-4" size="small" icon="mdi-soccer" />
     </v-badge>
     <v-badge
       v-if="numAssists > 0"
@@ -93,20 +102,20 @@
       />
     </v-badge>
     <v-icon v-if="booking" :color="booking" size="small" icon="mdi-book" />
-    <v-icon v-if="injured" color="pink" size="small" icon="mdi-ambulance" />
+    <v-icon v-if="cap.injured" color="pink" size="small" icon="mdi-ambulance" />
     <v-badge
-      v-if="cap.subbedOut"
+      v-if="playerOutAt < match.endOfMatch"
       location="bottom right"
       overlap
       color="transparent"
     >
       <v-icon
-        color="orange darken-2"
+        color="red darken-2"
         size="small"
         icon="mdi-subdirectory-arrow-left"
       />
       <template #badge>
-        <div class="text-white font-weight-black">{{ cap.stop }}'</div>
+        <div class="text-white font-weight-black">{{ playerOutAt }}'</div>
       </template>
     </v-badge>
   </div>

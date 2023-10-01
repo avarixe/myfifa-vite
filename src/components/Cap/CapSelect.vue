@@ -1,15 +1,8 @@
 <script setup lang="ts">
   import { Cap } from '~/models'
 
-  const props = withDefaults(defineProps<{ caps: Cap[] }>(), { caps: () => [] })
-
-  const matchPositionList = Object.keys(matchPositions)
-  const caps = computed(
-    () =>
-      _orderBy(props.caps, (cap: Cap) =>
-        matchPositionList.indexOf(cap.pos)
-      ) as Cap[]
-  )
+  const props = defineProps<{ caps: Cap[] }>()
+  const caps = computed(() => _orderBy(props.caps, 'posIdx') as Cap[])
 </script>
 
 <template>

@@ -41,7 +41,7 @@
   }
 
   const lastMatchByTeam = data.value.teams.reduce(
-    (dict: { [key: number]: object }, team: TeamData) => {
+    (dict: Record<number, object>, team: TeamData) => {
       dict[team.id] = team.lastMatch
       return dict
     },

@@ -1,22 +1,24 @@
 <script setup lang="ts">
-  import { Match } from '~/models'
+  import { Match, Booking, Goal, Cap } from '~/models'
 
   const props = defineProps<{
     match: Match
     readonly?: boolean
   }>()
 
-  const events = computed(() =>
-    _orderBy(
-      [
-        ...props.match.bookings,
-        ...props.match.substitutions,
-        ...props.match.goals
-      ],
+  const events = computed(() => {
+    const capChanges = Object.entries(
+      _groupBy(
+        props.match.caps.filter(cap => cap.start > 0),
+        'start'
+      ) as Record<number, Cap[]>
+    ).map(([minute, caps]) => ({ minute, createdAt: caps[0].createdAt }))
+    return _orderBy(
+      [...props.match.goals, ...props.match.bookings, ...capChanges],
       ['minute', 'createdAt'],
       ['asc', 'asc']
     )
-  )
+  })
 
   const { mdAndUp } = useDisplay()
 </script>
@@ -90,21 +92,21 @@
     </v-timeline-item>
     <template v-for="event in events" :key="`${event.type}-${event.id}`">
       <booking-timeline-event
-        v-if="event.timelineType === 'Booking'"
-        :event="event"
+        v-if="event instanceof Booking"
+        :booking="event"
         :match="match"
         :readonly="props.readonly"
       />
       <goal-timeline-event
-        v-else-if="event.timelineType === 'Goal'"
-        :event="event"
+        v-else-if="event instanceof Goal"
+        :goal="event"
         :match="match"
         :readonly="props.readonly"
       />
-      <substitution-timeline-event
-        v-else-if="event.timelineType === 'Substitution'"
-        :event="event"
+      <match-formation-timeline-event
+        v-else
         :match="match"
+        :minute="Number(event.minute)"
         :readonly="props.readonly"
       />
     </template>

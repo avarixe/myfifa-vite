@@ -116,25 +116,21 @@
     @update:options="onTableUpdate"
   >
     <template #[`item.name`]="{ item }">
-      <div>{{ item.raw.home }} v {{ item.raw.away }}</div>
-      <div :class="`text-${item.raw.resultColor}`">
-        {{ item.raw.score }}
-        <span v-if="item.raw.extraTime" class="text-caption">aet.</span>
+      <div>{{ item.home }} v {{ item.away }}</div>
+      <div :class="`text-${item.resultColor}`">
+        {{ item.score }}
+        <span v-if="item.extraTime" class="text-caption">aet.</span>
       </div>
     </template>
     <template #[`item.competition`]="{ item }">
-      <div>{{ item.raw.competition }}</div>
-      <i v-if="item.raw.stage">{{ item.raw.stage }}</i>
+      <div>{{ item.competition }}</div>
+      <i v-if="item.stage">{{ item.stage }}</i>
     </template>
     <template #[`item.playedOn`]="{ item }">
-      {{ formatDate(item.raw.playedOn) }}
+      {{ formatDate(item.playedOn) }}
     </template>
     <template #[`item.link`]="{ item }">
-      <v-btn
-        :to="`/teams/${team.id}/matches/${item.raw.id}`"
-        color="primary"
-        block
-      >
+      <v-btn :to="`/teams/${team.id}/matches/${item.id}`" color="primary" block>
         <v-icon>mdi-play</v-icon>
       </v-btn>
     </template>

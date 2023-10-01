@@ -38,7 +38,7 @@ export default class Player extends Model {
   @Str(null) declare status: string | null
   @Bool(false) declare youth: boolean
   @Num(null) declare kitNo: number | null
-  @Attr({}) declare coverage: { [key: string]: number | null }
+  @Attr({}) declare coverage: Record<string, number | null>
 
   // Calculated fields
   @Num(16) declare age: number

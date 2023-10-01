@@ -164,8 +164,8 @@
     </template>
     <template #[`item.player.name`]="{ item }">
       <v-btn
-        :to="`/teams/${team.id}/players/${item.raw.player.id}`"
-        :text="item.raw.player.name"
+        :to="`/teams/${team.id}/players/${item.player.id}`"
+        :text="item.player.name"
         variant="text"
         color="primary"
         class="text-capitalize"
@@ -173,37 +173,33 @@
     </template>
     <template #[`item.player.nationality`]="{ item }">
       <flag
-        :iso="item.raw.player.flag"
-        :title="item.raw.player.nationality"
+        :iso="item.player.flag"
+        :title="item.player.nationality"
         class="mr-2"
       />
     </template>
     <template #[`item.player.status`]="{ item }">
-      <v-icon :color="item.raw.player.statusColor">
-        mdi-{{ item.raw.player.statusIcon }}
+      <v-icon :color="item.player.statusColor">
+        mdi-{{ item.player.statusIcon }}
       </v-icon>
     </template>
     <template #[`item.player.secPos`]="{ item }">
-      {{ item.raw.player.secPos.join(', ') }}
+      {{ item.player.secPos.join(', ') }}
     </template>
     <template #[`item.player.kitNo`]="{ item }">
       <player-attribute
-        :player="item.raw.player"
+        :player="item.player"
         attribute="kitNo"
         label="Kit No"
       />
     </template>
     <template #[`item.player.ovr`]="{ item }">
-      <player-attribute :player="item.raw.player" attribute="ovr" label="OVR" />
+      <player-attribute :player="item.player" attribute="ovr" label="OVR" />
     </template>
     <template #[`item.player.value`]="{ item }">
-      <player-attribute
-        :player="item.raw.player"
-        attribute="value"
-        label="Value"
-      >
+      <player-attribute :player="item.player" attribute="value" label="Value">
         <template #display>
-          {{ formatMoney(item.raw.player.value, team.currency) }}
+          {{ formatMoney(item.player.value, team.currency) }}
         </template>
         <template #form="{ modelValue, updateModelValue, closeMenu }">
           <money-field
@@ -222,12 +218,12 @@
       </player-attribute>
     </template>
     <template #[`item.contract.wage`]="{ item }">
-      <span v-if="item.raw.contract?.wage">
-        {{ formatMoney(item.raw.contract.wage, team.currency) }}
+      <span v-if="item.contract?.wage">
+        {{ formatMoney(item.contract.wage, team.currency) }}
       </span>
     </template>
     <template #[`item.contract.endedOn`]="{ item }">
-      {{ formatDate(item.raw.contract?.endedOn) }}
+      {{ formatDate(item.contract?.endedOn) }}
     </template>
   </v-data-table>
 </template>

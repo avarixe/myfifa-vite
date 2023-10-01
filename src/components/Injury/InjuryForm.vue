@@ -32,15 +32,6 @@
     }
   }
 
-  const rulesFor = {
-    description: [isRequired('Description')],
-    durationLength: [
-      isRequired('Length of Duration'),
-      isNumber('Length of Duration')
-    ],
-    durationTimespan: [isRequired('Timespan')]
-  }
-
   const timespans = ['Days', 'Weeks', 'Months', 'Years']
 
   const title = computed(
@@ -95,60 +86,61 @@
     :variables="variables"
     @open="onOpen"
   >
-    <template #form>
-      <v-col cols="12">
-        <date-field
-          v-model="attributes.startedOn"
-          label="Injury Date"
-          prepend-icon="mdi-calendar-today"
-          required
-        />
-      </v-col>
-      <template v-if="durationOn && attributes.duration">
-        <v-col cols="6">
-          <v-text-field
-            v-model.number="attributes.duration['length']"
-            label="Length of Duration"
-            prepend-icon="mdi-ruler"
-            :rules="rulesFor.durationLength"
-            inputmode="numeric"
-          />
-        </v-col>
-        <v-col cols="6">
-          <v-select
-            v-model="attributes.duration.timespan"
-            :items="timespans"
-            label="Timespan"
-            append-icon="mdi-calendar"
-            :rules="rulesFor.durationTimespan"
-            @click:append="durationOn = false"
-          />
-        </v-col>
-      </template>
-      <v-col v-else cols="12">
-        <date-field
-          v-model="attributes.endedOn"
-          label="Recovery Date"
-          prepend-icon="mdi-calendar"
-          :append-icon="record ? null : 'mdi-ruler'"
-          :min="attributes.startedOn"
-          :prefill="team.currentlyOn"
-          required
-          @click:append="durationOn = true"
-        />
-      </v-col>
-      <v-col cols="12">
+    <v-col cols="12">
+      <date-field
+        v-model="attributes.startedOn"
+        label="Injury Date"
+        prepend-icon="mdi-calendar-today"
+        required
+      />
+    </v-col>
+    <template v-if="durationOn && attributes.duration">
+      <v-col cols="6">
         <v-text-field
-          v-model="attributes.description"
-          label="Description"
-          prepend-icon="mdi-ambulance"
-          :rules="rulesFor.description"
-          spellcheck="false"
-          autocapitalize="words"
-          autocomplete="off"
-          autocorrect="off"
+          v-model.number="attributes.duration['length']"
+          label="Length of Duration"
+          prepend-icon="mdi-ruler"
+          :rules="[
+            isRequired('Length of Duration'),
+            isNumber('Length of Duration')
+          ]"
+          inputmode="numeric"
+        />
+      </v-col>
+      <v-col cols="6">
+        <v-select
+          v-model="attributes.duration.timespan"
+          :items="timespans"
+          label="Timespan"
+          append-icon="mdi-calendar"
+          :rules="[isRequired('Timespan')]"
+          @click:append="durationOn = false"
         />
       </v-col>
     </template>
+    <v-col v-else cols="12">
+      <date-field
+        v-model="attributes.endedOn"
+        label="Recovery Date"
+        prepend-icon="mdi-calendar"
+        :append-icon="record ? null : 'mdi-ruler'"
+        :min="attributes.startedOn"
+        :prefill="team.currentlyOn"
+        required
+        @click:append="durationOn = true"
+      />
+    </v-col>
+    <v-col cols="12">
+      <v-text-field
+        v-model="attributes.description"
+        label="Description"
+        prepend-icon="mdi-ambulance"
+        :rules="[isRequired('Description')]"
+        spellcheck="false"
+        autocapitalize="words"
+        autocomplete="off"
+        autocorrect="off"
+      />
+    </v-col>
   </dialog-form>
 </template>

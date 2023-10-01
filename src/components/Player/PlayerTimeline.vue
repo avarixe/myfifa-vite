@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Player } from '~/models'
+  import { Player, Injury, Contract, Loan, Transfer } from '~/models'
 
   const props = defineProps<{ player: Player }>()
 
@@ -70,22 +70,22 @@
         <template v-if="events.length > 0">
           <template v-for="event in events" :key="`${event.type}-${event.id}`">
             <contract-timeline-event
-              v-if="event.timelineType === 'Contract'"
+              v-if="event instanceof Contract"
               :player="player"
               :event="event"
             />
             <injury-timeline-event
-              v-else-if="event.timelineType === 'Injury'"
+              v-else-if="event instanceof Injury"
               :player="player"
               :event="event"
             />
             <loan-timeline-event
-              v-else-if="event.timelineType === 'Loan'"
+              v-else-if="event instanceof Loan"
               :player="player"
               :event="event"
             />
             <transfer-timeline-event
-              v-else-if="event.timelineType === 'Transfer'"
+              v-else-if="event instanceof Transfer"
               :player="player"
               :event="event"
             />
