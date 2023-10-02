@@ -1,8 +1,8 @@
 import { Cap, Match } from '~/models'
 
-export default (match: Match) => {
+export default (match: Ref<Match>) => {
   const sortedCaps = computed(
-    () => _orderBy(match.caps, 'posIdx', 'start') as Cap[]
+    () => _orderBy(match.value.caps, 'posIdx', 'start') as Cap[]
   )
 
   const minute: Ref<number | null> = ref(null)
@@ -17,7 +17,7 @@ export default (match: Match) => {
 
   const activeCaps = computed(() =>
     capsAtMinute.value.filter(
-      cap => !cap.nextId || cap.stop > (minute.value ?? match.endOfMatch)
+      cap => !cap.nextId || cap.stop > (minute.value ?? match.value.endOfMatch)
     )
   )
 

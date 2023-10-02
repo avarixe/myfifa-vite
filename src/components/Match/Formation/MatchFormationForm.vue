@@ -11,7 +11,7 @@
     pos: string | null
   }
 
-  const { minute, activeCaps } = useMatchState(props.match)
+  const { minute, activeCaps } = useMatchState(toRef(() => props.match))
 
   const attributes = ref([] as MatchFormationCell[])
   watch(
@@ -94,7 +94,6 @@
       )
 
       if (cell) {
-        console.log(cell, prevCell)
         if (prevCell) {
           const prevPos = prevCell.pos
           prevCell.pos = cell.pos

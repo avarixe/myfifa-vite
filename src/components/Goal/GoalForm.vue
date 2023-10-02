@@ -6,7 +6,7 @@
     record?: Goal
   }>()
 
-  const { minute, capsAtMinute } = useMatchState(props.match)
+  const { minute, capsAtMinute } = useMatchState(toRef(() => props.match))
 
   const attributes: GoalAttributes = reactive({})
   function onOpen() {

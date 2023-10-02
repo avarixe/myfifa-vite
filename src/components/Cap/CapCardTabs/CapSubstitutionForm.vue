@@ -16,7 +16,7 @@
     attributes.pos = props.cap.pos
   })
 
-  const { minute, sortedCaps } = useMatchState(props.match)
+  const { minute, sortedCaps } = useMatchState(toRef(() => props.match))
   const { activePlayers } = useActivePlayers()
 
   const availablePlayers = computed(() => {

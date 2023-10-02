@@ -6,7 +6,7 @@
     readonly?: boolean
   }>()
 
-  const { minute, activeCaps } = useMatchState(props.match)
+  const { minute, activeCaps } = useMatchState(toRef(() => props.match))
 
   const formationCells = computed(() => {
     return matchPositions.reduce((map, pos) => {

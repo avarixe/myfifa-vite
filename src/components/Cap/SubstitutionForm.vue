@@ -19,7 +19,7 @@
   })
 
   const { activePlayers } = useActivePlayers()
-  const { minute, sortedCaps } = useMatchState(props.match)
+  const { minute, sortedCaps } = useMatchState(toRef(() => props.match))
 
   const availablePlayers = computed(() => {
     const selectedIds = sortedCaps.value.map((cap: Cap) => cap.playerId)
