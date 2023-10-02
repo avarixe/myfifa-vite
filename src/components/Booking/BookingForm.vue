@@ -7,7 +7,7 @@
   }>()
 
   const { team } = useTeam()
-  const { minute, capsAtMinute } = useMatchState(props.match)
+  const { minute, capsAtMinute } = useMatchState(toRef(() => props.match))
 
   interface BookingAttributes {
     home?: boolean

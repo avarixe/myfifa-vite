@@ -17,10 +17,13 @@
     5: 'green'
   }
 
-  watchEffect(() => {
-    rating.value = props.cap.rating ?? undefined
-    hoverRating.value = props.cap.rating
-  })
+  watch(
+    () => props.cap.rating,
+    () => {
+      rating.value = props.cap.rating ?? undefined
+      hoverRating.value = props.cap.rating
+    }
+  )
 
   const { submitForm } = useForm({
     mutation: gql`
@@ -69,7 +72,7 @@
           :model-value="rating"
           hover
           :color="rating ? color[rating] : 'grey'"
-          @update:model-value="v => setRating(v as number)"
+          @update:model-value="v => setRating(Number(v))"
         >
           <template #item="{ index, props: ratingProps }">
             <v-icon

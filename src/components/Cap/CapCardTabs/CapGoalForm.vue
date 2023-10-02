@@ -25,7 +25,7 @@
     }
   })
 
-  const { minute, capsAtMinute } = useMatchState(props.match)
+  const { minute, capsAtMinute } = useMatchState(toRef(() => props.match))
   const assistOptions = computed(() =>
     capsAtMinute.value.filter(cap => cap.id !== attributes.capId)
   )

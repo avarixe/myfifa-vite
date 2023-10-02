@@ -3,7 +3,7 @@
 
   const props = defineProps<{ match: Match; record?: Cap }>()
 
-  const { minute, sortedCaps } = useMatchState(props.match)
+  const { minute, sortedCaps } = useMatchState(toRef(() => props.match))
   const { activePlayers } = useActivePlayers()
 
   const availablePlayers = computed(() => {
