@@ -38,7 +38,7 @@
     `,
     variables: () => ({
       id: props.cap.id,
-      attributes: { rating: rating.value }
+      attributes: { rating: rating.value ?? null }
     })
   })
 
