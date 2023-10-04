@@ -96,14 +96,21 @@
             @click="dialog = false"
           />
           <slot name="additional-actions" />
-          <v-btn
-            type="submit"
-            text="Save"
+          <slot
+            name="submit-action"
             :disabled="!formIsValid"
-            color="primary"
-            size="large"
             :loading="formIsLoading"
-          />
+            :submit-form="submitForm"
+          >
+            <v-btn
+              type="submit"
+              text="Save"
+              :disabled="!formIsValid"
+              color="primary"
+              size="large"
+              :loading="formIsLoading"
+            />
+          </slot>
         </v-card-actions>
       </v-card>
     </v-form>
