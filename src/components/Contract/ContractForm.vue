@@ -111,8 +111,8 @@
         v-model="attributes.startedOn"
         label="Effective Date"
         prepend-icon="mdi-calendar-today"
-        :min="attributes.signedOn"
-        :max="attributes.endedOn"
+        :min="attributes.signedOn ?? undefined"
+        :max="attributes.endedOn ?? undefined"
         :prefill="team.currentlyOn"
         required
       />

@@ -2,8 +2,8 @@
   const props = defineProps<{
     modelValue?: string | null
     prefill?: string
-    min?: string | null
-    max?: string | null
+    min?: string
+    max?: string
   }>()
 
   const humanizedValue = computed(() =>
@@ -13,10 +13,12 @@
   const menu = ref(false)
 
   const emit = defineEmits(['update:modelValue'])
-  function onCalendarUpdate(value: string) {
-    emit('update:modelValue', value)
+  function onCalendarUpdate(value: unknown) {
+    emit('update:modelValue', format(value as Date, 'yyyy-MM-dd'))
     menu.value = false
   }
+
+  const inputMode: Ref<'calendar' | 'keyboard'> = ref('calendar')
 </script>
 
 <template>
@@ -28,18 +30,15 @@
     @click:append="emit('update:modelValue', prefill)"
     @click:clear="emit('update:modelValue', null)"
   >
-    <v-menu v-model="menu" activator="parent">
-      <date-picker
-        inline
-        auto-apply
-        model-type="yyyy-MM-dd"
-        week-start="0"
-        :min-date="min"
-        :max-date="max"
-        dark
-        :enable-time-picker="false"
-        :model-value="modelValue"
+    <v-menu v-model="menu" activator="parent" :close-on-content-click="false">
+      <v-date-picker
+        v-model:input-mode="inputMode"
+        :hide-actions="inputMode === 'calendar'"
+        :min="min"
+        :max="max"
+        :model-value="[modelValue]"
         @update:model-value="onCalendarUpdate"
+        @click:cancel="menu = false"
       />
     </v-menu>
   </v-text-field>

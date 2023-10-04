@@ -97,7 +97,7 @@
         v-model="attributes.movedOn"
         label="Effective Date"
         prepend-icon="mdi-calendar-today"
-        :min="attributes.signedOn"
+        :min="attributes.signedOn ?? undefined"
         :prefill="team.currentlyOn"
       />
     </v-col>
