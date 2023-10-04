@@ -114,7 +114,12 @@
     }
   }
 
-  const drawer = ref(false)
+  function getPlayer(playerId: number) {
+    return playerRepo.find(playerId)
+  }
+
+  const drawer = ref(true)
+  const dialog = ref(false)
 </script>
 
 <template>
@@ -189,21 +194,64 @@
           </template>
         </formation-grid>
       </v-main>
-
-      <v-alert>
-        <div v-for="(cell, i) in attributes" :key="i">
-          <div
-            v-if="
-              activeCaps[i].pos !== cell.pos ||
-              activeCaps[i].playerId !== cell.playerId
-            "
-          >
-            <div>{{ activeCaps[i].pos }} -> {{ cell.pos }}</div>
-            <div>{{ activeCaps[i].playerId }} -> {{ cell.playerId }}</div>
-          </div>
-        </div>
-      </v-alert>
     </v-layout>
+    <template #submit-action="{ disabled, loading, submitForm }">
+      <v-btn :disabled="disabled" color="primary" size="large">
+        Confirm and Save
+        <v-dialog v-model="dialog" activator="parent" max-width="500px">
+          <v-card>
+            <v-card-title>Confirm Formation Change?</v-card-title>
+            <v-card-text class="text-center">
+              <div class="text-h4">{{ minute }}'</div>
+
+              <div v-for="(cell, i) in attributes" :key="i">
+                <div v-if="activeCaps[i].playerId !== cell.playerId">
+                  <v-icon
+                    color="red"
+                    size="small"
+                    start
+                    icon="mdi-subdirectory-arrow-left"
+                  />
+                  {{ getPlayer(activeCaps[i].playerId)?.name }}
+                  <b class="ml-2">{{ activeCaps[i].pos }}</b>
+                  <v-icon
+                    color="green"
+                    size="small"
+                    end
+                    icon="mdi-subdirectory-arrow-right"
+                  />
+                  {{ getPlayer(Number(cell.playerId))?.name }}
+                  <b class="ml-2">{{ cell.pos }}</b>
+                </div>
+                <div v-else-if="activeCaps[i].pos !== cell.pos">
+                  <v-icon
+                    color="orange"
+                    size="small"
+                    start
+                    icon="mdi-vector-polyline"
+                  />
+                  {{ getPlayer(Number(cell.playerId))?.name }}
+                  <b class="ml-2">{{ activeCaps[i].pos }}</b>
+                  <v-icon size="small" icon="mdi-arrow-right-thin" />
+                  <b>{{ cell.pos }}</b>
+                </div>
+              </div>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn text="No" size="large" @click="dialog = false" />
+              <v-btn
+                text="Yes"
+                :loading="loading"
+                color="primary"
+                size="large"
+                @click="submitForm"
+              />
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-btn>
+    </template>
   </dialog-form>
 </template>
 
