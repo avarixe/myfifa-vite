@@ -46,6 +46,8 @@
     rating.value = value ?? undefined
     submitForm()
   }
+
+  const isMobile = navigator.maxTouchPoints > 0
 </script>
 
 <template>
@@ -60,7 +62,7 @@
 
     <v-menu
       v-if="!props.readonly"
-      open-on-hover
+      :open-on-hover="!isMobile"
       location="center"
       activator="parent"
     >
