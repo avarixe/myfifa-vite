@@ -9,12 +9,7 @@
 </script>
 
 <template>
-  <v-autocomplete
-    v-bind="$attrs"
-    :items="players"
-    item-title="name"
-    item-value="id"
-  >
+  <v-select v-bind="$attrs" :items="players" item-title="name" item-value="id">
     <template #item="{ item, props }: { item: { raw: PlayerItem }; props: {} }">
       <v-list-item v-bind="props">
         <template #prepend>
@@ -24,5 +19,5 @@
         </template>
       </v-list-item>
     </template>
-  </v-autocomplete>
+  </v-select>
 </template>
