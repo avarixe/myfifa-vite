@@ -134,7 +134,7 @@
       <cap-rating :cap="cap" :readonly="props.readonly" />
     </div>
     <cap-events :cap="cap" :match="match" />
-    <div v-if="!props.readonly" class="hidden-sm-and-down">
+    <div v-if="!props.readonly">
       <v-divider class="my-2 mx-n2" />
       <cap-event-actions :cap="cap" :match="match" />
     </div>

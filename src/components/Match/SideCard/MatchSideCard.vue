@@ -62,16 +62,3 @@
     </v-card>
   </v-menu>
 </template>
-
-<style scoped>
-  .match-side-label {
-    margin-left: -100%;
-    margin-right: -100%;
-    text-align: center;
-  }
-
-  .match-side-team {
-    font-size: 0.8em;
-    line-height: 1;
-  }
-</style>

@@ -6,7 +6,7 @@
 </script>
 
 <template>
-  <v-autocomplete
+  <v-select
     v-bind="$attrs"
     :items="caps"
     item-title="player.name"
@@ -21,5 +21,5 @@
         </template>
       </v-list-item>
     </template>
-  </v-autocomplete>
+  </v-select>
 </template>
