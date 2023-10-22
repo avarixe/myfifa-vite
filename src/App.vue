@@ -101,11 +101,19 @@
         ),
         url('/background.jpg');
     }
-  }
 
-  .v-table.v-table--hover > .v-table__wrapper > table > tbody > tr:hover {
-    td.v-data-table-column--fixed {
-      background: rgb(var(--v-theme-surface));
+    .v-table.v-table--hover > .v-table__wrapper > table > tbody > tr {
+      &:hover td.v-data-table-column--fixed {
+        background: rgb(44, 44, 44);
+      }
+
+      td.v-data-table-column--fixed {
+        background: rgb(var(--v-theme-surface));
+      }
+    }
+
+    .v-rating {
+      white-space: unset;
     }
   }
 </style>
