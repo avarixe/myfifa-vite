@@ -63,11 +63,12 @@
   >
     <div class="pa-2">
       <div class="text-subtitle-2 pb-2">Substitute Player</div>
-      <v-text-field v-model.number="minute" label="Minute" type="number" />
+      <minute-field v-model="minute" :match="match" />
       <player-select
         v-model="attributes.playerId"
         :players="availablePlayers"
         label="Replaced By"
+        prepend-icon="mdi-subdirectory-arrow-right"
       />
       <v-select
         v-model="attributes.pos"

@@ -120,6 +120,10 @@
 
   const drawer = ref(true)
   const dialog = ref(false)
+  function onOpen() {
+    dialog.value = false
+    minute.value = null
+  }
 </script>
 
 <template>
@@ -128,14 +132,10 @@
     :mutation="mutation"
     :variables="variables"
     max-width="100%"
+    @open="onOpen"
   >
     <v-col cols="12">
-      <v-text-field
-        v-model.number="minute"
-        label="Minute"
-        :rules="[isRequired('Minute')]"
-        type="number"
-      />
+      <minute-field v-model="minute" :match="match" />
     </v-col>
     <v-layout>
       <v-navigation-drawer v-model="drawer">

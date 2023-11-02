@@ -6,12 +6,7 @@
 </script>
 
 <template>
-  <v-select
-    v-bind="$attrs"
-    :items="caps"
-    item-title="player.name"
-    item-value="id"
-  >
+  <v-select :items="caps" item-title="player.name" item-value="id">
     <template #item="{ item, props: itemProps }">
       <v-list-item v-bind="itemProps">
         <template #prepend>

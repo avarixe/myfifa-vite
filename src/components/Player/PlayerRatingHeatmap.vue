@@ -74,9 +74,10 @@
       ) + 1
   )
 
-  const cal = new window.CalHeatmap()
-  watch(data, () => {
+  let cal: typeof window.CalHeatmap
+  function drawHeatmap() {
     if (data.value) {
+      cal = cal || new window.CalHeatmap()
       cal.paint({
         theme: 'dark',
         domain: {
@@ -103,7 +104,16 @@
         }
       })
     }
+  }
+
+  onMounted(() => {
+    if (window.CalHeatmap) {
+      drawHeatmap()
+    } else {
+      window.addEventListener('loaded', drawHeatmap)
+    }
   })
+  watch(data, drawHeatmap)
 </script>
 
 <template>

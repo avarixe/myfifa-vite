@@ -111,9 +111,5 @@
         background: rgb(var(--v-theme-surface));
       }
     }
-
-    .v-rating {
-      white-space: unset;
-    }
   }
 </style>

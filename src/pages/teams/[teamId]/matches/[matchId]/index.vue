@@ -81,11 +81,7 @@
   const nextMatch = computed(() => data.value?.match?.nextMatch)
   const previousMatch = computed(() => data.value?.match?.previousMatch)
 
-  const { mobile } = useDisplay()
-  const showFormation = ref(!mobile.value)
-  watchEffect(() => {
-    showFormation.value = !mobile.value
-  })
+  const showFormation = ref(true)
 
   const ovrData = computed(() =>
     match.value.caps.map(cap => ({
