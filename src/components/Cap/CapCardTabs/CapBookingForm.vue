@@ -51,11 +51,7 @@
   >
     <div class="pa-2">
       <div class="text-subtitle-2 pb-2">Book Player</div>
-      <v-text-field
-        v-model.number="attributes.minute"
-        label="Minute"
-        type="number"
-      />
+      <minute-field v-model="attributes.minute" :match="match" />
       <v-radio-group v-model="attributes.redCard" inline>
         <v-radio label="Yellow Card" color="orange darken-2" :value="false" />
         <v-radio label="Red Card" color="red darken-2" :value="true" />

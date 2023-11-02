@@ -65,6 +65,7 @@ declare module '@vue/runtime-core' {
     MatchSquadSaver: typeof import('./src/components/Match/MatchSquadSaver.vue')['default']
     MatchTimeline: typeof import('./src/components/Match/MatchTimeline.vue')['default']
     MatchTimelineEvent: typeof import('./src/components/Match/MatchTimelineEvent.vue')['default']
+    MinuteField: typeof import('./src/components/Base/MinuteField.vue')['default']
     MoneyField: typeof import('./src/components/Base/MoneyField.vue')['default']
     NationalityField: typeof import('./src/components/Base/NationalityField.vue')['default']
     PenaltyShootoutForm: typeof import('./src/components/PenaltyShootout/PenaltyShootoutForm.vue')['default']

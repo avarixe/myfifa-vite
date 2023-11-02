@@ -83,12 +83,7 @@
   >
     <template v-if="record">
       <v-col cols="12">
-        <v-text-field
-          v-model.number="minute"
-          label="Start"
-          prepend-icon="mdi-timer"
-          type="number"
-        />
+        <minute-field v-model="minute" :match="match" />
       </v-col>
       <v-col cols="12">
         <v-text-field

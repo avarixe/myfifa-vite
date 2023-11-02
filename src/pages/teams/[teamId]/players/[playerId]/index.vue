@@ -257,7 +257,7 @@
         <div class="text-h4">{{ playerStats.numAssists || 0 }}</div>
         <div class="subheading">Assists</div>
       </v-col>
-      <v-col cols="12" sm="3">
+      <v-col cols="12" md="4">
         <div class="text-h4">
           <v-rating
             readonly

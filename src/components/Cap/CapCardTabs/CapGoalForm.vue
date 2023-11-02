@@ -65,10 +65,11 @@
   >
     <div class="pa-2">
       <div class="text-subtitle-2 pb-2">Add Goal</div>
-      <v-text-field v-model.number="minute" label="Minute" type="number" />
+      <minute-field v-model="minute" :match="match" />
       <cap-select
         v-model="attributes.assistCapId"
         label="Assisted By"
+        prepend-icon="mdi-human-greeting"
         :caps="assistOptions"
         :disabled="attributes.penalty || attributes.ownGoal"
         clearable

@@ -74,10 +74,10 @@
       ) + 1
   )
 
-  const cal = new window.CalHeatmap()
+  const cal = window.CalHeatmap ? new window.CalHeatmap() : null
   watch(data, () => {
     if (data.value) {
-      cal.paint({
+      cal?.paint({
         theme: 'dark',
         domain: {
           type: 'month'

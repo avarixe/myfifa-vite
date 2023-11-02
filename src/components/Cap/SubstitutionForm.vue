@@ -71,7 +71,7 @@
     :variables="variables"
   >
     <v-col cols="12">
-      <v-text-field v-model.number="minute" label="Minute" type="number" />
+      <minute-field v-model="minute" :match="match" />
     </v-col>
     <v-col cols="12">
       <cap-select

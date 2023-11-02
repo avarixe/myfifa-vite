@@ -100,7 +100,14 @@
   <v-form ref="form" @submit.prevent="submitForm">
     <v-row dense>
       <v-col cols="12" md="6" class="py-0">
-        <v-text-field v-model="attributes.name" label="Name" />
+        <v-text-field
+          v-model="attributes.name"
+          label="Name"
+          spellcheck="false"
+          autocapitalize="words"
+          autocomplete="off"
+          autocorrect="off"
+        />
         <v-autocomplete
           v-model="attributes.pos"
           label="Position"
