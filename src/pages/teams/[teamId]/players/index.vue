@@ -153,7 +153,7 @@
     :custom-key-sort="{ 'player.pos': sortByPosition }"
     class="rounded"
   >
-    <template #[`column.player.nationality`]="{ column, getSortIcon }">
+    <template #[`header.player.nationality`]="{ column, getSortIcon }">
       <span>
         <v-icon>mdi-flag</v-icon>
       </span>
