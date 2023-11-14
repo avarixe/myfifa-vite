@@ -313,7 +313,7 @@
     height="50vh"
     class="rounded mt-4"
   >
-    <template #[`column.player.nationality`]="{ column, getSortIcon }">
+    <template #[`header.player.nationality`]="{ column, getSortIcon }">
       <span>
         <v-icon>mdi-flag</v-icon>
       </span>

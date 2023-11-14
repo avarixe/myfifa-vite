@@ -10,14 +10,11 @@
 </script>
 
 <template>
-  <v-slider
+  <v-select
     label="Minute"
-    step="1"
-    :min="0"
-    :max="match.endOfMatch"
-    :model-value="modelValue ?? undefined"
+    prepend-icon="mdi-timer"
+    :items="Array.from({ length: match.endOfMatch }, (_, i) => i + 1)"
+    :model-value="modelValue"
     @update:model-value="emit('update:modelValue', $event)"
-  >
-    <template #append> {{ modelValue ?? 0 }}' </template>
-  </v-slider>
+  />
 </template>

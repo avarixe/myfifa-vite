@@ -3,13 +3,6 @@ import { createRouter, createWebHistory } from 'vue-router/auto'
 import { createHead } from '@vueuse/head'
 
 import { createVuetify } from 'vuetify'
-import {
-  VDataTable,
-  VDataTableVirtual,
-  VDataTableServer
-} from 'vuetify/labs/VDataTable'
-import { VStepper, VStepperHeader, VStepperItem } from 'vuetify/labs/VStepper'
-// import { VDatePicker } from 'vuetify/labs/VDatePicker'
 import 'vuetify/styles'
 
 import Datepicker from '@vuepic/vue-datepicker'
@@ -69,15 +62,6 @@ const pinia = createPinia().use(createORM())
 const vuetify = createVuetify({
   theme: {
     defaultTheme: 'dark'
-  },
-  components: {
-    VDataTable,
-    VDataTableVirtual,
-    VDataTableServer,
-    VStepper,
-    VStepperHeader,
-    VStepperItem
-    // VDatePicker
   },
   defaults: {
     VDataTable: {
