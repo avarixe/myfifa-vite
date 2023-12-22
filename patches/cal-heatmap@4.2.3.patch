@@ -1,0 +1,15 @@
+diff --git a/src/helpers/DateHelper.ts b/src/helpers/DateHelper.ts
+index 4c9942b3a0cbc4f9130e896993e4bb31470a6b0c..bf608f6fc9d9eb2e4a93985f2b57c9bdd081f46a 100644
+--- a/src/helpers/DateHelper.ts
++++ b/src/helpers/DateHelper.ts
+@@ -206,8 +206,8 @@ export default class DateHelper {
+     start = start.startOf(interval as ManipulateType);
+ 
+     end = end.startOf(interval as ManipulateType);
+-    let pivot = dayjs.min(start, end);
+-    end = dayjs.max(start, end);
++    let pivot = dayjs.min(start, end) || start;
++    end = dayjs.max(start, end) || end;
+     const result: Timestamp[] = [];
+ 
+     if (!excludeEnd) {

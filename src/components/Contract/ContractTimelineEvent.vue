@@ -29,11 +29,9 @@
         UNSIGNED
       </v-chip>
       {{ formatDate(event.startedOn) }} - {{ formatDate(event.endedOn) }}
-      <span
-        v-if="event.conclusion && event.endedOn <= team.currentlyOn"
-        class="pl-1"
-      >
-        ({{ event.conclusion }})
+      <span v-if="event.conclusion" class="pl-1">
+        (<template v-if="event.endedOn > team.currentlyOn">To Be </template
+        >{{ event.conclusion }})
       </span>
     </template>
     <template #details>

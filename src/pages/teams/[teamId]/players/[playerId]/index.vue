@@ -1,18 +1,9 @@
 <script setup lang="ts">
   import { Player } from '~/models'
+  import 'cal-heatmap/cal-heatmap.css'
 
   useHead({
-    script: [
-      { src: 'https://cdn.jsdelivr.net/npm/apexcharts' },
-      { src: 'https://d3js.org/d3.v6.min.js' },
-      { src: 'https://unpkg.com/cal-heatmap/dist/cal-heatmap.min.js' }
-    ],
-    link: [
-      {
-        rel: 'stylesheet',
-        href: 'https://unpkg.com/cal-heatmap/dist/cal-heatmap.css'
-      }
-    ]
+    script: [{ src: 'https://cdn.jsdelivr.net/npm/apexcharts' }]
   })
 
   interface PlayerStats {
