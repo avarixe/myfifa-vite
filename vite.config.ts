@@ -79,7 +79,7 @@ export default defineConfig({
     visualizer()
   ],
   optimizeDeps: {
-    exclude: ['vuetify', 'vue-currency-input'],
+    exclude: ['vuetify', 'vue-currency-input', 'cal-heatmap'],
     include: [
       'lodash.groupby',
       'lodash.keyby',
