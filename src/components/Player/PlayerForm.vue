@@ -17,46 +17,8 @@
     value: props.record?.value,
     kitNo: props.record?.kitNo,
     age: props.record?.age,
-    youth: props.record?.youth || false,
-    coverage: _omit(props.record?.coverage, '__typename')
+    youth: props.record?.youth || false
   })
-
-  watch(
-    () => attributes.pos,
-    () => {
-      attributes.coverage[attributes.pos] = 1
-    }
-  )
-  watch(
-    () => attributes.secPos,
-    () => {
-      attributes.secPos.forEach(pos => {
-        attributes.coverage[pos] ??= 2
-      })
-    },
-    { deep: true }
-  )
-  watch(
-    () => attributes.coverage,
-    () => {
-      for (const pos in attributes.coverage) {
-        switch (attributes.coverage[pos]) {
-          case 1:
-            attributes.pos ??= pos
-            break
-          case 2:
-            if (
-              attributes.pos !== pos &&
-              !attributes.secPos.includes(pos) &&
-              positions.includes(pos)
-            ) {
-              attributes.secPos.push(pos)
-            }
-        }
-      }
-    },
-    { deep: true }
-  )
 
   const mutation = props.record
     ? gql`
@@ -99,7 +61,7 @@
 <template>
   <v-form ref="form" @submit.prevent="submitForm">
     <v-row dense>
-      <v-col cols="12" md="6" class="py-0">
+      <v-col cols="12">
         <v-text-field
           v-model="attributes.name"
           label="Name"
@@ -108,11 +70,15 @@
           autocomplete="off"
           autocorrect="off"
         />
+      </v-col>
+      <v-col cols="12" md="6">
         <v-autocomplete
           v-model="attributes.pos"
           label="Position"
           :items="positions"
         />
+      </v-col>
+      <v-col cols="12" md="6">
         <v-autocomplete
           v-model="attributes.secPos"
           label="Secondary Position(s)"
@@ -122,12 +88,7 @@
           closable-chips
         />
       </v-col>
-      <v-col cols="12" md="6" class="py-0 mb-2">
-        <div class="pl-4 text-caption">Coverage</div>
-        <player-coverage-legend class="pl-4" />
-        <player-coverage-field v-model="attributes.coverage" />
-      </v-col>
-      <v-col cols="12" md="6" class="py-0">
+      <v-col cols="12" md="6">
         <v-text-field
           v-model.number="attributes.age"
           label="Age"
@@ -136,13 +97,13 @@
           max="50"
         />
       </v-col>
-      <v-col cols="12" md="6" class="py-0">
+      <v-col cols="12" md="6">
         <nationality-field
           v-model="attributes.nationality"
           label="Nationality"
         />
       </v-col>
-      <v-col cols="12" md="6" class="py-0">
+      <v-col cols="12" md="6">
         <v-text-field
           v-model.number="attributes.ovr"
           label="OVR Rating"
@@ -151,10 +112,10 @@
           max="99"
         />
       </v-col>
-      <v-col cols="12" md="6" class="py-0">
+      <v-col cols="12" md="6">
         <money-field v-model="attributes.value" label="Value" />
       </v-col>
-      <v-col cols="12" md="6" class="py-0">
+      <v-col cols="12" md="6">
         <v-text-field
           v-model.number="attributes.kitNo"
           label="Kit Number"
