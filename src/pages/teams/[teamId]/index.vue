@@ -38,7 +38,7 @@
           wage: number
         }
       }[]
-      coverage: Record<string, number>
+      coverage: Record<string, number[]>
     }
   }>({
     query: gql`
@@ -91,13 +91,41 @@
     `
   })
 
-  const {
-    lastMatch,
-    injuredPlayers,
-    loanedPlayers,
-    expiringPlayers,
-    coverage
-  } = data.value?.team || {}
+  const { lastMatch, injuredPlayers, loanedPlayers, expiringPlayers } =
+    data.value?.team || {}
+
+  const coverageScores = computed(() => {
+    const coverage = data.value?.team?.coverage || {}
+    const scores: Record<string, number> = {}
+
+    for (const pos in coverage) {
+      let score = 0
+
+      if (matchPositions.includes(pos)) {
+        coverage[pos]?.forEach(cov => {
+          if (cov < 500) {
+            score += 0.3
+          } else if (cov < 1000) {
+            score += 0.7
+          } else if (cov < 1500) {
+            score += 1
+          } else if (cov < 2000) {
+            score += 1.5
+          } else if (cov < 2500) {
+            score += 2
+          } else if (cov < 3000) {
+            score += 2.5
+          } else {
+            score += 3
+          }
+        })
+      }
+
+      scores[pos] = score
+    }
+
+    return scores
+  })
 
   const router = useRouter()
 </script>
@@ -164,14 +192,14 @@
         </v-card-actions>
       </v-card>
     </v-col>
-    <v-col v-if="coverage" cols="12" md="6">
+    <v-col v-if="coverageScores" cols="12" md="6">
       <v-card class="mt-4">
         <v-card-title>
           <v-icon start color="info" icon="mdi-vector-polygon-variant" />
           Current Coverage
         </v-card-title>
         <v-card-text>
-          <team-coverage :coverage="coverage" />
+          <team-coverage :coverage="coverageScores" />
         </v-card-text>
       </v-card>
 
