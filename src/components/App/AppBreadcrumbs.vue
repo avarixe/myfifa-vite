@@ -102,6 +102,6 @@
     v-show="breadcrumbs.length > 1"
     :items="breadcrumbs"
     color="primary"
-    class="hidden-sm-and-down"
+    class="hidden-xs"
   />
 </template>

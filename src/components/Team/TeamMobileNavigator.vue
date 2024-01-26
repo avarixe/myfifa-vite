@@ -12,13 +12,16 @@
       <span>Season</span>
       <v-icon>mdi-calendar</v-icon>
     </v-btn>
+    <v-btn :to="`/teams/${team.id}`" exact class="elevation-20">
+      <span :class="{ 'pt-1': !!team.badgePath }">{{ team.name }}</span>
+      <v-avatar v-if="team.badgePath" class="py-1">
+        <v-img :src="team.badgeUrl" />
+      </v-avatar>
+      <v-icon v-else>mdi-shield-half-full</v-icon>
+    </v-btn>
     <v-btn :to="`/teams/${team.id}/matches`">
       <span>Matches</span>
       <v-icon>mdi-soccer-field</v-icon>
-    </v-btn>
-    <v-btn :to="`/teams/${team.id}/squads`">
-      <span>Squads</span>
-      <v-icon>mdi-clipboard-text</v-icon>
     </v-btn>
     <v-btn>
       <span>Create</span>

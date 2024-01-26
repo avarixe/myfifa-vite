@@ -120,11 +120,26 @@
       Player
     </v-btn>
     &nbsp;
-    <v-btn :to="`/teams/${team.id}/players/import`">Import</v-btn>
+    <v-btn :to="`/teams/${team.id}/players/squads`">Squads</v-btn>
     &nbsp;
-    <v-btn :to="`/teams/${team.id}/players/development`">Development</v-btn>
-    &nbsp;
-    <v-btn :to="`/teams/${team.id}/players/statistics`">Statistics</v-btn>
+    <v-btn>
+      Analyze
+      <v-icon right>mdi-chevron-down</v-icon>
+      <v-menu activator="parent">
+        <v-list>
+          <v-list-item
+            :to="`/teams/${team.id}/players/development`"
+            title="Development"
+            prepend-icon="mdi-trending-up"
+          />
+          <v-list-item
+            :to="`/teams/${team.id}/players/statistics`"
+            title="Statistics"
+            prepend-icon="mdi-google-analytics"
+          />
+        </v-list>
+      </v-menu>
+    </v-btn>
   </div>
 
   <div class="my-2">
@@ -151,6 +166,7 @@
     :headers="headers"
     :items="rows"
     :custom-key-sort="{ 'player.pos': sortByPosition }"
+    items-per-page="-1"
     class="rounded"
   >
     <template #[`header.player.nationality`]="{ column, getSortIcon }">

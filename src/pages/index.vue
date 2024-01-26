@@ -97,7 +97,7 @@
         text: 'Matches'
       },
       {
-        to: `/teams/${team.id}/squads`,
+        to: `/teams/${team.id}/players/squads`,
         icon: 'mdi-clipboard-text',
         text: 'Squads'
       }

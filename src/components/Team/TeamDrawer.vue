@@ -40,7 +40,7 @@
       icon: 'mdi-calendar',
       title: 'Current Season'
     },
-    { to: 'squads', icon: 'mdi-clipboard-text', title: 'Squads' },
+    { to: 'players/squads', icon: 'mdi-clipboard-text', title: 'Squads' },
     {
       to: 'players/development',
       icon: 'mdi-trending-up',
