@@ -60,9 +60,9 @@ declare module 'vue-router/auto/routes' {
     '/teams/[teamId]/players/development': RouteRecordInfo<'/teams/[teamId]/players/development', '/teams/:teamId/players/development', { teamId: ParamValue<true> }, { teamId: ParamValue<false> }>,
     '/teams/[teamId]/players/import': RouteRecordInfo<'/teams/[teamId]/players/import', '/teams/:teamId/players/import', { teamId: ParamValue<true> }, { teamId: ParamValue<false> }>,
     '/teams/[teamId]/players/new': RouteRecordInfo<'/teams/[teamId]/players/new', '/teams/:teamId/players/new', { teamId: ParamValue<true> }, { teamId: ParamValue<false> }>,
+    '/teams/[teamId]/players/squads': RouteRecordInfo<'/teams/[teamId]/players/squads', '/teams/:teamId/players/squads', { teamId: ParamValue<true> }, { teamId: ParamValue<false> }>,
     '/teams/[teamId]/players/statistics': RouteRecordInfo<'/teams/[teamId]/players/statistics', '/teams/:teamId/players/statistics', { teamId: ParamValue<true> }, { teamId: ParamValue<false> }>,
     '/teams/[teamId]/seasons/[season]': RouteRecordInfo<'/teams/[teamId]/seasons/[season]', '/teams/:teamId/seasons/:season', { teamId: ParamValue<true>, season: ParamValue<true> }, { teamId: ParamValue<false>, season: ParamValue<false> }>,
-    '/teams/[teamId]/squads/': RouteRecordInfo<'/teams/[teamId]/squads/', '/teams/:teamId/squads', { teamId: ParamValue<true> }, { teamId: ParamValue<false> }>,
     '/teams/new': RouteRecordInfo<'/teams/new', '/teams/new', Record<never, never>, Record<never, never>>,
   }
 }

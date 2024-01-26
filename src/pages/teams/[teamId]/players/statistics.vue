@@ -310,7 +310,7 @@
     :items="items"
     :custom-key-sort="{ 'player.pos': sortByPosition }"
     density="compact"
-    height="50vh"
+    height="70vh"
     class="rounded mt-4"
   >
     <template #[`header.player.nationality`]="{ column, getSortIcon }">
