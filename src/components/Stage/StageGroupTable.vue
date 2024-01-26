@@ -156,10 +156,13 @@
           class="text-right"
         >
           <v-hover v-if="editing" v-slot="{ isHovering, props: hoverProps }">
-            <input
+            <v-text-field
               v-model="row[stat]"
               :class="`elevation-${isHovering ? 3 : 1} rounded`"
               type="number"
+              density="compact"
+              single-line
+              hide-details
               v-bind="hoverProps"
             />
           </v-hover>
@@ -187,7 +190,6 @@
 <style scoped lang="scss">
   .v-table#rows {
     :deep(.v-field input) {
-      padding: 0 8px;
       min-height: auto;
     }
 
@@ -195,9 +197,8 @@
     td {
       padding: 0 8px;
 
-      input[type='number'] {
+      :deep(input[type='number']) {
         width: 3em;
-        text-align: right;
       }
     }
   }

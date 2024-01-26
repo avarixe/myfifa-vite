@@ -56,13 +56,18 @@
     }
   }
 
-  function addLeg(fixtureIndex: number) {
+  async function addLeg(fixtureIndex: number) {
     attributes.fixturesAttributes[fixtureIndex].legsAttributes.push({
       homeScore: '',
       awayScore: '',
       _destroy: false
     })
+    await nextTick()
+    document.activeElement?.previousElementSibling
+      ?.querySelector('input')
+      ?.focus()
   }
+
   function removeLeg(fixtureIndex: number) {
     const fixtureAttr = attributes.fixturesAttributes[fixtureIndex]
     for (let i = fixtureAttr.legsAttributes.length - 1; i >= 0; i--) {
@@ -200,7 +205,7 @@
               <v-hover v-slot="{ isHovering, props: hoverProps }">
                 <input
                   v-model="leg.homeScore"
-                  :class="`elevation-${isHovering ? 3 : 1} rounded`"
+                  :class="`elevation-${isHovering ? 3 : 1} rounded mt-1`"
                   v-bind="hoverProps"
                 />
               </v-hover>
@@ -208,7 +213,7 @@
               <v-hover v-slot="{ isHovering, props: hoverProps }">
                 <input
                   v-model="leg.awayScore"
-                  :class="`elevation-${isHovering ? 3 : 1} rounded`"
+                  :class="`elevation-${isHovering ? 3 : 1} rounded mt-1`"
                   v-bind="hoverProps"
                 />
               </v-hover>
@@ -265,6 +270,7 @@
       <tr>
         <td colspan="3">
           <v-btn size="x-small" @click="addFixture">Add Fixture</v-btn>
+          &nbsp;
           <v-btn size="x-small" @click="removeFixture">Remove Fixture</v-btn>
         </td>
       </tr>
@@ -286,6 +292,7 @@
       input {
         width: 3em;
         text-align: center;
+        background-color: rgba(255, 255, 255, 0.05);
       }
     }
   }
