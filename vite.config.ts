@@ -49,11 +49,13 @@ export default defineConfig({
         {
           '@urql/vue': ['useQuery', 'useMutation', 'gql'],
           'pinia-orm': ['useRepo'],
-          'lodash.groupby': [['default', '_groupBy']],
-          'lodash.keyby': [['default', '_keyBy']],
-          'lodash.omit': [['default', '_omit']],
-          'lodash.orderby': [['default', '_orderBy']],
-          'lodash.pick': [['default', '_pick']],
+          lodash: [
+            ['groupBy', '_groupBy'],
+            ['keyBy', '_keyBy'],
+            ['omit', '_omit'],
+            ['orderBy', '_orderBy'],
+            ['pick', '_pick']
+          ],
           'date-fns': ['format', 'parseISO'],
           vuetify: ['useDisplay']
         },
@@ -80,13 +82,7 @@ export default defineConfig({
   ],
   optimizeDeps: {
     exclude: ['vuetify', 'vue-currency-input', 'cal-heatmap'],
-    include: [
-      'lodash.groupby',
-      'lodash.keyby',
-      'lodash.omit',
-      'lodash.orderby',
-      'lodash.pick'
-    ]
+    include: ['lodash']
   },
   define: {
     __APP_VERSION__: JSON.stringify(pkg.version),

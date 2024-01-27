@@ -1,7 +1,7 @@
 <script setup lang="ts">
   const props = withDefaults(
     defineProps<{
-      formatter: (x: number) => number | string
+      formatter?: (x: number) => number | string
       startValue: number
       endValue: number
     }>(),

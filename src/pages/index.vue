@@ -79,7 +79,7 @@
     )
   )
 
-  function teamLinks(team: TeamData) {
+  function teamLinks(team: TeamData | Team) {
     return [
       {
         to: `/teams/${team.id}/seasons/${currentSeason.value}`,
@@ -104,7 +104,7 @@
     ]
   }
 
-  function badgeUrl(team: TeamData) {
+  function badgeUrl(team: TeamData | Team) {
     return team.badgePath
       ? `${import.meta.env.VITE_API_URL.replace(/\/api/, '')}${team.badgePath}`
       : undefined
