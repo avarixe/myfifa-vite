@@ -66,6 +66,7 @@ declare global {
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
   const inRange: typeof import('./src/helpers/rules')['inRange']
   const inject: typeof import('vue')['inject']
+  const injectLocal: typeof import('@vueuse/core')['injectLocal']
   const injuryFragment: typeof import('./src/fragments/player')['injuryFragment']
   const isDefined: typeof import('@vueuse/core')['isDefined']
   const isNumber: typeof import('./src/helpers/rules')['isNumber']
@@ -115,6 +116,7 @@ declare global {
   const playerPerformanceStatsFragment: typeof import('./src/fragments/stats')['playerPerformanceStatsFragment']
   const positions: typeof import('./src/constants/index')['positions']
   const provide: typeof import('vue')['provide']
+  const provideLocal: typeof import('@vueuse/core')['provideLocal']
   const reactify: typeof import('@vueuse/core')['reactify']
   const reactifyObject: typeof import('@vueuse/core')['reactifyObject']
   const reactive: typeof import('vue')['reactive']
@@ -191,6 +193,7 @@ declare global {
   const useBrowserLocation: typeof import('@vueuse/core')['useBrowserLocation']
   const useCached: typeof import('@vueuse/core')['useCached']
   const useClipboard: typeof import('@vueuse/core')['useClipboard']
+  const useClipboardItems: typeof import('@vueuse/core')['useClipboardItems']
   const useCloned: typeof import('@vueuse/core')['useCloned']
   const useColorMode: typeof import('@vueuse/core')['useColorMode']
   const useCompetition: typeof import('./src/composables/useCompetition')['default']
@@ -359,9 +362,11 @@ declare global {
 // for type re-export
 declare global {
   // @ts-ignore
-  export type { Component, ComponentPublicInstance, ComputedRef, InjectionKey, PropType, Ref, VNode } from 'vue'
+  export type { Component, ComponentPublicInstance, ComputedRef, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, VNode, WritableComputedRef } from 'vue'
+  import('vue')
   // @ts-ignore
-  export type { TableHeader, TableSortItem, CapAttributes, GoalAttributes, StageAttributes, MatchFilters } from './src/types'
+  export type { TableHeader, TableSortItem, CapAttributes, GoalAttributes, StageAttributes, MatchFilters, RoundStageAttributes, GroupStageAttributes, FixtureAttributes, FixtureLegAttributes, TableRowAttributes } from './src/types'
+  import('./src/types')
 }
 // for vue template auto import
 import { UnwrapRef } from 'vue'
@@ -429,6 +434,7 @@ declare module 'vue' {
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly inRange: UnwrapRef<typeof import('./src/helpers/rules')['inRange']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
+    readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
     readonly injuryFragment: UnwrapRef<typeof import('./src/fragments/player')['injuryFragment']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
     readonly isNumber: UnwrapRef<typeof import('./src/helpers/rules')['isNumber']>
@@ -478,6 +484,7 @@ declare module 'vue' {
     readonly playerPerformanceStatsFragment: UnwrapRef<typeof import('./src/fragments/stats')['playerPerformanceStatsFragment']>
     readonly positions: UnwrapRef<typeof import('./src/constants/index')['positions']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
+    readonly provideLocal: UnwrapRef<typeof import('@vueuse/core')['provideLocal']>
     readonly reactify: UnwrapRef<typeof import('@vueuse/core')['reactify']>
     readonly reactifyObject: UnwrapRef<typeof import('@vueuse/core')['reactifyObject']>
     readonly reactive: UnwrapRef<typeof import('vue')['reactive']>
@@ -554,6 +561,7 @@ declare module 'vue' {
     readonly useBrowserLocation: UnwrapRef<typeof import('@vueuse/core')['useBrowserLocation']>
     readonly useCached: UnwrapRef<typeof import('@vueuse/core')['useCached']>
     readonly useClipboard: UnwrapRef<typeof import('@vueuse/core')['useClipboard']>
+    readonly useClipboardItems: UnwrapRef<typeof import('@vueuse/core')['useClipboardItems']>
     readonly useCloned: UnwrapRef<typeof import('@vueuse/core')['useCloned']>
     readonly useColorMode: UnwrapRef<typeof import('@vueuse/core')['useColorMode']>
     readonly useCompetition: UnwrapRef<typeof import('./src/composables/useCompetition')['default']>
@@ -784,6 +792,7 @@ declare module '@vue/runtime-core' {
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly inRange: UnwrapRef<typeof import('./src/helpers/rules')['inRange']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
+    readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
     readonly injuryFragment: UnwrapRef<typeof import('./src/fragments/player')['injuryFragment']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
     readonly isNumber: UnwrapRef<typeof import('./src/helpers/rules')['isNumber']>
@@ -833,6 +842,7 @@ declare module '@vue/runtime-core' {
     readonly playerPerformanceStatsFragment: UnwrapRef<typeof import('./src/fragments/stats')['playerPerformanceStatsFragment']>
     readonly positions: UnwrapRef<typeof import('./src/constants/index')['positions']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
+    readonly provideLocal: UnwrapRef<typeof import('@vueuse/core')['provideLocal']>
     readonly reactify: UnwrapRef<typeof import('@vueuse/core')['reactify']>
     readonly reactifyObject: UnwrapRef<typeof import('@vueuse/core')['reactifyObject']>
     readonly reactive: UnwrapRef<typeof import('vue')['reactive']>
@@ -909,6 +919,7 @@ declare module '@vue/runtime-core' {
     readonly useBrowserLocation: UnwrapRef<typeof import('@vueuse/core')['useBrowserLocation']>
     readonly useCached: UnwrapRef<typeof import('@vueuse/core')['useCached']>
     readonly useClipboard: UnwrapRef<typeof import('@vueuse/core')['useClipboard']>
+    readonly useClipboardItems: UnwrapRef<typeof import('@vueuse/core')['useClipboardItems']>
     readonly useCloned: UnwrapRef<typeof import('@vueuse/core')['useCloned']>
     readonly useColorMode: UnwrapRef<typeof import('@vueuse/core')['useColorMode']>
     readonly useCompetition: UnwrapRef<typeof import('./src/composables/useCompetition')['default']>

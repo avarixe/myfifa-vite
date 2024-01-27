@@ -10,7 +10,7 @@
     { isNamed: true }
   )
 
-  const attributes: StageAttributes = reactive({})
+  const attributes: GroupStageAttributes = reactive({ tableRowsAttributes: [] })
   function resetAttributes() {
     attributes.name = props.stage.name
     attributes.tableRowsAttributes = props.stage.tableRows.map(row => ({
@@ -73,6 +73,14 @@
 
   const route = useRoute<'/teams/[teamId]/competitions/[competitionId]/'>()
   const { teamColor } = useCompetition(Number(route.params.competitionId))
+
+  const statColumns: (keyof TableRowAttributes)[] = [
+    'wins',
+    'draws',
+    'losses',
+    'goalsFor',
+    'goalsAgainst'
+  ]
 </script>
 
 <template>
@@ -144,17 +152,7 @@
           />
           <template v-else>{{ row.name }}</template>
         </td>
-        <td
-          v-for="stat in [
-            'wins',
-            'draws',
-            'losses',
-            'goalsFor',
-            'goalsAgainst'
-          ]"
-          :key="stat"
-          class="text-right"
-        >
+        <td v-for="stat in statColumns" :key="stat" class="text-right">
           <v-hover v-if="editing" v-slot="{ isHovering, props: hoverProps }">
             <v-text-field
               v-model="row[stat]"

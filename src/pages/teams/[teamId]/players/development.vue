@@ -50,9 +50,9 @@
     { text: 'Value', color: 'red', icon: 'cash-multiple' }
   ]
 
-  const headers: Ref<TableHeader[]> = computed(() => {
+  const headers = computed(() => {
     const lMetric = metric.value.toLowerCase()
-    const columns = [
+    const columns: TableHeader[] = [
       { title: 'Name', key: 'player.name', width: 200, fixed: true },
       {
         title: 'Nationality',

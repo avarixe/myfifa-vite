@@ -31,7 +31,7 @@
     `
   })
 
-  const filters = reactive({
+  const filters: MatchFilters = reactive({
     season: null,
     competition: null,
     stage: null,
