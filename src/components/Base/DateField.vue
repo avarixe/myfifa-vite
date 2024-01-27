@@ -17,8 +17,8 @@
   const menu = ref(false)
 
   const emit = defineEmits(['update:modelValue'])
-  function onCalendarUpdate(value: Date) {
-    emit('update:modelValue', format(value, 'yyyy-MM-dd'))
+  function onCalendarUpdate(value: Date | null) {
+    emit('update:modelValue', value ? format(value, 'yyyy-MM-dd') : null)
     menu.value = false
   }
 </script>

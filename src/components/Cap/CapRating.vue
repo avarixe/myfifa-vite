@@ -75,7 +75,7 @@
           :model-value="rating"
           hover
           :color="rating ? color[rating] : 'grey'"
-          @update:model-value="(v: number) => setRating(Number(v))"
+          @update:model-value="(v: number | string) => setRating(Number(v))"
         >
           <template #item="{ index, props: ratingProps }">
             <v-icon

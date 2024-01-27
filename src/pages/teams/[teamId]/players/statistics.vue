@@ -89,7 +89,7 @@
       { title: 'xG + xA', key: 'xGAndxA', align: 'end' },
       { title: 'xG', key: 'xG', align: 'end' },
       { title: 'xA', key: 'xA', align: 'end' }
-    ]
+    ] as TableHeader[]
   })
 
   const sortBy: Ref<TableSortItem[]> = ref([
@@ -135,7 +135,7 @@
   interface PlayerWithStats extends PlayerStats {
     id: string | number
     player: Player
-    season?: number
+    season: number
     competition?: string
   }
   const items: Ref<PlayerWithStats[]> = computed(() => {
