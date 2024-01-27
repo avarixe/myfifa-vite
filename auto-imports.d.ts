@@ -5,11 +5,11 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
-  const _groupBy: typeof import('lodash.groupby')['default']
-  const _keyBy: typeof import('lodash.keyby')['default']
-  const _omit: typeof import('lodash.omit')['default']
-  const _orderBy: typeof import('lodash.orderby')['default']
-  const _pick: typeof import('lodash.pick')['default']
+  const _groupBy: typeof import('lodash')['groupBy']
+  const _keyBy: typeof import('lodash')['keyBy']
+  const _omit: typeof import('lodash')['omit']
+  const _orderBy: typeof import('lodash')['orderBy']
+  const _pick: typeof import('lodash')['pick']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
@@ -368,11 +368,11 @@ import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
-    readonly _groupBy: UnwrapRef<typeof import('lodash.groupby')['default']>
-    readonly _keyBy: UnwrapRef<typeof import('lodash.keyby')['default']>
-    readonly _omit: UnwrapRef<typeof import('lodash.omit')['default']>
-    readonly _orderBy: UnwrapRef<typeof import('lodash.orderby')['default']>
-    readonly _pick: UnwrapRef<typeof import('lodash.pick')['default']>
+    readonly _groupBy: UnwrapRef<typeof import('lodash')['groupBy']>
+    readonly _keyBy: UnwrapRef<typeof import('lodash')['keyBy']>
+    readonly _omit: UnwrapRef<typeof import('lodash')['omit']>
+    readonly _orderBy: UnwrapRef<typeof import('lodash')['orderBy']>
+    readonly _pick: UnwrapRef<typeof import('lodash')['pick']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
@@ -723,11 +723,11 @@ declare module 'vue' {
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
-    readonly _groupBy: UnwrapRef<typeof import('lodash.groupby')['default']>
-    readonly _keyBy: UnwrapRef<typeof import('lodash.keyby')['default']>
-    readonly _omit: UnwrapRef<typeof import('lodash.omit')['default']>
-    readonly _orderBy: UnwrapRef<typeof import('lodash.orderby')['default']>
-    readonly _pick: UnwrapRef<typeof import('lodash.pick')['default']>
+    readonly _groupBy: UnwrapRef<typeof import('lodash')['groupBy']>
+    readonly _keyBy: UnwrapRef<typeof import('lodash')['keyBy']>
+    readonly _omit: UnwrapRef<typeof import('lodash')['omit']>
+    readonly _orderBy: UnwrapRef<typeof import('lodash')['orderBy']>
+    readonly _pick: UnwrapRef<typeof import('lodash')['pick']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>

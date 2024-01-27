@@ -22,14 +22,15 @@
     playerId: number
     name: string
     pos: string
+    posIdx: number
     date: string
     iconColor: string
     icon: string
     fromTo: string
     value: number
-    fee: number
+    fee?: number | null
     netValue: number
-    addonClause: number
+    addonClause?: number | null
   }
 
   const arrivals: Ref<TransferTableRow[]> = computed(() =>
@@ -101,7 +102,7 @@
         ..._pick(player, ['name', 'pos']),
         ..._pick(transfer, ['playerId', 'addonClause']),
         id: `transfer-${i}`,
-        date: transfer.movedOn,
+        date: transfer.movedOn || '',
         icon: `mdi-airplane-${transferOut ? 'takeoff' : 'landing'}`,
         iconColor: transferOut ? 'red' : 'green',
         posIdx: player.posIdx,
@@ -127,7 +128,7 @@
     props.transferActivity.loans.reduce((rows: TransferTableRow[], loan) => {
       const player = playerRepo.find(Number(loan.playerId)) as Player
       const loanOut = team.value.name === loan.origin
-      const row: TransferTableRow = {
+      const row = {
         ..._pick(player, ['name', 'pos']),
         posIdx: player.posIdx,
         playerId: loan.playerId,
@@ -140,7 +141,7 @@
           date: loan.startedOn,
           icon: `mdi-account-arrow-${loanOut ? 'right' : 'left'}`,
           iconColor: `${loanOut ? 'orange' : 'light-green'}`
-        })
+        } as TransferTableRow)
       }
       if (
         loan.endedOn <= seasonEnd.value &&
@@ -156,7 +157,7 @@
           date: loan.endedOn,
           icon: `mdi-account-arrow-${loanOut ? 'left' : 'right'}`,
           iconColor: `${loanOut ? 'light-green' : 'orange'}`
-        })
+        } as TransferTableRow)
       }
       return rows
     }, [])
@@ -187,7 +188,7 @@
           ;['value', 'fee', 'netValue'].forEach(attr => {
             const key = attr as keyof TotalStats
             if (row[key]) {
-              totals[key] += row[key]
+              totals[key] += row[key] || 0
             }
           })
           return totals

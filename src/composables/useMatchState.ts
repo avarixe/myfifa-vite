@@ -2,7 +2,7 @@ import { Cap, Match } from '~/models'
 
 export default (match: Ref<Match>) => {
   const sortedCaps = computed(
-    () => _orderBy(match.value.caps, 'posIdx', 'start') as Cap[]
+    () => _orderBy(match.value.caps, ['posIdx', 'start']) as Cap[]
   )
 
   const minute: Ref<number | null> = ref(null)
