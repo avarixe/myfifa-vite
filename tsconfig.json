@@ -10,7 +10,7 @@
       "~*": ["./src/*"]
     },
     "skipLibCheck": true,
-    "useDefineForClassFields": true,
+    "useDefineForClassFields": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },

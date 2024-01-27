@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Stage, FixtureLeg } from '~/models'
+  import { Stage } from '~/models'
 
   const props = withDefaults(
     defineProps<{

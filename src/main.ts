@@ -5,9 +5,6 @@ import { createHead } from '@vueuse/head'
 import { createVuetify } from 'vuetify'
 import 'vuetify/styles'
 
-import Datepicker from '@vuepic/vue-datepicker'
-import '@vuepic/vue-datepicker/dist/main.css'
-
 import { User } from './models'
 import App from './App.vue'
 
@@ -82,7 +79,5 @@ const vuetify = createVuetify({
 const head = createHead()
 
 const app = createApp(App).use(router).use(pinia).use(head).use(vuetify)
-
-app.component('date-picker', Datepicker)
 
 app.mount('#app')
