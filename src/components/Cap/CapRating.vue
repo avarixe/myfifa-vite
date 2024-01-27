@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import { Cap } from '~/models'
-  import isMobile from 'is-mobile'
 
   const props = defineProps<{
     cap: Cap
@@ -48,7 +47,7 @@
     submitForm()
   }
 
-  const mobile = isMobile({ tablet: true })
+  const isMobile = navigator.maxTouchPoints > 0
 </script>
 
 <template>
@@ -63,7 +62,7 @@
 
     <v-menu
       v-if="!props.readonly"
-      :open-on-hover="!mobile"
+      :open-on-hover="!isMobile"
       location="center"
       activator="parent"
     >
