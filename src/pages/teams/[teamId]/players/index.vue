@@ -161,12 +161,13 @@
     </v-btn-toggle>
   </div>
 
-  <v-data-table
+  <v-data-table-virtual
     v-model:sort-by="sortBy"
     :headers="headers"
     :items="rows"
     :custom-key-sort="{ 'player.pos': sortByPosition }"
-    items-per-page="-1"
+    density="compact"
+    height="70vh"
     class="rounded"
   >
     <template #[`header.player.nationality`]="{ column, getSortIcon }">
@@ -241,5 +242,5 @@
     <template #[`item.contract.endedOn`]="{ item }">
       {{ formatDate(item.contract?.endedOn) }}
     </template>
-  </v-data-table>
+  </v-data-table-virtual>
 </template>
