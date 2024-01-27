@@ -50,9 +50,9 @@
     { text: 'Value', color: 'red', icon: 'cash-multiple' }
   ]
 
-  const headers: Ref<TableHeader[]> = computed(() => {
+  const headers = computed(() => {
     const lMetric = metric.value.toLowerCase()
-    const columns = [
+    const columns: TableHeader[] = [
       { title: 'Name', key: 'player.name', width: 200, fixed: true },
       {
         title: 'Nationality',
@@ -98,7 +98,7 @@
   ])
 
   interface StatDiff {
-    total?: number
+    total: number
     [key: number]: number
   }
 
@@ -129,16 +129,16 @@
       .map(player => {
         const playerWithStats: PlayerWithStats = {
           player,
-          ovrDiff: {},
+          ovrDiff: { total: 0 },
           startOvr: 0,
-          valueDiff: {},
+          valueDiff: { total: 0 },
           startValue: 0
         }
 
         const stats = statsByPlayerId[player.id]
         if (stats) {
-          const ovrDiff: StatDiff = {}
-          const valueDiff: StatDiff = {}
+          const ovrDiff: StatDiff = { total: 0 }
+          const valueDiff: StatDiff = { total: 0 }
           stats.forEach(stat => {
             ovrDiff[stat.season] = stat.ovr[1] - stat.ovr[0]
             valueDiff[stat.season] =

@@ -5,12 +5,13 @@
     "target": "esnext",
     "esModuleInterop": true,
     "strict": true,
-    "types": ["node", "vite/client", "vue/ref-macros"],
+    "types": ["node", "vite/client"],
     "paths": {
       "~*": ["./src/*"]
     },
     "skipLibCheck": true,
     "useDefineForClassFields": false,
+    "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
   "exclude": ["node_modules"]

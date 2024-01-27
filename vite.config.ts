@@ -67,7 +67,12 @@ export default defineConfig({
             'CapAttributes',
             'GoalAttributes',
             'StageAttributes',
-            'MatchFilters'
+            'MatchFilters',
+            'RoundStageAttributes',
+            'GroupStageAttributes',
+            'FixtureAttributes',
+            'FixtureLegAttributes',
+            'TableRowAttributes'
           ],
           type: true
         }

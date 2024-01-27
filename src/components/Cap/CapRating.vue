@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { Cap } from '~/models'
+  import isMobile from 'is-mobile'
 
   const props = defineProps<{
     cap: Cap
@@ -47,7 +48,7 @@
     submitForm()
   }
 
-  const isMobile = navigator.maxTouchPoints > 0
+  const mobile = isMobile({ tablet: true })
 </script>
 
 <template>
@@ -62,7 +63,7 @@
 
     <v-menu
       v-if="!props.readonly"
-      :open-on-hover="!isMobile"
+      :open-on-hover="!mobile"
       location="center"
       activator="parent"
     >
@@ -74,7 +75,7 @@
           :model-value="rating"
           hover
           :color="rating ? color[rating] : 'grey'"
-          @update:model-value="v => setRating(Number(v))"
+          @update:model-value="(v: number | string) => setRating(Number(v))"
         >
           <template #item="{ index, props: ratingProps }">
             <v-icon

@@ -164,7 +164,7 @@
         label="Assisted By"
         prepend-icon="mdi-human-greeting"
         hide-details
-        :disabled="attributes.penalty || attributes.ownGoal"
+        :disabled="attributes.penalty || attributes.ownGoal || undefined"
         spellcheck="false"
         autocapitalize="words"
         autocomplete="off"

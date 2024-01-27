@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Stage, Fixture, FixtureLeg } from '~/models'
+  import { Stage } from '~/models'
 
   const props = withDefaults(
     defineProps<{
@@ -10,7 +10,7 @@
     { isNamed: true }
   )
 
-  const attributes: StageAttributes = reactive({})
+  const attributes: RoundStageAttributes = reactive({ fixturesAttributes: [] })
   function resetAttributes() {
     attributes.name = props.stage.name
     attributes.fixturesAttributes = props.stage.fixtures.map(fixture => ({
@@ -98,12 +98,12 @@
   const route = useRoute<'/teams/[teamId]/competitions/[competitionId]/'>()
   const { teamColor } = useCompetition(Number(route.params.competitionId))
 
-  function scoreDiff(fixture: Fixture) {
+  function scoreDiff(fixture: FixtureAttributes) {
     let homeScore = 0
     let awayScore = 0
 
     const scoreRegex = /^(\d+)(?: \((\d+)\))?$/
-    fixture.legsAttributes.forEach((leg: FixtureLeg) => {
+    fixture.legsAttributes.forEach((leg: FixtureLegAttributes) => {
       if (!leg.homeScore || !leg.awayScore) {
         return
       }

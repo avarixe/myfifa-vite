@@ -30,9 +30,9 @@ export interface CapAttributes {
 
 export interface GoalAttributes {
   home?: boolean | null
-  playerId?: number | null
+  capId?: number | null
   playerName?: string | null
-  assistId?: number | null
+  assistCapId?: number | null
   assistedBy?: string | null
   ownGoal?: boolean | null
   penalty?: boolean | null
@@ -48,26 +48,37 @@ export interface MatchFilters {
 
 export interface StageAttributes {
   name?: string | null
-  fixturesAttributes?: {
-    id?: number
-    homeTeam?: string | null
-    awayTeam?: string | null
-    legsAttributes?: {
-      id?: number
-      homeScore?: string | null
-      awayScore?: string | null
-      _destroy?: boolean
-    }[]
-    _destroy?: boolean
-  }[]
-  tableRowsAttributes?: {
-    id?: number
-    name?: string | null
-    wins?: number | null
-    draws?: number | null
-    losses?: number | null
-    goalsFor?: number | null
-    goalsAgainst?: number | null
-    _destroy?: boolean
-  }[]
+}
+
+export interface RoundStageAttributes extends StageAttributes {
+  fixturesAttributes: FixtureAttributes[]
+}
+
+interface NestedAttributes {
+  id?: number
+  _destroy?: boolean
+}
+
+export interface FixtureAttributes extends NestedAttributes {
+  homeTeam?: string | null
+  awayTeam?: string | null
+  legsAttributes: FixtureLegAttributes[]
+}
+
+export interface FixtureLegAttributes extends NestedAttributes {
+  homeScore?: string | null
+  awayScore?: string | null
+}
+
+export interface GroupStageAttributes extends StageAttributes {
+  tableRowsAttributes: TableRowAttributes[]
+}
+
+export interface TableRowAttributes extends NestedAttributes {
+  name?: string | null
+  wins?: number | null
+  draws?: number | null
+  losses?: number | null
+  goalsFor?: number | null
+  goalsAgainst?: number | null
 }

@@ -107,7 +107,7 @@ export default (competitionId: number | null) => {
     }
   })
 
-  function teamColor(name: string): string {
+  function teamColor(name?: string | null): string {
     if (name === competition.value.team.name) {
       return 'text-info'
     } else if (name && name === competition.value.champion) {
