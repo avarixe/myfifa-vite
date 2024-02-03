@@ -10,15 +10,11 @@
     props.modelValue ? formatDate(props.modelValue, 'MMM d, yyyy') : ''
   )
 
-  const date = computed(() =>
-    props.modelValue ? parseISO(props.modelValue) : null
-  )
-
   const menu = ref(false)
 
   const emit = defineEmits(['update:modelValue'])
-  function onCalendarUpdate(value: Date | null) {
-    emit('update:modelValue', value ? format(value, 'yyyy-MM-dd') : null)
+  function onCalendarUpdate(value: string) {
+    emit('update:modelValue', value)
     menu.value = false
   }
 </script>
@@ -32,11 +28,17 @@
     @click:append="emit('update:modelValue', prefill)"
     @click:clear="emit('update:modelValue', null)"
   >
-    <v-menu v-model="menu" activator="parent" :close-on-content-click="false">
-      <v-date-picker
-        :min="min"
-        :max="max"
-        :model-value="date"
+    <v-menu v-model="menu" activator="parent">
+      <vue-date-picker
+        inline
+        auto-apply
+        model-type="yyyy-MM-dd"
+        week-start="0"
+        :min-date="min"
+        :max-date="max"
+        dark
+        :enable-time-picker="false"
+        :model-value="modelValue"
         @update:model-value="onCalendarUpdate"
       />
     </v-menu>
