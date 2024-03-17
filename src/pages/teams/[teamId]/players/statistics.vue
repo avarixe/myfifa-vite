@@ -187,9 +187,9 @@
           }
         })
 
-        if (matchStats.numMinutes > 0) {
-          matchStats.xG = (matchStats.numGoals / matchStats.numMinutes) * 90
-          matchStats.xA = (matchStats.numAssists / matchStats.numMinutes) * 90
+        if (matchStats.numMatches > 0) {
+          matchStats.xG = matchStats.numGoals / matchStats.numMatches
+          matchStats.xA = matchStats.numAssists / matchStats.numMatches
           matchStats.xGAndxA = matchStats.xG + matchStats.xA
         }
         matchStats.avgRating /= numRatedMinutes || 1
