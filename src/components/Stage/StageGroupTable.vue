@@ -155,7 +155,7 @@
         <td v-for="stat in statColumns" :key="stat" class="text-right">
           <v-hover v-if="editing" v-slot="{ isHovering, props: hoverProps }">
             <v-text-field
-              v-model="row[stat]"
+              v-model.number="row[stat]"
               :class="`elevation-${isHovering ? 3 : 1} rounded`"
               type="number"
               density="compact"
