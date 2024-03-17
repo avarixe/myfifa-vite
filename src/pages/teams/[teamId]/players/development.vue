@@ -272,6 +272,7 @@
     </template>
     <template #[`item.ovrDiff.total`]="{ item }">
       <div :class="ovrColor(item.ovrDiff.total)">
+        {{ item.ovrDiff.total > 0 ? '+' : '' }}
         {{ item.ovrDiff.total }}
       </div>
     </template>
