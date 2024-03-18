@@ -35,7 +35,7 @@ export interface GoalAttributes {
   assistCapId?: number | null
   assistedBy?: string | null
   ownGoal?: boolean | null
-  penalty?: boolean | null
+  setPiece?: string | null
 }
 
 export interface MatchFilters {

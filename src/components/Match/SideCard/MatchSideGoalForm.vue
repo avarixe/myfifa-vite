@@ -10,16 +10,24 @@
     home: props.side === 'home',
     minute: null,
     playerName: '',
-    assistedBy: '',
+    assistedBy: null,
     ownGoal: false,
-    penalty: false
+    setPiece: null
   })
+
+  const setPieceOptions = Object.entries(setPieces).map(([value, title]) => ({
+    value,
+    title
+  }))
 
   watchEffect(() => {
     attributes.home = props.side === 'home'
 
-    if (attributes.ownGoal || attributes.penalty) {
-      attributes.assistedBy = ''
+    if (attributes.setPiece === 'PK') {
+      attributes.ownGoal = false
+      attributes.assistedBy = null
+    } else if (attributes.ownGoal) {
+      attributes.assistedBy = null
     }
   })
 
@@ -41,7 +49,6 @@
     },
     onReset() {
       attributes.ownGoal = false
-      attributes.penalty = false
     }
   })
 </script>
@@ -70,23 +77,24 @@
         v-model="attributes.assistedBy"
         label="Assisted By"
         prepend-icon="mdi-human-greeting"
-        :disabled="attributes.penalty || attributes.ownGoal"
-        hide-details
+        :disabled="attributes.setPiece === 'PK' || attributes.ownGoal"
         spellcheck="false"
         autocapitalize="words"
         autocomplete="off"
         autocorrect="off"
       />
-      <v-checkbox
-        v-model="attributes.penalty"
-        label="Penalty"
-        :disabled="attributes.ownGoal"
+      <v-select
+        v-model="attributes.setPiece"
+        :items="setPieceOptions"
+        label="Set Piece"
+        prepend-icon="mdi-strategy"
+        clearable
         hide-details
       />
       <v-checkbox
         v-model="attributes.ownGoal"
         label="Own Goal"
-        :disabled="attributes.penalty"
+        :disabled="attributes.setPiece === 'PK'"
         hide-details
       />
       <div class="d-flex">

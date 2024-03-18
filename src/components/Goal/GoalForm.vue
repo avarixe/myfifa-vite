@@ -16,7 +16,7 @@
     attributes.assistCapId = props.record?.assistCapId
     attributes.assistedBy = props.record?.assistedBy
     attributes.ownGoal = props.record?.ownGoal ?? false
-    attributes.penalty = props.record?.penalty ?? false
+    attributes.setPiece = props.record?.setPiece
     minute.value = props.record?.minute || null
   }
 
@@ -30,6 +30,11 @@
     capsAtMinute.value.filter(cap => cap.id !== attributes.capId)
   )
 
+  const setPieceOptions = Object.entries(setPieces).map(([value, title]) => ({
+    value,
+    title
+  }))
+
   const { team } = useTeam()
   const teamGoal = computed(
     () => !attributes.home !== (props.match.home === team.value?.name)
@@ -40,9 +45,11 @@
       attributes.assistedBy = ''
     }
 
-    if (attributes.penalty || attributes.ownGoal) {
-      attributes.assistCapId = null
-      attributes.assistedBy = null
+    if (attributes.setPiece === 'PK') {
+      attributes.ownGoal = false
+      clearAssistedBy()
+    } else if (attributes.ownGoal) {
+      clearAssistedBy()
     }
   })
 
@@ -61,11 +68,15 @@
     }
   })
 
-  function clearNames() {
-    attributes.capId = null
-    attributes.playerName = null
+  function clearAssistedBy() {
     attributes.assistCapId = null
     attributes.assistedBy = null
+  }
+
+  function clearPlayers() {
+    attributes.capId = null
+    attributes.playerName = null
+    clearAssistedBy()
   }
 
   const mutation = props.record
@@ -118,7 +129,7 @@
         v-model="attributes.home"
         inline
         hide-details
-        @change="clearNames"
+        @change="clearPlayers"
       >
         <v-radio :label="match.home" :value="true" color="teal" />
         <v-radio :label="match.away" :value="false" color="pink" />
@@ -154,17 +165,17 @@
         :caps="assistOptions"
         label="Assisted By"
         prepend-icon="mdi-human-greeting"
-        :disabled="attributes.penalty || attributes.ownGoal"
+        :disabled="attributes.setPiece === 'PK' || attributes.ownGoal"
         clearable
-        hide-details
       />
       <v-text-field
         v-else
         v-model="attributes.assistedBy"
         label="Assisted By"
         prepend-icon="mdi-human-greeting"
-        hide-details
-        :disabled="attributes.penalty || attributes.ownGoal || undefined"
+        :disabled="
+          attributes.setPiece === 'PK' || attributes.ownGoal || undefined
+        "
         spellcheck="false"
         autocapitalize="words"
         autocomplete="off"
@@ -172,10 +183,12 @@
       />
     </v-col>
     <v-col cols="12">
-      <v-checkbox
-        v-model="attributes.penalty"
-        label="Penalty"
-        :disabled="attributes.ownGoal"
+      <v-select
+        v-model="attributes.setPiece"
+        :items="setPieceOptions"
+        label="Set Piece"
+        prepend-icon="mdi-strategy"
+        clearable
         hide-details
       />
     </v-col>
@@ -183,7 +196,7 @@
       <v-checkbox
         v-model="attributes.ownGoal"
         label="Own Goal"
-        :disabled="attributes.penalty"
+        :disabled="attributes.setPiece === 'PK'"
         hide-details
       />
     </v-col>
