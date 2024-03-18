@@ -34,6 +34,10 @@ export default class Match extends Model {
   @Bool(false) declare extraTime: boolean
   @Num(0) declare homeScore: number
   @Num(0) declare awayScore: number
+  @Num(null) declare homeXg: number | null
+  @Num(null) declare awayXg: number | null
+  @Num(50) declare homePossession: number
+  @Num(50) declare awayPossession: number
 
   // Calculated fields
   @Str('') declare score: string

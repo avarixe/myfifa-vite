@@ -62,6 +62,7 @@ declare module '@vue/runtime-core' {
     MatchSideMenu: typeof import('./src/components/Match/SideCard/MatchSideMenu.vue')['default']
     MatchSquadApplier: typeof import('./src/components/Match/MatchSquadApplier.vue')['default']
     MatchSquadSaver: typeof import('./src/components/Match/MatchSquadSaver.vue')['default']
+    MatchStatistics: typeof import('./src/components/Match/MatchStatistics.vue')['default']
     MatchTimeline: typeof import('./src/components/Match/MatchTimeline.vue')['default']
     MinuteField: typeof import('./src/components/Base/MinuteField.vue')['default']
     MoneyField: typeof import('./src/components/Base/MoneyField.vue')['default']
