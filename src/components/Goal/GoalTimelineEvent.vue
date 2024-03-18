@@ -35,7 +35,7 @@
           icon="mdi-soccer"
         />
         {{ goal.playerName }}
-        <span v-if="goal.penalty">(P)</span>
+        <span v-if="goal.setPiece">({{ goal.setPiece }})</span>
         <span v-else-if="goal.ownGoal">(OG)</span>
         <template v-if="goal.assistedBy">
           <v-icon

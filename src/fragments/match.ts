@@ -68,7 +68,7 @@ export const goalFragment = gql`
     assistedBy
     minute
     home
-    penalty
+    setPiece
     ownGoal
   }
 `

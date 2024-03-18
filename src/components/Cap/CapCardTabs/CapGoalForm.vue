@@ -13,14 +13,17 @@
     capId: props.cap.id,
     assistCapId: null,
     ownGoal: false,
-    penalty: false
+    setPiece: null
   })
 
   watchEffect(() => {
     attributes.home = props.match.home === team.value.name
     attributes.capId = props.cap.id
 
-    if (attributes.penalty || attributes.ownGoal) {
+    if (attributes.setPiece === 'PK') {
+      attributes.ownGoal = false
+      attributes.assistCapId = null
+    } else if (attributes.ownGoal) {
       attributes.assistCapId = null
     }
   })
@@ -29,6 +32,11 @@
   const assistOptions = computed(() =>
     capsAtMinute.value.filter(cap => cap.id !== attributes.capId)
   )
+
+  const setPieceOptions = Object.entries(setPieces).map(([value, title]) => ({
+    value,
+    title
+  }))
 
   const emit = defineEmits(['submitted'])
   const { form, formKey, formIsLoading, formIsValid, submitForm } = useForm({
@@ -51,7 +59,6 @@
     },
     onReset() {
       attributes.ownGoal = false
-      attributes.penalty = false
     }
   })
 </script>
@@ -71,20 +78,21 @@
         label="Assisted By"
         prepend-icon="mdi-human-greeting"
         :caps="assistOptions"
-        :disabled="attributes.penalty || attributes.ownGoal"
+        :disabled="attributes.setPiece === 'PK' || attributes.ownGoal"
         clearable
-        hide-details
       />
-      <v-checkbox
-        v-model="attributes.penalty"
-        label="Penalty"
-        :disabled="attributes.ownGoal"
+      <v-select
+        v-model="attributes.setPiece"
+        :items="setPieceOptions"
+        label="Set Piece"
+        prepend-icon="mdi-strategy"
+        clearable
         hide-details
       />
       <v-checkbox
         v-model="attributes.ownGoal"
         label="Own Goal"
-        :disabled="attributes.penalty"
+        :disabled="attributes.setPiece === 'PK'"
         hide-details
       />
       <div class="d-flex">

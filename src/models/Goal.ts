@@ -27,7 +27,7 @@ export default class Goal extends Model {
   @Num(0) declare minute: number
   @Bool(true) declare home: boolean
   @Bool(false) declare ownGoal: boolean
-  @Bool(false) declare penalty: boolean
+  @Str(null) declare setPiece: string | null
   @Str('') declare createdAt: string
 
   // Associations

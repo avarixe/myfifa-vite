@@ -48,6 +48,13 @@ export const matchPositionTypes: Record<string, 'FWD' | 'MID' | 'DEF'> = {
 
 export const matchPositions = Object.keys(matchPositionTypes)
 
+export const setPieces = {
+  PK: 'Penalty Kick',
+  CK: 'Corner Kick',
+  DFK: 'Direct Free Kick',
+  IFK: 'Indirect Free Kick'
+}
+
 export const bonusRequirementTypes = [
   'Appearances',
   'Goals',
