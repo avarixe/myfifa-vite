@@ -135,33 +135,7 @@
   </div>
 
   <div class="mt-4 text-center">
-    <v-row dense justify="space-between" align="center">
-      <v-col cols="6">
-        <div class="font-weight-light text-h6 text-sm-h4">{{ match.home }}</div>
-        <div :class="`font-weight-bold text-h4 text-${match.resultColor}`">
-          {{ match.homeScore }}
-          <span v-if="match.penaltyShootout">
-            ({{ match.penaltyShootout.homeScore }})
-          </span>
-        </div>
-      </v-col>
-      <v-col cols="6">
-        <div class="font-weight-light text-h6 text-sm-h4">{{ match.away }}</div>
-        <div :class="`font-weight-bold text-h4 text-${match.resultColor}`">
-          {{ match.awayScore }}
-          <span v-if="match.penaltyShootout">
-            ({{ match.penaltyShootout.awayScore }})
-          </span>
-        </div>
-      </v-col>
-      <v-col
-        v-if="match.extraTime"
-        cols="12"
-        :class="`text-center text-${match.resultColor}`"
-      >
-        AET
-      </v-col>
-    </v-row>
+    <match-statistics :match="match" :readonly="readonlyMode" />
   </div>
 
   <section id="lineup" class="mt-4">

@@ -10,6 +10,10 @@ export const matchFragment = gql`
     extraTime
     homeScore
     awayScore
+    homeXg
+    awayXg
+    homePossession
+    awayPossession
     score
     teamResult
     season
