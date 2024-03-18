@@ -65,6 +65,7 @@
       {
         opposite: true,
         title: { text: 'Value' },
+        min: 0,
         labels: {
           formatter: (v: number) => formatMoney(v, team.value.currency)
         }
