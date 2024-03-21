@@ -7,14 +7,20 @@
   }>()
 
   const attributes = reactive({
-    homeXg: props.match.homeXg ?? undefined,
-    awayXg: props.match.awayXg ?? undefined,
+    homeXg: props.match.homeXg,
+    awayXg: props.match.awayXg,
     homePossession: props.match.homePossession,
     awayPossession: props.match.awayPossession
   })
 
   watchEffect(() => {
     attributes.awayPossession = 100 - attributes.homePossession
+    if (!attributes.homeXg) {
+      attributes.homeXg = null
+    }
+    if (!attributes.awayXg) {
+      attributes.awayXg = null
+    }
   })
 
   const mutation = gql`
@@ -38,7 +44,7 @@
   const timeout = ref(null as ReturnType<typeof setTimeout> | null)
   function updateMatch() {
     timeout.value && clearTimeout(timeout.value)
-    timeout.value = setTimeout(submitForm, 300)
+    timeout.value = setTimeout(submitForm, 1_000)
   }
 
   watch(attributes, updateMatch, { deep: true })
@@ -89,7 +95,7 @@
       >
         <td class="font-weight-light text-h4">
           <div v-if="props.readonly" class="font-weight-bold text-h4">
-            {{ Number(match.homeXg).toFixed(2) }}
+            {{ Number(match.homeXg).toFixed(1) }}
           </div>
           <v-text-field
             v-else
@@ -104,7 +110,7 @@
         <td class="text-center">Expected Goals</td>
         <td class="font-weight-light text-h4">
           <div v-if="props.readonly" class="font-weight-bold text-h4">
-            {{ Number(match.awayXg).toFixed(2) }}
+            {{ Number(match.awayXg).toFixed(1) }}
           </div>
           <v-text-field
             v-else
