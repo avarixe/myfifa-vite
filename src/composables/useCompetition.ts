@@ -1,4 +1,4 @@
-import { Competition, Stage, TableRow, Fixture, FixtureLeg } from '~/models'
+import { Competition, Fixture, FixtureLeg, Stage, TableRow } from '~/models'
 
 export default (competitionId: number | null) => {
   const competitionRepo = useRepo(Competition)
@@ -9,7 +9,7 @@ export default (competitionId: number | null) => {
         .with('stages', query => {
           query.with('tableRows')
         })
-        .find(Number(competitionId)) as Competition
+        .find(Number(competitionId)) || new Competition()
   )
 
   const tableRowRepo = useRepo(TableRow)
@@ -70,16 +70,15 @@ export default (competitionId: number | null) => {
   }
 
   const stageRepo = useRepo(Stage)
-  const orderedRounds = computed(
-    () =>
-      stageRepo
-        .with('fixtures', query => {
-          query.with('legs')
-        })
-        .where('competitionId', competitionId)
-        .where('table', false)
-        .orderBy('numFixtures', 'desc')
-        .get() as Stage[]
+  const orderedRounds = computed<Stage[]>(() =>
+    stageRepo
+      .with('fixtures', query => {
+        query.with('legs')
+      })
+      .where('competitionId', competitionId)
+      .where('table', false)
+      .orderBy('numFixtures', 'desc')
+      .get()
   )
 
   function previousRoundTeams(stage: Stage): string[] {

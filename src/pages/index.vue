@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { differenceInYears } from 'date-fns'
+
   import { Team } from '~/models'
 
   useHead({
@@ -151,7 +152,9 @@
                     class="my-2"
                     v-bind="props"
                   >
-                    <v-icon :start="isHovering">mdi-arrow-right</v-icon>
+                    <v-icon :start="isHovering ?? undefined"
+                      >mdi-arrow-right</v-icon
+                    >
                     <span v-show="isHovering">Go To Team</span>
                   </v-btn>
                 </v-hover>
@@ -204,7 +207,9 @@
                           class="my-2"
                           v-bind="props"
                         >
-                          <v-icon :start="isHovering">mdi-play</v-icon>
+                          <v-icon :start="isHovering ?? undefined"
+                            >mdi-play</v-icon
+                          >
                           <span v-show="isHovering">Go To Match</span>
                         </v-btn>
                       </v-hover>
@@ -219,7 +224,9 @@
                   v-slot="{ isHovering, props }"
                 >
                   <v-btn :to="link.to" variant="text" v-bind="props">
-                    <v-icon :start="isHovering">{{ link.icon }}</v-icon>
+                    <v-icon :start="isHovering ?? undefined">{{
+                      link.icon
+                    }}</v-icon>
                     <span v-show="isHovering">{{ link.text }}</span>
                   </v-btn>
                 </v-hover>

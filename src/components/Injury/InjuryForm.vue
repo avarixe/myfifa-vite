@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Player, Injury } from '~/models'
+  import { Injury, Player } from '~/models'
 
   const props = defineProps<{
     player: Player

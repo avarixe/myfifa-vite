@@ -13,7 +13,7 @@
 
   const { minute, activeCaps } = useMatchState(toRef(() => props.match))
 
-  const attributes = ref([] as MatchFormationCell[])
+  const attributes = ref<MatchFormationCell[]>([])
   watch(
     minute,
     () => {
@@ -26,14 +26,15 @@
     { immediate: true }
   )
 
-  const formationCells = computed(
-    () =>
-      matchPositions.reduce((map, pos) => {
-        return {
-          ...map,
-          [pos]: attributes.value.find(attr => attr.pos === pos)
-        }
-      }, {}) as Record<string, MatchFormationCell | undefined>
+  const formationCells = computed<
+    Record<string, MatchFormationCell | undefined>
+  >(() =>
+    matchPositions.reduce((map, pos) => {
+      return {
+        ...map,
+        [pos]: attributes.value.find(attr => attr.pos === pos)
+      }
+    }, {})
   )
 
   const mutation = gql`
@@ -57,19 +58,17 @@
   }
 
   const playerRepo = useRepo(Player)
-  const players = computed(
-    () =>
-      _orderBy(
-        playerRepo.where('status', (status: string | null) => !!status).get(),
-        ['posIdx', 'ovr'],
-        ['asc', 'desc']
-      ) as Player[]
+  const players = computed<Player[]>(() =>
+    _orderBy(
+      playerRepo.where('status', (status: string | null) => !!status).get(),
+      ['posIdx', 'ovr'],
+      ['asc', 'desc']
+    )
   )
-  const unselectedPlayers = computed(
-    () =>
-      players.value.filter(player =>
-        attributes.value.every(attr => attr.playerId !== player.id)
-      ) as Player[]
+  const unselectedPlayers = computed<Player[]>(() =>
+    players.value.filter(player =>
+      attributes.value.every(attr => attr.playerId !== player.id)
+    )
   )
   const inactivePlayerIds = computed(() =>
     players.value
@@ -77,7 +76,7 @@
       .map(player => player.id)
   )
 
-  const selectedPlayerId = ref(null as number | null)
+  const selectedPlayerId = ref<number | null>(null)
   const selectedPlayer = computed(() =>
     playerRepo.find(Number(selectedPlayerId.value))
   )

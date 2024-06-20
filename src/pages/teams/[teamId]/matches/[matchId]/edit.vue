@@ -33,8 +33,8 @@
   if (data.value?.match) {
     matchRepo.save(data.value.match)
   }
-  const match = computed(
-    () => matchRepo.find(Number(route.params.matchId)) as Match
+  const match = computed<Match>(() =>
+    matchRepo.find(Number(route.params.matchId))
   )
 </script>
 

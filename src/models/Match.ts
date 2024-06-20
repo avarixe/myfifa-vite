@@ -1,22 +1,23 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/dist/casts'
 import {
   Attr,
-  Str,
-  Num,
-  Bool,
   BelongsTo,
-  HasOne,
-  HasMany,
   BelongsToMany,
-  Cast
+  Bool,
+  Cast,
+  HasMany,
+  HasOne,
+  Num,
+  Str
 } from 'pinia-orm/dist/decorators'
-import { NumberCast } from 'pinia-orm/dist/casts'
-import Team from './Team'
-import PenaltyShootout from './PenaltyShootout'
-import Goal from './Goal'
+
 import Booking from './Booking'
 import Cap from './Cap'
+import Goal from './Goal'
+import PenaltyShootout from './PenaltyShootout'
 import Player from './Player'
+import Team from './Team'
 
 export default class Match extends Model {
   static entity = 'Match'

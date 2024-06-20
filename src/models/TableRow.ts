@@ -1,6 +1,7 @@
 import { Model } from 'pinia-orm'
-import { Attr, Str, Num, BelongsTo, Cast } from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
+import { Attr, BelongsTo, Cast, Num, Str } from 'pinia-orm/dist/decorators'
+
 import Stage from './Stage'
 
 export default class TableRow extends Model {

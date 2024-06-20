@@ -1,18 +1,19 @@
-import { createORM } from 'pinia-orm'
-import { createRouter, createWebHistory } from 'vue-router/auto'
-import { createHead } from '@vueuse/head'
-
-import { createVuetify } from 'vuetify'
 import 'vuetify/styles'
-
-import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 
-import { User } from './models'
+import VueDatePicker from '@vuepic/vue-datepicker'
+import { createHead } from '@vueuse/head'
+import { createORM } from 'pinia-orm'
+import { createRouter, createWebHistory } from 'vue-router/auto'
+import { routes } from 'vue-router/auto-routes'
+import { createVuetify } from 'vuetify'
+
 import App from './App.vue'
+import { User } from './models'
 
 const router = createRouter({
-  history: createWebHistory()
+  history: createWebHistory(),
+  routes
 })
 
 router.beforeEach(async to => {

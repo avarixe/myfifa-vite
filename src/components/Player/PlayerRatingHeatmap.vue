@@ -1,7 +1,9 @@
 <script setup lang="ts">
-  import { Player } from '~/models'
-  import { differenceInMonths } from 'date-fns'
+  // @ts-expect-error CalHeatmap is not typed as a module
   import CalHeatmap from 'cal-heatmap'
+  import { differenceInMonths } from 'date-fns'
+
+  import { Player } from '~/models'
 
   const props = defineProps<{ player: Player }>()
 

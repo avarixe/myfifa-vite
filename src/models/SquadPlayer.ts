@@ -1,6 +1,7 @@
 import { Model } from 'pinia-orm'
-import { Attr, Str, BelongsTo, Cast } from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
+import { Attr, BelongsTo, Cast, Str } from 'pinia-orm/dist/decorators'
+
 import Player from './Player'
 
 export default class SquadPlayer extends Model {

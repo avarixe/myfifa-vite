@@ -11,7 +11,7 @@
 
   defineEmits(['update:modelValue'])
 
-  const items = ref([] as string[])
+  const items = ref<string[]>([])
   watch(
     () => props.defaultItems,
     defaultItems => {
@@ -53,7 +53,7 @@
   })
 
   const loading = ref(false)
-  const combobox = ref(null as VCombobox | null)
+  const combobox = ref<VCombobox | null>(null)
   async function searchItems() {
     try {
       loading.value = true

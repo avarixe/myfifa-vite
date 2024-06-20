@@ -41,7 +41,7 @@
     }
   })
 
-  const timeout = ref(null as ReturnType<typeof setTimeout> | null)
+  const timeout = ref<ReturnType<typeof setTimeout> | null>(null)
   function updateMatch() {
     timeout.value && clearTimeout(timeout.value)
     timeout.value = setTimeout(submitForm, 1_000)

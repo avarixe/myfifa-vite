@@ -5,9 +5,14 @@
     "node": true
   },
   "parserOptions": {
-    "ecmaVersion": 2022,
+    "sourceType": "module",
+    "ecmaVersion": "latest",
     "warnOnUnsupportedTypeScriptVersion": false
   },
+  "plugins": [
+    "simple-import-sort",
+    "no-type-assertion"
+  ],
   "extends": [
     "eslint:recommended",
     "plugin:vue/vue3-recommended",
@@ -17,6 +22,9 @@
   "rules": {
     "no-undef": "off",
     "vue/multi-word-component-names": "off",
-    "vue/component-definition-name-casing": ["error", "kebab-case"]
+    "vue/component-definition-name-casing": ["error", "kebab-case"],
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "no-type-assertion/no-type-assertion": "error"
   }
 }

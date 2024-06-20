@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { formatDistance } from 'date-fns'
-  import { Player, Injury } from '~/models'
+
+  import { Injury, Player } from '~/models'
 
   const { team } = useTeam()
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Match, Cap } from '~/models'
+  import { Cap, Match } from '~/models'
 
   const props = defineProps<{
     match: Match
@@ -8,13 +8,13 @@
 
   const { minute, activeCaps } = useMatchState(toRef(() => props.match))
 
-  const formationCells = computed(() => {
+  const formationCells = computed<Record<string, Cap>>(() => {
     return matchPositions.reduce((map, pos) => {
       return {
         ...map,
         [pos]: activeCaps.value.find(cap => cap.pos === pos)
       }
-    }, {}) as Record<string, Cap>
+    }, {})
   })
 
   const benchCaps = computed(() => {
@@ -23,7 +23,7 @@
     )
 
     const capsByPlayer = _groupBy(otherCaps, 'playerId')
-    return (Object.values(capsByPlayer) as Cap[][]).map(
+    return Object.values(capsByPlayer).map(
       caps => caps.find(cap => !cap.nextId) || caps[0]
     )
   })

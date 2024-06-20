@@ -1,6 +1,6 @@
 import { Model } from 'pinia-orm'
-import { Attr, Str, Bool, Cast } from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
+import { Attr, Bool, Cast, Str } from 'pinia-orm/dist/decorators'
 
 export default class User extends Model {
   static entity = 'User'

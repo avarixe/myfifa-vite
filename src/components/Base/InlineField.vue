@@ -1,6 +1,6 @@
 <script setup lang="ts">
   defineProps<{
-    displayValue?: string | number
+    displayValue?: string | number | null
     tooltip?: string
   }>()
 

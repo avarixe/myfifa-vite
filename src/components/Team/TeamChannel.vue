@@ -34,7 +34,6 @@
   })
 
   type modelKey = keyof typeof models
-  type modelType = typeof models.Team
 
   const insertBuffer: Record<string, object[]> = reactive({})
   const deleteBuffer: Record<string, { id: number }[]> = reactive({})
@@ -73,7 +72,8 @@
   function updateStore() {
     Object.keys(deleteBuffer).forEach(async type => {
       const ids = deleteBuffer[type].map(data => data.id)
-      useRepo(models[type as modelKey] as modelType).destroy(ids)
+      // @ts-expect-error useRepo does not handle dynamic types
+      useRepo(models[type]).destroy(ids)
       delete deleteBuffer[type]
     })
 
@@ -87,7 +87,8 @@
           {}
         )
       )
-      useRepo(models[type as modelKey] as modelType).save(data)
+      // @ts-expect-error useRepo does not handle dynamic types
+      useRepo(models[type]).save(data)
       delete insertBuffer[type]
     })
   }

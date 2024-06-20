@@ -1,6 +1,7 @@
 import { Model } from 'pinia-orm'
-import { Attr, Str, HasMany, Cast } from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
+import { Attr, Cast, HasMany, Str } from 'pinia-orm/dist/decorators'
+
 import FixtureLeg from './FixtureLeg'
 
 export default class Fixture extends Model {

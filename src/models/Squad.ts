@@ -1,14 +1,15 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/dist/casts'
 import {
   Attr,
-  Str,
-  HasMany,
   BelongsToMany,
-  Cast
+  Cast,
+  HasMany,
+  Str
 } from 'pinia-orm/dist/decorators'
-import { NumberCast } from 'pinia-orm/dist/casts'
-import SquadPlayer from './SquadPlayer'
+
 import Player from './Player'
+import SquadPlayer from './SquadPlayer'
 
 export default class Squad extends Model {
   static entity = 'Squad'

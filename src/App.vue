@@ -1,9 +1,9 @@
 <script setup lang="ts">
   import {
-    createClient,
-    provideClient,
     cacheExchange,
-    fetchExchange
+    createClient,
+    fetchExchange,
+    provideClient
   } from '@urql/vue'
 
   const { token } = useSession()

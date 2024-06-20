@@ -1,16 +1,15 @@
-import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
-import VueRouter from 'unplugin-vue-router/vite'
+import { readFileSync } from 'fs'
+import path from 'path'
+import { visualizer } from 'rollup-plugin-visualizer'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { VueRouterAutoImports } from 'unplugin-vue-router'
-import vuetify from 'vite-plugin-vuetify'
-import eslint from 'vite-plugin-eslint'
-import { visualizer } from 'rollup-plugin-visualizer'
-import path from 'path'
-
-import { readFileSync } from 'fs'
+import VueRouter from 'unplugin-vue-router/vite'
 import { fileURLToPath } from 'url'
+import { defineConfig } from 'vite'
+import eslint from 'vite-plugin-eslint'
+import vuetify from 'vite-plugin-vuetify'
 
 const file = fileURLToPath(new URL('package.json', import.meta.url))
 const json = readFileSync(file, 'utf8')

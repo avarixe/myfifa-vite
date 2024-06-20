@@ -63,7 +63,7 @@
       matchRepo
         .withAll()
         .with('caps', query => query.with('player'))
-        .find(matchId.value) as Match
+        .find(matchId.value) || new Match()
   )
   const readonlyMode = ref(false)
 

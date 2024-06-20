@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Player, Contract } from '~/models'
+  import { Contract, Player } from '~/models'
 
   const { team } = useTeam()
 

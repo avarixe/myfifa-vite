@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Match, Cap } from '~/models'
+  import { Cap, Match } from '~/models'
 
   const props = defineProps<{
     match: Match
@@ -18,15 +18,14 @@
   )
 
   const capRepo = useRepo(Cap)
-  const caps = computed(
-    () =>
-      capRepo
-        .with('previous', query => {
-          query.with('player')
-        })
-        .with('player')
-        .where('start', props.minute)
-        .get() as Cap[]
+  const caps = computed<Cap[]>(() =>
+    capRepo
+      .with('previous', query => {
+        query.with('player')
+      })
+      .with('player')
+      .where('start', props.minute)
+      .get()
   )
 </script>
 

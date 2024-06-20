@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Match, Cap } from '~/models'
+  import { Cap, Match } from '~/models'
 
   const props = defineProps<{
     match: Match
@@ -30,14 +30,14 @@
   )
 
   const nonTeamSides = computed(() => {
-    const nonTeamSides = [] as string[]
-    const sides = ['home', 'away']
+    const nonTeamSides: ('home' | 'away')[] = []
+    const sides: ('home' | 'away')[] = ['home', 'away']
     sides.forEach(side => {
       if (props.match[side] !== team.value.name) {
         nonTeamSides.push(side)
       }
     })
-    return nonTeamSides as ('home' | 'away')[]
+    return nonTeamSides
   })
 </script>
 

@@ -1,13 +1,14 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/dist/casts'
 import {
   Attr,
-  Str,
-  Num,
-  Bool,
   BelongsTo,
-  Cast
+  Bool,
+  Cast,
+  Num,
+  Str
 } from 'pinia-orm/dist/decorators'
-import { NumberCast } from 'pinia-orm/dist/casts'
+
 import Match from './Match'
 import Player from './Player'
 
@@ -28,6 +29,8 @@ export default class Booking extends Model {
 
   // Calculated fields
   @Bool(true) declare home: boolean
+
+  @Str('Booking') declare type: string
 
   // Associations
   @BelongsTo(() => Match, 'matchId') declare match: Match

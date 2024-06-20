@@ -3,11 +3,11 @@
 
   const props = defineProps<{
     player: Player
-    attribute: string
+    attribute: 'kitNo' | 'ovr' | 'value'
     label: string
   }>()
 
-  const modelValue = ref(undefined as number | string | undefined)
+  const modelValue = ref<number | string | null | undefined>()
   watchEffect(() => {
     modelValue.value = props.player[props.attribute]
   })
@@ -38,7 +38,7 @@
 
 <template>
   <inline-field
-    :display-value="player[attribute]"
+    :display-value="player[attribute] ?? null"
     :tooltip="`Click to Edit ${label}`"
     @closed="updateAttribute"
   >

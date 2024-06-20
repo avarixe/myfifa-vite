@@ -1,14 +1,15 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/dist/casts'
 import {
   Attr,
-  Str,
-  Num,
-  Bool,
   BelongsTo,
+  Bool,
+  Cast,
   HasOne,
-  Cast
+  Num,
+  Str
 } from 'pinia-orm/dist/decorators'
-import { NumberCast } from 'pinia-orm/dist/casts'
+
 import Match from './Match'
 import Player from './Player'
 
@@ -28,6 +29,9 @@ export default class Cap extends Model {
   @Num(0) declare ovr: number
   @Num(0) declare rating: number | null
   @Bool(false) declare injured: boolean
+  @Str('') declare createdAt: string
+
+  @Str('Cap') declare type: string
 
   // Associations
   @BelongsTo(() => Match, 'matchId') declare match: Match

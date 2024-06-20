@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { addYears } from 'date-fns'
-  import { Player, Contract, Transfer, Loan } from '~/models'
+
+  import { Contract, Loan, Player, Transfer } from '~/models'
 
   const props = defineProps<{
     transferActivity: {
@@ -27,9 +28,9 @@
     iconColor: string
     icon: string
     fromTo: string
-    value: number
+    value?: number
     fee?: number | null
-    netValue: number
+    netValue?: number
     addonClause?: number | null
   }
 
@@ -55,7 +56,7 @@
         )
       })
       .map((arrival, i) => {
-        const player = playerRepo.find(Number(arrival.playerId)) as Player
+        const player = playerRepo.find(Number(arrival.playerId)) ?? new Player()
 
         return {
           ..._pick(player, ['name', 'pos']),
@@ -74,7 +75,7 @@
 
   const departures: Ref<TransferTableRow[]> = computed(() =>
     props.transferActivity.departures.map((departure, i) => {
-      const player = playerRepo.find(Number(departure.playerId)) as Player
+      const player = playerRepo.find(Number(departure.playerId)) ?? new Player()
 
       return {
         ..._pick(player, ['name', 'pos']),
@@ -93,7 +94,7 @@
 
   const transfers: Ref<TransferTableRow[]> = computed(() =>
     props.transferActivity.transfers.map((transfer, i) => {
-      const player = playerRepo.find(Number(transfer.playerId)) as Player
+      const player = playerRepo.find(Number(transfer.playerId)) ?? new Player()
       const playerValues =
         props.playerValues[transfer.playerId] || Array(2).fill(player.value)
       const transferOut = team.value.name === transfer.origin
@@ -126,7 +127,7 @@
   })
   const loans = computed(() =>
     props.transferActivity.loans.reduce((rows: TransferTableRow[], loan) => {
-      const player = playerRepo.find(Number(loan.playerId)) as Player
+      const player = playerRepo.find(Number(loan.playerId)) ?? new Player()
       const loanOut = team.value.name === loan.origin
       const row = {
         ..._pick(player, ['name', 'pos']),
@@ -135,13 +136,14 @@
         fromTo: loanOut ? loan.destination : loan.origin
       }
       if (loan.startedOn >= seasonStart.value) {
-        rows.push({
+        const loanStartRow: TransferTableRow = {
           ...row,
           id: `loan-start-${loan.id}`,
           date: loan.startedOn,
           icon: `mdi-account-arrow-${loanOut ? 'right' : 'left'}`,
           iconColor: `${loanOut ? 'orange' : 'light-green'}`
-        } as TransferTableRow)
+        }
+        rows.push(loanStartRow)
       }
       if (
         loan.endedOn <= seasonEnd.value &&
@@ -151,13 +153,14 @@
             transfer.date === loan.endedOn
         )
       ) {
-        rows.push({
+        const loanEndRow: TransferTableRow = {
           ...row,
           id: `loan-end-${loan.id}`,
           date: loan.endedOn,
           icon: `mdi-account-arrow-${loanOut ? 'left' : 'right'}`,
           iconColor: `${loanOut ? 'light-green' : 'orange'}`
-        } as TransferTableRow)
+        }
+        rows.push(loanEndRow)
       }
       return rows
     }, [])
@@ -181,20 +184,19 @@
     netValue: number
   }
 
-  const totals = computed(
-    () =>
-      rows.value.reduce(
-        (totals, row) => {
-          ;['value', 'fee', 'netValue'].forEach(attr => {
-            const key = attr as keyof TotalStats
-            if (row[key]) {
-              totals[key] += row[key] || 0
-            }
-          })
-          return totals
-        },
-        { value: 0, fee: 0, netValue: 0 }
-      ) as TotalStats
+  const totals = computed<TotalStats>(() =>
+    rows.value.reduce(
+      (totals, row) => {
+        ;['value', 'fee', 'netValue'].forEach(attr => {
+          assertType<keyof TotalStats>(attr)
+          if (row[attr]) {
+            totals[attr] += row[attr] || 0
+          }
+        })
+        return totals
+      },
+      { value: 0, fee: 0, netValue: 0 }
+    )
   )
 
   const numYouthPlayers: Ref<number> = computed(
@@ -246,9 +248,13 @@
       <v-icon :color="item.iconColor" :icon="item.icon" />
     </template>
     <template #[`item.value`]="{ item }">
-      <div :class="`text-${item.value > 0 ? 'green' : 'red'}`">
+      <div :class="`text-${item.value && item.value > 0 ? 'green' : 'red'}`">
         <span v-if="item.value">{{ item.value > 0 ? '+' : '-' }}</span>
-        {{ formatMoney(Math.abs(item.value), team.currency, ' ') }}
+        {{
+          item.value
+            ? formatMoney(Math.abs(item.value), team.currency, ' ')
+            : ''
+        }}
       </div>
     </template>
     <template #[`item.fee`]="{ item }">
@@ -259,9 +265,15 @@
       </div>
     </template>
     <template #[`item.netValue`]="{ item }">
-      <div :class="`text-${item.netValue > 0 ? 'green' : 'red'}`">
+      <div
+        :class="`text-${item.netValue && item.netValue > 0 ? 'green' : 'red'}`"
+      >
         <span v-if="item.netValue">{{ item.netValue > 0 ? '+' : '-' }}</span>
-        {{ formatMoney(Math.abs(item.netValue), team.currency, ' ') }}
+        {{
+          item.netValue
+            ? formatMoney(Math.abs(item.netValue), team.currency, ' ')
+            : ''
+        }}
       </div>
     </template>
     <template #tfoot>

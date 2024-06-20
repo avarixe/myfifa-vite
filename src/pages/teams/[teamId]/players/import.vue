@@ -1,6 +1,4 @@
 <script setup lang="ts">
-  import { isDate } from 'date-fns'
-
   useHead({
     script: [
       {
@@ -52,7 +50,7 @@
   const numPlayers = ref(0)
   const submitted = ref(0)
   const cleared = ref(0)
-  const players = ref([] as PlayerRow[])
+  const players = ref<PlayerRow[]>([])
 
   function addPlayer() {
     players.value.push({
@@ -85,7 +83,7 @@
     players.value = players.value.filter(player => player.rowId !== row.rowId)
   }
 
-  const uploader = ref(null as HTMLInputElement | null)
+  const uploader = ref<HTMLInputElement | null>(null)
   function upload(event: Event) {
     const reader = new FileReader()
     reader.onload = e => {
@@ -104,7 +102,8 @@
     }
 
     if (event.target) {
-      const files = (event.target as HTMLInputElement).files
+      assertType<HTMLInputElement>(event.target)
+      const files = event.target.files
 
       if (files && files.length > 0) {
         reader.readAsBinaryString(files[0])
@@ -116,9 +115,7 @@
     }
   }
 
-  function importPlayer(player: {
-    [key: string]: string | number | Date | null
-  }) {
+  function importPlayer(player: Record<string, string | number | Date | null>) {
     players.value.push({
       rowId: numPlayers.value++,
       name: player['Name'] ? String(player['Name']) : null,
@@ -136,7 +133,7 @@
           signedOn: team.value.currentlyOn,
           startedOn: team.value.currentlyOn,
           endedOn: isDate(player['Contract Ends'])
-            ? format(player['Contract Ends'] as Date, 'yyyy-MM-dd')
+            ? format(player['Contract Ends'], 'yyyy-MM-dd')
             : null,
           wage: player['Wage'] ? Number(player['Wage']) : null,
           releaseClause: player['Release Clause']

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Match, Competition, Stage } from '~/models'
+  import { Competition, Match, Stage } from '~/models'
 
   const { team, seasonOn } = useTeam()
 
