@@ -13,17 +13,25 @@ export default (competitionId: number | null) => {
   )
 
   const tableRowRepo = useRepo(TableRow)
-  const allGroupTeams = computed(() =>
-    tableRowRepo
-      .whereHas('stage', query => {
-        query.where('competitionId', competitionId).where('table', true)
-      })
-      .orderBy('name')
-      .get()
-      .map(row => row.name || '')
-  )
-
   const fixtureRepo = useRepo(Fixture)
+
+  function stageTableTeams(numPicks?: number): string[] {
+    const rowsByTable = _groupBy(
+      tableRowRepo
+        .whereHas('stage', query => {
+          query.where('competitionId', competitionId).where('table', true)
+        })
+        .orderBy('points', 'desc')
+        .get(),
+      'stageId'
+    )
+
+    const names = Object.values(rowsByTable).map(rows =>
+      rows.slice(0, numPicks).map(row => row.name || '')
+    )
+    return [...new Set(names.flat())].sort()
+  }
+
   function stageFixtureTeams(stage: Stage): string[] {
     const names = fixtureRepo
       .with('legs')
@@ -88,7 +96,7 @@ export default (competitionId: number | null) => {
     if (stageIndex > 0) {
       return stageFixtureTeams(orderedRounds.value[stageIndex - 1])
     } else {
-      return allGroupTeams.value
+      return stageTableTeams(2)
     }
   }
 
@@ -99,7 +107,7 @@ export default (competitionId: number | null) => {
       if (finalRound) {
         return stageFixtureTeams(finalRound)
       } else {
-        return allGroupTeams.value
+        return stageTableTeams(1)
       }
     } else {
       return []
