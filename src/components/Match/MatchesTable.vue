@@ -69,7 +69,7 @@
   })
 
   const matchRepo = useRepo(Match)
-  const items = ref([] as Match[])
+  const items = ref<Match[]>([])
   const totalItems = ref(0)
   const loading = ref(false)
   async function loadItems() {

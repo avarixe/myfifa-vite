@@ -1,3 +1,5 @@
+import { isDate as isDateFn } from 'date-fns'
+
 export function formatDate(date: string | null, dateFormat = 'MMM dd, yyyy') {
   return date ? format(parseISO(date), dateFormat) : null
 }
@@ -14,4 +16,8 @@ export function formatMoney(
 
 export function capitalize(str: string): string {
   return `${str[0].toUpperCase()}${str.slice(1)}`
+}
+
+export function isDate(value: unknown): value is Date {
+  return isDateFn(value)
 }

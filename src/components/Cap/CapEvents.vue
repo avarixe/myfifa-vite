@@ -7,13 +7,12 @@
   }>()
 
   const capRepo = useRepo(Cap)
-  const allPlayerCaps = computed(
-    () =>
-      capRepo
-        .where('matchId', props.match.id)
-        .where('playerId', props.cap.playerId)
-        .orderBy('start')
-        .get() as Cap[]
+  const allPlayerCaps = computed<Cap[]>(() =>
+    capRepo
+      .where('matchId', props.match.id)
+      .where('playerId', props.cap.playerId)
+      .orderBy('start')
+      .get()
   )
   const playerInAt = computed(() => allPlayerCaps.value[0].start)
   const playerOutAt = computed(

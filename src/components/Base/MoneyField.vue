@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { useCurrencyInput, CurrencyDisplay } from 'vue-currency-input'
+  import { CurrencyDisplay, useCurrencyInput } from 'vue-currency-input'
 
   defineProps<{ modelValue?: string | number | null }>()
 

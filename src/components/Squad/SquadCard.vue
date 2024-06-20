@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Squad, Player } from '~/models'
+  import { Player, Squad } from '~/models'
 
   const props = defineProps<{
     teamId?: number
@@ -9,34 +9,31 @@
   const inEditMode = ref(!props.record)
 
   interface SquadPlayerAttributes {
-    id?: number | null
+    id?: number
     playerId: number | null
     pos: string | null
   }
 
   interface SquadAttributes {
-    name: string | null
+    name?: string
     squadPlayersAttributes: SquadPlayerAttributes[]
   }
 
-  const attributes = reactive({
+  const attributes = reactive<SquadAttributes>({
     name: props.record?.name,
     squadPlayersAttributes:
       props.record?.squadPlayers?.map(squadPlayer =>
         _pick(squadPlayer, ['id', 'playerId', 'pos'])
       ) || new Array(11).fill(0).map(() => ({ playerId: null, pos: null }))
-  } as SquadAttributes)
+  })
 
-  const formationCells = computed(
-    () =>
-      matchPositions.reduce((map, pos) => {
-        return {
-          ...map,
-          [pos]: attributes.squadPlayersAttributes.find(
-            attr => attr.pos === pos
-          )
-        }
-      }, {}) as Record<string, { playerId: number }>
+  const formationCells = computed<Record<string, { playerId: number }>>(() =>
+    matchPositions.reduce((map, pos) => {
+      return {
+        ...map,
+        [pos]: attributes.squadPlayersAttributes.find(attr => attr.pos === pos)
+      }
+    }, {})
   )
 
   function resetCard() {
@@ -92,21 +89,19 @@
   })
 
   const playerRepo = useRepo(Player)
-  const players = computed(
-    () =>
-      _orderBy(
-        playerRepo.where('status', (status: string | null) => !!status).get(),
-        ['posIdx', 'ovr'],
-        ['asc', 'desc']
-      ) as Player[]
+  const players = computed<Player[]>(() =>
+    _orderBy(
+      playerRepo.where('status', (status: string | null) => !!status).get(),
+      ['posIdx', 'ovr'],
+      ['asc', 'desc']
+    )
   )
-  const unselectedPlayers = computed(
-    () =>
-      players.value.filter(player =>
-        attributes.squadPlayersAttributes.every(
-          attr => attr.playerId !== player.id
-        )
-      ) as Player[]
+  const unselectedPlayers = computed<Player[]>(() =>
+    players.value.filter(player =>
+      attributes.squadPlayersAttributes.every(
+        attr => attr.playerId !== player.id
+      )
+    )
   )
   const inactivePlayerIds = computed(() =>
     players.value
@@ -114,7 +109,7 @@
       .map(player => player.id)
   )
 
-  const selectedPlayerId = ref(null as number | null)
+  const selectedPlayerId = ref<number | null>(null)
   const selectedPlayer = computed(() =>
     playerRepo.find(Number(selectedPlayerId.value))
   )

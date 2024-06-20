@@ -1,10 +1,11 @@
 import { Model } from 'pinia-orm'
-import { Attr, Str, Bool, HasMany, Cast } from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
-import Player from './Player'
-import Match from './Match'
-import Squad from './Squad'
+import { Attr, Bool, Cast, HasMany, Str } from 'pinia-orm/dist/decorators'
+
 import Competition from './Competition'
+import Match from './Match'
+import Player from './Player'
+import Squad from './Squad'
 
 export default class Team extends Model {
   static entity = 'Team'

@@ -1,14 +1,15 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/dist/casts'
 import {
   Attr,
-  Str,
-  Num,
-  Bool,
   BelongsTo,
+  Bool,
+  Cast,
   HasMany,
-  Cast
+  Num,
+  Str
 } from 'pinia-orm/dist/decorators'
-import { NumberCast } from 'pinia-orm/dist/casts'
+
 import Competition from './Competition'
 import Fixture from './Fixture'
 import TableRow from './TableRow'

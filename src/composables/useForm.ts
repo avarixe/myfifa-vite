@@ -19,7 +19,7 @@ export default <T>({
   resetAfterSubmit?: boolean
   broadcastErrors?: boolean
 }) => {
-  const form = ref(null as VForm | null)
+  const form = ref<VForm | null>(null)
   const formKey = ref(0)
   const formIsLoading = ref(false)
   const formIsValid = ref(false)
@@ -45,7 +45,8 @@ export default <T>({
           broadcastStore.error(formError.value)
         }
       } else {
-        await onSuccess(data as T)
+        assertType<T>(data)
+        await onSuccess(data)
         if (form.value && resetAfterSubmit) {
           resetForm()
           onReset()

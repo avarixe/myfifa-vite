@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Player, Competition } from '~/models'
+  import { Competition, Player } from '~/models'
 
   interface PlayerPerformanceStat {
     avgRating: number
@@ -51,7 +51,7 @@
     { text: 'Active', color: 'light-green', icon: 'account-check' }
   ]
 
-  const headers = computed(() => {
+  const headers = computed<TableHeader[]>(() => {
     const playerHeaders: TableHeader[] = [
       { title: 'Name', key: 'player.name', width: 200, fixed: true },
       {
@@ -89,7 +89,7 @@
       { title: 'xG + xA', key: 'xGAndxA', align: 'end' },
       { title: 'xG', key: 'xG', align: 'end' },
       { title: 'xA', key: 'xA', align: 'end' }
-    ] as TableHeader[]
+    ]
   })
 
   const sortBy: Ref<TableSortItem[]> = ref([
@@ -180,9 +180,10 @@
                 matchStats.avgRating += data.avgRating * data.numMinutes
               }
             } else {
-              matchStats[metric as keyof PlayerStats] += data[
-                metric as keyof PlayerPerformanceStat
-              ] as number
+              assertType<keyof PlayerPerformanceStat & keyof typeof matchStats>(
+                metric
+              )
+              matchStats[metric] += data[metric]
             }
           }
         })

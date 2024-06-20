@@ -2,7 +2,7 @@
   import { Cap } from '~/models'
 
   const props = defineProps<{ caps: Cap[] }>()
-  const caps = computed(() => _orderBy(props.caps, 'posIdx') as Cap[])
+  const caps = computed<Cap[]>(() => _orderBy(props.caps, 'posIdx'))
 </script>
 
 <template>

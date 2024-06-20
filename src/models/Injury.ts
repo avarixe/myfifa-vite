@@ -1,6 +1,6 @@
 import { Model } from 'pinia-orm'
-import { Attr, Str, Cast } from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
+import { Attr, Cast, Str } from 'pinia-orm/dist/decorators'
 
 export default class Injury extends Model {
   static entity = 'Injury'
@@ -14,4 +14,6 @@ export default class Injury extends Model {
   @Str('') declare endedOn: string
   @Str('') declare description: string
   @Str('') declare createdAt: string
+
+  @Str('Injury') declare type: string
 }

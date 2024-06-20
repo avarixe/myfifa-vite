@@ -1,4 +1,4 @@
-import { Competition, Stage, TableRow, Fixture, FixtureLeg } from '~/models'
+import { Competition, Fixture, FixtureLeg, Stage, TableRow } from '~/models'
 
 export default (competitionId: number | null) => {
   const competitionRepo = useRepo(Competition)
@@ -9,21 +9,29 @@ export default (competitionId: number | null) => {
         .with('stages', query => {
           query.with('tableRows')
         })
-        .find(Number(competitionId)) as Competition
+        .find(Number(competitionId)) || new Competition()
   )
 
   const tableRowRepo = useRepo(TableRow)
-  const allGroupTeams = computed(() =>
-    tableRowRepo
-      .whereHas('stage', query => {
-        query.where('competitionId', competitionId).where('table', true)
-      })
-      .orderBy('name')
-      .get()
-      .map(row => row.name || '')
-  )
-
   const fixtureRepo = useRepo(Fixture)
+
+  function stageTableTeams(numPicks?: number): string[] {
+    const rowsByTable = _groupBy(
+      tableRowRepo
+        .whereHas('stage', query => {
+          query.where('competitionId', competitionId).where('table', true)
+        })
+        .orderBy('points', 'desc')
+        .get(),
+      'stageId'
+    )
+
+    const names = Object.values(rowsByTable).map(rows =>
+      rows.slice(0, numPicks).map(row => row.name || '')
+    )
+    return [...new Set(names.flat())].sort()
+  }
+
   function stageFixtureTeams(stage: Stage): string[] {
     const names = fixtureRepo
       .with('legs')
@@ -70,16 +78,15 @@ export default (competitionId: number | null) => {
   }
 
   const stageRepo = useRepo(Stage)
-  const orderedRounds = computed(
-    () =>
-      stageRepo
-        .with('fixtures', query => {
-          query.with('legs')
-        })
-        .where('competitionId', competitionId)
-        .where('table', false)
-        .orderBy('numFixtures', 'desc')
-        .get() as Stage[]
+  const orderedRounds = computed<Stage[]>(() =>
+    stageRepo
+      .with('fixtures', query => {
+        query.with('legs')
+      })
+      .where('competitionId', competitionId)
+      .where('table', false)
+      .orderBy('numFixtures', 'desc')
+      .get()
   )
 
   function previousRoundTeams(stage: Stage): string[] {
@@ -89,7 +96,7 @@ export default (competitionId: number | null) => {
     if (stageIndex > 0) {
       return stageFixtureTeams(orderedRounds.value[stageIndex - 1])
     } else {
-      return allGroupTeams.value
+      return stageTableTeams(2)
     }
   }
 
@@ -100,7 +107,7 @@ export default (competitionId: number | null) => {
       if (finalRound) {
         return stageFixtureTeams(finalRound)
       } else {
-        return allGroupTeams.value
+        return stageTableTeams(1)
       }
     } else {
       return []

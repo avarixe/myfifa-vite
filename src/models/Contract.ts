@@ -1,6 +1,7 @@
 import { Model } from 'pinia-orm'
-import { Attr, Str, Num, BelongsTo, Cast } from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
+import { Attr, BelongsTo, Cast, Num, Str } from 'pinia-orm/dist/decorators'
+
 import Player from './Player'
 
 export default class Contract extends Model {
@@ -22,6 +23,8 @@ export default class Contract extends Model {
   @Str('') declare startedOn: string
   @Str(null) declare conclusion: string | null
   @Str('') declare createdAt: string
+
+  @Str('Contract') declare type: string
 
   // Associations
   @BelongsTo(() => Player, 'playerId') declare player: Player

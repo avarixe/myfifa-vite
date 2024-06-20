@@ -21,7 +21,7 @@
       : team.value.currentlyOn
   })
 
-  function attributeData(attribute: string) {
+  function attributeData(attribute: 'ovr' | 'value') {
     return props.player.histories.reduce(
       (data, history) => {
         data.splice(-1, 0, {
@@ -85,8 +85,8 @@
     }
   }))
 
-  const container = ref(null as HTMLDivElement | null)
-  const chart = ref(null as typeof window.ApexCharts | null)
+  const container = ref<HTMLDivElement | null>(null)
+  const chart = ref<typeof window.ApexCharts | null>(null)
   onMounted(() => {
     chart.value = new window.ApexCharts(container.value, {
       ...options.value,

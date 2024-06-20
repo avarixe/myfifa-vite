@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Squad, Match } from '~/models'
+  import { Match, Squad } from '~/models'
 
   const props = defineProps<{
     match: Match
@@ -10,7 +10,7 @@
   const squadRepo = useRepo(Squad)
   const squads = computed(() => squadRepo.where('teamId', team.value.id).get())
 
-  const squadId = ref(null as number | null)
+  const squadId = ref<number | null>(null)
   const { submitForm } = useForm({
     mutation: gql`
       mutation applySquadToMatch($matchId: ID!, $squadId: ID!) {

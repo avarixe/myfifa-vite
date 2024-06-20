@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Player, Contract } from '~/models'
+  import { Contract, Player } from '~/models'
 
   const { team } = useTeam()
 
@@ -53,7 +53,7 @@
     attributes.bonusReqType = props.record?.bonusReqType
     numSeasonsOn.value = !props.record
     if (numSeasonsOn) {
-      attributes.numSeasons = props.record?.numSeasons
+      attributes.numSeasons = undefined
     }
   }
 

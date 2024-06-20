@@ -1,25 +1,26 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/dist/casts'
 import {
   Attr,
-  Str,
-  Num,
-  Bool,
   BelongsTo,
-  HasMany,
   BelongsToMany,
-  Cast
+  Bool,
+  Cast,
+  HasMany,
+  Num,
+  Str
 } from 'pinia-orm/dist/decorators'
-import { NumberCast } from 'pinia-orm/dist/casts'
-import Team from './Team'
-import PlayerHistory from './PlayerHistory'
+
+import Booking from './Booking'
+import Cap from './Cap'
+import Contract from './Contract'
+import Goal from './Goal'
 import Injury from './Injury'
 import Loan from './Loan'
-import Contract from './Contract'
-import Transfer from './Transfer'
-import Cap from './Cap'
 import Match from './Match'
-import Goal from './Goal'
-import Booking from './Booking'
+import PlayerHistory from './PlayerHistory'
+import Team from './Team'
+import Transfer from './Transfer'
 
 export default class Player extends Model {
   static entity = 'Player'

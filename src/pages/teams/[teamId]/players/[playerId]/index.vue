@@ -1,6 +1,7 @@
 <script setup lang="ts">
-  import { Player } from '~/models'
   import 'cal-heatmap/cal-heatmap.css'
+
+  import { Player } from '~/models'
 
   useHead({
     script: [{ src: 'https://cdn.jsdelivr.net/npm/apexcharts' }]
@@ -74,7 +75,8 @@
     playerRepo.save(data.value.player)
   }
   const player = computed(
-    () => playerRepo.withAll().find(Number(route.params.playerId)) as Player
+    () =>
+      playerRepo.withAll().find(Number(route.params.playerId)) || new Player()
   )
 
   const playerPerformanceStats = data.value?.team?.playerPerformanceStats || []
@@ -91,8 +93,8 @@
       if (stat === 'avgRating') {
         playerStats.avgRating += stats.avgRating * stats.numMinutes
       } else {
-        playerStats[stat as keyof typeof playerStats] +=
-          stats[stat as keyof PlayerStats]
+        assertType<keyof PlayerStats & keyof typeof playerStats>(stat)
+        playerStats[stat] += stats[stat]
       }
     }
   })

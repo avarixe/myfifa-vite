@@ -14,7 +14,7 @@
 
   const userRepo = useRepo(User)
   userRepo.save(data.value.user)
-  const user = computed(() => userRepo.find(Number(data.value.user.id)) as User)
+  const user = computed<User>(() => userRepo.find(Number(data.value.user.id)))
 </script>
 
 <template>

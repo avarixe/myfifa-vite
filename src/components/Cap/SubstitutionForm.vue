@@ -1,15 +1,21 @@
 <script setup lang="ts">
-  import { Match, Cap, Player } from '~/models'
+  import { Cap, Match, Player } from '~/models'
+
+  interface CapSubstitutionAttributes {
+    playerId: number | null
+    pos: string | null
+    injured: boolean
+  }
 
   const props = defineProps<{ match: Match }>()
 
-  const attributes = reactive({
-    playerId: null as number | null,
-    pos: null as string | null,
+  const attributes = reactive<CapSubstitutionAttributes>({
+    playerId: null,
+    pos: null,
     injured: false
   })
 
-  const capId = ref(null as number | null)
+  const capId = ref<number | null>(null)
   const capRepo = useRepo(Cap)
   watch(capId, () => {
     if (capId.value) {

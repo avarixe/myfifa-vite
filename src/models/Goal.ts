@@ -1,13 +1,14 @@
 import { Model } from 'pinia-orm'
+import { NumberCast } from 'pinia-orm/dist/casts'
 import {
   Attr,
-  Str,
-  Num,
-  Bool,
   BelongsTo,
-  Cast
+  Bool,
+  Cast,
+  Num,
+  Str
 } from 'pinia-orm/dist/decorators'
-import { NumberCast } from 'pinia-orm/dist/casts'
+
 import Player from './Player'
 
 export default class Goal extends Model {
@@ -29,6 +30,8 @@ export default class Goal extends Model {
   @Bool(false) declare ownGoal: boolean
   @Str(null) declare setPiece: string | null
   @Str('') declare createdAt: string
+
+  @Str('Goal') declare type: string
 
   // Associations
   @BelongsTo(() => Player, 'playerId') declare player: Player

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Match, Booking } from '~/models'
+  import { Booking, Match } from '~/models'
 
   const props = defineProps<{
     match: Match

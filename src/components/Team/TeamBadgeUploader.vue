@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { VFileInput } from 'vuetify/components'
+
   import { Team } from '~/models'
 
   const props = defineProps<{ team: Team }>()
@@ -14,9 +15,9 @@
     }
   `
 
-  const input = ref(null as VFileInput | null)
-  const preview = ref(null as string | null)
-  const badge = ref(undefined as File[] | undefined)
+  const input = ref<VFileInput | null>(null)
+  const preview = ref<string | null>(null)
+  const badge = ref<File[] | undefined>()
   const variables = () => ({
     teamId: props.team.id,
     badge: badge.value?.[0]

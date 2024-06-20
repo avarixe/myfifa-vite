@@ -1,6 +1,6 @@
 import { Model } from 'pinia-orm'
-import { Attr, Str, Num, Cast } from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
+import { Attr, Cast, Num, Str } from 'pinia-orm/dist/decorators'
 
 export default class Loan extends Model {
   static entity = 'Loan'
@@ -19,4 +19,6 @@ export default class Loan extends Model {
   @Num(null) declare transferFee: number | null
   @Num(null) declare addonClause: number | null
   @Str('') declare createdAt: string
+
+  @Str('Loan') declare type: string
 }

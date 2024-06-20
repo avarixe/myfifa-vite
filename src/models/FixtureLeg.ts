@@ -1,6 +1,6 @@
 import { Model } from 'pinia-orm'
-import { Attr, Str, Cast } from 'pinia-orm/dist/decorators'
 import { NumberCast } from 'pinia-orm/dist/casts'
+import { Attr, Cast, Str } from 'pinia-orm/dist/decorators'
 
 export default class FixtureLeg extends Model {
   static entity = 'FixtureLeg'

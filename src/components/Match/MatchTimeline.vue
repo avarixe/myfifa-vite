@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Match, Booking, Goal, Cap } from '~/models'
+  import { Booking, Goal, Match } from '~/models'
 
   const props = defineProps<{
     match: Match
@@ -11,8 +11,13 @@
       _groupBy(
         props.match.caps.filter(cap => cap.start > 0),
         'start'
-      ) as Record<number, Cap[]>
-    ).map(([minute, caps]) => ({ minute, createdAt: caps[0].createdAt }))
+      )
+    ).map(([minute, caps]) => ({
+      minute,
+      type: 'Cap',
+      id: caps[0].id,
+      createdAt: caps[0].createdAt
+    }))
     return _orderBy(
       [...props.match.goals, ...props.match.bookings, ...capChanges],
       ['minute', 'createdAt'],
