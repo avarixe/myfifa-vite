@@ -2,7 +2,7 @@
   "type": "module",
   "name": "myfifa-vite",
   "title": "MyFIFA Manager",
-  "version": "3.5.0",
+  "version": "3.5.1",
   "author": "Joon Lee <l33j00n325@gmail.com>",
   "private": true,
   "scripts": {
