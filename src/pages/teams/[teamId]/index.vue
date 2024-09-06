@@ -151,6 +151,8 @@
   </div>
 
   <div class="mt-2">
+    <team-export-button />
+    &nbsp;
     <v-btn :to="`/teams/${team.id}/edit`">Edit</v-btn>
     &nbsp;
     <remove-button

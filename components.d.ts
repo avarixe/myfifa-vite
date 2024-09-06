@@ -98,6 +98,7 @@ declare module 'vue' {
     TeamCombobox: typeof import('./src/components/Team/TeamCombobox.vue')['default']
     TeamCoverage: typeof import('./src/components/Team/TeamCoverage.vue')['default']
     TeamDrawer: typeof import('./src/components/Team/TeamDrawer.vue')['default']
+    TeamExportButton: typeof import('./src/components/Team/TeamExportButton.vue')['default']
     TeamForm: typeof import('./src/components/Team/TeamForm.vue')['default']
     TeamMobileNavigator: typeof import('./src/components/Team/TeamMobileNavigator.vue')['default']
     TransferForm: typeof import('./src/components/Transfer/TransferForm.vue')['default']
