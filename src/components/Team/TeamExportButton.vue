@@ -30,7 +30,7 @@
           matches {
             ...MatchData
             caps {
-              ...CapData
+              ...BaseCapData
             }
             goals {
               ...GoalData
@@ -43,7 +43,10 @@
             }
           }
           squads {
-            ...SquadData
+            ...BaseSquadData
+            squadPlayers {
+              ...BaseSquadPlayerData
+            }
           }
           competitions {
             ...CompetitionData
@@ -61,11 +64,12 @@
       ${injuryFragment}
       ${playerHistoryFragment}
       ${matchFragment}
-      ${capFragment}
+      ${baseCapFragment}
       ${goalFragment}
       ${bookingFragment}
       ${penaltyShootoutFragment}
-      ${squadFragment}
+      ${baseSquadFragment}
+      ${baseSquadPlayerFragment}
       ${competitionFragment}
       ${stageFragment}
     `,
