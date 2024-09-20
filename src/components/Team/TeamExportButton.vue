@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import axios from 'axios'
-  import { Buffer } from 'buffer'
 
   const { team } = useTeam()
 
@@ -77,6 +76,21 @@
     pause: true
   })
 
+  async function imageUrlToBase64(url: string) {
+    const { data } = await axios.get(url, {
+      responseType: 'blob'
+    })
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(data)
+      reader.onloadend = () => {
+        const base64data = reader.result
+        resolve(base64data)
+      }
+      reader.onerror = reject
+    })
+  }
+
   const loading = ref(false)
   async function onClick() {
     loading.value = true
@@ -85,10 +99,7 @@
     const teamData = data.value.team
 
     if (team.value.badgeUrl) {
-      const image = await axios.get(team.value.badgeUrl, {
-        responseType: 'arraybuffer'
-      })
-      teamData.badgePath = `data:image/png:base64, ${Buffer.from(image.data).toString('base64')}`
+      teamData.badgePath = await imageUrlToBase64(team.value.badgeUrl)
     }
 
     const blob = new Blob([JSON.stringify(teamData, undefined, 2)], {
