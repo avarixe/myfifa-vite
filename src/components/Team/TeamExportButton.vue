@@ -10,6 +10,7 @@
           ...TeamData
           players {
             ...PlayerData
+            birthYear
             contracts {
               ...ContractData
             }
