@@ -31,6 +31,9 @@
             ...MatchData
             caps {
               ...BaseCapData
+              player {
+                name
+              }
             }
             goals {
               ...GoalData
