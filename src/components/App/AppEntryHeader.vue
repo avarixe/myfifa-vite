@@ -9,4 +9,8 @@
   <v-img :src="logo" height="128px" />
   <div class="text-h3">{{ appTitle }}</div>
   <div class="text-body-2">v{{ appVersion }}</div>
+
+  <v-alert type="error">
+    This app has been discontinued as of November 25, 2024.
+  </v-alert>
 </template>
